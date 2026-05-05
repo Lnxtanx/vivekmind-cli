@@ -2,7 +2,7 @@
 
 **VivekMind CLI** is a high-performance, agentic coding assistant designed for elite developers. Originally based on the Qwen Code framework, this fork has been completely re-engineered to provide a standalone, **AWS Bedrock-exclusive** experience with Zero-Auth local credential support.
 
-![VivekMind Logo](https://raw.githubusercontent.com/Lnxtanx/vivekmind-cli/main/assets/logo_preview.png)
+![VivekMind Logo](https://vivekmind.com/favicon.ico)
 
 ## 🚀 Key Features
 
