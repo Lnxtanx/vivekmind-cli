@@ -948,7 +948,7 @@ export function SettingsDialog({
       {showRestartPrompt && (
         <Text color={theme.status.warning}>
           {t(
-            'To see changes, Qwen Code must be restarted. Press r to exit and apply changes now.',
+            'To see changes, VivekMind must be restarted. Press r to exit and apply changes now.',
           )}
         </Text>
       )}

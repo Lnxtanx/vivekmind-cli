@@ -99,53 +99,49 @@ export const Header: React.FC<HeaderProps> = ({
         ? shortenedPath.slice(0, maxPathLength)
         : shortenedPath;
 
-  const gradientColors = getRenderableGradientColors(theme.ui.gradient, [
-    theme.text.secondary,
-    theme.text.link,
-    theme.text.accent,
+  const gradientColors = getRenderableGradientColors([
+    '#2b8cf5', // VM Logo Blue
+    '#45e9b7', // VM Logo Teal (vibrant)
+    '#3ae6b3', // VM Logo Greenish-Teal
   ]);
 
   return (
     <Box
-      flexDirection="row"
-      alignItems="center"
+      flexDirection={showLogo ? "row" : "column"}
+      alignItems={showLogo ? "center" : "flex-start"}
       marginX={containerMarginX}
       width={availableTerminalWidth}
     >
-      {/* Left side: ASCII logo (only if enough space) */}
-      {showLogo && (
-        <>
-          <Box flexShrink={0}>
-            {gradientColors ? (
-              <Gradient colors={gradientColors}>
-                <Text>{displayLogo}</Text>
-              </Gradient>
-            ) : (
-              <Text>{displayLogo}</Text>
-            )}
-          </Box>
-          {/* Fixed gap between logo and info panel */}
-          <Box width={logoGap} />
-        </>
-      )}
+      {/* Left side / Top side: ASCII logo */}
+      <Box flexShrink={0} marginBottom={showLogo ? 0 : 1}>
+        {gradientColors ? (
+          <Gradient colors={gradientColors}>
+            <Text>{displayLogo}</Text>
+          </Gradient>
+        ) : (
+          <Text>{displayLogo}</Text>
+        )}
+      </Box>
 
-      {/* Right side: Info panel (flexible width, max 60 in two-column layout) */}
+      {/* Fixed gap between logo and info panel only in row mode */}
+      {showLogo && <Box width={logoGap} />}
+
+      {/* Right side / Bottom side: Info panel */}
       <Box
         flexDirection="column"
         borderStyle="single"
-        borderColor={theme.border.default}
+        borderColor="#3ae6b3"
         paddingX={infoPanelPaddingX}
         flexGrow={showLogo ? 0 : 1}
-        width={showLogo ? availableInfoPanelWidth : undefined}
+        width={showLogo ? availableInfoPanelWidth : "100%"}
       >
-        {/* Title line: >_ Qwen Code (v{version}) */}
+        {/* Title line */}
         <Text>
-          <Text bold color={theme.text.accent}>
-            &gt;_ Qwen Code
+          <Text bold color="#2b8cf5">
+            &gt;_ VivekMind
           </Text>
           <Text color={theme.text.secondary}> (v{version})</Text>
         </Text>
-        {/* Empty line for spacing */}
         <Text> </Text>
         {/* Auth and Model line */}
         <Text>

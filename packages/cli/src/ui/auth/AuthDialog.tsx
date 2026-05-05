@@ -148,29 +148,13 @@ export function AuthDialog(): React.JSX.Element {
   // Main authentication entries (flat three-option layout)
   const mainItems = [
     {
-      key: 'CODING_PLAN',
-      title: t('Alibaba Cloud Coding Plan'),
-      label: t('Alibaba Cloud Coding Plan'),
+      key: 'BEDROCK',
+      title: t('AWS Bedrock (Local)'),
+      label: t('AWS Bedrock (Local)'),
       description: t(
-        'Paid \u00B7 Up to 6,000 requests/5 hrs \u00B7 All Alibaba Cloud Coding Plan Models',
+        'Authenticate using local AWS environment variables (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)',
       ),
-      value: 'CODING_PLAN' as MainOption,
-    },
-    {
-      key: 'API_KEY',
-      title: t('API Key'),
-      label: t('API Key'),
-      description: t('Bring your own API key'),
-      value: 'API_KEY' as MainOption,
-    },
-    {
-      key: 'OAUTH',
-      title: t('OAuth'),
-      label: t('OAuth'),
-      description: t(
-        'Browser-based authentication with third-party providers (e.g. OpenRouter, ModelScope)',
-      ),
-      value: 'OAUTH' as MainOption,
+      value: 'BEDROCK' as MainOption,
     },
   ];
 
@@ -381,27 +365,9 @@ export function AuthDialog(): React.JSX.Element {
     }),
   );
 
-  const handleMainSelect = async (value: MainOption) => {
-    setErrorMessage(null);
-    onAuthError(null);
-
-    if (value === 'CODING_PLAN') {
-      // Navigate to region selection
-      setViewLevel('region-select');
-      return;
-    }
-
-    if (value === 'API_KEY') {
-      setViewLevel('api-key-type-select');
-      return;
-    }
-
-    if (value === 'OAUTH') {
-      setViewLevel('oauth-provider-select');
-      return;
-    }
-
-    await onAuthSelect(value);
+  const handleMainSelect = async (value: any) => {
+    setErrorMessage(t('AWS credentials not found. Please set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY as system environment variables and restart VivekMind.'));
+    return;
   };
 
   const handleApiKeyTypeSelect = async (value: ApiKeyOption) => {

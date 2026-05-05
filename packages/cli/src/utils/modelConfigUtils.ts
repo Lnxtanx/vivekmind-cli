@@ -24,6 +24,7 @@ const AUTH_ENV_MODEL_VARS: Record<AuthType, string[]> = {
   [AuthType.USE_VERTEX_AI]: ['GOOGLE_MODEL'],
   [AuthType.USE_ANTHROPIC]: ['ANTHROPIC_MODEL'],
   [AuthType.QWEN_OAUTH]: [],
+  [AuthType.USE_BEDROCK]: ['BEDROCK_MODEL'],
 };
 
 export interface CliGenerationConfigInputs {
@@ -84,6 +85,14 @@ export function getAuthTypeFromEnv(): AuthType | undefined {
     process.env['ANTHROPIC_BASE_URL']
   ) {
     return AuthType.USE_ANTHROPIC;
+  }
+
+  if (
+    process.env['AWS_ACCESS_KEY_ID'] &&
+    process.env['AWS_SECRET_ACCESS_KEY'] &&
+    process.env['BEDROCK_MODEL']
+  ) {
+    return AuthType.USE_BEDROCK;
   }
 
   return undefined;

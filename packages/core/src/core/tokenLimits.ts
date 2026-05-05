@@ -46,10 +46,17 @@ const LIMITS = {
 export function normalize(model: string): string {
   let s = (model ?? '').toLowerCase().trim();
 
-  // keep final path segment (strip provider prefixes), handle pipe/colon
+  // keep final path segment (strip provider prefixes), handle pipe
   s = s.replace(/^.*\//, '');
   s = s.split('|').pop() ?? s;
-  s = s.split(':').pop() ?? s;
+  
+  // Bedrock models often have colons (e.g., -v1:0). Only split on colon if it's a provider prefix (e.g., ft:gpt-4), not a version suffix.
+  if (s.includes(':') && !s.match(/-v\d+:\d+$/)) {
+    s = s.split(':').pop() ?? s;
+  }
+  
+  // Strip Bedrock region and provider prefixes (e.g., us.anthropic.claude, meta.llama, zai.glm, deepseek.v3)
+  s = s.replace(/^(?:us\.|eu\.|ap\.)?(?:anthropic|meta|mistral|cohere|amazon|deepseek|qwen|zai|ai21|twelvelabs|writer|google)\./, '');
 
   // collapse whitespace to single hyphen
   s = s.replace(/\s+/g, '-');

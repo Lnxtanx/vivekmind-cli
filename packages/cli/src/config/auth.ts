@@ -241,5 +241,14 @@ export function validateAuthMethod(
     return null;
   }
 
+  if (authMethod === AuthType.USE_BEDROCK) {
+    if (!process.env['AWS_ACCESS_KEY_ID'] || !process.env['AWS_SECRET_ACCESS_KEY']) {
+      return t(
+        'AWS credentials not found. Please set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.',
+      );
+    }
+    return null;
+  }
+
   return t('Invalid auth method selected.');
 }

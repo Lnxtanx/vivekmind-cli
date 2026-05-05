@@ -88,6 +88,11 @@ export const AUTH_ENV_MAPPINGS = {
     baseUrl: [],
     model: [],
   },
+  bedrock: {
+    apiKey: ['AWS_ACCESS_KEY_ID'],
+    baseUrl: [],
+    model: ['BEDROCK_MODEL'],
+  },
 } as const satisfies Record<AuthType, AuthEnvMapping>;
 
 export const DEFAULT_MODELS = {

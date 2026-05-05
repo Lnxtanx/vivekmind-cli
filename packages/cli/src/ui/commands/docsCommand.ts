@@ -17,7 +17,7 @@ import { t, getCurrentLanguage } from '../../i18n/index.js';
 export const docsCommand: SlashCommand = {
   name: 'docs',
   get description() {
-    return t('open full Qwen Code documentation in your browser');
+    return t('open full VivekMind documentation in your browser');
   },
   kind: CommandKind.BUILT_IN,
   supportedModes: ['interactive', 'non_interactive', 'acp'] as const,
@@ -30,7 +30,7 @@ export const docsCommand: SlashCommand = {
       return {
         type: 'message' as const,
         messageType: 'info' as const,
-        content: `Qwen Code documentation: ${docsUrl}`,
+        content: `VivekMind documentation: ${docsUrl}`,
       };
     }
 

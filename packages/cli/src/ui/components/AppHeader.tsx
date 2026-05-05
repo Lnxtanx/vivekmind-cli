@@ -36,6 +36,8 @@ function getAuthDisplayType(
   switch (authType) {
     case AuthType.QWEN_OAUTH:
       return AuthDisplayType.QWEN_OAUTH;
+    case AuthType.USE_BEDROCK:
+      return 'AWS Bedrock' as AuthDisplayType;
     default:
       return AuthDisplayType.API_KEY;
   }

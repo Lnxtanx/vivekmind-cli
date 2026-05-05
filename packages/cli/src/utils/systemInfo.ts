@@ -106,7 +106,7 @@ export function getSandboxEnv(stripPrefix = false): string {
 
   // For bug reports, remove qwen- prefix
   if (stripPrefix) {
-    return sandbox.replace(/^qwen-(?:code-)?/, '');
+    return sandbox.replace(/^(?:vivekmind|qwen)-(?:code-)?/, '');
   }
 
   return sandbox;

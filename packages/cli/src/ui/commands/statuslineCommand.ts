@@ -11,7 +11,7 @@ import { t } from '../../i18n/index.js';
 export const statuslineCommand: SlashCommand = {
   name: 'statusline',
   get description() {
-    return t("Set up Qwen Code's status line UI");
+    return t("Set up VivekMind's status line UI");
   },
   kind: CommandKind.BUILT_IN,
   supportedModes: ['interactive'] as const,

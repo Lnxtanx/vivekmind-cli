@@ -15,7 +15,7 @@ export const helpCommand: SlashCommand = {
   kind: CommandKind.BUILT_IN,
   supportedModes: ['interactive'] as const,
   get description() {
-    return t('for help on Qwen Code');
+    return t('for help on VivekMind');
   },
   action: async (context) => {
     const helpItem: Omit<HistoryItemHelp, 'id'> = {

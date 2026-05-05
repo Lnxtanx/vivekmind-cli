@@ -35,9 +35,9 @@ function getContainerPath(hostPath: string): string {
   return hostPath;
 }
 
-const LOCAL_DEV_SANDBOX_IMAGE_NAME = 'qwen-code-sandbox';
-const SANDBOX_NETWORK_NAME = 'qwen-code-sandbox';
-const SANDBOX_PROXY_NAME = 'qwen-code-sandbox-proxy';
+const LOCAL_DEV_SANDBOX_IMAGE_NAME = 'vivekmind-sandbox';
+const SANDBOX_NETWORK_NAME = 'vivekmind-sandbox';
+const SANDBOX_PROXY_NAME = 'vivekmind-sandbox-proxy';
 const BUILTIN_SEATBELT_PROFILES = [
   'permissive-open',
   'permissive-closed',
@@ -356,7 +356,7 @@ export async function start_sandbox(
   if (process.env['BUILD_SANDBOX']) {
     if (!gcPath.includes('qwen-code/packages/')) {
       throw new FatalSandboxError(
-        'Cannot build sandbox using installed Qwen Code binary; ' +
+        'Cannot build sandbox using installed VivekMind binary; ' +
           'run `npm link ./packages/cli` under QwenCode-cli repo to switch to linked binary.',
       );
     } else {
@@ -544,7 +544,7 @@ export async function start_sandbox(
     process.env['QWEN_CODE_INTEGRATION_TEST'] === 'true';
   let containerName;
   if (isIntegrationTest) {
-    containerName = `qwen-code-integration-test-${randomBytes(4).toString(
+    containerName = `vivekmind-integration-test-${randomBytes(4).toString(
       'hex',
     )}`;
     writeStderrLine(`ContainerName: ${containerName}`);

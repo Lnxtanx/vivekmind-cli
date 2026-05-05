@@ -82,7 +82,7 @@ describe('useAttentionNotifications', () => {
 
     expect(mockedSendNotification).toHaveBeenCalledTimes(1);
     expect(mockedSendNotification).toHaveBeenCalledWith(
-      expect.objectContaining({ title: 'Qwen Code' }),
+      expect.objectContaining({ title: 'VivekMind' }),
       mockTerminal,
       true,
     );
@@ -204,7 +204,7 @@ describe('useAttentionNotifications', () => {
     expect(mockedSendNotification).toHaveBeenCalledTimes(1);
     expect(mockedSendNotification).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: 'Qwen Code needs your permission to use Bash',
+        message: 'VivekMind needs your permission to use Bash',
       }),
       mockTerminal,
       true,
@@ -227,7 +227,7 @@ describe('useAttentionNotifications', () => {
 
     expect(mockedSendNotification).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: 'Qwen Code is waiting for your input',
+        message: 'VivekMind is waiting for your input',
       }),
       mockTerminal,
       true,
@@ -259,7 +259,7 @@ describe('useAttentionNotifications', () => {
 
     expect(mockedSendNotification).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: 'Qwen Code is waiting for your input',
+        message: 'VivekMind is waiting for your input',
       }),
       mockTerminal,
       true,

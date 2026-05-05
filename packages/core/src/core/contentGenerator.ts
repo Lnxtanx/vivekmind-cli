@@ -58,6 +58,7 @@ export enum AuthType {
   USE_GEMINI = 'gemini',
   USE_VERTEX_AI = 'vertex-ai',
   USE_ANTHROPIC = 'anthropic',
+  USE_BEDROCK = 'bedrock',
 }
 
 /**
@@ -247,6 +248,15 @@ export function validateModelConfig(
     return { valid: true, errors: [] };
   }
 
+  // Bedrock uses AWS IAM credentials (env vars), not API keys
+  if (config.authType === AuthType.USE_BEDROCK) {
+    if (!config.model) {
+      const envKey = getDefaultModelEnvVar(config.authType);
+      errors.push(new MissingModelError({ authType: config.authType, envKey }));
+    }
+    return { valid: errors.length === 0, errors };
+  }
+
   // API key is required for all other auth types
   if (!config.apiKey) {
     if (isStrictModelProvider) {
@@ -368,6 +378,11 @@ export async function createContentGenerator(
       './geminiContentGenerator/index.js'
     );
     baseGenerator = createGeminiContentGenerator(generatorConfig, config);
+  } else if (authType === AuthType.USE_BEDROCK) {
+    const { createBedrockContentGenerator } = await import(
+      './bedrockContentGenerator/index.js'
+    );
+    baseGenerator = createBedrockContentGenerator(generatorConfig, config);
   } else {
     throw new Error(
       `Error creating contentGenerator: Unsupported authType: ${authType}`,

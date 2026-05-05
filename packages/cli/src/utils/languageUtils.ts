@@ -19,7 +19,7 @@ import {
 } from '../i18n/index.js';
 
 const LLM_OUTPUT_LANGUAGE_RULE_FILENAME = 'output-language.md';
-const LLM_OUTPUT_LANGUAGE_MARKER_PREFIX = 'qwen-code:llm-output-language:';
+const LLM_OUTPUT_LANGUAGE_MARKER_PREFIX = 'vivekmind:llm-output-language:';
 
 /** Special value meaning "detect from system settings" */
 export const OUTPUT_LANGUAGE_AUTO = 'auto';

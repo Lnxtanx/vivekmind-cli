@@ -29,7 +29,7 @@ export interface NotificationOptions {
   title?: string;
 }
 
-const DEFAULT_TITLE = 'Qwen Code';
+const DEFAULT_TITLE = 'VivekMind';
 
 /**
  * Send a notification through the auto-detected channel.
