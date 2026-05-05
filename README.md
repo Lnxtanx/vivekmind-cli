@@ -1,84 +1,75 @@
-# 🧠 VivekMind CLI
+# VivekMind CLI
 
-**VivekMind CLI** is a high-performance, agentic coding assistant designed for elite developers. Originally based on the Qwen Code framework, this fork has been completely re-engineered to provide a standalone, **AWS Bedrock-exclusive** experience with Zero-Auth local credential support.
+VivekMind CLI is a high-performance agentic coding assistant optimized for AWS Bedrock. This standalone tool provides direct integration with Amazon Bedrock's model ecosystem, supporting high-efficiency reasoning and multi-file code generation via a Zero-Auth local environment flow.
 
-![VivekMind Logo](https://vivekmind.com/favicon.ico)
+## Core Features
 
-## 🚀 Key Features
+- **AWS Bedrock Optimization**: Direct integration with Amazon Bedrock infrastructure.
+- **High-Performance Model Support**: Native support for MiniMax M2.5, DeepSeek V3.2, Qwen3 Coder, Mistral Large, and GLM 5.
+- **Agentic Workflows**: Context-aware reasoning, automated refactoring, and multi-file task execution.
+- **Simplified Authentication**: Implicit credential detection using standard AWS environment variables.
+- **Enhanced Terminal Interface**: Optimized UI with custom gradients and layout support.
 
-- **Exclusive AWS Bedrock Integration**: Seamlessly connects to Amazon Bedrock's global infrastructure.
-- **Elite Model Ecosystem**: Support for SOTA coding models including **MiniMax M2.5**, **DeepSeek V3.2**, **Qwen3 Coder**, **Mistral Large**, and **GLM 5**.
-- **Agentic Coding Capabilities**: Multi-file reasoning, automated refactoring, and context-aware terminal execution.
-- **Zero-Auth DX**: Automatically detects `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_REGION` from your local environment or `~/.qwen/.env`.
-- **Premium Terminal UI**: Redesigned header and ASCII art with customizable gradients and modern layouts.
+## Model Tiers
 
-## 🛠️ Model Tiers
-
-VivekMind comes pre-configured with the industry's top-performing LLMs across four specialized tiers:
-
-| Tier | Best Models | Purpose |
+| Tier | Primary Models | Application |
 | :--- | :--- | :--- |
-| **🥇 Elite** | `MiniMax M2.5`, `DeepSeek V3.2`, `Kimi K2.5` | Complex refactors, multi-file agentic tasks. |
-| **🥈 Strong** | `GLM 5`, `Mistral Large 3`, `Nemotron 120B` | General purpose coding and reasoning. |
-| **🥉 Solid** | `Llama3 70B`, `GPT OSS 120B`, `Mixtral 8x7B` | Fast reviews, boilerplate, and routine logic. |
-| **🧠 Thinking** | `Kimi K2 Thinking`, `Nova Pro` | Deep debugging and architectural design. |
+| Elite | MiniMax M2.5, DeepSeek V3.2 | Advanced refactoring and complex agentic tasks. |
+| Strong | GLM 5, Mistral Large 3 | General-purpose development and reasoning. |
+| Solid | Llama3 70B, GPT OSS 120B | Routine boilerplate and code reviews. |
+| Reasoning | Kimi K2 Thinking, Nova Pro | Deep analysis and architectural planning. |
 
-## 📦 Installation
+## Installation
 
-1. **Clone the repository**:
+1. Clone the repository:
    ```bash
    git clone https://github.com/Lnxtanx/vivekmind-cli.git
    cd vivekmind-cli
    ```
 
-2. **Install dependencies**:
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. **Build and Link**:
+3. Build and link:
    ```bash
    npm run build --workspace=packages/cli
    cd packages/cli
    npm link
    ```
 
-## 🔑 Authentication
+## Configuration
 
-VivekMind requires no interactive login. Simply set your AWS credentials in your environment:
+VivekMind CLI utilizes standard AWS credentials. Ensure the following environment variables are set:
 
-```bash
-export AWS_ACCESS_KEY_ID=your_key
-export AWS_SECRET_ACCESS_KEY=your_secret
-export AWS_REGION=us-east-1
-```
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_REGION`
 
-Or place them in `~/.qwen/.env`.
+## Usage
 
-## 🎮 Usage
-
-Start the agent from any project directory:
+Execute the following command to start the agent:
 
 ```bash
 vivekmind
 ```
 
-### Useful Commands:
-- `/model`: Switch between Elite, Strong, and Thinking models.
-- `/clear`: Reset the current conversation context.
-- `/quit`: Power down the agent and save session stats.
+### Key Commands:
+- `/model`: Select active model tier.
+- `/clear`: Reset session context.
+- `/quit`: Terminate session and save statistics.
 
-## 🔗 Links & Community
+## Links
 
-- **Official Website**: [vivekmind.com](https://vivekmind.com)
-- **Support**: [vivekmind.com/support](https://vivekmind.com/support)
+- **Website**: [vivekmind.com](https://vivekmind.com)
 - **Author**: [Vivek Kumar Yadav](https://github.com/Lnxtanx)
 
-## 📝 License & Credits
+## License and Credits
 
-VivekMind CLI is built and maintained by **Vivek Kumar Yadav**.
+VivekMind CLI is developed and maintained by Vivek Kumar Yadav.
 
-This project is a modified fork of Qwen Code.
-© 2026 **VivekMind** ([vivekmind.com](https://vivekmind.com)). All rights reserved.
-Original Qwen Code © 2025 Google LLC & Alibaba.
+This project is a modified distribution of Qwen Code.
+Copyright © 2026 VivekMind. All rights reserved.
+Original Qwen Code Copyright © 2025 Google LLC & Alibaba.
 Licensed under the Apache-2.0 License.
