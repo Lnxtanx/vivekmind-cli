@@ -68,8 +68,17 @@ vivekmind
 - `/clear`: Reset the current conversation context.
 - `/quit`: Power down the agent and save session stats.
 
-## 📝 License
+## 🔗 Links & Community
 
-VivekMind is a modified fork of Qwen Code.
-© 2026 VivekMind CLI Contributors. Original Qwen Code © 2025 Google LLC & Alibaba.
+- **Official Website**: [vivekmind.com](https://vivekmind.com)
+- **Support**: [vivekmind.com/support](https://vivekmind.com/support)
+- **Author**: [Vivek Kumar Yadav](https://github.com/Lnxtanx)
+
+## 📝 License & Credits
+
+VivekMind CLI is built and maintained by **Vivek Kumar Yadav**.
+
+This project is a modified fork of Qwen Code.
+© 2026 **VivekMind** ([vivekmind.com](https://vivekmind.com)). All rights reserved.
+Original Qwen Code © 2025 Google LLC & Alibaba.
 Licensed under the Apache-2.0 License.

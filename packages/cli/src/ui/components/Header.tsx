@@ -151,7 +151,15 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </Text>
         {/* Directory line */}
-        <Text color={theme.text.secondary}>{displayPath}</Text>
+        <Box flexDirection="row" justifyContent="space-between">
+          <Text>
+            <Text color="#3ae6b3">♦ </Text>
+            <Text color={theme.text.secondary}>{displayPath}</Text>
+          </Text>
+          <Text color={theme.text.secondary}>
+            [ <Text color="#2b8cf5">vivekmind.com</Text> ]
+          </Text>
+        </Box>
       </Box>
     </Box>
   );
