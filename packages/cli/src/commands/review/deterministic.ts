@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// `qwen review deterministic`: run a project's existing linters / typecheckers
+// `vivekmind review deterministic`: run a project's existing linters / typecheckers
 // on the changed files of a review session and emit a single findings JSON.
 //
 // Coverage:

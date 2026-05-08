@@ -5,14 +5,14 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
-import type { Config, ModelProvidersConfig } from '@qwen-code/qwen-code-core';
+import type { Config, ModelProvidersConfig } from '@vivekmind/core';
 import {
   AuthType,
   isCodingPlanConfig,
   getCodingPlanConfig,
   CodingPlanRegion,
   CODING_PLAN_ENV_KEY,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { LoadedSettings } from '../../config/settings.js';
 import { getPersistScopeForModelSelection } from '../../config/modelProvidersScope.js';
 import { t } from '../../i18n/index.js';

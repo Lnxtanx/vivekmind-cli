@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Qwen
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -24,7 +25,7 @@ import {
 const debugLogger = createDebugLogger('QWEN_OAUTH');
 
 // OAuth Endpoints
-const QWEN_OAUTH_BASE_URL = 'https://chat.qwen.ai';
+const QWEN_OAUTH_BASE_URL = 'https://chat.vivekmind.ai';
 
 const QWEN_OAUTH_DEVICE_CODE_ENDPOINT = `${QWEN_OAUTH_BASE_URL}/api/v1/oauth2/device/code`;
 const QWEN_OAUTH_TOKEN_ENDPOINT = `${QWEN_OAUTH_BASE_URL}/api/v1/oauth2/token`;
@@ -36,7 +37,7 @@ const QWEN_OAUTH_SCOPE = 'openid profile email model.completion';
 const QWEN_OAUTH_GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:device_code';
 
 // File System Configuration
-const QWEN_DIR = '.qwen';
+const QWEN_DIR = '.vivekmind';
 const QWEN_CREDENTIAL_FILENAME = 'oauth_creds.json';
 
 /**

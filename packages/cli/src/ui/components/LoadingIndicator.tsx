@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import type { ThoughtSummary } from '@qwen-code/qwen-code-core';
+import type { ThoughtSummary } from '@vivekmind/core';
 import type React from 'react';
 import { useRef } from 'react';
 import { Box, Text } from 'ink';

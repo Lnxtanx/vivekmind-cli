@@ -1,11 +1,12 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * Converter for Claude Code plugins to Qwen Code format.
+ * Converter for Claude Code plugins to VivekMind format.
  */
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -155,9 +156,9 @@ function parseStringOrArray(value: unknown): string[] | undefined {
 }
 
 /**
- * Converts a Claude agent config to Qwen Code subagent format.
+ * Converts a Claude agent config to VivekMind subagent format.
  * @param claudeAgent Claude agent configuration
- * @returns Converted agent config compatible with Qwen Code SubagentConfig
+ * @returns Converted agent config compatible with VivekMind SubagentConfig
  */
 export function convertClaudeAgentConfig(
   claudeAgent: ClaudeAgentConfig,
@@ -298,7 +299,7 @@ ${systemPrompt}
 }
 
 /**
- * Converts a Claude plugin config to Qwen Code format.
+ * Converts a Claude plugin config to VivekMind format.
  * @param claudeConfig Claude plugin configuration
  * @returns Qwen ExtensionConfig
  */
@@ -354,7 +355,7 @@ export function convertClaudeToQwenConfig(
 }
 
 /**
- * Converts a complete Claude plugin package to Qwen Code format.
+ * Converts a complete Claude plugin package to VivekMind format.
  * Creates a new temporary directory with:
  * 1. Converted qwen-extension.json
  * 2. Commands, skills, and agents collected to respective folders

@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -28,7 +29,7 @@ export function loadIgnoreRules(options: LoadIgnoreRulesOptions): Ignore {
   }
 
   if (options.useQwenignore) {
-    const qwenignorePath = path.join(options.projectRoot, '.qwenignore');
+    const qwenignorePath = path.join(options.projectRoot, '.vivekmindignore');
     if (fs.existsSync(qwenignorePath)) {
       ignorer.add(fs.readFileSync(qwenignorePath, 'utf8'));
     }

@@ -8,13 +8,13 @@ import {
   telegramFormat,
   splitHtmlForTelegram,
 } from 'telegram-markdown-formatter';
-import { ChannelBase } from '@qwen-code/channel-base';
+import { ChannelBase } from '@vivekmind/channel-base';
 import type {
   ChannelConfig,
   ChannelBaseOptions,
   Envelope,
   AcpBridge,
-} from '@qwen-code/channel-base';
+} from '@vivekmind/channel-base';
 
 export class TelegramChannel extends ChannelBase {
   private bot: Bot;

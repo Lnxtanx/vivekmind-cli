@@ -27,7 +27,7 @@ import type {
   ApprovalMode,
   IdeInfo,
   SessionListItem,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { DOMElement } from 'ink';
 import type { SessionStatsState } from '../contexts/SessionContext.js';
 import type { ExtensionUpdateState } from '../state/extensions.js';

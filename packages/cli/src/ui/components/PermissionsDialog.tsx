@@ -23,8 +23,8 @@ import type {
   PermissionManager,
   RuleWithSource,
   RuleType,
-} from '@qwen-code/qwen-code-core';
-import { isPathWithinRoot, parseRule } from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
+import { isPathWithinRoot, parseRule } from '@vivekmind/core';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -63,13 +63,13 @@ function getPermScopeItems(): PermScopeItem[] {
   return [
     {
       label: t('Project settings'),
-      description: t('Checked in at .qwen/settings.json'),
+      description: t('Checked in at .vivekmind/settings.json'),
       value: SettingScope.Workspace,
       key: 'project',
     },
     {
       label: t('User settings'),
-      description: t('Saved in at ~/.qwen/settings.json'),
+      description: t('Saved in at ~/.vivekmind/settings.json'),
       value: SettingScope.User,
       key: 'user',
     },

@@ -18,7 +18,7 @@ import {
   type SessionHookEntry,
   createDebugLogger,
   HOOKS_CONFIG_FIELDS,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type {
   HooksManagementDialogProps,
   HookEventDisplayInfo,

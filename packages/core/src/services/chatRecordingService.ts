@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -276,7 +277,7 @@ export interface RewindRecordPayload {
  * - Linear history reconstruction
  * - Future checkpointing (branch from any historical point)
  *
- * File location: ~/.qwen/tmp/<project_id>/chats/
+ * File location: ~/.vivekmind/tmp/<project_id>/chats/
  *
  * For session management (list, load, remove), use SessionService.
  */
@@ -631,7 +632,7 @@ export class ChatRecordingService {
     // unset their fast model (which would break `/rename --auto`, recap,
     // compression, and other fast-model features).
     if (autoTitleDisabledByEnv()) return;
-    // Headless/one-shot CLI flows (`qwen -p "…"`, cron, CI scripts) run a
+    // Headless/one-shot CLI flows (`vivekmind -p "…"`, cron, CI scripts) run a
     // single prompt and throw the session away. Spending fast-model tokens
     // on a title no one will ever resume is pure waste; skip entirely.
     // Checked before `getFastModel()` because it's strictly cheaper (a bool

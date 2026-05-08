@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -135,7 +136,7 @@ describe('FileTokenStorage', () => {
       await storage.setCredentials(credentials);
 
       expect(mockFs.mkdir).toHaveBeenCalledWith(
-        path.join('/home/test', '.qwen'),
+        path.join('/home/test', '.vivekmind'),
         { recursive: true, mode: 0o700 },
       );
       expect(mockFs.writeFile).toHaveBeenCalled();
@@ -201,7 +202,7 @@ describe('FileTokenStorage', () => {
       await storage.deleteCredentials('test-server');
 
       expect(mockFs.unlink).toHaveBeenCalledWith(
-        path.join('/home/test', '.qwen', 'mcp-oauth-tokens-v2.json'),
+        path.join('/home/test', '.vivekmind', 'mcp-oauth-tokens-v2.json'),
       );
     });
 
@@ -282,7 +283,7 @@ describe('FileTokenStorage', () => {
       await storage.clearAll();
 
       expect(mockFs.unlink).toHaveBeenCalledWith(
-        path.join('/home/test', '.qwen', 'mcp-oauth-tokens-v2.json'),
+        path.join('/home/test', '.vivekmind', 'mcp-oauth-tokens-v2.json'),
       );
     });
 

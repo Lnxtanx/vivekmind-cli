@@ -1,7 +1,7 @@
 {
-  "name": "@qwen-code/channel-base",
+  "name": "@vivekmind/channel-base",
   "version": "0.15.6",
-  "description": "Base channel infrastructure for Qwen Code",
+  "description": "Base channel infrastructure for VivekMind",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

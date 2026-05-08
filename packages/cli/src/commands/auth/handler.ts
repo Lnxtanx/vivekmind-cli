@@ -9,7 +9,7 @@ import {
   getErrorMessage,
   type Config,
   type ProviderModelConfig as ModelConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { writeStdoutLine, writeStderrLine } from '../../utils/stdioHelpers.js';
 import { t } from '../../i18n/index.js';
 import { getPersistScopeForModelSelection } from '../../config/modelProvidersScope.js';
@@ -723,7 +723,7 @@ async function handleAlibabaStandardApiKeyAuth(): Promise<void> {
 function handleCustomApiKeyAuth(): void {
   writeStdoutLine(
     t(
-      '\nYou can configure your API key and models in settings.json.\nRefer to the documentation for setup instructions:\n  https://qwenlm.github.io/qwen-code-docs/en/users/configuration/model-providers/\n',
+      '\nYou can configure your API key and models in settings.json.\nRefer to the documentation for setup instructions:\n  https://qwenlm.github.io/vivekmind-docs/en/users/configuration/model-providers/\n',
     ),
   );
   process.exit(0);
@@ -792,24 +792,24 @@ export async function showAuthStatus(): Promise<void> {
       writeStdoutLine(t('⚠️  No authentication method configured.\n'));
       writeStdoutLine(t('Run one of the following commands to get started:\n'));
       writeStdoutLine(
-        t('  qwen auth openrouter      - Configure OpenRouter API key'),
+        t('  vivekmind auth openrouter      - Configure OpenRouter API key'),
       );
       writeStdoutLine(
         t(
-          '  qwen auth coding-plan    - Authenticate with Alibaba Cloud Coding Plan',
+          '  vivekmind auth coding-plan    - Authenticate with Alibaba Cloud Coding Plan',
         ),
       );
       writeStdoutLine(
-        t('  qwen auth api-key        - Authenticate with an API key'),
+        t('  vivekmind auth api-key        - Authenticate with an API key'),
       );
       writeStdoutLine(
         t(
-          '  qwen auth qwen-oauth     - Authenticate with Qwen OAuth (discontinued)\n',
+          '  vivekmind auth qwen-oauth     - Authenticate with Qwen OAuth (discontinued)\n',
         ),
       );
       writeStdoutLine(t('Or simply run:'));
       writeStdoutLine(
-        t('  qwen auth                - Interactive authentication setup\n'),
+        t('  vivekmind auth                - Interactive authentication setup\n'),
       );
       process.exit(0);
     }
@@ -873,7 +873,7 @@ export async function showAuthStatus(): Promise<void> {
           writeStdoutLine(
             t('  Issue: API key not found in environment or settings\n'),
           );
-          writeStdoutLine(t('  Run `qwen auth openrouter` to re-configure.\n'));
+          writeStdoutLine(t('  Run `vivekmind auth openrouter` to re-configure.\n'));
         }
       } else if (detectedCodingPlanRegion) {
         const hasCodingPlanKey =
@@ -921,7 +921,7 @@ export async function showAuthStatus(): Promise<void> {
             t('  Issue: API key not found in environment or settings\n'),
           );
           writeStdoutLine(
-            t('  Run `qwen auth coding-plan` to re-configure.\n'),
+            t('  Run `vivekmind auth coding-plan` to re-configure.\n'),
           );
         }
       } else if (isActiveStandard) {
@@ -952,7 +952,7 @@ export async function showAuthStatus(): Promise<void> {
           writeStdoutLine(
             t('  Issue: API key not found in environment or settings\n'),
           );
-          writeStdoutLine(t('  Run `qwen auth api-key` to re-configure.\n'));
+          writeStdoutLine(t('  Run `vivekmind auth api-key` to re-configure.\n'));
         }
       } else if (activeConfig) {
         let hasApiKey: boolean;
@@ -1064,7 +1064,7 @@ export async function showAuthStatus(): Promise<void> {
             t('  Issue: API key not found in environment or settings\n'),
           );
           writeStdoutLine(
-            t('  Run `qwen auth coding-plan` to re-configure.\n'),
+            t('  Run `vivekmind auth coding-plan` to re-configure.\n'),
           );
         } else {
           writeStdoutLine(

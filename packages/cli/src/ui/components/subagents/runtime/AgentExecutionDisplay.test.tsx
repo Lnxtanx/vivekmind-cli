@@ -7,8 +7,8 @@
 import { act } from 'react';
 import { render } from 'ink-testing-library';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { AgentResultDisplay } from '@qwen-code/qwen-code-core';
-import { makeFakeConfig } from '@qwen-code/qwen-code-core';
+import type { AgentResultDisplay } from '@vivekmind/core';
+import { makeFakeConfig } from '@vivekmind/core';
 import { AgentExecutionDisplay } from './AgentExecutionDisplay.js';
 
 let keypressHandler:

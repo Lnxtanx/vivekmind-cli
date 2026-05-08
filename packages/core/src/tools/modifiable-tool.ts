@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -63,7 +64,7 @@ function createTempFilesForModify(
   file_path: string,
 ): { oldPath: string; newPath: string } {
   const tempDir = os.tmpdir();
-  const diffDir = path.join(tempDir, 'qwen-code-tool-modify-diffs');
+  const diffDir = path.join(tempDir, 'vivekmind-tool-modify-diffs');
 
   if (!fs.existsSync(diffDir)) {
     fs.mkdirSync(diffDir, { recursive: true });
@@ -74,11 +75,11 @@ function createTempFilesForModify(
   const timestamp = Date.now();
   const tempOldPath = path.join(
     diffDir,
-    `qwen-code-modify-${fileName}-old-${timestamp}${ext}`,
+    `vivekmind-modify-${fileName}-old-${timestamp}${ext}`,
   );
   const tempNewPath = path.join(
     diffDir,
-    `qwen-code-modify-${fileName}-new-${timestamp}${ext}`,
+    `vivekmind-modify-${fileName}-new-${timestamp}${ext}`,
   );
 
   fs.writeFileSync(tempOldPath, currentContent, 'utf8');

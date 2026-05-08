@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -37,9 +38,9 @@ describe('projectSummary', () => {
   });
 
   it('includes a summary fingerprint when a project summary exists', async () => {
-    await fs.mkdir(path.join(testDir, '.qwen'), { recursive: true });
+    await fs.mkdir(path.join(testDir, '.vivekmind'), { recursive: true });
     await fs.writeFile(
-      path.join(testDir, '.qwen', 'PROJECT_SUMMARY.md'),
+      path.join(testDir, '.vivekmind', 'PROJECT_SUMMARY.md'),
       [
         '## Overall Goal',
         'Ship the fix.',

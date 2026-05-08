@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -372,7 +373,7 @@ describe('TodoWriteTool – runtime output directory', () => {
     expect(writePath).toContain(path.join(envRuntimeDir, 'todos'));
   });
 
-  it('should use default ~/.qwen path when no custom dir is configured', async () => {
+  it('should use default ~/.vivekmind path when no custom dir is configured', async () => {
     const params: TodoWriteParams = {
       todos: [{ id: '1', content: 'Task 1', status: 'pending' }],
     };
@@ -385,7 +386,7 @@ describe('TodoWriteTool – runtime output directory', () => {
     await invocation.execute(mockAbortSignal);
 
     const writePath = mockFs.writeFile.mock.calls[0]?.[0] as string;
-    expect(writePath).toContain(path.join('.qwen', 'todos'));
+    expect(writePath).toContain(path.join('.vivekmind', 'todos'));
   });
 
   it('should check file existence in custom runtime dir for getDescription', () => {

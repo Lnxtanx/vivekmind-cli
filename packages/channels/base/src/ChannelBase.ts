@@ -189,7 +189,7 @@ export abstract class ChannelBase {
 
       const agentCommands = this.bridge.availableCommands;
       if (agentCommands.length > 0) {
-        lines.push('', 'Agent commands (forwarded to Qwen Code):');
+        lines.push('', 'Agent commands (forwarded to VivekMind):');
         for (const cmd of agentCommands) {
           lines.push(`/${cmd.name} — ${cmd.description}`);
         }
@@ -435,7 +435,7 @@ export abstract class ChannelBase {
     if (code) {
       await this.sendMessage(
         chatId,
-        `Your pairing code is: ${code}\n\nAsk the bot operator to approve you with:\n  qwen channel pairing approve ${this.name} ${code}`,
+        `Your pairing code is: ${code}\n\nAsk the bot operator to approve you with:\n  vivekmind channel pairing approve ${this.name} ${code}`,
       );
     } else {
       await this.sendMessage(

@@ -15,7 +15,7 @@ import { t } from '../../i18n/index.js';
 import type {
   HookRegistryEntry,
   SessionHookEntry,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 /**
  * Format hook source for display

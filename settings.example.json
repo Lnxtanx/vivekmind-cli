@@ -1,0 +1,462 @@
+{
+  "//": [
+    "=======================================================================",
+    " VivekMind — Universal AI Provider Settings Template",
+    "=======================================================================",
+    "",
+    " HOW TO USE:",
+    " 1. Copy this file to ~/.vivekmind/settings.json",
+    "    (or let VivekMind auto-create it on first run)",
+    " 2. Uncomment the providers you want to use",
+    " 3. Set the corresponding environment variable for each provider's API key",
+    "    e.g.  export OPENAI_API_KEY=sk-...",
+    " 4. Run: vivekmind",
+    "",
+    " ⚠️  SECURITY WARNING:",
+    " NEVER put real API keys in this file!",
+    " Use the 'envKey' field to reference environment variables only.",
+    " NEVER commit settings.json with real credentials to version control.",
+    "",
+    " Each provider entry under 'modelProviders' is keyed by authType.",
+    " All OpenAI-compatible providers use authType 'openai'.",
+    " Native providers use their own authType (anthropic, gemini, bedrock).",
+    "======================================================================="
+  ],
+
+  "modelProviders": {
+    "openai": [
+      {
+        "//": "--- OpenAI ---",
+        "id": "gpt-4.1",
+        "name": "GPT-4.1",
+        "description": "OpenAI GPT-4.1 — flagship model with 1M context",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 1047576
+        }
+      },
+      {
+        "id": "gpt-4.1-mini",
+        "name": "GPT-4.1 Mini",
+        "description": "OpenAI GPT-4.1 Mini — fast and affordable",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 1047576
+        }
+      },
+      {
+        "id": "o3",
+        "name": "o3",
+        "description": "OpenAI o3 — advanced reasoning model",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 200000
+        }
+      },
+      {
+        "id": "o4-mini",
+        "name": "o4-mini",
+        "description": "OpenAI o4-mini — fast reasoning model",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 200000
+        }
+      },
+
+      {
+        "//": "--- DeepSeek ---",
+        "id": "deepseek-chat",
+        "name": "DeepSeek Chat (V3)",
+        "description": "DeepSeek V3 — fast general-purpose coding model",
+        "envKey": "DEEPSEEK_API_KEY",
+        "baseUrl": "https://api.deepseek.com/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "deepseek-reasoner",
+        "name": "DeepSeek Reasoner (R1)",
+        "description": "DeepSeek R1 — deep reasoning with chain-of-thought",
+        "envKey": "DEEPSEEK_API_KEY",
+        "baseUrl": "https://api.deepseek.com/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+
+      {
+        "//": "--- Groq ---",
+        "id": "llama-3.3-70b-versatile",
+        "name": "Llama 3.3 70B (Groq)",
+        "description": "Meta Llama 3.3 70B on Groq — ultra-fast inference",
+        "envKey": "GROQ_API_KEY",
+        "baseUrl": "https://api.groq.com/openai/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "mixtral-8x7b-32768",
+        "name": "Mixtral 8x7B (Groq)",
+        "description": "Mistral Mixtral 8x7B on Groq — fast MoE model",
+        "envKey": "GROQ_API_KEY",
+        "baseUrl": "https://api.groq.com/openai/v1",
+        "generationConfig": {
+          "contextWindowSize": 32768
+        }
+      },
+      {
+        "id": "deepseek-r1-distill-llama-70b",
+        "name": "DeepSeek R1 Distill 70B (Groq)",
+        "description": "DeepSeek R1 distilled into Llama 70B on Groq",
+        "envKey": "GROQ_API_KEY",
+        "baseUrl": "https://api.groq.com/openai/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+
+      {
+        "//": "--- Together AI ---",
+        "id": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+        "name": "Llama 3.3 70B Turbo (Together)",
+        "description": "Meta Llama 3.3 70B on Together AI — fast turbo inference",
+        "envKey": "TOGETHER_API_KEY",
+        "baseUrl": "https://api.together.xyz/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "deepseek-ai/DeepSeek-R1",
+        "name": "DeepSeek R1 (Together)",
+        "description": "DeepSeek R1 full model on Together AI",
+        "envKey": "TOGETHER_API_KEY",
+        "baseUrl": "https://api.together.xyz/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "Qwen/Qwen3-235B-A22B",
+        "name": "Qwen3 235B (Together)",
+        "description": "Qwen3 235B MoE on Together AI",
+        "envKey": "TOGETHER_API_KEY",
+        "baseUrl": "https://api.together.xyz/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+
+      {
+        "//": "--- Fireworks AI ---",
+        "id": "accounts/fireworks/models/llama-v3p3-70b-instruct",
+        "name": "Llama 3.3 70B (Fireworks)",
+        "description": "Meta Llama 3.3 70B on Fireworks AI",
+        "envKey": "FIREWORKS_API_KEY",
+        "baseUrl": "https://api.fireworks.ai/inference/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "accounts/fireworks/models/deepseek-r1",
+        "name": "DeepSeek R1 (Fireworks)",
+        "description": "DeepSeek R1 on Fireworks AI",
+        "envKey": "FIREWORKS_API_KEY",
+        "baseUrl": "https://api.fireworks.ai/inference/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+
+      {
+        "//": "--- OpenRouter ---",
+        "id": "anthropic/claude-sonnet-4",
+        "name": "Claude Sonnet 4 (OpenRouter)",
+        "description": "Anthropic Claude Sonnet 4 via OpenRouter",
+        "envKey": "OPENROUTER_API_KEY",
+        "baseUrl": "https://openrouter.ai/api/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 200000
+        }
+      },
+      {
+        "id": "openai/gpt-4.1",
+        "name": "GPT-4.1 (OpenRouter)",
+        "description": "OpenAI GPT-4.1 via OpenRouter",
+        "envKey": "OPENROUTER_API_KEY",
+        "baseUrl": "https://openrouter.ai/api/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 1047576
+        }
+      },
+      {
+        "id": "google/gemini-2.5-pro",
+        "name": "Gemini 2.5 Pro (OpenRouter)",
+        "description": "Google Gemini 2.5 Pro via OpenRouter",
+        "envKey": "OPENROUTER_API_KEY",
+        "baseUrl": "https://openrouter.ai/api/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 1000000
+        }
+      },
+
+      {
+        "//": "--- Mistral AI ---",
+        "id": "mistral-large-latest",
+        "name": "Mistral Large",
+        "description": "Mistral Large — flagship reasoning model (128K context)",
+        "envKey": "MISTRAL_API_KEY",
+        "baseUrl": "https://api.mistral.ai/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "mistral-small-latest",
+        "name": "Mistral Small",
+        "description": "Mistral Small — fast and efficient (32K context)",
+        "envKey": "MISTRAL_API_KEY",
+        "baseUrl": "https://api.mistral.ai/v1",
+        "generationConfig": {
+          "contextWindowSize": 32768
+        }
+      },
+      {
+        "id": "codestral-latest",
+        "name": "Codestral",
+        "description": "Mistral Codestral — specialized code model (256K context)",
+        "envKey": "MISTRAL_API_KEY",
+        "baseUrl": "https://api.mistral.ai/v1",
+        "generationConfig": {
+          "contextWindowSize": 262144
+        }
+      },
+
+      {
+        "//": "--- Moonshot / Kimi ---",
+        "id": "kimi-k2-0711",
+        "name": "Kimi K2",
+        "description": "Moonshot Kimi K2 — MoE model with strong coding capabilities",
+        "envKey": "MOONSHOT_API_KEY",
+        "baseUrl": "https://api.moonshot.ai/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+
+      {
+        "//": "--- xAI / Grok ---",
+        "id": "grok-3",
+        "name": "Grok 3",
+        "description": "xAI Grok 3 — frontier reasoning model (131K context)",
+        "envKey": "XAI_API_KEY",
+        "baseUrl": "https://api.x.ai/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "grok-3-mini",
+        "name": "Grok 3 Mini",
+        "description": "xAI Grok 3 Mini — fast thinking model",
+        "envKey": "XAI_API_KEY",
+        "baseUrl": "https://api.x.ai/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+
+      {
+        "//": "--- Perplexity ---",
+        "id": "sonar-pro",
+        "name": "Sonar Pro",
+        "description": "Perplexity Sonar Pro — search-augmented reasoning (128K context)",
+        "envKey": "PERPLEXITY_API_KEY",
+        "baseUrl": "https://api.perplexity.ai",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "sonar",
+        "name": "Sonar",
+        "description": "Perplexity Sonar — search-augmented generation",
+        "envKey": "PERPLEXITY_API_KEY",
+        "baseUrl": "https://api.perplexity.ai",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+
+      {
+        "//": "--- Reka AI ---",
+        "id": "reka-core",
+        "name": "Reka Core",
+        "description": "Reka Core — multimodal frontier model (128K context)",
+        "envKey": "REKA_API_KEY",
+        "baseUrl": "https://api.reka.ai/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "reka-flash",
+        "name": "Reka Flash",
+        "description": "Reka Flash — fast multimodal model",
+        "envKey": "REKA_API_KEY",
+        "baseUrl": "https://api.reka.ai/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+
+      {
+        "//": "--- Cohere (OpenAI-compatible endpoint) ---",
+        "id": "command-r-plus",
+        "name": "Command R+",
+        "description": "Cohere Command R+ — advanced RAG and tool-use model (128K context)",
+        "envKey": "COHERE_API_KEY",
+        "baseUrl": "https://api.cohere.com/compatibility/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "command-r",
+        "name": "Command R",
+        "description": "Cohere Command R — efficient RAG model (128K context)",
+        "envKey": "COHERE_API_KEY",
+        "baseUrl": "https://api.cohere.com/compatibility/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+
+      {
+        "//": "--- Ollama (Local Models — no API key needed) ---",
+        "id": "llama3.3",
+        "name": "Llama 3.3 (Ollama)",
+        "description": "Meta Llama 3.3 running locally via Ollama — no API key required",
+        "baseUrl": "http://localhost:11434/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "qwen3:32b",
+        "name": "Qwen3 32B (Ollama)",
+        "description": "Qwen3 32B running locally via Ollama — no API key required",
+        "baseUrl": "http://localhost:11434/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      },
+      {
+        "id": "deepseek-r1:32b",
+        "name": "DeepSeek R1 32B (Ollama)",
+        "description": "DeepSeek R1 32B distill running locally via Ollama",
+        "baseUrl": "http://localhost:11434/v1",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      }
+    ],
+
+    "anthropic": [
+      {
+        "//": "--- Anthropic (Native API) ---",
+        "id": "claude-sonnet-4-20250514",
+        "name": "Claude Sonnet 4",
+        "description": "Anthropic Claude Sonnet 4 — balanced performance and speed",
+        "envKey": "ANTHROPIC_API_KEY",
+        "baseUrl": "https://api.anthropic.com",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 200000
+        }
+      },
+      {
+        "id": "claude-opus-4-20250514",
+        "name": "Claude Opus 4",
+        "description": "Anthropic Claude Opus 4 — most capable model",
+        "envKey": "ANTHROPIC_API_KEY",
+        "baseUrl": "https://api.anthropic.com",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 200000
+        }
+      }
+    ],
+
+    "gemini": [
+      {
+        "//": "--- Google Gemini (Native API) ---",
+        "id": "gemini-2.5-pro",
+        "name": "Gemini 2.5 Pro",
+        "description": "Google Gemini 2.5 Pro — 1M context, full multimodal",
+        "envKey": "GEMINI_API_KEY",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 1000000
+        }
+      },
+      {
+        "id": "gemini-2.5-flash",
+        "name": "Gemini 2.5 Flash",
+        "description": "Google Gemini 2.5 Flash — fast and affordable",
+        "envKey": "GEMINI_API_KEY",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 1000000
+        }
+      }
+    ],
+
+    "bedrock": [
+      {
+        "//": "--- AWS Bedrock (uses AWS IAM credentials from environment) ---",
+        "id": "us.anthropic.claude-sonnet-4-20250514-v1:0",
+        "name": "Claude Sonnet 4 (Bedrock)",
+        "description": "Anthropic Claude Sonnet 4 via AWS Bedrock",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 200000
+        }
+      },
+      {
+        "id": "us.anthropic.claude-3-5-sonnet-20241022-v2:0",
+        "name": "Claude 3.5 Sonnet v2 (Bedrock)",
+        "description": "Anthropic Claude 3.5 Sonnet v2 via AWS Bedrock",
+        "capabilities": { "vision": true },
+        "generationConfig": {
+          "contextWindowSize": 200000
+        }
+      },
+      {
+        "id": "us.meta.llama3-3-70b-instruct-v1:0",
+        "name": "Llama 3.3 70B (Bedrock)",
+        "description": "Meta Llama 3.3 70B Instruct via AWS Bedrock",
+        "generationConfig": {
+          "contextWindowSize": 131072
+        }
+      }
+    ]
+  }
+}

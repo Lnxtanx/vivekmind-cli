@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Code
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -44,10 +44,10 @@ describe('ChatRecordingService - recordCustomTitle', () => {
       storage: {
         getProjectTempDir: vi
           .fn()
-          .mockReturnValue('/test/project/root/.qwen/tmp/hash'),
+          .mockReturnValue('/test/project/root/.vivekmind/tmp/hash'),
         getProjectDir: vi
           .fn()
-          .mockReturnValue('/test/project/root/.qwen/projects/test-project'),
+          .mockReturnValue('/test/project/root/.vivekmind/projects/test-project'),
       },
       getModel: vi.fn().mockReturnValue('qwen-plus'),
       getFastModel: vi.fn().mockReturnValue(undefined),

@@ -19,7 +19,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { type Config } from '@qwen-code/qwen-code-core';
+import { type Config } from '@vivekmind/core';
 import {
   type DialogEntry,
   useBackgroundTaskView,

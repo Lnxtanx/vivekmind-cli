@@ -35,11 +35,11 @@ const logoSvgWithGradient = (() => {
   }
 
   const gradientDef =
-    '<defs><linearGradient id="qwen-logo-gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#60a5fa" /><stop offset="100%" stop-color="#a855f7" /></linearGradient></defs>';
+    '<defs><linearGradient id="vivekmind-logo-gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#60a5fa" /><stop offset="100%" stop-color="#a855f7" /></linearGradient></defs>';
 
   const withDefs = logoSvg.replace(/<svg([^>]*)>/, `<svg$1>${gradientDef}`);
 
-  return withDefs.replace(/fill="[^"]*"/, 'fill="url(#qwen-logo-gradient)"');
+  return withDefs.replace(/fill="[^"]*"/, 'fill="url(#vivekmind-logo-gradient)"');
 })();
 
 const App = () => {

@@ -3,6 +3,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -70,7 +71,7 @@ service:
 
 async function main() {
   // 1. Ensure binaries are available, downloading if necessary.
-  // Binaries are stored in the project's .qwen/otel/bin directory
+  // Binaries are stored in the project's .vivekmind/otel/bin directory
   // to avoid modifying the user's system.
   if (!fileExists(BIN_DIR)) fs.mkdirSync(BIN_DIR, { recursive: true });
 

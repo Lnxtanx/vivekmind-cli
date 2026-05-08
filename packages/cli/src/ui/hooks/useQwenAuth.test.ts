@@ -6,17 +6,17 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import type { DeviceAuthorizationData } from '@qwen-code/qwen-code-core';
+import type { DeviceAuthorizationData } from '@vivekmind/core';
 import { useQwenAuth } from './useQwenAuth.js';
 import {
   AuthType,
   qwenOAuth2Events,
   QwenOAuth2Event,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 // Mock the qwenOAuth2Events
-vi.mock('@qwen-code/qwen-code-core', async () => {
-  const actual = await vi.importActual('@qwen-code/qwen-code-core');
+vi.mock('@vivekmind/core', async () => {
+  const actual = await vi.importActual('@vivekmind/core');
   const mockEmitter = {
     on: vi.fn().mockReturnThis(),
     off: vi.fn().mockReturnThis(),
@@ -36,8 +36,8 @@ const mockQwenOAuth2Events = vi.mocked(qwenOAuth2Events);
 
 describe('useQwenAuth', () => {
   const mockDeviceAuth: DeviceAuthorizationData = {
-    verification_uri: 'https://oauth.qwen.com/device',
-    verification_uri_complete: 'https://oauth.qwen.com/device?user_code=ABC123',
+    verification_uri: 'https://oauth.vivekmind.com/device',
+    verification_uri_complete: 'https://oauth.vivekmind.com/device?user_code=ABC123',
     user_code: 'ABC123',
     expires_in: 1800,
     device_code: 'device_code_123',

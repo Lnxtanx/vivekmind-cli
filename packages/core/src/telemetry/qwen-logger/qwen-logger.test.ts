@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -649,7 +650,7 @@ describe('QwenLogger', () => {
       const event = new HookCallEvent(
         'PreToolUse',
         'command',
-        '/home/user/.qwen/hooks/check-secrets.sh --api-key=secret123',
+        '/home/user/.vivekmind/hooks/check-secrets.sh --api-key=secret123',
         { tool_name: 'read_file' },
         100,
         true,

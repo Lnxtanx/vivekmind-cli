@@ -23,7 +23,7 @@ import type {
   MessageBus,
   StreamEvent,
   ChatCompressionInfo,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   AuthType,
   ApprovalMode,
@@ -57,7 +57,7 @@ import {
   evaluatePermissionFlow,
   needsConfirmation,
   isPlanModeBlocked,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 import { RequestError } from '@agentclientprotocol/sdk';
 import type {

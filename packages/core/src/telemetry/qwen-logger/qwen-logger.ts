@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -272,7 +273,7 @@ export class QwenLogger {
       },
       view: {
         id: this.sessionId || this.config?.getSessionId(),
-        name: 'qwen-code-cli',
+        name: 'vivekmind-cli',
       },
       os: osMetadata,
 
@@ -288,7 +289,7 @@ export class QwenLogger {
           ? { channel: this.config.getChannel() }
           : {}),
       },
-      _v: `qwen-code@${version}`,
+      _v: `vivekmind@${version}`,
     } as RumPayload;
   }
 
@@ -302,7 +303,7 @@ export class QwenLogger {
 
   readSourceInfo(): string {
     try {
-      const sourceJsonPath = path.join(os.homedir(), '.qwen', 'source.json');
+      const sourceJsonPath = path.join(os.homedir(), '.vivekmind', 'source.json');
       if (fs.existsSync(sourceJsonPath)) {
         const sourceJsonContent = fs.readFileSync(sourceJsonPath, 'utf8');
         const sourceData = JSON.parse(sourceJsonContent);

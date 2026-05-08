@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -39,9 +40,12 @@ export {
   type ModelSwitchMetadata,
   type OnModelChangeCallback,
   QWEN_OAUTH_MODELS,
+  VISION_MODEL_MAP,
+  getVisionCapability,
   resolveModelConfig,
   type ResolvedModelConfig,
   validateModelConfig,
+  type VisionCapability,
 } from './models/index.js';
 
 // Coding Plan constants
@@ -104,7 +108,7 @@ export { buildSkillLlmContent } from './tools/skill-utils.js';
 // Backward-compatible type re-exports for tool classes removed from eager loading.
 // These preserve TypeScript type compatibility for downstream consumers.
 // Note: runtime value imports (e.g. `new EditTool(...)`) must use the direct
-// module path (e.g. `@qwen-code/qwen-code-core/dist/tools/edit.js`) as these
+// module path (e.g. `@vivekmind/core/dist/tools/edit.js`) as these
 // classes are now lazy-loaded and are not exported as values from the package root.
 export type { EditTool, EditToolParams } from './tools/edit.js';
 export type {
@@ -283,6 +287,7 @@ export * from './utils/generateContentResponseUtilities.js';
 export * from './utils/getFolderStructure.js';
 export * from './utils/gitIgnoreParser.js';
 export * from './utils/gitUtils.js';
+export * from './utils/image-handler.js';
 export * from './utils/ignorePatterns.js';
 export * from './utils/jsonl-utils.js';
 export * from './utils/memoryDiscovery.js';

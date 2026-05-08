@@ -1,7 +1,7 @@
 {
-  "name": "@qwen-code/channel-dingtalk",
+  "name": "@vivekmind/channel-dingtalk",
   "version": "0.15.6",
-  "description": "DingTalk channel adapter for Qwen Code",
+  "description": "DingTalk channel adapter for VivekMind",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
     "build": "tsc --build"
   },
   "dependencies": {
-    "@qwen-code/channel-base": "file:../base",
+    "@vivekmind/channel-base": "file:../base",
     "dingtalk-stream-sdk-nodejs": "^2.0.4"
   },
   "devDependencies": {

@@ -1380,7 +1380,7 @@ describe('HookEventHandler', () => {
       );
 
       await hookEventHandler.fireNotificationEvent(
-        'Qwen Code needs your permission to use Bash',
+        'VivekMind needs your permission to use Bash',
         NotificationType.PermissionPrompt,
         'Permission needed',
       );
@@ -1393,7 +1393,7 @@ describe('HookEventHandler', () => {
         title?: string;
       };
 
-      expect(input.message).toBe('Qwen Code needs your permission to use Bash');
+      expect(input.message).toBe('VivekMind needs your permission to use Bash');
       expect(input.notification_type).toBe('permission_prompt');
       expect(input.title).toBe('Permission needed');
     });
@@ -1409,7 +1409,7 @@ describe('HookEventHandler', () => {
       );
 
       await hookEventHandler.fireNotificationEvent(
-        'Qwen Code is waiting for your input',
+        'VivekMind is waiting for your input',
         NotificationType.IdlePrompt,
         'Waiting for input',
       );

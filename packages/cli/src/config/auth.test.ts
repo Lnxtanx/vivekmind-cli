@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AuthType } from '@qwen-code/qwen-code-core';
+import { AuthType } from '@vivekmind/core';
 import { vi } from 'vitest';
 import { validateAuthMethod } from './auth.js';
 import * as settings from './settings.js';
@@ -189,7 +189,7 @@ describe('validateAuthMethod', () => {
         getModel: vi.fn().mockReturnValue('cli-model'),
         getGenerationConfig: vi.fn().mockReturnValue({}),
       }),
-    } as unknown as import('@qwen-code/qwen-code-core').Config;
+    } as unknown as import('@vivekmind/core').Config;
 
     // Set the env key for the CLI model, not the settings model
     process.env['CLI_API_KEY'] = 'cli-key';
@@ -223,7 +223,7 @@ describe('validateAuthMethod', () => {
         getModel: vi.fn().mockReturnValue('cli-model'),
         getGenerationConfig: vi.fn().mockReturnValue({}),
       }),
-    } as unknown as import('@qwen-code/qwen-code-core').Config;
+    } as unknown as import('@vivekmind/core').Config;
 
     // Don't set CLI_API_KEY - validation should fail
     const result = validateAuthMethod(AuthType.USE_OPENAI, mockConfig);
@@ -247,7 +247,7 @@ describe('validateAuthMethod', () => {
           .fn()
           .mockReturnValue({ apiKey: 'cli-provided-key' }),
       }),
-    } as unknown as import('@qwen-code/qwen-code-core').Config;
+    } as unknown as import('@vivekmind/core').Config;
 
     const result = validateAuthMethod(AuthType.USE_OPENAI, mockConfig);
     expect(result).toBeNull();
@@ -275,7 +275,7 @@ describe('validateAuthMethod', () => {
           .fn()
           .mockReturnValue({ apiKey: 'cli-provided-key' }),
       }),
-    } as unknown as import('@qwen-code/qwen-code-core').Config;
+    } as unknown as import('@vivekmind/core').Config;
 
     const result = validateAuthMethod(AuthType.USE_OPENAI, mockConfig);
     expect(result).toBeNull();

@@ -9,7 +9,7 @@ import {
   AuthType,
   type Config,
   type ModelProvidersConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { LoadedSettings } from '../../config/settings.js';
 import {
   fetchManageModelsCatalog,

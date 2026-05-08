@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { isCommandAvailable, execCommand } from '@qwen-code/qwen-code-core';
+import { isCommandAvailable, execCommand } from '@vivekmind/core';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';

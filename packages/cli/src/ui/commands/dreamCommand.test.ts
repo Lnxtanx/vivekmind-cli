@@ -6,7 +6,7 @@
 
 import * as path from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
-import { Storage } from '@qwen-code/qwen-code-core';
+import { Storage } from '@vivekmind/core';
 import { dreamCommand } from './dreamCommand.js';
 import { createMockCommandContext } from '../../test-utils/mockCommandContext.js';
 
@@ -44,7 +44,7 @@ describe('dreamCommand', () => {
       expectedTranscriptDir,
     );
     expect(expectedTranscriptDir).not.toContain(
-      `${path.sep}.qwen${path.sep}tmp${path.sep}`,
+      `${path.sep}.vivekmind${path.sep}tmp${path.sep}`,
     );
   });
 });

@@ -31,7 +31,7 @@ import { updateOutputLanguageFile } from '../../utils/languageUtils.js';
 import { useVimMode } from '../contexts/VimModeContext.js';
 import { useCompactMode } from '../contexts/CompactModeContext.js';
 import { useUIActions } from '../contexts/UIActionsContext.js';
-import { createDebugLogger, type Config } from '@qwen-code/qwen-code-core';
+import { createDebugLogger, type Config } from '@vivekmind/core';
 import { useKeypress } from '../hooks/useKeypress.js';
 import chalk from 'chalk';
 import { cpSlice, cpLen, stripUnsafeCharacters } from '../utils/textUtils.js';

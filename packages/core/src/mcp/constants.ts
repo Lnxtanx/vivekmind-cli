@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Qwen
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -8,13 +9,13 @@
  * OAuth client name used for MCP dynamic client registration.
  * This name must match the allowlist on MCP servers like Figma.
  */
-export const MCP_OAUTH_CLIENT_NAME = 'Qwen Code MCP Client';
+export const MCP_OAUTH_CLIENT_NAME = 'VivekMind MCP Client';
 
 /**
  * OAuth client name for service account impersonation provider.
  */
 export const MCP_SA_IMPERSONATION_CLIENT_NAME =
-  'Qwen Code (Service Account Impersonation)';
+  'VivekMind (Service Account Impersonation)';
 
 /**
  * Port for OAuth redirect callback server.

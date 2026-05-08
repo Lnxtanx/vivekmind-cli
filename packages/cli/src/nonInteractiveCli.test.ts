@@ -9,7 +9,7 @@ import type {
   ToolRegistry,
   ServerGeminiStreamEvent,
   SessionMetrics,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { CLIUserMessage } from './nonInteractive/types.js';
 import {
   executeToolCall,
@@ -21,7 +21,7 @@ import {
   FatalInputError,
   ApprovalMode,
   SendMessageType,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { Part } from '@google/genai';
 import { runNonInteractive } from './nonInteractiveCli.js';
 import { vi, type Mock, type MockInstance } from 'vitest';
@@ -36,9 +36,9 @@ import {
 
 // Mock core modules
 vi.mock('./ui/hooks/atCommandProcessor.js');
-vi.mock('@qwen-code/qwen-code-core', async (importOriginal) => {
+vi.mock('@vivekmind/core', async (importOriginal) => {
   const original =
-    await importOriginal<typeof import('@qwen-code/qwen-code-core')>();
+    await importOriginal<typeof import('@vivekmind/core')>();
 
   class MockChatRecordingService {
     initialize = vi.fn();
@@ -313,7 +313,7 @@ describe('runNonInteractive', () => {
 
   it('on EPIPE, destroys stdout and returns normally instead of process.exit', async () => {
     // Regression: process.exit(0) on EPIPE bypassed runExitCleanup → flush()
-    // and dropped queued JSONL writes for `qwen -p ... | head -1` patterns.
+    // and dropped queued JSONL writes for `vivekmind -p ... | head -1` patterns.
     // process.exit is mocked to throw in beforeEach, so reaching the
     // assertion also proves the bypass route is gone.
     setupMetricsMock();

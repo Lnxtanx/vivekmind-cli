@@ -7,8 +7,16 @@
     "lib": ["DOM", "DOM.Iterable", "ES2023"],
     "types": ["node", "vitest/globals"],
     "paths": {
-      "@qwen-code/qwen-code-core": ["../core/src/index.ts"],
-      "@qwen-code/qwen-code-core/*": ["../core/src/*"]
+      "@vivekmind/core": ["../core/src/index.ts"],
+      "@vivekmind/core/*": ["../core/src/*"],
+      "@vivekmind/channel-base": ["../channels/base/src/index.ts"],
+      "@vivekmind/channel-telegram": ["../channels/telegram/src/index.ts"],
+      "@vivekmind/channel-weixin": ["../channels/weixin/src/index.ts"],
+      "@vivekmind/channel-weixin/accounts": [
+        "../channels/weixin/src/accounts.ts"
+      ],
+      "@vivekmind/channel-weixin/login": ["../channels/weixin/src/login.ts"],
+      "@vivekmind/channel-dingtalk": ["../channels/dingtalk/src/index.ts"]
     }
   },
   "include": [

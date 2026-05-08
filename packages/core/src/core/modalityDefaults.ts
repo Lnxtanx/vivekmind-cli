@@ -75,6 +75,38 @@ const MODALITY_PATTERNS: Array<[RegExp, InputModalities]> = [
   // -------------------
   [/^kimi-k2\.5/, { image: true, video: true }],
   [/^kimi-/, {}],
+
+  // -------------------
+  // xAI / Grok — image support
+  // -------------------
+  [/^grok-/, { image: true }],
+
+  // -------------------
+  // Mistral AI — text-only
+  // -------------------
+  [/^mistral/, {}],
+  [/^codestral/, {}],
+
+  // -------------------
+  // Meta Llama — text-only (code models)
+  // -------------------
+  [/^llama-3/, {}],
+  [/^llama3/, {}],
+
+  // -------------------
+  // Reka AI — multimodal (image support)
+  // -------------------
+  [/^reka-/, { image: true }],
+
+  // -------------------
+  // Cohere Command R — text-only
+  // -------------------
+  [/^command-r/, {}],
+
+  // -------------------
+  // Perplexity Sonar — text-only
+  // -------------------
+  [/^sonar/, {}],
 ];
 
 /**

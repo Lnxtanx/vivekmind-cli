@@ -21,7 +21,7 @@ import type { SlashCommand, SlashCommandActionReturn } from './types.js';
 import { CommandKind } from './types.js';
 import { getUrlOpenCommand } from '../../ui/utils/commandUtils.js';
 import { t } from '../../i18n/index.js';
-import { createDebugLogger } from '@qwen-code/qwen-code-core';
+import { createDebugLogger } from '@vivekmind/core';
 
 const debugLogger = createDebugLogger('SETUP_GITHUB');
 
@@ -55,7 +55,7 @@ function getOpenUrlsCommands(readmeUrl: string): string[] {
 
 // Add VivekMind specific entries to .gitignore file
 export async function updateGitignore(gitRepoRoot: string): Promise<void> {
-  const gitignoreEntries = ['.qwen/', 'gha-creds-*.json'];
+  const gitignoreEntries = ['.vivekmind/', 'gha-creds-*.json'];
 
   const gitignorePath = path.join(gitRepoRoot, '.gitignore');
   try {

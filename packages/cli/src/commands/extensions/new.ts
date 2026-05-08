@@ -70,7 +70,7 @@ async function handleNew(args: NewArgs) {
       writeStdoutLine(`Successfully created new extension at ${args.path}.`);
     }
     writeStdoutLine(
-      `You can install this using "qwen extensions link ${args.path}" to test it out.`,
+      `You can install this using "vivekmind extensions link ${args.path}" to test it out.`,
     );
   } catch (error) {
     writeStderrLine(getErrorMessage(error));

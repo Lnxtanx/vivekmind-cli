@@ -9,7 +9,7 @@ import type {
   AgentResultDisplay,
   SlashCommandRecordPayload,
   NotificationRecordPayload,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type {
   Content,
   GenerateContentResponseUsageMetadata,

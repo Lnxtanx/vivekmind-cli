@@ -20,7 +20,7 @@ const { mockGetOrCreateSharedDispatcher, mockDebugLogger } = vi.hoisted(() => {
     mockDebugLogger,
   };
 });
-vi.mock('@qwen-code/qwen-code-core', () => ({
+vi.mock('@vivekmind/core', () => ({
   createDebugLogger: () => mockDebugLogger,
   detectRuntime: () => 'node',
   getOrCreateSharedDispatcher: mockGetOrCreateSharedDispatcher,

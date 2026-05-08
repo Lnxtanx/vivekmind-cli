@@ -4,7 +4,7 @@ import * as os from 'node:os';
 import type { CommandModule } from 'yargs';
 import { writeStdoutLine } from '../../utils/stdioHelpers.js';
 import { readServiceInfo } from './pidfile.js';
-import type { SessionTarget } from '@qwen-code/channel-base';
+import type { SessionTarget } from '@vivekmind/channel-base';
 
 interface PersistedEntry {
   sessionId: string;
@@ -43,7 +43,7 @@ export const statusCommand: CommandModule = {
     // Read session data for per-channel counts
     const sessionsPath = path.join(
       os.homedir(),
-      '.qwen',
+      '.vivekmind',
       'channels',
       'sessions.json',
     );

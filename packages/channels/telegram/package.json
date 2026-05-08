@@ -1,7 +1,7 @@
 {
-  "name": "@qwen-code/channel-telegram",
+  "name": "@vivekmind/channel-telegram",
   "version": "0.15.6",
-  "description": "Telegram channel adapter for Qwen Code",
+  "description": "Telegram channel adapter for VivekMind",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
     "build": "tsc --build"
   },
   "dependencies": {
-    "@qwen-code/channel-base": "file:../base",
+    "@vivekmind/channel-base": "file:../base",
     "grammy": "^1.41.1",
     "https-proxy-agent": "^7.0.6",
     "telegram-markdown-formatter": "^0.1.2"

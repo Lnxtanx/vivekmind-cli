@@ -1,12 +1,12 @@
 {
-  "name": "@qwen-code/cli-export-html",
+  "name": "@vivekmind/cli-export-html",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "node build.mjs"
   },
   "dependencies": {
-    "@qwen-code/webui": "latest"
+    "@vivekmind/webui": "latest"
   },
   "devDependencies": {
     "esbuild": "^0.25.0"

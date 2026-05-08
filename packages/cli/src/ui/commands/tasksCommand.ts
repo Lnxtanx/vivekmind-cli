@@ -9,7 +9,7 @@ import {
   type BackgroundShellEntry,
   type BackgroundTaskEntry,
   type MonitorEntry,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { SlashCommand } from './types.js';
 import { CommandKind } from './types.js';
 import { t } from '../../i18n/index.js';

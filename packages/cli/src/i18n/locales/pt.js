@@ -1,10 +1,11 @@
 /**
  * @license
  * Copyright 2025 Qwen
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Portuguese translations for Qwen Code CLI (pt-BR)
+// Portuguese translations for VivekMind CLI (pt-BR)
 
 export default {
   // ============================================================================
@@ -76,16 +77,16 @@ export default {
   'For a full list of shortcuts, see {{docPath}}':
     'Para uma lista completa de atalhos, consulte {{docPath}}',
   'docs/keyboard-shortcuts.md': 'docs/keyboard-shortcuts.md',
-  'for help on Qwen Code': 'para ajuda sobre o Qwen Code',
+  'for help on VivekMind': 'para ajuda sobre o VivekMind',
   'show version info': 'mostrar informações de versão',
   'submit a bug report': 'enviar um relatório de erro',
-  'About Qwen Code': 'Sobre o Qwen Code',
+  'About VivekMind': 'Sobre o VivekMind',
   Status: 'Status',
 
   // ============================================================================
   // System Information Fields
   // ============================================================================
-  'Qwen Code': 'Qwen Code',
+  'VivekMind': 'VivekMind',
   Runtime: 'Runtime',
   OS: 'SO',
   Auth: 'Autenticação',
@@ -111,10 +112,10 @@ export default {
   // ============================================================================
   'Analyzes the project and creates a tailored QWEN.md file.':
     'Analisa o projeto e cria um arquivo QWEN.md personalizado.',
-  'List available Qwen Code tools. Usage: /tools [desc]':
-    'Listar ferramentas Qwen Code disponíveis. Uso: /tools [desc]',
+  'List available VivekMind tools. Usage: /tools [desc]':
+    'Listar ferramentas VivekMind disponíveis. Uso: /tools [desc]',
   'List available skills.': 'Listar habilidades disponíveis.',
-  'Available Qwen Code CLI tools:': 'Ferramentas CLI do Qwen Code disponíveis:',
+  'Available VivekMind CLI tools:': 'Ferramentas CLI do VivekMind disponíveis:',
   'No tools available': 'Nenhuma ferramenta disponível',
   'View or change the approval mode for tool usage':
     'Ver ou alterar o modo de aprovação para uso de ferramentas',
@@ -140,8 +141,8 @@ export default {
     'Limpar histórico de conversa e liberar contexto',
   'Compresses the context by replacing it with a summary.':
     'Comprime o contexto substituindo-o por um resumo.',
-  'open full Qwen Code documentation in your browser':
-    'abrir documentação completa do Qwen Code no seu navegador',
+  'open full VivekMind documentation in your browser':
+    'abrir documentação completa do VivekMind no seu navegador',
   'Configuration not available.': 'Configuração não disponível.',
   'change the auth method': 'alterar o método de autenticação',
   'Configure authentication information for login':
@@ -209,8 +210,8 @@ export default {
   // ============================================================================
   // Agents - Creation Wizard
   // ============================================================================
-  'Project Level (.qwen/agents/)': 'Nível de Projeto (.qwen/agents/)',
-  'User Level (~/.qwen/agents/)': 'Nível de Usuário (~/.qwen/agents/)',
+  'Project Level (.vivekmind/agents/)': 'Nível de Projeto (.vivekmind/agents/)',
+  'User Level (~/.vivekmind/agents/)': 'Nível de Usuário (~/.vivekmind/agents/)',
   '✅ Subagent Created Successfully!': '✅ Subagente criado com sucesso!',
   'Subagent "{{name}}" has been saved to {{level}} level.':
     'O subagente "{{name}}" foi salvo no nível {{level}}.',
@@ -235,7 +236,7 @@ export default {
   'Step {{n}}: Choose Location': 'Etapa {{n}}: Escolher Localização',
   'Step {{n}}: Choose Generation Method':
     'Etapa {{n}}: Escolher Método de Geração',
-  'Generate with Qwen Code (Recommended)': 'Gerar com Qwen Code (Recomendado)',
+  'Generate with VivekMind (Recommended)': 'Gerar com VivekMind (Recomendado)',
   'Manual Creation': 'Criação Manual',
   'Describe what this subagent should do and when it should be used. (Be comprehensive for best results)':
     'Descreva o que este subagente deve fazer e quando deve ser usado. (Seja abrangente para melhores resultados)',
@@ -300,10 +301,10 @@ export default {
   // ============================================================================
   // Commands - General (continued)
   // ============================================================================
-  'View and edit Qwen Code settings': 'Ver e editar configurações do Qwen Code',
+  'View and edit VivekMind settings': 'Ver e editar configurações do VivekMind',
   Settings: 'Configurações',
-  'To see changes, Qwen Code must be restarted. Press r to exit and apply changes now.':
-    'Para ver as alterações, o Qwen Code deve ser reiniciado. Pressione r para sair e aplicar as alterações agora.',
+  'To see changes, VivekMind must be restarted. Press r to exit and apply changes now.':
+    'Para ver as alterações, o VivekMind deve ser reiniciado. Pressione r para sair e aplicar as alterações agora.',
   'The command "/{{command}}" is not supported in non-interactive mode.':
     'O comando "/{{command}}" não é suportado no modo não interativo.',
 
@@ -355,7 +356,7 @@ export default {
   'Load Memory From Include Directories':
     'Carregar Memória de Diretórios Incluídos',
   'Respect .gitignore': 'Respeitar .gitignore',
-  'Respect .qwenignore': 'Respeitar .qwenignore',
+  'Respect .vivekmindignore': 'Respeitar .vivekmindignore',
   'Enable Recursive File Search': 'Ativar Pesquisa Recursiva de Arquivos',
   'Disable Fuzzy Search': 'Desativar Pesquisa Difusa',
   'Interactive Shell (PTY)': 'Shell Interativo (PTY)',
@@ -464,8 +465,8 @@ export default {
     'Esta extensão instalará os seguintes subagentes:',
   'Installation cancelled for "{{name}}".':
     'Instalação cancelada para "{{name}}".',
-  'You are installing an extension from {{originSource}}. Some features may not work perfectly with Qwen Code.':
-    'Você está instalando uma extensão de {{originSource}}. Alguns recursos podem não funcionar perfeitamente com o Qwen Code.',
+  'You are installing an extension from {{originSource}}. Some features may not work perfectly with VivekMind.':
+    'Você está instalando uma extensão de {{originSource}}. Alguns recursos podem não funcionar perfeitamente com o VivekMind.',
   '--ref and --auto-update are not applicable for marketplace extensions.':
     '--ref e --auto-update não são aplicáveis para extensões de marketplace.',
   'Extension "{{name}}" installed successfully and enabled.':
@@ -564,8 +565,8 @@ export default {
     'instalar companion IDE necessário para {{ideName}}',
   'enable IDE integration': 'ativar integração com IDE',
   'disable IDE integration': 'desativar integração com IDE',
-  'IDE integration is not supported in your current environment. To use this feature, run Qwen Code in one of these supported IDEs: VS Code or VS Code forks.':
-    'A integração com IDE não é suportada no seu ambiente atual. Para usar este recurso, execute o Qwen Code em um destes IDEs suportados: VS Code ou forks do VS Code.',
+  'IDE integration is not supported in your current environment. To use this feature, run VivekMind in one of these supported IDEs: VS Code or VS Code forks.':
+    'A integração com IDE não é suportada no seu ambiente atual. Para usar este recurso, execute o VivekMind em um destes IDEs suportados: VS Code ou forks do VS Code.',
   'Set up GitHub Actions': 'Configurar GitHub Actions',
   'Configure terminal keybindings for multiline input (VS Code, Cursor, Windsurf, Trae)':
     'Configurar atalhos de terminal para entrada multilinhas (VS Code, Cursor, Windsurf, Trae)',
@@ -599,7 +600,7 @@ export default {
   // ============================================================================
   // Commands - Hooks
   // ============================================================================
-  'Manage Qwen Code hooks': 'Gerenciar hooks do Qwen Code',
+  'Manage VivekMind hooks': 'Gerenciar hooks do VivekMind',
   'List all configured hooks': 'Listar todos os hooks configurados',
   'Enable a disabled hook': 'Ativar um hook desativado',
   'Disable an active hook': 'Desativar um hook ativo',
@@ -617,8 +618,8 @@ export default {
   'No hook events found.': 'Nenhum evento de hook encontrado.',
   '{{count}} hook configured': '{{count}} hook configurado',
   '{{count}} hooks configured': '{{count}} hooks configurados',
-  'This menu is read-only. To add or modify hooks, edit settings.json directly or ask Qwen Code.':
-    'Este menu é somente leitura. Para adicionar ou modificar hooks, edite settings.json diretamente ou pergunte ao Qwen Code.',
+  'This menu is read-only. To add or modify hooks, edit settings.json directly or ask VivekMind.':
+    'Este menu é somente leitura. Para adicionar ou modificar hooks, edite settings.json diretamente ou pergunte ao VivekMind.',
   'Enter to select · Esc to cancel':
     'Enter para selecionar · Esc para cancelar',
   // Hooks - Detail Step
@@ -648,8 +649,8 @@ export default {
   'StatusLine will not be displayed': 'StatusLine não será exibido',
   'Tool operations will proceed without hook validation':
     'As operações de ferramentas prosseguirão sem validação de hook',
-  'To re-enable hooks, remove "disableAllHooks" from settings.json or ask Qwen Code.':
-    'Para reativar os hooks, remova "disableAllHooks" do settings.json ou pergunte ao Qwen Code.',
+  'To re-enable hooks, remove "disableAllHooks" from settings.json or ask VivekMind.':
+    'Para reativar os hooks, remova "disableAllHooks" do settings.json ou pergunte ao VivekMind.',
   // Hooks - Source
   Project: 'Projeto',
   User: 'Usuário',
@@ -670,8 +671,8 @@ export default {
   'When notifications are sent': 'Quando notificações são enviadas',
   'When the user submits a prompt': 'Quando o usuário envia um prompt',
   'When a new session is started': 'Quando uma nova sessão é iniciada',
-  'Right before Qwen Code concludes its response':
-    'Logo antes do Qwen Code concluir sua resposta',
+  'Right before VivekMind concludes its response':
+    'Logo antes do VivekMind concluir sua resposta',
   'When a subagent (Agent tool call) is started':
     'Quando um subagente (chamada de ferramenta Agent) é iniciado',
   'Right before a subagent concludes its response':
@@ -1020,8 +1021,8 @@ export default {
   // ============================================================================
   // Commands - Summary
   // ============================================================================
-  'Generate a project summary and save it to .qwen/PROJECT_SUMMARY.md':
-    'Gerar um resumo do projeto e salvá-lo em .qwen/PROJECT_SUMMARY.md',
+  'Generate a project summary and save it to .vivekmind/PROJECT_SUMMARY.md':
+    'Gerar um resumo do projeto e salvá-lo em .vivekmind/PROJECT_SUMMARY.md',
   'No chat client available to generate summary.':
     'Nenhum cliente de chat disponível para gerar o resumo.',
   'Already generating summary, wait for previous request to complete':
@@ -1171,8 +1172,8 @@ export default {
   servers: 'servidores',
   'Add MCP servers to your settings to get started.':
     'Adicione servidores MCP às suas configurações para começar.',
-  'Run qwen --debug to see error logs':
-    'Execute qwen --debug para ver os logs de erro',
+  'Run vivekmind --debug to see error logs':
+    'Execute vivekmind --debug para ver os logs de erro',
 
   // MCP OAuth Authentication
   'OAuth Authentication': 'Autenticação OAuth',
@@ -1416,12 +1417,12 @@ export default {
   Ask: 'Perguntar',
   Deny: 'Negar',
   Workspace: 'Área de trabalho',
-  "Qwen Code won't ask before using allowed tools.":
-    'O Qwen Code não perguntará antes de usar ferramentas permitidas.',
-  'Qwen Code will ask before using these tools.':
-    'O Qwen Code perguntará antes de usar essas ferramentas.',
-  'Qwen Code is not allowed to use denied tools.':
-    'O Qwen Code não tem permissão para usar ferramentas negadas.',
+  "VivekMind won't ask before using allowed tools.":
+    'O VivekMind não perguntará antes de usar ferramentas permitidas.',
+  'VivekMind will ask before using these tools.':
+    'O VivekMind perguntará antes de usar essas ferramentas.',
+  'VivekMind is not allowed to use denied tools.':
+    'O VivekMind não tem permissão para usar ferramentas negadas.',
   'Manage trusted directories for this workspace.':
     'Gerenciar diretórios confiáveis para esta área de trabalho.',
   'Any use of the {{tool}} tool': 'Qualquer uso da ferramenta {{tool}}',
@@ -1431,11 +1432,11 @@ export default {
   'From project settings': 'Das configurações do projeto',
   'From session': 'Da sessão',
   'Project settings (local)': 'Configurações do projeto (local)',
-  'Saved in .qwen/settings.local.json': 'Salvo em .qwen/settings.local.json',
+  'Saved in .vivekmind/settings.local.json': 'Salvo em .vivekmind/settings.local.json',
   'Project settings': 'Configurações do projeto',
-  'Checked in at .qwen/settings.json': 'Registrado em .qwen/settings.json',
+  'Checked in at .vivekmind/settings.json': 'Registrado em .vivekmind/settings.json',
   'User settings': 'Configurações do usuário',
-  'Saved in at ~/.qwen/settings.json': 'Salvo em ~/.qwen/settings.json',
+  'Saved in at ~/.vivekmind/settings.json': 'Salvo em ~/.vivekmind/settings.json',
   'Add a new rule…': 'Adicionar nova regra…',
   'Add {{type}} permission rule': 'Adicionar regra de permissão {{type}}',
   'Permission rules are a tool name, optionally followed by a specifier in parentheses.':
@@ -1460,10 +1461,10 @@ export default {
   // Workspace directory management
   'Add directory…': 'Adicionar diretório…',
   'Add directory to workspace': 'Adicionar diretório à área de trabalho',
-  'Qwen Code can read files in the workspace, and make edits when auto-accept edits is on.':
-    'O Qwen Code pode ler arquivos na área de trabalho e fazer edições quando a aceitação automática está ativada.',
-  'Qwen Code will be able to read files in this directory and make edits when auto-accept edits is on.':
-    'O Qwen Code poderá ler arquivos neste diretório e fazer edições quando a aceitação automática está ativada.',
+  'VivekMind can read files in the workspace, and make edits when auto-accept edits is on.':
+    'O VivekMind pode ler arquivos na área de trabalho e fazer edições quando a aceitação automática está ativada.',
+  'VivekMind will be able to read files in this directory and make edits when auto-accept edits is on.':
+    'O VivekMind poderá ler arquivos neste diretório e fazer edições quando a aceitação automática está ativada.',
   'Enter the path to the directory:': 'Insira o caminho do diretório:',
   'Enter directory path…': 'Insira o caminho do diretório…',
   'Tab to complete · Enter to add · Esc to cancel':
@@ -1556,20 +1557,20 @@ export default {
     'Use /bug para enviar problemas aos mantenedores quando algo der errado.',
   'Switch auth type quickly with /auth.':
     'Troque o tipo de autenticação rapidamente com /auth.',
-  'You can run any shell commands from Qwen Code using ! (e.g. !ls).':
-    'Você pode executar quaisquer comandos shell do Qwen Code usando ! (ex: !ls).',
+  'You can run any shell commands from VivekMind using ! (e.g. !ls).':
+    'Você pode executar quaisquer comandos shell do VivekMind usando ! (ex: !ls).',
   'Type / to open the command popup; Tab autocompletes slash commands and saved prompts.':
     'Digite / para abrir o popup de comandos; Tab autocompleta comandos de barra e prompts salvos.',
-  'You can resume a previous conversation by running qwen --continue or qwen --resume.':
-    'Você pode retomar uma conversa anterior executando qwen --continue ou qwen --resume.',
+  'You can resume a previous conversation by running vivekmind --continue or vivekmind --resume.':
+    'Você pode retomar uma conversa anterior executando vivekmind --continue ou vivekmind --resume.',
   'You can switch permission mode quickly with Shift+Tab or /approval-mode.':
     'Você pode alternar o modo de permissão rapidamente com Shift+Tab ou /approval-mode.',
   'Try /insight to generate personalized insights from your chat history.':
     'Experimente /insight para gerar insights personalizados do seu histórico de conversas.',
   'Press Ctrl+O to toggle compact mode — hide tool output and thinking for a cleaner view.':
     'Pressione Ctrl+O para alternar o modo compacto — ocultar saída de ferramentas e raciocínio.',
-  'Add a QWEN.md file to give Qwen Code persistent project context.':
-    'Adicione um arquivo QWEN.md para dar ao Qwen Code um contexto persistente do projeto.',
+  'Add a QWEN.md file to give VivekMind persistent project context.':
+    'Adicione um arquivo QWEN.md para dar ao VivekMind um contexto persistente do projeto.',
   'Use /btw to ask a quick side question without disrupting the conversation.':
     'Use /btw para fazer uma pergunta lateral rápida sem interromper a conversa.',
   'Context is almost full! Run /compress now or start /new to continue.':
@@ -1999,13 +2000,13 @@ export default {
     '⚠️  Nenhum método de autenticação configurado.\n',
   'Run one of the following commands to get started:\n':
     'Execute um dos seguintes comandos para começar:\n',
-  '  qwen auth qwen-oauth     - Authenticate with Qwen OAuth (discontinued)':
-    '  qwen auth qwen-oauth     - Autenticar com Qwen OAuth (descontinuado)',
-  '  qwen auth coding-plan      - Authenticate with Alibaba Cloud Coding Plan\n':
-    '  qwen auth coding-plan      - Autenticar com Alibaba Cloud Coding Plan\n',
+  '  vivekmind auth qwen-oauth     - Authenticate with Qwen OAuth (discontinued)':
+    '  vivekmind auth qwen-oauth     - Autenticar com Qwen OAuth (descontinuado)',
+  '  vivekmind auth coding-plan      - Authenticate with Alibaba Cloud Coding Plan\n':
+    '  vivekmind auth coding-plan      - Autenticar com Alibaba Cloud Coding Plan\n',
   'Or simply run:': 'Ou simplesmente execute:',
-  '  qwen auth                - Interactive authentication setup\n':
-    '  qwen auth                - Configuração interativa de autenticação\n',
+  '  vivekmind auth                - Interactive authentication setup\n':
+    '  vivekmind auth                - Configuração interativa de autenticação\n',
   '✓ Authentication Method: Qwen OAuth': '✓ Método de autenticação: Qwen OAuth',
   '  Type: Free tier (discontinued 2026-04-15)':
     '  Tipo: Nível gratuito (descontinuado 2026-04-15)',
@@ -2025,8 +2026,8 @@ export default {
     '⚠️  Método de autenticação: Alibaba Cloud Coding Plan (Incompleto)',
   '  Issue: API key not found in environment or settings\n':
     '  Problema: Chave de API não encontrada no ambiente ou configurações\n',
-  '  Run `qwen auth coding-plan` to re-configure.\n':
-    '  Execute `qwen auth coding-plan` para reconfigurar.\n',
+  '  Run `vivekmind auth coding-plan` to re-configure.\n':
+    '  Execute `vivekmind auth coding-plan` para reconfigurar.\n',
   '✓ Authentication Method: {{type}}': '✓ Método de autenticação: {{type}}',
   '  Status: Configured\n': '  Status: Configurado\n',
   'Failed to check authentication status: {{error}}':
@@ -2054,5 +2055,5 @@ export default {
   'Not in plan mode. Use "/plan" to enter plan mode first.':
     'Not in plan mode. Use "/plan" to enter plan mode first.',
 
-  "Set up Qwen Code's status line UI": "Set up Qwen Code's status line UI",
+  "Set up VivekMind's status line UI": "Set up VivekMind's status line UI",
 };

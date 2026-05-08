@@ -23,7 +23,7 @@ export const docsCommand: SlashCommand = {
   supportedModes: ['interactive', 'non_interactive', 'acp'] as const,
   action: async (context: CommandContext) => {
     const langPath = getCurrentLanguage()?.startsWith('zh') ? 'zh' : 'en';
-    const docsUrl = `https://qwenlm.github.io/qwen-code-docs/${langPath}`;
+    const docsUrl = `https://qwenlm.github.io/vivekmind-docs/${langPath}`;
 
     // Non-interactive/ACP: return URL directly, no browser, no addItem
     if (context.executionMode !== 'interactive') {

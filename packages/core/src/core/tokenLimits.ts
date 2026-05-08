@@ -154,6 +154,40 @@ const PATTERNS: Array<[RegExp, TokenCount]> = [
   [/^kimi-/, LIMITS['256k']], // Kimi fallback: 256K
 
   // -------------------
+  // Mistral AI
+  // -------------------
+  [/^codestral/, LIMITS['256k']], // Codestral: 256K
+  [/^mistral-large/, LIMITS['128k']], // Mistral Large: 128K
+  [/^mistral-small/, LIMITS['32k']], // Mistral Small: 32K
+  [/^mistral/, LIMITS['128k']], // Mistral fallback: 128K
+
+  // -------------------
+  // xAI / Grok
+  // -------------------
+  [/^grok-/, LIMITS['128k']], // Grok models: 128K
+
+  // -------------------
+  // Reka AI
+  // -------------------
+  [/^reka-/, LIMITS['128k']], // Reka Core/Flash: 128K
+
+  // -------------------
+  // Perplexity Sonar
+  // -------------------
+  [/^sonar/, LIMITS['128k']], // Sonar Pro/Sonar: 128K
+
+  // -------------------
+  // Cohere Command R
+  // -------------------
+  [/^command-r/, LIMITS['128k']], // Command R+/R: 128K
+
+  // -------------------
+  // Meta Llama (via Groq, Together, Fireworks, etc.)
+  // -------------------
+  [/^llama-3/, LIMITS['128k']], // Llama 3.x: 128K
+  [/^llama3/, LIMITS['128k']], // Llama3 (Ollama naming): 128K
+
+  // -------------------
   // ByteDance Seed-OSS (512K)
   // -------------------
   [/^seed-oss/, LIMITS['512k']],
@@ -199,6 +233,16 @@ const OUTPUT_PATTERNS: Array<[RegExp, TokenCount]> = [
 
   // Kimi
   [/^kimi-k2\.5/, LIMITS['32k']],
+
+  // Mistral AI
+  [/^codestral/, LIMITS['16k']], // Codestral: 16K
+  [/^mistral-large/, LIMITS['8k']], // Mistral Large: 8K
+
+  // xAI / Grok
+  [/^grok-3/, LIMITS['32k']], // Grok 3: 32K
+
+  // Cohere Command R
+  [/^command-r/, LIMITS['4k']], // Command R+/R: 4K
 ];
 
 function findTokenLimit(

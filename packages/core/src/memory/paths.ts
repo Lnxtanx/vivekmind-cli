@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -81,7 +82,7 @@ function findCanonicalGitRoot(startPath: string): string | null {
 
 /**
  * Returns the base directory for all auto-memory storage.
- * Defaults to `~/.qwen`; overridable via QWEN_CODE_MEMORY_BASE_DIR for tests.
+ * Defaults to `~/.vivekmind`; overridable via QWEN_CODE_MEMORY_BASE_DIR for tests.
  */
 export function getMemoryBaseDir(): string {
   if (process.env['QWEN_CODE_MEMORY_BASE_DIR']) {

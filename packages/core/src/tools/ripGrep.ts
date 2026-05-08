@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -22,15 +23,15 @@ import type { PermissionDecision } from '../permissions/types.js';
 const debugLogger = createDebugLogger('RIPGREP');
 
 /**
- * Per-process cache for `.qwenignore` discovery. The same directories show
+ * Per-process cache for `.vivekmindignore` discovery. The same directories show
  * up across many Grep invocations in a typical session — without caching,
  * each invocation pays 2-3 sync syscalls per searchPath. Bounded so a
  * pathologically long session can't grow without limit.
  *
  * `dirIsDir`: searchPath → boolean (is the path itself a directory?)
- * `qwenIgnore`: dir → string | null (cached `.qwenignore` path or null)
+ * `qwenIgnore`: dir → string | null (cached `.vivekmindignore` path or null)
  *
- * **Known staleness window:** a `.qwenignore` created mid-session, or a
+ * **Known staleness window:** a `.vivekmindignore` created mid-session, or a
  * searchPath whose type flips (dir→file or vice versa), will not be
  * picked up until the entry rotates out of the FIFO (256 entries). Users
  * rarely add ignore files mid-session; a process restart resets the cache.
@@ -274,14 +275,14 @@ class GrepToolInvocation extends BaseToolInvocation<
       pattern,
     ];
 
-    // Add file exclusions from .gitignore and .qwenignore
+    // Add file exclusions from .gitignore and .vivekmindignore
     const filteringOptions = this.getFileFilteringOptions();
     if (!filteringOptions.respectGitIgnore) {
       rgArgs.push('--no-ignore-vcs');
     }
 
     if (filteringOptions.respectQwenIgnore) {
-      // Load .qwenignore from each workspace directory, not just the primary one
+      // Load .vivekmindignore from each workspace directory, not just the primary one
       const seenIgnoreFiles = new Set<string>();
       for (const searchPath of paths) {
         let isDir = dirIsDirCache.get(searchPath);
@@ -297,7 +298,7 @@ class GrepToolInvocation extends BaseToolInvocation<
         const dir = isDir ? searchPath : path.dirname(searchPath);
         let qwenIgnorePath = qwenIgnoreCache.get(dir);
         if (qwenIgnorePath === undefined) {
-          const candidate = path.join(dir, '.qwenignore');
+          const candidate = path.join(dir, '.vivekmindignore');
           qwenIgnorePath = fs.existsSync(candidate) ? candidate : null;
           qwenIgnoreCache.set(dir, qwenIgnorePath);
           trimCache(qwenIgnoreCache);

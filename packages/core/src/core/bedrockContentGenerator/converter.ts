@@ -1,11 +1,11 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * Converts between Qwen Code's internal Gemini-format messages and
+ * Converts between VivekMind's internal Gemini-format messages and
  * AWS Bedrock Converse API format.
  */
 

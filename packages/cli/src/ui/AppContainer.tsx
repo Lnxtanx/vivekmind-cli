@@ -56,7 +56,7 @@ import {
   type PermissionMode,
   ToolConfirmationOutcome,
   type WaitingToolCall,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { buildResumedHistoryItems } from './utils/resumeHistoryUtils.js';
 import {
   getStickyTodos,

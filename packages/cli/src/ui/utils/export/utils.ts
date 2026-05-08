@@ -9,5 +9,5 @@
  */
 export function generateExportFilename(extension: string): string {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  return `qwen-code-export-${timestamp}.${extension}`;
+  return `vivekmind-export-${timestamp}.${extension}`;
 }

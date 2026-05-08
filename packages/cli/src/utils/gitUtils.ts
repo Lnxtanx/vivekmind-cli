@@ -6,7 +6,7 @@
 
 import { execSync } from 'node:child_process';
 import { ProxyAgent } from 'undici';
-import { createDebugLogger } from '@qwen-code/qwen-code-core';
+import { createDebugLogger } from '@vivekmind/core';
 
 const debugLogger = createDebugLogger('GIT');
 
@@ -87,11 +87,11 @@ export const getLatestGitHubRelease = async (
     return releaseTag;
   } catch (_error) {
     debugLogger.debug(
-      `Failed to determine latest qwen-code-action release:`,
+      `Failed to determine latest vivekmind-action release:`,
       _error,
     );
     throw new Error(
-      `Unable to determine the latest qwen-code-action release on GitHub.`,
+      `Unable to determine the latest vivekmind-action release on GitHub.`,
     );
   }
 };

@@ -1,10 +1,10 @@
 {
-  "name": "@qwen-code/qwen-code-core",
+  "name": "@vivekmind/core",
   "version": "0.15.6",
-  "description": "Qwen Code Core",
+  "description": "VivekMind core agent logic and provider integrations",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/QwenLM/qwen-code.git"
+    "url": "git+https://github.com/Lnxtanx/vivekmind-cli.git"
   },
   "type": "module",
   "main": "dist/index.js",

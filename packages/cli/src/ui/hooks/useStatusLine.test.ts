@@ -55,9 +55,9 @@ vi.mock('../contexts/VimModeContext.js', () => ({
   useVimMode: () => mockVimMode,
 }));
 
-vi.mock('@qwen-code/qwen-code-core', async (importOriginal) => {
+vi.mock('@vivekmind/core', async (importOriginal) => {
   const original =
-    await importOriginal<typeof import('@qwen-code/qwen-code-core')>();
+    await importOriginal<typeof import('@vivekmind/core')>();
   return {
     ...original,
     createDebugLogger: () => ({

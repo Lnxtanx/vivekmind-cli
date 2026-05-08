@@ -9,7 +9,7 @@ import type {
   ContentGeneratorConfig,
   ModelProvidersConfig,
   ProviderModelConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   AuthEvent,
   AuthType,
@@ -19,7 +19,7 @@ import {
   isCodingPlanConfig,
   CodingPlanRegion,
   CODING_PLAN_ENV_KEY,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { useCallback, useEffect, useState } from 'react';
 import type { LoadedSettings } from '../../config/settings.js';
 import { getPersistScopeForModelSelection } from '../../config/modelProvidersScope.js';

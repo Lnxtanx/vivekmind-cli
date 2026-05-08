@@ -11,12 +11,12 @@ import type {
   AuthType,
   ChatCompressionSettings,
   ModelProvidersConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   ApprovalMode,
   DEFAULT_TRUNCATE_TOOL_OUTPUT_LINES,
   DEFAULT_TRUNCATE_TOOL_OUTPUT_THRESHOLD,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { CustomTheme } from '../ui/themes/theme.js';
 import { getLanguageSettingsOptions } from '../i18n/languages.js';
 
@@ -407,7 +407,7 @@ const SETTINGS_SCHEMA = {
         description:
           'The language for the user interface. Use "auto" to detect from system settings. ' +
           'You can also use custom language codes (e.g., "es", "fr") by placing JS language files ' +
-          'in ~/.qwen/locales/ (e.g., ~/.qwen/locales/es.js).',
+          'in ~/.vivekmind/locales/ (e.g., ~/.vivekmind/locales/es.js).',
         showInDialog: true,
         options: [] as readonly SettingEnumOption[],
       },
@@ -1095,11 +1095,11 @@ const SETTINGS_SCHEMA = {
           },
           respectQwenIgnore: {
             type: 'boolean',
-            label: 'Respect .qwenignore',
+            label: 'Respect .vivekmindignore',
             category: 'Context',
             requiresRestart: true,
             default: true,
-            description: 'Respect .qwenignore files when searching',
+            description: 'Respect .vivekmindignore files when searching',
             showInDialog: true,
           },
           enableRecursiveFileSearch: {
@@ -1618,7 +1618,7 @@ const SETTINGS_SCHEMA = {
         default: undefined as string | undefined,
         description:
           'Custom directory for runtime output (temp files, debug logs, session data, todos, etc.). ' +
-          'Config files remain at ~/.qwen. Env var QWEN_RUNTIME_DIR takes priority.',
+          'Config files remain at ~/.vivekmind. Env var QWEN_RUNTIME_DIR takes priority.',
         showInDialog: false,
       },
     },
@@ -1665,7 +1665,7 @@ const SETTINGS_SCHEMA = {
             requiresRestart: true,
             default: undefined as string | undefined,
             description:
-              'Custom base directory for Arena worktrees. Defaults to ~/.qwen/arena.',
+              'Custom base directory for Arena worktrees. Defaults to ~/.vivekmind/arena.',
             showInDialog: false,
           },
           preserveArtifacts: {

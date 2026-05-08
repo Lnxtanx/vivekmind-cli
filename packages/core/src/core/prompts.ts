@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -118,7 +119,7 @@ export function getCoreSystemPrompt(
   appendInstruction?: string,
 ): string {
   // if QWEN_SYSTEM_MD is set (and not 0|false), override system prompt from file
-  // default path is .qwen/system.md but can be modified via custom path in QWEN_SYSTEM_MD
+  // default path is .vivekmind/system.md but can be modified via custom path in QWEN_SYSTEM_MD
   let systemMdEnabled = false;
   // The default path for the system prompt file. This can be overridden.
   let systemMdPath = path.resolve(path.join(QWEN_CONFIG_DIR, 'system.md'));
@@ -143,7 +144,7 @@ export function getCoreSystemPrompt(
   const basePrompt = systemMdEnabled
     ? fs.readFileSync(systemMdPath, 'utf8')
     : `
-You are Qwen Code, an interactive CLI agent developed by Alibaba Group, specializing in software engineering tasks. Your primary goal is to help users safely and efficiently, adhering strictly to the following instructions and utilizing your available tools.
+You are VivekMind, an open-source terminal AI coding agent developed by VivekMind. Your primary goal is to help users safely and efficiently with software engineering tasks, adhering strictly to the following instructions and utilizing your available tools.
 
 # Core Mandates
 
@@ -913,7 +914,7 @@ type InsightPromptType =
   | 'at_a_glance';
 
 const INSIGHT_PROMPTS: Record<InsightPromptType, string> = {
-  analysis: `Analyze this Qwen Code session and extract structured facets.
+  analysis: `Analyze this VivekMind session and extract structured facets.
 
 CRITICAL GUIDELINES:
 
@@ -946,7 +947,7 @@ CRITICAL GUIDELINES:
 
 4. If very short or just warmup, use warmup_minimal for goal_category`,
 
-  impressive_workflows: `Analyze this Qwen Code usage data and identify what's working well for this user. Use second person ("you").
+  impressive_workflows: `Analyze this VivekMind usage data and identify what's working well for this user. Use second person ("you").
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
@@ -958,18 +959,18 @@ Call respond_in_schema function with A VALID JSON OBJECT as argument:
 
 Include 3 impressive workflows.`,
 
-  project_areas: `Analyze this Qwen Code usage data and identify project areas.
+  project_areas: `Analyze this VivekMind usage data and identify project areas.
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
   "areas": [
-    {"name": "Area name", "session_count": N, "description": "2-3 sentences about what was worked on and how Qwen Code was used."}
+    {"name": "Area name", "session_count": N, "description": "2-3 sentences about what was worked on and how VivekMind was used."}
   ]
 }
 
 Include 4-5 areas. Skip internal QC operations.`,
 
-  future_opportunities: `Analyze this Qwen Code usage data and identify future opportunities.
+  future_opportunities: `Analyze this VivekMind usage data and identify future opportunities.
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
@@ -981,7 +982,7 @@ Call respond_in_schema function with A VALID JSON OBJECT as argument:
 
 Include 3 opportunities. Think BIG - autonomous workflows, parallel agents, iterating against tests.`,
 
-  friction_points: `Analyze this Qwen Code usage data and identify friction points for this user. Use second person ("you").
+  friction_points: `Analyze this VivekMind usage data and identify friction points for this user. Use second person ("you").
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
@@ -993,7 +994,7 @@ Call respond_in_schema function with A VALID JSON OBJECT as argument:
 
 Include 3 friction categories with 2 examples each.`,
 
-  memorable_moment: `Analyze this Qwen Code usage data and find a memorable moment.
+  memorable_moment: `Analyze this VivekMind usage data and find a memorable moment.
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
@@ -1003,16 +1004,16 @@ Call respond_in_schema function with A VALID JSON OBJECT as argument:
 
 Find something genuinely interesting or amusing from the session summaries.`,
 
-  improvements: `Analyze this Qwen Code usage data and suggest improvements.
+  improvements: `Analyze this VivekMind usage data and suggest improvements.
 
 ## QC FEATURES REFERENCE (pick from these for features_to_try):
 1. **MCP Servers**: Connect Qwen to external tools, databases, and APIs via Model Context Protocol.
-   - How to use: Run \`qwen mcp add --transport http <server-name> <http-url>\`
+   - How to use: Run \`vivekmind mcp add --transport http <server-name> <http-url>\`
    - Good for: database queries, Slack integration, GitHub issue lookup, connecting to internal APIs
-   - Example: "To connect to GitHub, run \`qwen mcp add --header "Authorization: Bearer your_github_mcp_pat" --transport http github https://api.githubcopilot.com/mcp/\` and set the AUTHORIZATION header with your PAT. Then you can ask Qwen to query issues, PRs, or repos."
+   - Example: "To connect to GitHub, run \`vivekmind mcp add --header "Authorization: Bearer your_github_mcp_pat" --transport http github https://api.githubcopilot.com/mcp/\` and set the AUTHORIZATION header with your PAT. Then you can ask VivekMind to query issues, PRs, or repos."
 
 2. **Custom Skills**: Reusable prompts you define as markdown files that run with a single /command.
-   - How to use: Create \`.qwen/skills/commit/SKILL.md\` with instructions. Then type \`/commit\` to run it.
+   - How to use: Create \`.vivekmind/skills/commit/SKILL.md\` with instructions. Then type \`/commit\` to run it.
    - Good for: repetitive workflows - /commit, /review, /test, /deploy, /pr, or complex multi-step workflows
    - SKILL.md format:
     \`\`\`
@@ -1036,7 +1037,7 @@ Find something genuinely interesting or amusing from the session summaries.`,
     \`\`\`
 
 3. **Headless Mode**: Run Qwen non-interactively from scripts and CI/CD.
-   - How to use: \`qwen -p "fix lint errors"\`
+   - How to use: \`vivekmind -p "fix lint errors"\`
    - Good for: CI/CD integration, batch code fixes, automated reviews
 
 4. **Task Agents**: Qwen spawns focused sub-agents for complex exploration or parallel work.
@@ -1060,16 +1061,16 @@ IMPORTANT for Qwen_md_additions: PRIORITIZE instructions that appear MULTIPLE TI
 
 IMPORTANT for features_to_try: Pick 2-3 from the QC FEATURES REFERENCE above. Include 2-3 items for each category.`,
 
-  interaction_style: `Analyze this Qwen Code usage data and describe the user's interaction style.
+  interaction_style: `Analyze this VivekMind usage data and describe the user's interaction style.
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
-  "narrative": "2-3 paragraphs analyzing HOW the user interacts with Qwen Code. Use second person 'you'. Describe patterns: iterate quickly vs detailed upfront specs? Interrupt often or let Qwen run? Include specific examples. Use **bold** for key insights.",
+  "narrative": "2-3 paragraphs analyzing HOW the user interacts with VivekMind. Use second person 'you'. Describe patterns: iterate quickly vs detailed upfront specs? Interrupt often or let Qwen run? Include specific examples. Use **bold** for key insights.",
   "key_pattern": "One sentence summary of most distinctive interaction style"
 }
 `,
 
-  at_a_glance: `You're writing an "At a Glance" summary for a Qwen Code usage insights report for Qwen Code users. The goal is to help them understand their usage and improve how they can use Qwen better, especially as models improve.
+  at_a_glance: `You're writing an "At a Glance" summary for a VivekMind usage insights report for VivekMind users. The goal is to help them understand their usage and improve how they can use Qwen better, especially as models improve.
 
 Use this 4-part structure:
 
@@ -1077,7 +1078,7 @@ Use this 4-part structure:
 
 2. **What's hindering you** - Split into (a) Qwen's fault (misunderstandings, wrong approaches, bugs) and (b) user-side friction (not providing enough context, environment issues -- ideally more general than just one project). Be honest but constructive.
 
-3. **Quick wins to try** - Specific Qwen Code features they could try from the examples below, or a workflow technique if you think it's really compelling. (Avoid stuff like "Ask Qwen to confirm before taking actions" or "Type out more context up front" which are less compelling.)
+3. **Quick wins to try** - Specific VivekMind features they could try from the examples below, or a workflow technique if you think it's really compelling. (Avoid stuff like "Ask Qwen to confirm before taking actions" or "Type out more context up front" which are less compelling.)
 
 4. **Ambitious workflows for better models** - As we move to much more capable models over the next 3-6 months, what should they prepare for? What workflows that seem impossible now will become possible? Draw from the appropriate section below.
 

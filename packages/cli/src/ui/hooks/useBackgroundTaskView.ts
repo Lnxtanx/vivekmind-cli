@@ -27,7 +27,7 @@ import {
   type BackgroundShellEntry,
   type Config,
   type MonitorEntry,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 export type AgentDialogEntry = BackgroundTaskEntry & {
   kind: 'agent';

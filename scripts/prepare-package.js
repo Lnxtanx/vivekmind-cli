@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Qwen
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -150,12 +151,13 @@ const distPackageJson = {
   name: rootPackageJson.name,
   version: rootPackageJson.version,
   description:
-    rootPackageJson.description || 'Qwen Code - AI-powered coding assistant',
+    rootPackageJson.description || 'VivekMind - AI-powered coding assistant',
   repository: rootPackageJson.repository,
   type: 'module',
   main: 'cli.js',
   bin: {
-    qwen: 'cli.js',
+    vivekmind: 'cli.js',
+    vm: 'cli.js',
   },
   files: [
     'cli.js',
@@ -163,6 +165,7 @@ const distPackageJson = {
     '*.sb',
     'README.md',
     'LICENSE',
+    'NOTICE',
     'locales',
     'bundled',
   ],

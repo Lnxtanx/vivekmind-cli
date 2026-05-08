@@ -18,6 +18,12 @@ export {
 export { ModelRegistry } from './modelRegistry.js';
 
 export {
+  VISION_MODEL_MAP,
+  getVisionCapability,
+  type VisionCapability,
+} from './model-capabilities.js';
+
+export {
   ModelsConfig,
   type ModelsConfigOptions,
   type OnModelChangeCallback,

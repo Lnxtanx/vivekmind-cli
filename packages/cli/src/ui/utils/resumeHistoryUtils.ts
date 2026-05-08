@@ -14,7 +14,7 @@ import type {
   ToolResultDisplay,
   SlashCommandRecordPayload,
   AtCommandRecordPayload,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type {
   HistoryItem,
   HistoryItemWithoutId,

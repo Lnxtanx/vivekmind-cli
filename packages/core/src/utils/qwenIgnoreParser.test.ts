@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -28,10 +29,10 @@ describe('QwenIgnoreParser', () => {
     vi.restoreAllMocks();
   });
 
-  describe('when .qwenignore exists', () => {
+  describe('when .vivekmindignore exists', () => {
     beforeEach(async () => {
       await createTestFile(
-        '.qwenignore',
+        '.vivekmindignore',
         'ignored.txt\n# A comment\n/ignored_dir/\n',
       );
       await createTestFile('ignored.txt', 'ignored');
@@ -46,7 +47,7 @@ describe('QwenIgnoreParser', () => {
       );
     });
 
-    it('should ignore files specified in .qwenignore', () => {
+    it('should ignore files specified in .vivekmindignore', () => {
       const parser = new QwenIgnoreParser(projectRoot);
       expect(parser.getPatterns()).toEqual(['ignored.txt', '/ignored_dir/']);
       expect(parser.isIgnored('ignored.txt')).toBe(true);
@@ -58,7 +59,7 @@ describe('QwenIgnoreParser', () => {
     });
   });
 
-  describe('when .qwenignore does not exist', () => {
+  describe('when .vivekmindignore does not exist', () => {
     it('should not load any patterns and not ignore any files', () => {
       const parser = new QwenIgnoreParser(projectRoot);
       expect(parser.getPatterns()).toEqual([]);

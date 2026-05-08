@@ -10,7 +10,7 @@ import process from 'node:process';
 import {
   type Config,
   type ProviderModelConfig as ModelConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { useSettings } from '../contexts/SettingsContext.js';
 import { useKeypress } from '../hooks/useKeypress.js';
 import { theme } from '../semantic-colors.js';

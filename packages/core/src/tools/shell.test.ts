@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -60,7 +61,7 @@ describe('ShellTool', () => {
         .fn()
         .mockReturnValue(createMockWorkspaceContext('/test/dir')),
       storage: {
-        getUserSkillsDirs: vi.fn().mockReturnValue(['/test/dir/.qwen/skills']),
+        getUserSkillsDirs: vi.fn().mockReturnValue(['/test/dir/.vivekmind/skills']),
         getProjectTempDir: vi.fn().mockReturnValue('/tmp/qwen-temp'),
         getProjectDir: vi.fn().mockReturnValue('/test/proj'),
       },
@@ -170,7 +171,7 @@ describe('ShellTool', () => {
       expect(() =>
         shellTool.build({
           command: 'ls',
-          directory: '/test/dir/.qwen/skills/my-skill',
+          directory: '/test/dir/.vivekmind/skills/my-skill',
           is_background: false,
         }),
       ).toThrow(
@@ -182,7 +183,7 @@ describe('ShellTool', () => {
       expect(() =>
         shellTool.build({
           command: 'ls',
-          directory: '/test/dir/.qwen/skills',
+          directory: '/test/dir/.vivekmind/skills',
           is_background: false,
         }),
       ).toThrow(
@@ -194,7 +195,7 @@ describe('ShellTool', () => {
       expect(() =>
         shellTool.build({
           command: 'ls',
-          directory: '/test/dir/.qwen/skills/../skills/my-skill',
+          directory: '/test/dir/.vivekmind/skills/../skills/my-skill',
           is_background: false,
         }),
       ).toThrow(

@@ -7,13 +7,13 @@
 import type { Mock } from 'vitest';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { handleAtCommand } from './atCommandProcessor.js';
-import type { Config } from '@qwen-code/qwen-code-core';
+import type { Config } from '@vivekmind/core';
 import {
   FileDiscoveryService,
   StandardFileSystemService,
   COMMON_IGNORE_PATTERNS,
   // DEFAULT_FILE_EXCLUDES,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import * as os from 'node:os';
 import { ToolCallStatus } from '../types.js';
 import type { UseHistoryManagerReturn } from './useHistoryManager.js';
@@ -527,7 +527,7 @@ describe('handleAtCommand', () => {
   describe('qwen-ignore filtering', () => {
     it('should skip qwen-ignored files in @ commands', async () => {
       await createTestFile(
-        path.join(testRootDir, '.qwenignore'),
+        path.join(testRootDir, '.vivekmindignore'),
         'build/output.js',
       );
       const qwenIgnoredFile = await createTestFile(
@@ -556,9 +556,9 @@ describe('handleAtCommand', () => {
       );
     });
   });
-  it('should process non-ignored files when .qwenignore is present', async () => {
+  it('should process non-ignored files when .vivekmindignore is present', async () => {
     await createTestFile(
-      path.join(testRootDir, '.qwenignore'),
+      path.join(testRootDir, '.vivekmindignore'),
       'build/output.js',
     );
     const validFile = await createTestFile(
@@ -589,7 +589,7 @@ describe('handleAtCommand', () => {
 
   it('should handle mixed qwen-ignored and valid files', async () => {
     await createTestFile(
-      path.join(testRootDir, '.qwenignore'),
+      path.join(testRootDir, '.vivekmindignore'),
       'dist/bundle.js',
     );
     const validFile = await createTestFile(

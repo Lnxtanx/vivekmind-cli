@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -28,7 +29,7 @@ import type { Content } from '@google/genai';
 
 import os from 'node:os';
 
-const GEMINI_DIR_NAME = '.qwen';
+const GEMINI_DIR_NAME = '.vivekmind';
 const TMP_DIR_NAME = 'tmp';
 const LOG_FILE_NAME = 'logs.json';
 const CHECKPOINT_FILE_NAME = 'checkpoint.json';

@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Qwen
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -22,7 +23,7 @@ import { createDebugLogger } from '../utils/debugLogger.js';
 const debugLogger = createDebugLogger('QWEN_OAUTH');
 
 // File System Configuration
-const QWEN_DIR = '.qwen';
+const QWEN_DIR = '.vivekmind';
 const QWEN_CREDENTIAL_FILENAME = 'oauth_creds.json';
 const QWEN_LOCK_FILENAME = 'oauth_creds.lock';
 

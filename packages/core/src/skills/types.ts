@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Qwen
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -8,10 +9,10 @@ import type { HookDefinition, HookEventName } from '../hooks/types.js';
 
 /**
  * Represents the storage level for a skill configuration.
- * - 'project': Stored in `.qwen/skills/` within the project directory
- * - 'user': Stored in `~/.qwen/skills/` in the user's home directory
+ * - 'project': Stored in `.vivekmind/skills/` within the project directory
+ * - 'user': Stored in `~/.vivekmind/skills/` in the user's home directory
  * - 'extension': Provided by an installed extension
- * - 'bundled': Built-in skills shipped with qwen-code
+ * - 'bundled': Built-in skills shipped with vivekmind
  */
 export type SkillLevel = 'project' | 'user' | 'extension' | 'bundled';
 

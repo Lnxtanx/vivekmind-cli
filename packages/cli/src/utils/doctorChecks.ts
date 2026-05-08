@@ -14,7 +14,7 @@ import {
   canUseRipgrep,
   getMCPServerStatus,
   MCPServerStatus,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { t } from '../i18n/index.js';
 
 const MIN_NODE_MAJOR = 20;

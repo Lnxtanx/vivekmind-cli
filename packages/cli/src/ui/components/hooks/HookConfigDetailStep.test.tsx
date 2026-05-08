@@ -10,7 +10,7 @@ import {
   HookEventName,
   HooksConfigSource,
   HookType,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { HookConfigDetailStep } from './HookConfigDetailStep.js';
 import type { HookEventDisplayInfo, HookConfigDisplayInfo } from './types.js';
 
@@ -136,7 +136,7 @@ describe('HookConfigDetailStep', () => {
     const hookConfig = createMockHookConfig(
       HooksConfigSource.Extensions,
       'ralph-wiggum',
-      '/Users/test/.qwen/extensions/ralph-wiggum',
+      '/Users/test/.vivekmind/extensions/ralph-wiggum',
     );
 
     const { lastFrame } = render(
@@ -144,7 +144,7 @@ describe('HookConfigDetailStep', () => {
     );
 
     expect(lastFrame()).toContain('Extensions');
-    expect(lastFrame()).toContain('/Users/test/.qwen/extensions/ralph-wiggum');
+    expect(lastFrame()).toContain('/Users/test/.vivekmind/extensions/ralph-wiggum');
   });
 
   it('should render Extension field for extensions', () => {

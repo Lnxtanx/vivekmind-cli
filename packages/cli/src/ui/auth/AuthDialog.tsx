@@ -10,7 +10,7 @@ import {
   AuthType,
   CodingPlanRegion,
   isCodingPlanConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { Box, Text } from 'ink';
 import Link from 'ink-link';
 import { theme } from '../semantic-colors.js';
@@ -33,7 +33,7 @@ import {
 } from './useAuth.js';
 
 const MODEL_PROVIDERS_DOCUMENTATION_URL =
-  'https://qwenlm.github.io/qwen-code-docs/en/users/configuration/model-providers/';
+  'https://qwenlm.github.io/vivekmind-docs/en/users/configuration/model-providers/';
 
 function parseDefaultAuthType(
   defaultAuthType: string | undefined,
@@ -1272,11 +1272,11 @@ export function AuthDialog(): React.JSX.Element {
           </Box>
           <Box>
             <Link
-              url="https://qwenlm.github.io/qwen-code-docs/en/users/support/tos-privacy/"
+              url="https://qwenlm.github.io/vivekmind-docs/en/users/support/tos-privacy/"
               fallback={false}
             >
               <Text color={theme.text.secondary} underline>
-                https://qwenlm.github.io/qwen-code-docs/en/users/support/tos-privacy/
+                https://qwenlm.github.io/vivekmind-docs/en/users/support/tos-privacy/
               </Text>
             </Link>
           </Box>

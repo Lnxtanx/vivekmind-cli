@@ -15,7 +15,7 @@ import {
   getErrorMessage,
   Storage,
   createDebugLogger,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import stripJsonComments from 'strip-json-comments';
 import { DefaultLight } from '../ui/themes/default-light.js';
 import { DefaultDark } from '../ui/themes/default.js';
@@ -59,7 +59,7 @@ function getMergeStrategyForPath(path: string[]): MergeStrategy | undefined {
 
 export type { Settings, MemoryImportFormat };
 
-export const SETTINGS_DIRECTORY_NAME = '.qwen';
+export const SETTINGS_DIRECTORY_NAME = '.vivekmind';
 export const USER_SETTINGS_PATH = Storage.getGlobalSettingsPath();
 export const USER_SETTINGS_DIR = path.dirname(USER_SETTINGS_PATH);
 export const DEFAULT_EXCLUDED_ENV_VARS = ['DEBUG', 'DEBUG_MODE'];
@@ -143,9 +143,9 @@ export function getSystemSettingsPath(): string {
   if (platform() === 'darwin') {
     return '/Library/Application Support/QwenCode/settings.json';
   } else if (platform() === 'win32') {
-    return 'C:\\ProgramData\\qwen-code\\settings.json';
+    return 'C:\\ProgramData\\vivekmind\\settings.json';
   } else {
-    return '/etc/qwen-code/settings.json';
+    return '/etc/vivekmind/settings.json';
   }
 }
 
@@ -485,7 +485,7 @@ export function createMinimalSettings(): LoadedSettings {
  * Finds the .env file to load, respecting workspace trust settings.
  *
  * When workspace is untrusted, only allow user-level .env files at:
- * - ~/.qwen/.env
+ * - ~/.vivekmind/.env
  * - ~/.env
  */
 function findEnvFile(settings: Settings, startDir: string): string | null {
@@ -797,6 +797,41 @@ export function loadSettings(
     systemDefaultsPath,
     SettingScope.SystemDefaults,
   );
+  // Auto-seed user settings with the example template on first run.
+  // Only copies if settings.json doesn't exist yet — never overwrites.
+  if (!fs.existsSync(USER_SETTINGS_PATH)) {
+    try {
+      // settings.example.json is bundled at the repo/dist root
+      const templateCandidates = [
+        path.join(path.dirname(new URL(import.meta.url).pathname), '..', '..', '..', 'settings.example.json'),
+        path.join(path.dirname(new URL(import.meta.url).pathname), '..', '..', 'settings.example.json'),
+        path.join(process.cwd(), 'settings.example.json'),
+      ];
+
+      for (const templatePath of templateCandidates) {
+        // Normalize for Windows (strip leading / from /C:/...)
+        const normalizedPath = process.platform === 'win32'
+          ? templatePath.replace(/^\/([A-Za-z]:)/, '$1')
+          : templatePath;
+        if (fs.existsSync(normalizedPath)) {
+          const settingsDir = path.dirname(USER_SETTINGS_PATH);
+          if (!fs.existsSync(settingsDir)) {
+            fs.mkdirSync(settingsDir, { recursive: true });
+          }
+          fs.copyFileSync(normalizedPath, USER_SETTINGS_PATH);
+          debugLogger.info(
+            `Auto-seeded settings.json from ${normalizedPath}`,
+          );
+          break;
+        }
+      }
+    } catch (seedError) {
+      debugLogger.warn(
+        `Failed to auto-seed settings.json: ${getErrorMessage(seedError)}`,
+      );
+    }
+  }
+
   const userResult = loadAndMigrate(USER_SETTINGS_PATH, SettingScope.User);
 
   let workspaceResult: {

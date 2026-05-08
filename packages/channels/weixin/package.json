@@ -1,7 +1,7 @@
 {
-  "name": "@qwen-code/channel-weixin",
+  "name": "@vivekmind/channel-weixin",
   "version": "0.15.6",
-  "description": "WeChat (Weixin) channel adapter for Qwen Code",
+  "description": "WeChat (Weixin) channel adapter for VivekMind",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,7 +26,7 @@
     "build": "tsc --build"
   },
   "dependencies": {
-    "@qwen-code/channel-base": "file:../base"
+    "@vivekmind/channel-base": "file:../base"
   },
   "devDependencies": {
     "typescript": "^5.0.0"

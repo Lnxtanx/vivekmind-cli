@@ -1,6 +1,7 @@
 {
-  "name": "@qwen-code/qwen-code",
+  "name": "vivekmind",
   "version": "0.15.6",
+  "description": "Open-source terminal AI agent with full AWS Bedrock support. Bring your own keys.",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -17,10 +18,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/QwenLM/qwen-code.git"
+    "url": "git+https://github.com/Lnxtanx/vivekmind-cli.git"
   },
   "config": {
-    "sandboxImageUri": "ghcr.io/qwenlm/qwen-code:0.15.6"
+    "sandboxImageUri": "ghcr.io/lnxtanx/vivekmind-cli:0.15.6"
   },
   "scripts": {
     "start": "cross-env node scripts/start.js",
@@ -52,7 +53,7 @@
     "test:integration:interactive:sandbox:docker": "cross-env QWEN_SANDBOX=docker npm run build:sandbox && QWEN_SANDBOX=docker vitest run --root ./integration-tests interactive",
     "test:terminal-bench": "cross-env VERBOSE=true KEEP_OUTPUT=true vitest run --config ./vitest.terminal-bench.config.ts --root ./integration-tests",
     "test:terminal-bench:oracle": "cross-env VERBOSE=true KEEP_OUTPUT=true vitest run --config ./vitest.terminal-bench.config.ts --root ./integration-tests -t 'oracle'",
-    "test:terminal-bench:qwen": "cross-env VERBOSE=true KEEP_OUTPUT=true vitest run --config ./vitest.terminal-bench.config.ts --root ./integration-tests -t 'qwen'",
+    "test:terminal-bench:vivekmind": "cross-env VERBOSE=true KEEP_OUTPUT=true vitest run --config ./vitest.terminal-bench.config.ts --root ./integration-tests -t 'vivekmind'",
     "lint": "eslint . --ext .ts,.tsx && eslint integration-tests",
     "lint:fix": "eslint . --fix && eslint integration-tests --fix",
     "lint:ci": "eslint . --ext .ts,.tsx --max-warnings 0 && eslint integration-tests --max-warnings 0",
@@ -83,12 +84,14 @@
     "normalize-package-data": "^7.0.1"
   },
   "bin": {
-    "qwen": "dist/cli.js"
+    "vivekmind": "dist/cli.js",
+    "vm": "dist/cli.js"
   },
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "NOTICE"
   ],
   "devDependencies": {
     "@types/marked": "^5.0.2",

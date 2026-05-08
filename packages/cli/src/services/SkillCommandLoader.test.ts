@@ -7,14 +7,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SkillCommandLoader } from './SkillCommandLoader.js';
 import { CommandKind } from '../ui/commands/types.js';
-import type { Config, SkillConfig } from '@qwen-code/qwen-code-core';
+import type { Config, SkillConfig } from '@vivekmind/core';
 
 function makeSkill(overrides: Partial<SkillConfig> = {}): SkillConfig {
   return {
     name: 'my-skill',
     description: 'My skill description',
     level: 'user',
-    filePath: '/home/user/.qwen/skills/my-skill/SKILL.md',
+    filePath: '/home/user/.vivekmind/skills/my-skill/SKILL.md',
     body: 'Skill body content.',
     ...overrides,
   };

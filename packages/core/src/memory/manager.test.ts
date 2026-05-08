@@ -144,7 +144,7 @@ describe('MemoryManager', () => {
                 functionCall: {
                   name: 'write_file',
                   args: {
-                    file_path: `${projectRoot}/.qwen/memory/user/test.md`,
+                    file_path: `${projectRoot}/.vivekmind/memory/user/test.md`,
                   },
                 },
               },

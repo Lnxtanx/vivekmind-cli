@@ -28,7 +28,7 @@ import {
   ToolNames,
   type BackgroundTaskEntry,
   type MonitorEntry,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { formatDuration, formatTokenCount } from '../../utils/formatters.js';
 import {
   type AgentDialogEntry,
@@ -437,7 +437,7 @@ const AgentDetailBody: React.FC<{
 };
 
 const ShellDetailBody: React.FC<{
-  entry: import('@qwen-code/qwen-code-core').BackgroundShellEntry;
+  entry: import('@vivekmind/core').BackgroundShellEntry;
   maxHeight: number;
   maxWidth: number;
 }> = ({ entry, maxHeight, maxWidth }) => {

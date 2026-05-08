@@ -56,7 +56,7 @@ import {
   SETTINGS_VERSION_KEY,
 } from './settings.js';
 import { needsMigration } from './migration/index.js';
-import { QWEN_DIR } from '@qwen-code/qwen-code-core';
+import { QWEN_DIR } from '@vivekmind/core';
 
 const MOCK_WORKSPACE_DIR = '/mock/workspace';
 // Use the (mocked) SETTINGS_DIRECTORY_NAME for consistency

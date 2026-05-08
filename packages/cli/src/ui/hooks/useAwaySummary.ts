@@ -5,7 +5,7 @@
  */
 
 import { useEffect, useRef } from 'react';
-import { generateSessionRecap, type Config } from '@qwen-code/qwen-code-core';
+import { generateSessionRecap, type Config } from '@vivekmind/core';
 import type {
   HistoryItem,
   HistoryItemAwayRecap,

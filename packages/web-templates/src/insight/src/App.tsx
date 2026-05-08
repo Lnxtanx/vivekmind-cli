@@ -51,7 +51,7 @@ function InsightApp({ data }: { data: InsightData }) {
       const imgData = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.href = imgData;
-      link.download = `qwen-insights-card-${new Date().toISOString().slice(0, 10)}.png`;
+      link.download = `vivekmind-insights-card-${new Date().toISOString().slice(0, 10)}.png`;
       link.click();
     } catch (error) {
       console.error('Export card error:', error);
@@ -102,7 +102,7 @@ function InsightApp({ data }: { data: InsightData }) {
       <header className="insights-header">
         <div className="header-content">
           <div className="header-title-section">
-            <h1 className="header-title">Qwen Code Insights</h1>
+            <h1 className="header-title">VivekMind Insights</h1>
             <p className="header-subtitle">
               {data.totalMessages
                 ? `${data.totalMessages.toLocaleString()} messages across ${data.totalSessions?.toLocaleString()} sessions`

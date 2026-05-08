@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -20,7 +21,7 @@ export type { HookDefinition };
 
 export const EXTENSIONS_DIRECTORY_NAME = path.join(QWEN_DIR, 'extensions');
 export const EXTENSIONS_CONFIG_FILENAME = 'qwen-extension.json';
-export const INSTALL_METADATA_FILENAME = '.qwen-extension-install.json';
+export const INSTALL_METADATA_FILENAME = '.vivekmind-extension-install.json';
 export const EXTENSION_SETTINGS_FILENAME = '.env';
 
 export type JsonObject = { [key: string]: JsonValue };
@@ -153,12 +154,12 @@ export function performVariableReplacement(extensionPath: string): void {
           '!{$1}',
         );
 
-        // Replace references to ".claude" directory with ".qwen" in markdown files
+        // Replace references to ".claude" directory with ".vivekmind" in markdown files
         // Only match path references (e.g., ~/.claude/, $HOME/.claude, ./.claude/)
         // Avoid matching URLs, comments, or string literals containing .claude
         const updatedMdContent = syntaxUpdatedContent.replace(
           /(\$\{?HOME\}?\/|~\/)?\.claude(\/|$)/g,
-          '$1.qwen$2',
+          '$1.vivekmind$2',
         );
 
         // Only write if content was actually changed
@@ -209,19 +210,19 @@ export function performVariableReplacement(extensionPath: string): void {
           '.message.parts | map(select(has("text")))',
         );
 
-        // Replace references to ".claude" directory with ".qwen" in shell scripts
+        // Replace references to ".claude" directory with ".vivekmind" in shell scripts
         // Only match path references (e.g., ~/.claude/, $HOME/.claude, ./.claude/)
         // Avoid matching URLs, comments, or string literals containing .claude
         const finalScriptContent = adaptedScriptContent.replace(
           /(\$\{?HOME\}?\/|~\/)?\.claude(\/|$)/g,
-          '$1.qwen$2',
+          '$1.vivekmind$2',
         );
 
         // Only write if content was actually changed
         if (finalScriptContent !== content) {
           fs.writeFileSync(filePath, finalScriptContent, 'utf8');
           debugLogger.debug(
-            `Updated transcript format and replaced .claude with .qwen in shell script: ${filePath}`,
+            `Updated transcript format and replaced .claude with .vivekmind in shell script: ${filePath}`,
           );
         }
       } catch (error) {

@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -156,7 +157,7 @@ async function fetchGitHubMarketplaceConfig(
   // Primary: GitHub API (works for private repos, but has rate limits)
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/.claude-plugin/marketplace.json`;
   const apiHeaders: Record<string, string> = {
-    'User-Agent': 'qwen-code',
+    'User-Agent': 'vivekmind',
     Accept: 'application/vnd.github.v3.raw',
   };
   if (token) {
@@ -169,7 +170,7 @@ async function fetchGitHubMarketplaceConfig(
   if (!content) {
     const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/HEAD/.claude-plugin/marketplace.json`;
     const rawHeaders: Record<string, string> = {
-      'User-Agent': 'qwen-code',
+      'User-Agent': 'vivekmind',
     };
     content = await fetchUrl(rawUrl, rawHeaders);
   }

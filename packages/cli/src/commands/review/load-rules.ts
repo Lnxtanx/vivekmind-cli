@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// `qwen review load-rules`: read project-specific code-review rules from
+// `vivekmind review load-rules`: read project-specific code-review rules from
 // the **base branch** of a PR and emit a combined Markdown file.
 //
 // Rules are loaded from the base branch (not the PR branch) so a malicious
-// PR cannot inject `.qwen/review-rules.md` content that bypasses scrutiny.
+// PR cannot inject `.vivekmind/review-rules.md` content that bypasses scrutiny.
 // Sources, in order:
 //
-//   1. `.qwen/review-rules.md`
+//   1. `.vivekmind/review-rules.md`
 //   2. `.github/copilot-instructions.md` (preferred)
 //      OR `copilot-instructions.md` (fallback — only one is loaded)
 //   3. `AGENTS.md` — only the `## Code Review` section
@@ -64,10 +64,10 @@ function loadCombined(baseRef: string): {
   const loaded: string[] = [];
 
   // 1. Qwen-native rules.
-  const qwenRules = showFile(baseRef, '.qwen/review-rules.md');
+  const qwenRules = showFile(baseRef, '.vivekmind/review-rules.md');
   if (qwenRules) {
-    sections.push(`### From .qwen/review-rules.md\n\n${qwenRules.trim()}`);
-    loaded.push('.qwen/review-rules.md');
+    sections.push(`### From .vivekmind/review-rules.md\n\n${qwenRules.trim()}`);
+    loaded.push('.vivekmind/review-rules.md');
   }
 
   // 2. Copilot-compatible rules: prefer .github/copilot-instructions.md;
@@ -134,7 +134,7 @@ async function runLoadRules(args: LoadRulesArgs): Promise<void> {
 export const loadRulesCommand: CommandModule = {
   command: 'load-rules <base_ref>',
   describe:
-    "Read project review rules from the base branch (.qwen/review-rules.md, .github/copilot-instructions.md, AGENTS.md, QWEN.md) and write a combined Markdown file",
+    "Read project review rules from the base branch (.vivekmind/review-rules.md, .github/copilot-instructions.md, AGENTS.md, QWEN.md) and write a combined Markdown file",
   builder: (yargs) =>
     yargs
       .positional('base_ref', {

@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -123,7 +124,7 @@ class VsCodeInstaller implements IdeInstaller {
         isWindows ? `"${commandPath}"` : commandPath,
         [
           '--install-extension',
-          'qwenlm.qwen-code-vscode-ide-companion',
+          'vivekmind.vivekmind-vscode-ide-companion',
           '--force',
         ],
         { stdio: 'pipe', shell: isWindows },

@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -131,7 +132,7 @@ describe('IdeClient', () => {
       await ideClient.connect();
 
       expect(fs.promises.readFile).toHaveBeenCalledWith(
-        path.join('/home/test', '.qwen', 'ide', '8080.lock'),
+        path.join('/home/test', '.vivekmind', 'ide', '8080.lock'),
         'utf8',
       );
       expect(StreamableHTTPClientTransport).toHaveBeenCalledWith(
@@ -273,10 +274,10 @@ describe('IdeClient', () => {
       vi.mocked(fs.promises.readFile).mockImplementation(
         async (filePath: fs.PathLike | FileHandle) => {
           const file = String(filePath);
-          if (file === path.join('/home/test', '.qwen', 'ide', '1111.lock')) {
+          if (file === path.join('/home/test', '.vivekmind', 'ide', '1111.lock')) {
             return JSON.stringify(primaryConfig);
           }
-          if (file === path.join('/home/test', '.qwen', 'ide', '2222.lock')) {
+          if (file === path.join('/home/test', '.vivekmind', 'ide', '2222.lock')) {
             return JSON.stringify(fallbackConfig);
           }
           throw new Error(`unexpected path: ${file}`);
@@ -425,7 +426,7 @@ describe('IdeClient', () => {
 
       expect(result).toEqual(config);
       expect(fs.promises.readFile).toHaveBeenCalledWith(
-        path.join('/home/test', '.qwen', 'ide', '1234.lock'),
+        path.join('/home/test', '.vivekmind', 'ide', '1234.lock'),
         'utf8',
       );
       delete process.env['QWEN_CODE_IDE_SERVER_PORT'];
@@ -481,7 +482,7 @@ describe('IdeClient', () => {
 
       expect(result).toEqual(config);
       expect(fs.promises.readFile).toHaveBeenCalledWith(
-        path.join('/tmp', 'qwen-code-ide-server-12345.json'),
+        path.join('/tmp', 'vivekmind-ide-server-12345.json'),
         'utf8',
       );
     });
@@ -490,7 +491,7 @@ describe('IdeClient', () => {
       process.env['QWEN_CODE_IDE_SERVER_PORT'] = '2222';
       const config2 = { port: '2222', workspacePath: '/test/workspace2' };
       vi.mocked(fs.promises.readFile)
-        .mockRejectedValueOnce(new Error('not found')) // ~/.qwen/ide/<port>.lock
+        .mockRejectedValueOnce(new Error('not found')) // ~/.vivekmind/ide/<port>.lock
         .mockRejectedValueOnce(new Error('not found')) // legacy pid file
         .mockResolvedValueOnce(JSON.stringify(config2));
 
@@ -503,11 +504,11 @@ describe('IdeClient', () => {
 
       expect(result).toEqual(config2);
       expect(fs.promises.readFile).toHaveBeenCalledWith(
-        path.join('/tmp', 'qwen-code-ide-server-12345.json'),
+        path.join('/tmp', 'vivekmind-ide-server-12345.json'),
         'utf8',
       );
       expect(fs.promises.readFile).toHaveBeenCalledWith(
-        path.join('/tmp', 'qwen-code-ide-server-2222.json'),
+        path.join('/tmp', 'vivekmind-ide-server-2222.json'),
         'utf8',
       );
       delete process.env['QWEN_CODE_IDE_SERVER_PORT'];
@@ -542,10 +543,10 @@ describe('IdeClient', () => {
       vi.mocked(fs.promises.readFile).mockImplementation(
         async (filePath: fs.PathLike | FileHandle) => {
           const file = String(filePath);
-          if (file === path.join('/tmp', 'qwen-code-ide-server-12345.json')) {
+          if (file === path.join('/tmp', 'vivekmind-ide-server-12345.json')) {
             throw new Error('not found');
           }
-          if (file === path.join('/home/test', '.qwen', 'ide', '1000.lock')) {
+          if (file === path.join('/home/test', '.vivekmind', 'ide', '1000.lock')) {
             return JSON.stringify(liveConfig);
           }
           throw new Error(`unexpected path: ${file}`);
@@ -585,13 +586,13 @@ describe('IdeClient', () => {
       vi.mocked(fs.promises.readFile).mockImplementation(
         async (filePath: fs.PathLike | FileHandle) => {
           const file = String(filePath);
-          if (file === path.join('/tmp', 'qwen-code-ide-server-12345.json')) {
+          if (file === path.join('/tmp', 'vivekmind-ide-server-12345.json')) {
             throw new Error('not found');
           }
-          if (file === path.join('/home/test', '.qwen', 'ide', '1000.lock')) {
+          if (file === path.join('/home/test', '.vivekmind', 'ide', '1000.lock')) {
             return JSON.stringify({ port: '1000' });
           }
-          if (file === path.join('/home/test', '.qwen', 'ide', '2000.lock')) {
+          if (file === path.join('/home/test', '.vivekmind', 'ide', '2000.lock')) {
             return JSON.stringify(latestConfig);
           }
           throw new Error(`unexpected path: ${file}`);
@@ -636,16 +637,16 @@ describe('IdeClient', () => {
       vi.mocked(fs.promises.readFile).mockImplementation(
         async (filePath: fs.PathLike | FileHandle) => {
           const file = String(filePath);
-          if (file === path.join('/tmp', 'qwen-code-ide-server-12345.json')) {
+          if (file === path.join('/tmp', 'vivekmind-ide-server-12345.json')) {
             throw new Error('not found');
           }
-          if (file === path.join('/home/test', '.qwen', 'ide', '1000.lock')) {
+          if (file === path.join('/home/test', '.vivekmind', 'ide', '1000.lock')) {
             return JSON.stringify({
               port: '1000',
               workspacePath: '/older/workspace',
             });
           }
-          if (file === path.join('/home/test', '.qwen', 'ide', '2000.lock')) {
+          if (file === path.join('/home/test', '.vivekmind', 'ide', '2000.lock')) {
             return JSON.stringify(latestConfig);
           }
           throw new Error(`unexpected path: ${file}`);
@@ -677,7 +678,7 @@ describe('IdeClient', () => {
 
       expect(result).toEqual(latestConfig);
       expect(fs.promises.readdir).toHaveBeenCalledWith(
-        path.join('/home/test', '.qwen', 'ide'),
+        path.join('/home/test', '.vivekmind', 'ide'),
       );
     });
 
@@ -685,16 +686,16 @@ describe('IdeClient', () => {
       vi.mocked(fs.promises.readFile).mockImplementation(
         async (filePath: fs.PathLike | FileHandle) => {
           const file = String(filePath);
-          if (file === path.join('/tmp', 'qwen-code-ide-server-12345.json')) {
+          if (file === path.join('/tmp', 'vivekmind-ide-server-12345.json')) {
             throw new Error('not found');
           }
-          if (file === path.join('/home/test', '.qwen', 'ide', '1000.lock')) {
+          if (file === path.join('/home/test', '.vivekmind', 'ide', '1000.lock')) {
             return JSON.stringify({
               port: '1000',
               workspacePath: '/another/workspace',
             });
           }
-          if (file === path.join('/home/test', '.qwen', 'ide', '2000.lock')) {
+          if (file === path.join('/home/test', '.vivekmind', 'ide', '2000.lock')) {
             return JSON.stringify({
               port: '2000',
               workspacePath: '/yet/another/workspace',

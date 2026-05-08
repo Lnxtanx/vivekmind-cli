@@ -13,7 +13,7 @@
  */
 
 import type { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import type { MCPServerConfig } from '@qwen-code/qwen-code-core';
+import type { MCPServerConfig } from '@vivekmind/core';
 import type { PermissionSuggestion } from '../../types.js';
 
 /**

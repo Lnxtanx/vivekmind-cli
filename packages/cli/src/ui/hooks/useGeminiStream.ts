@@ -25,7 +25,7 @@ import type {
   ToolCallRequestInfo,
   GeminiErrorEventValue,
   StopFailureErrorType,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   GeminiEventType as ServerGeminiEventType,
   SendMessageType,
@@ -50,7 +50,7 @@ import {
   isSupportedImageMimeType,
   getUnsupportedImageFormatWarning,
   generateToolUseSummary,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { type Part, type PartListUnion, FinishReason } from '@google/genai';
 import type {
   HistoryItem,

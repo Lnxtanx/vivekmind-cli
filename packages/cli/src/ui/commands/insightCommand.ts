@@ -16,7 +16,7 @@ import {
   encodeInsightProgressMessage,
   encodeInsightReadyMessage,
   Storage,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import open from 'open';
 
 const logger = createDebugLogger('DataProcessor');

@@ -14,7 +14,7 @@ import {
   type EditorType,
   type ApprovalMode,
   type CodingPlanRegion,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { type SettingScope } from '../../config/settings.js';
 import { type AlibabaStandardRegion } from '../../constants/alibabaStandardApiKey.js';
 import type { AuthState, HistoryItem } from '../types.js';

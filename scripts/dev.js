@@ -1,11 +1,12 @@
 /**
  * @license
  * Copyright 2025 Qwen
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
- * Development entry point for Qwen Code CLI.
+ * Development entry point for VivekMind CLI.
  *
  * Runs the CLI directly from TypeScript source files without requiring a build step.
  * Changes to packages/core or packages/cli are reflected immediately.
@@ -59,7 +60,7 @@ if (existsSync(userDocsTarget) && !existsSync(qcHelperDocsLink)) {
 const cliEntry = join(cliPackageDir, 'index.ts');
 
 // Create a temporary loader file
-const tmpDir = mkdtempSync(join(tmpdir(), 'qwen-dev-'));
+const tmpDir = mkdtempSync(join(tmpdir(), 'vivekmind-dev-'));
 const loaderPath = join(tmpDir, 'loader.mjs');
 
 const coreSourcePath = join(root, 'packages', 'core', 'index.ts');
@@ -71,7 +72,7 @@ import { pathToFileURL } from 'node:url';
 const coreSourceUrl = '${coreSourceUrl}';
 
 export function resolve(specifier, context, nextResolve) {
-  if (specifier === '@qwen-code/qwen-code-core') {
+  if (specifier === '@vivekmind/core') {
     return {
       shortCircuit: true,
       url: coreSourceUrl,

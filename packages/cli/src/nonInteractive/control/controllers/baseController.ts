@@ -16,8 +16,8 @@
  */
 
 import { randomUUID } from 'node:crypto';
-import type { DebugLogger } from '@qwen-code/qwen-code-core';
-import { createDebugLogger } from '@qwen-code/qwen-code-core';
+import type { DebugLogger } from '@vivekmind/core';
+import { createDebugLogger } from '@vivekmind/core';
 import type { IControlContext } from '../ControlContext.js';
 import type {
   ControlRequestPayload,

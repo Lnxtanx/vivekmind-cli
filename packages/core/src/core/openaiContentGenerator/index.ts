@@ -16,6 +16,10 @@ import {
   ModelScopeOpenAICompatibleProvider,
   MiniMaxOpenAICompatibleProvider,
   OpenRouterOpenAICompatibleProvider,
+  GroqOpenAICompatibleProvider,
+  TogetherOpenAICompatibleProvider,
+  XAIOpenAICompatibleProvider,
+  MistralOpenAICompatibleProvider,
   type OpenAICompatibleProvider,
   DefaultOpenAICompatibleProvider,
 } from './provider/index.js';
@@ -30,6 +34,10 @@ export {
   DeepSeekOpenAICompatibleProvider,
   MiniMaxOpenAICompatibleProvider,
   OpenRouterOpenAICompatibleProvider,
+  GroqOpenAICompatibleProvider,
+  TogetherOpenAICompatibleProvider,
+  XAIOpenAICompatibleProvider,
+  MistralOpenAICompatibleProvider,
 } from './provider/index.js';
 
 export { OpenAIContentConverter } from './converter.js';
@@ -98,8 +106,35 @@ export function determineProvider(
     );
   }
 
+  // Check for Groq provider
+  if (GroqOpenAICompatibleProvider.isGroqProvider(config)) {
+    return new GroqOpenAICompatibleProvider(contentGeneratorConfig, cliConfig);
+  }
+
+  // Check for Together AI provider
+  if (TogetherOpenAICompatibleProvider.isTogetherProvider(config)) {
+    return new TogetherOpenAICompatibleProvider(
+      contentGeneratorConfig,
+      cliConfig,
+    );
+  }
+
+  // Check for xAI/Grok provider
+  if (XAIOpenAICompatibleProvider.isXAIProvider(config)) {
+    return new XAIOpenAICompatibleProvider(contentGeneratorConfig, cliConfig);
+  }
+
+  // Check for Mistral provider
+  if (MistralOpenAICompatibleProvider.isMistralProvider(config)) {
+    return new MistralOpenAICompatibleProvider(
+      contentGeneratorConfig,
+      cliConfig,
+    );
+  }
+
   // Default provider for standard OpenAI-compatible APIs
   return new DefaultOpenAICompatibleProvider(contentGeneratorConfig, cliConfig);
 }
 
 export { EnhancedErrorHandler } from './errorHandler.js';
+

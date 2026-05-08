@@ -1,6 +1,6 @@
 /**
  * Credential storage for WeChat account.
- * Stores account data in ~/.qwen/channels/weixin/
+ * Stores account data in ~/.vivekmind/channels/weixin/
  */
 
 import {
@@ -26,7 +26,7 @@ export interface AccountData {
 export function getStateDir(): string {
   const dir =
     process.env['WEIXIN_STATE_DIR'] ||
-    join(homedir(), '.qwen', 'channels', 'weixin');
+    join(homedir(), '.vivekmind', 'channels', 'weixin');
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
   }

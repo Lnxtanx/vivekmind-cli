@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -157,7 +158,7 @@ describe('GitService', () => {
       await service.setupShadowGitRepository();
 
       const expectedConfigContent =
-        '[user]\n  name = Qwen Code\n  email = qwen-code@qwen.ai\n[commit]\n  gpgsign = false\n';
+        '[user]\n  name = VivekMind\n  email = vivekmind@qwen.ai\n[commit]\n  gpgsign = false\n';
       const actualConfigContent = await fs.readFile(gitConfigPath, 'utf-8');
       expect(actualConfigContent).toBe(expectedConfigContent);
     });

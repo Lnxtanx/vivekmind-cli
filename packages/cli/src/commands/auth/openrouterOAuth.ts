@@ -13,7 +13,7 @@ import {
   type Config,
   type ModelProvidersConfig,
   type ProviderModelConfig as ModelConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { LoadedSettings } from '../../config/settings.js';
 import { getPersistScopeForModelSelection } from '../../config/modelProvidersScope.js';
 
@@ -299,7 +299,7 @@ function buildOpenRouterHeaders() {
   return {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    'HTTP-Referer': 'https://github.com/QwenLM/qwen-code.git',
+    'HTTP-Referer': 'https://github.com/Lnxtanx/vivekmind-cli.git',
     'X-OpenRouter-Title': 'VivekMind',
   };
 }

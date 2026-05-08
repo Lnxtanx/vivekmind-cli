@@ -22,7 +22,7 @@ import {
   SessionStartSource,
   SessionEndReason,
   type PermissionMode,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   AgentSideConnection,
   RequestError,
@@ -208,7 +208,7 @@ class QwenAgent implements Agent {
     return {
       protocolVersion: PROTOCOL_VERSION,
       agentInfo: {
-        name: 'qwen-code',
+        name: 'vivekmind',
         title: 'VivekMind',
         version,
       },

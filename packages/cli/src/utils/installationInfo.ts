@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { createDebugLogger, isGitRepository } from '@qwen-code/qwen-code-core';
+import { createDebugLogger, isGitRepository } from '@vivekmind/core';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as childProcess from 'node:child_process';
@@ -80,7 +80,7 @@ export function getInstallationInfo(
     if (process.platform === 'darwin') {
       try {
         // We do not support homebrew for now, keep forward compatibility for future use
-        childProcess.execSync('brew list -1 | grep -q "^qwen-code$"', {
+        childProcess.execSync('brew list -1 | grep -q "^vivekmind$"', {
           stdio: 'ignore',
         });
         return {
@@ -96,7 +96,7 @@ export function getInstallationInfo(
 
     // Check for pnpm
     if (realPath.includes('/.pnpm/global')) {
-      const updateCommand = 'pnpm add -g @qwen-code/qwen-code@latest';
+      const updateCommand = 'pnpm add -g vivekmind@latest';
       return {
         packageManager: PackageManager.PNPM,
         isGlobal: true,
@@ -109,7 +109,7 @@ export function getInstallationInfo(
 
     // Check for yarn
     if (realPath.includes('/.yarn/global')) {
-      const updateCommand = 'yarn global add @qwen-code/qwen-code@latest';
+      const updateCommand = 'yarn global add vivekmind@latest';
       return {
         packageManager: PackageManager.YARN,
         isGlobal: true,
@@ -129,7 +129,7 @@ export function getInstallationInfo(
       };
     }
     if (realPath.includes('/.bun/bin')) {
-      const updateCommand = 'bun add -g @qwen-code/qwen-code@latest';
+      const updateCommand = 'bun add -g vivekmind@latest';
       return {
         packageManager: PackageManager.BUN,
         isGlobal: true,
@@ -162,7 +162,7 @@ export function getInstallationInfo(
     }
 
     // Assume global npm
-    const updateCommand = 'npm install -g @qwen-code/qwen-code@latest';
+    const updateCommand = 'npm install -g vivekmind@latest';
     return {
       packageManager: PackageManager.NPM,
       isGlobal: true,

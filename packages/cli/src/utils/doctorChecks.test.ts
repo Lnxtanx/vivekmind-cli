@@ -13,9 +13,9 @@ import * as authModule from '../config/auth.js';
 
 vi.mock('./systemInfo.js');
 vi.mock('../config/auth.js');
-vi.mock('@qwen-code/qwen-code-core', async (importOriginal) => {
+vi.mock('@vivekmind/core', async (importOriginal) => {
   const actual =
-    (await importOriginal()) as typeof import('@qwen-code/qwen-code-core');
+    (await importOriginal()) as typeof import('@vivekmind/core');
   return {
     ...actual,
     canUseRipgrep: vi.fn().mockResolvedValue(true),
