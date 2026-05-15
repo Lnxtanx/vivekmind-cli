@@ -11,6 +11,8 @@ import {
 } from '@aws-sdk/client-bedrock-runtime';
 import type {
   ConverseStreamOutput,
+  ContentBlock as BedrockContentBlock,
+  Message as BedrockMessage,
 } from '@aws-sdk/client-bedrock-runtime';
 import type {
   CountTokensParameters,
@@ -45,6 +47,68 @@ interface StreamingToolUseState {
   toolUseId: string;
   name: string;
   inputJson: string;
+}
+
+/**
+ * Check whether any message in the list contains toolUse or toolResult
+ * content blocks.  The Bedrock Converse API requires `toolConfig` to be
+ * present whenever the message history references tools.
+ */
+function messagesContainToolBlocks(
+  messages: BedrockMessage[],
+): boolean {
+  for (const msg of messages) {
+    for (const block of msg.content ?? []) {
+      if (block.toolUse || block.toolResult) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+/**
+ * Replace toolUse / toolResult content blocks with equivalent text so
+ * the Bedrock Converse API does not reject requests that lack a
+ * `toolConfig`.
+ *
+ * - `toolUse` → `[Called tool: name(args)]`
+ * - `toolResult` → the text content of the result (preserves useful
+ *   context such as file contents and command output).
+ */
+function stripToolBlocksFromMessages(
+  messages: BedrockMessage[],
+): BedrockMessage[] {
+  return messages.map((msg) => {
+    const newContent: BedrockContentBlock[] = [];
+
+    for (const block of msg.content ?? []) {
+      if (block.toolUse) {
+        const name = block.toolUse.name || 'unknown';
+        const input = JSON.stringify(block.toolUse.input ?? {});
+        newContent.push({
+          text: `[Called tool: ${name}(${input})]`,
+        });
+      } else if (block.toolResult) {
+        const resultParts = block.toolResult.content ?? [];
+        const textParts = resultParts
+          .filter((b) => 'text' in b && b.text)
+          .map((b) => (b as { text: string }).text);
+        newContent.push({
+          text: textParts.length > 0 ? textParts.join('\n') : '[Tool result: empty]',
+        });
+      } else {
+        newContent.push(block);
+      }
+    }
+
+    // Guarantee at least one content block per message
+    if (newContent.length === 0) {
+      newContent.push({ text: '' });
+    }
+
+    return { ...msg, content: newContent };
+  });
 }
 
 /**
@@ -106,27 +170,42 @@ export class BedrockContentGenerator implements ContentGenerator {
     const { messages, system } =
       this.converter.convertGeminiRequestToConverse(request);
 
-    const toolConfig =
+    let toolConfig =
       request.config?.tools
         ? await this.converter.convertGeminiToolsToConverse(
             request.config.tools,
           )
         : undefined;
 
+    // Normalise: empty tools array → undefined
+    if (toolConfig && (!toolConfig.tools || toolConfig.tools.length === 0)) {
+      toolConfig = undefined;
+    }
+
     const inferenceConfig = this.buildInferenceConfig(request);
+
+    // Bedrock requires toolConfig whenever messages contain toolUse /
+    // toolResult blocks.  If tools are not available (e.g. the
+    // compression service calls generateContent without tools) we must
+    // strip those blocks from the message history to avoid an API error.
+    let finalMessages = messages;
+    if (!toolConfig && messagesContainToolBlocks(messages)) {
+      debugLogger.warn(
+        'Messages contain toolUse/toolResult blocks but no toolConfig is available. ' +
+          'Stripping tool blocks to avoid Bedrock API rejection.',
+      );
+      finalMessages = stripToolBlocksFromMessages(messages);
+    }
 
     const command = new ConverseCommand({
       modelId,
-      messages,
+      messages: finalMessages,
       system,
-      toolConfig:
-        toolConfig && toolConfig.tools && toolConfig.tools.length > 0
-          ? toolConfig
-          : undefined,
+      toolConfig: toolConfig ?? undefined,
       inferenceConfig,
     });
 
-    debugLogger.info(`Converse request: model=${modelId}, messages=${messages.length}`);
+    debugLogger.info(`Converse request: model=${modelId}, messages=${finalMessages.length}`);
 
     const response = await this.client.send(command);
 
@@ -158,27 +237,42 @@ export class BedrockContentGenerator implements ContentGenerator {
     const { messages, system } =
       this.converter.convertGeminiRequestToConverse(request);
 
-    const toolConfig =
+    let toolConfig =
       request.config?.tools
         ? await this.converter.convertGeminiToolsToConverse(
             request.config.tools,
           )
         : undefined;
 
+    // Normalise: empty tools array → undefined
+    if (toolConfig && (!toolConfig.tools || toolConfig.tools.length === 0)) {
+      toolConfig = undefined;
+    }
+
     const inferenceConfig = this.buildInferenceConfig(request);
+
+    // Bedrock requires toolConfig whenever messages contain toolUse /
+    // toolResult blocks.  If tools are not available (e.g. the
+    // compression service calls generateContent without tools) we must
+    // strip those blocks from the message history to avoid an API error.
+    let finalMessages = messages;
+    if (!toolConfig && messagesContainToolBlocks(messages)) {
+      debugLogger.warn(
+        'Messages contain toolUse/toolResult blocks but no toolConfig is available. ' +
+          'Stripping tool blocks to avoid Bedrock API rejection.',
+      );
+      finalMessages = stripToolBlocksFromMessages(messages);
+    }
 
     const command = new ConverseStreamCommand({
       modelId,
-      messages,
+      messages: finalMessages,
       system,
-      toolConfig:
-        toolConfig && toolConfig.tools && toolConfig.tools.length > 0
-          ? toolConfig
-          : undefined,
+      toolConfig: toolConfig ?? undefined,
       inferenceConfig,
     });
 
-    debugLogger.info(`ConverseStream request: model=${modelId}, messages=${messages.length}`);
+    debugLogger.info(`ConverseStream request: model=${modelId}, messages=${finalMessages.length}`);
 
     const response = await this.client.send(command);
 
