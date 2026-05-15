@@ -32,7 +32,12 @@ import type {
   ToolResultContentBlock,
 } from '@aws-sdk/client-bedrock-runtime';
 import { convertSchema } from '../../utils/schemaConverter.js';
-import type { ContentGeneratorConfig } from '../contentGenerator.js';
+import { createDebugLogger } from '../../utils/debugLogger.js';
+import { defaultModalities } from '../modalityDefaults.js';
+import type { ContentGeneratorConfig, InputModalities } from '../contentGenerator.js';
+
+const debugLogger = createDebugLogger('BEDROCK_CONVERTER');
+
 
 export interface ConvertedConverseRequest {
   messages: BedrockMessage[];
@@ -43,6 +48,8 @@ export interface ConvertedConverseRequest {
 export class BedrockContentConverter {
   private model: string;
   private schemaCompliance: ContentGeneratorConfig['schemaCompliance'];
+  private modalities: InputModalities;
+
 
   constructor(
     model: string,
@@ -50,6 +57,11 @@ export class BedrockContentConverter {
   ) {
     this.model = model;
     this.schemaCompliance = schemaCompliance;
+    this.modalities = defaultModalities(model);
+    debugLogger.info(
+      `Modalities for ${model}: ${JSON.stringify(this.modalities)}`,
+    );
+
   }
 
   /**
@@ -327,16 +339,40 @@ export class BedrockContentConverter {
 
       // Image content
       if (part.inlineData?.mimeType && part.inlineData?.data) {
-        const format = this.mimeToImageFormat(part.inlineData.mimeType);
-        if (format) {
+        const mimeType = part.inlineData.mimeType;
+        const displayName = part.inlineData.displayName || mimeType;
+
+        if (!this.modalities.image) {
+          // Model doesn't support images — insert text placeholder
+          // instead of sending an image block that would cause an API error.
+          debugLogger.warn(
+            `Model '${this.model}' does not support image input. ` +
+              `Replacing with text placeholder: ${displayName}`,
+          );
           contentBlocks.push({
-            image: {
-              format,
-              source: {
-                bytes: Buffer.from(part.inlineData.data, 'base64'),
-              },
-            },
+            text: `[Unsupported image: ${displayName}. This model does not support image input.]`,
           });
+        } else {
+          const format = this.mimeToImageFormat(mimeType);
+          if (format) {
+            contentBlocks.push({
+              image: {
+                format,
+                source: {
+                  bytes: Buffer.from(part.inlineData.data, 'base64'),
+                },
+              },
+            });
+          } else {
+            // Image format not supported by Bedrock (e.g., BMP, TIFF, HEIC)
+            debugLogger.warn(
+              `Image format '${mimeType}' is not supported by Bedrock Converse API. ` +
+                `Replacing with text placeholder: ${displayName}`,
+            );
+            contentBlocks.push({
+              text: `[Unsupported image format: ${mimeType} (${displayName}). Bedrock supports JPEG, PNG, GIF, and WebP.]`,
+            });
+          }
         }
       }
 
@@ -378,6 +414,28 @@ export class BedrockContentConverter {
     const textContent = this.extractFunctionResponseContent(response.response);
     if (textContent) {
       blocks.push({ text: textContent });
+    }
+
+    // Forward image content from tool responses when model supports vision
+    const responseData = response.response;
+    if (this.modalities.image && responseData && typeof responseData === 'object') {
+      const dataObj = responseData as Record<string, unknown>;
+      // Handle nested inlineData in tool response objects
+      const inlineDataVal = dataObj['inlineData'];
+      if (inlineDataVal && typeof inlineDataVal === 'object') {
+        const inlineData = inlineDataVal as { mimeType?: string; data?: string };
+        if (inlineData.mimeType && inlineData.data) {
+          const format = this.mimeToImageFormat(inlineData.mimeType);
+          if (format) {
+            blocks.push({
+              image: {
+                format,
+                source: { bytes: Buffer.from(inlineData.data, 'base64') },
+              },
+            });
+          }
+        }
+      }
     }
 
     return blocks.length > 0 ? blocks : [{ text: '' }];

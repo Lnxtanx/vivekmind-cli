@@ -12,4 +12,4 @@ When reporting, include:
 - expected and actual behavior
 - relevant logs with secrets removed
 
-VivekMind is a fork of VivekMind, so inherited upstream security fixes should be reviewed and merged promptly when applicable.
+VivekMind is a fork of Qwen Code, so inherited upstream security fixes should be reviewed and merged promptly when applicable.

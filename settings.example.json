@@ -406,5 +406,34 @@
         "generationConfig": { "contextWindowSize": 131072 }
       }
     ]
+  },
+
+  "//": [
+    "=======================================================================",
+    " Channels — Connect VivekMind to messaging platforms",
+    "=======================================================================",
+    "",
+    " Each channel entry is a named configuration under the 'channels' key.",
+    " The 'type' field selects the adapter (telegram, weixin, dingtalk, etc.).",
+    " The 'token' field references an environment variable (e.g. $TELEGRAM_BOT_TOKEN).",
+    "",
+    " Setup Telegram:  vivekmind channel configure-telegram",
+    " Setup WeChat:    vivekmind channel configure-weixin",
+    " Start channels:  vivekmind channel start [name]",
+    "======================================================================="
+  ],
+
+  "channels": {
+    "//my-telegram": "--- Example: Telegram Bot ---",
+    "//my-telegram": {
+      "//": "Get a token from @BotFather on Telegram",
+      "type": "telegram",
+      "token": "$TELEGRAM_BOT_TOKEN",
+      "//model": "Optional: override the model for this channel",
+      "//cwd": "Optional: working directory for file operations",
+      "//allowedUsers": ["123456789"],
+      "//senderPolicy": "allowlist"
+    }
+
   }
 }
