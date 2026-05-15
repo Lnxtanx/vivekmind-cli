@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -11,7 +12,7 @@ import * as crypto from 'node:crypto';
 import type { Config } from '../config/config.js';
 import { isNodeError } from './errors.js';
 
-export const QWEN_DIR = '.qwen';
+export const VIVEKMIND_DIR = '.vivekmind';
 export const GOOGLE_ACCOUNTS_FILENAME = 'google_accounts.json';
 
 /**

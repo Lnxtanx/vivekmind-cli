@@ -16,7 +16,7 @@ import {
 
 describe('quotaErrorDetection', () => {
   describe('isQwenQuotaExceededError', () => {
-    it('should detect the Qwen insufficient_quota error', () => {
+    it('should detect the VivekMind insufficient_quota error', () => {
       const error = {
         status: 429,
         code: 'insufficient_quota',

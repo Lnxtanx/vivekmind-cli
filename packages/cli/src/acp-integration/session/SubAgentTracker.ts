@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -14,12 +14,12 @@ import type {
   ToolCallConfirmationDetails,
   AnyDeclarativeTool,
   AnyToolInvocation,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   AgentEventType,
   ToolConfirmationOutcome,
   createDebugLogger,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { z } from 'zod';
 import type { SessionContext } from './types.js';
 import { ToolCallEmitter } from './emitters/ToolCallEmitter.js';

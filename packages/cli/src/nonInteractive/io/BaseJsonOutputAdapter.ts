@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -13,12 +13,12 @@ import type {
   ServerGeminiStreamEvent,
   AgentResultDisplay,
   McpToolProgressData,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   GeminiEventType,
   ToolErrorType,
   parseAndFormatApiError,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { Part, GenerateContentResponseUsageMetadata } from '@google/genai';
 import type {
   CLIAssistantMessage,

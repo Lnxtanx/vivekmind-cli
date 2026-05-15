@@ -16,7 +16,7 @@ import { theme } from '../../semantic-colors.js';
 import { SHELL_COMMAND_NAME, SHELL_NAME } from '../../constants.js';
 import { useConfig } from '../../contexts/ConfigContext.js';
 import { useCompactMode } from '../../contexts/CompactModeContext.js';
-import type { AgentResultDisplay } from '@qwen-code/qwen-code-core';
+import type { AgentResultDisplay } from '@vivekmind/core';
 
 function isAgentWithPendingConfirmation(
   rd: IndividualToolCallDisplay['resultDisplay'],

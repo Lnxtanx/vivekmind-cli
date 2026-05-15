@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -104,8 +104,8 @@ describe('OpenRouterOpenAICompatibleProvider', () => {
 
       expect(headers).toEqual({
         'User-Agent': `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
-        'HTTP-Referer': 'https://github.com/QwenLM/qwen-code.git',
-        'X-OpenRouter-Title': 'Qwen Code',
+        'HTTP-Referer': 'https://github.com/Lnxtanx/vivekmind-cli',
+        'X-OpenRouter-Title': 'VivekMind',
       });
     });
 
@@ -124,8 +124,8 @@ describe('OpenRouterOpenAICompatibleProvider', () => {
 
       expect(headers).toEqual({
         'User-Agent': 'ParentAgent/1.0.0',
-        'HTTP-Referer': 'https://github.com/QwenLM/qwen-code.git', // OpenRouter-specific value should override
-        'X-OpenRouter-Title': 'Qwen Code',
+        'HTTP-Referer': 'https://github.com/Lnxtanx/vivekmind-cli', // OpenRouter-specific value should override
+        'X-OpenRouter-Title': 'VivekMind',
       });
 
       parentBuildHeaders.mockRestore();
@@ -140,9 +140,9 @@ describe('OpenRouterOpenAICompatibleProvider', () => {
         `QwenCode/unknown (${process.platform}; ${process.arch})`,
       );
       expect(headers['HTTP-Referer']).toBe(
-        'https://github.com/QwenLM/qwen-code.git',
+        'https://github.com/Lnxtanx/vivekmind-cli',
       );
-      expect(headers['X-OpenRouter-Title']).toBe('Qwen Code');
+      expect(headers['X-OpenRouter-Title']).toBe('VivekMind');
     });
   });
 
@@ -213,9 +213,9 @@ describe('OpenRouterOpenAICompatibleProvider', () => {
       // Should have both parent and OpenRouter-specific headers
       expect(headers['User-Agent']).toBeDefined(); // From parent
       expect(headers['HTTP-Referer']).toBe(
-        'https://github.com/QwenLM/qwen-code.git',
+        'https://github.com/Lnxtanx/vivekmind-cli',
       ); // OpenRouter-specific
-      expect(headers['X-OpenRouter-Title']).toBe('Qwen Code'); // OpenRouter-specific
+      expect(headers['X-OpenRouter-Title']).toBe('VivekMind'); // OpenRouter-specific
     });
   });
 });

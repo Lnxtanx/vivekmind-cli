@@ -5,7 +5,7 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { AuthType, type Config } from '@qwen-code/qwen-code-core';
+import { AuthType, type Config } from '@vivekmind/core';
 import type { LoadedSettings } from '../../config/settings.js';
 import {
   buildOpenRouterAuthorizationUrl,

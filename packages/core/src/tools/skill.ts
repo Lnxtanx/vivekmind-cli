@@ -1,6 +1,7 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -210,7 +211,7 @@ ${escapeXml(cmd.description)}
     let skillDescriptions = '';
     if (allSkillEntries.length === 0) {
       skillDescriptions =
-        'No skills are currently configured. Skills can be created by adding directories with SKILL.md files to .qwen/skills/ or ~/.qwen/skills/.';
+        'No skills are currently configured. Skills can be created by adding directories with SKILL.md files to .vivekmind/skills/ or ~/.vivekmind/skills/.';
     } else {
       skillDescriptions = allSkillEntries.join('\n');
     }

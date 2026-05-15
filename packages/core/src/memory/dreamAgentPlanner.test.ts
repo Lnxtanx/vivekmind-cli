@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -64,7 +64,7 @@ describe('dreamAgentPlanner', () => {
       path.join(runtimeDir, 'projects'),
     );
     expect(getTranscriptDir(projectRoot)).not.toContain(
-      `${path.sep}.qwen${path.sep}tmp${path.sep}`,
+      `${path.sep}.vivekmind${path.sep}tmp${path.sep}`,
     );
   });
 
@@ -98,7 +98,7 @@ describe('dreamAgentPlanner', () => {
       status: 'completed',
       finalText: 'Merged 2 duplicate Vim entries into prefers-vim.md.',
       filesTouched: [
-        path.join(projectRoot, '.qwen', 'memory', 'user', 'prefers-vim.md'),
+        path.join(projectRoot, '.vivekmind', 'memory', 'user', 'prefers-vim.md'),
       ],
     };
 

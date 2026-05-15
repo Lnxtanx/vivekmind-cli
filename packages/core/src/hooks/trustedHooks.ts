@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -26,7 +26,7 @@ export class TrustedHooksManager {
 
   constructor() {
     this.configPath = path.join(
-      Storage.getGlobalQwenDir(),
+      Storage.getGlobalVivekMindDir(),
       'trusted_hooks.json',
     );
     this.load();

@@ -3,6 +3,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -12,7 +13,7 @@ import { existsSync, readFileSync } from 'node:fs';
 
 const projectRoot = join(import.meta.dirname, '..');
 
-const SETTINGS_DIRECTORY_NAME = '.qwen';
+const SETTINGS_DIRECTORY_NAME = '.vivekmind';
 const USER_SETTINGS_DIR = join(
   process.env.HOME || process.env.USERPROFILE || process.env.HOMEPATH || '',
   SETTINGS_DIRECTORY_NAME,

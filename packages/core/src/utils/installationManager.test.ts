@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -41,7 +42,7 @@ describe('InstallationManager', () => {
   let tempHomeDir: string;
   let installationManager: InstallationManager;
   const installationIdFile = () =>
-    path.join(tempHomeDir, '.qwen', 'installation_id');
+    path.join(tempHomeDir, '.vivekmind', 'installation_id');
 
   beforeEach(() => {
     tempHomeDir = fs.mkdtempSync(

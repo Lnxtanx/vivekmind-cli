@@ -6,7 +6,7 @@
 
 import type { ICommandLoader } from './types.js';
 import type { SlashCommand } from '../ui/commands/types.js';
-import type { Config } from '@qwen-code/qwen-code-core';
+import type { Config } from '@vivekmind/core';
 import { aboutCommand } from '../ui/commands/aboutCommand.js';
 import { tasksCommand } from '../ui/commands/tasksCommand.js';
 import { agentsCommand } from '../ui/commands/agentsCommand.js';
@@ -26,10 +26,11 @@ import { directoryCommand } from '../ui/commands/directoryCommand.js';
 import { editorCommand } from '../ui/commands/editorCommand.js';
 import { exportCommand } from '../ui/commands/exportCommand.js';
 import { extensionsCommand } from '../ui/commands/extensionsCommand.js';
+import { feedbackCommand } from '../ui/commands/feedbackCommand.js';
 import { helpCommand } from '../ui/commands/helpCommand.js';
 import { hooksCommand } from '../ui/commands/hooksCommand.js';
 import { ideCommand } from '../ui/commands/ideCommand.js';
-import { createDebugLogger } from '@qwen-code/qwen-code-core';
+import { createDebugLogger } from '@vivekmind/core';
 import { initCommand } from '../ui/commands/initCommand.js';
 import { languageCommand } from '../ui/commands/languageCommand.js';
 import { mcpCommand } from '../ui/commands/mcpCommand.js';
@@ -57,6 +58,7 @@ import { themeCommand } from '../ui/commands/themeCommand.js';
 import { toolsCommand } from '../ui/commands/toolsCommand.js';
 import { vimCommand } from '../ui/commands/vimCommand.js';
 import { setupGithubCommand } from '../ui/commands/setupGithubCommand.js';
+import { configCommand, envCommand } from '../ui/commands/configCommand.js';
 import { insightCommand } from '../ui/commands/insightCommand.js';
 import { statuslineCommand } from '../ui/commands/statuslineCommand.js';
 
@@ -64,7 +66,7 @@ const builtinDebugLogger = createDebugLogger('BUILTIN_COMMAND_LOADER');
 
 /**
  * Loads the core, hard-coded slash commands that are an integral part
- * of the Qwen Code application.
+ * of the VivekMind application.
  */
 export class BuiltinCommandLoader implements ICommandLoader {
   constructor(private config: Config | null) {}
@@ -110,6 +112,7 @@ export class BuiltinCommandLoader implements ICommandLoader {
       editorCommand,
       exportCommand,
       extensionsCommand,
+      feedbackCommand,
       helpCommand,
       hooksCommand,
       resolvedIdeCommand,
@@ -138,6 +141,11 @@ export class BuiltinCommandLoader implements ICommandLoader {
       themeCommand,
       toolsCommand,
       settingsCommand,
+      configCommand,
+      envCommand,
+      vimCommand,
+
+      envCommand,
       vimCommand,
       setupGithubCommand,
       terminalSetupCommand,

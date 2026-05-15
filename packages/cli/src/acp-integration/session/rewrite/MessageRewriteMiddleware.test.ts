@@ -1,15 +1,15 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { SessionUpdate } from '@agentclientprotocol/sdk';
-import type { Config } from '@qwen-code/qwen-code-core';
+import type { Config } from '@vivekmind/core';
 
 // Mock core to avoid Vite https resolution issue
-vi.mock('@qwen-code/qwen-code-core', () => ({
+vi.mock('@vivekmind/core', () => ({
   createDebugLogger: () => ({
     info: vi.fn(),
     warn: vi.fn(),

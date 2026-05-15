@@ -7,6 +7,7 @@
 import { describe, it, expect } from 'vitest';
 import { render } from 'ink-testing-library';
 import { QueuedMessageDisplay } from './QueuedMessageDisplay.js';
+import type { QueuedMessage } from '../hooks/useMessageQueue.js';
 
 describe('QueuedMessageDisplay', () => {
   it('renders nothing when message queue is empty', () => {
@@ -17,7 +18,7 @@ describe('QueuedMessageDisplay', () => {
 
   it('displays single queued message', () => {
     const { lastFrame } = render(
-      <QueuedMessageDisplay messageQueue={['First message']} />,
+      <QueuedMessageDisplay messageQueue={[{ text: 'First message', attachments: undefined }]} />,
     );
 
     const output = lastFrame();
@@ -25,10 +26,10 @@ describe('QueuedMessageDisplay', () => {
   });
 
   it('displays multiple queued messages', () => {
-    const messageQueue = [
-      'First queued message',
-      'Second queued message',
-      'Third queued message',
+    const messageQueue: QueuedMessage[] = [
+      { text: 'First queued message', attachments: undefined },
+      { text: 'Second queued message', attachments: undefined },
+      { text: 'Third queued message', attachments: undefined },
     ];
 
     const { lastFrame } = render(
@@ -42,12 +43,12 @@ describe('QueuedMessageDisplay', () => {
   });
 
   it('shows overflow indicator when more than 3 messages are queued', () => {
-    const messageQueue = [
-      'Message 1',
-      'Message 2',
-      'Message 3',
-      'Message 4',
-      'Message 5',
+    const messageQueue: QueuedMessage[] = [
+      { text: 'Message 1', attachments: undefined },
+      { text: 'Message 2', attachments: undefined },
+      { text: 'Message 3', attachments: undefined },
+      { text: 'Message 4', attachments: undefined },
+      { text: 'Message 5', attachments: undefined },
     ];
 
     const { lastFrame } = render(
@@ -64,7 +65,9 @@ describe('QueuedMessageDisplay', () => {
   });
 
   it('normalizes whitespace in messages', () => {
-    const messageQueue = ['Message   with\tmultiple\n  whitespace'];
+    const messageQueue: QueuedMessage[] = [
+      { text: 'Message   with\tmultiple\n  whitespace', attachments: undefined }
+    ];
 
     const { lastFrame } = render(
       <QueuedMessageDisplay messageQueue={messageQueue} />,
@@ -76,7 +79,7 @@ describe('QueuedMessageDisplay', () => {
 
   it('shows edit hint when queue has messages', () => {
     const { lastFrame } = render(
-      <QueuedMessageDisplay messageQueue={['Some message']} />,
+      <QueuedMessageDisplay messageQueue={[{ text: 'Some message', attachments: undefined }]} />,
     );
 
     const output = lastFrame();
@@ -87,20 +90,20 @@ describe('QueuedMessageDisplay', () => {
     // Render with non-empty queue, then empty, then non-empty — repeat
     // to simulate multiple queue cycles. Hint should disappear after 3.
     const { lastFrame, rerender } = render(
-      <QueuedMessageDisplay messageQueue={['msg']} />,
+      <QueuedMessageDisplay messageQueue={[{ text: 'msg', attachments: undefined }]} />,
     );
     expect(lastFrame()).toContain('to edit queued messages'); // 1st
 
     rerender(<QueuedMessageDisplay messageQueue={[]} />);
-    rerender(<QueuedMessageDisplay messageQueue={['msg']} />);
+    rerender(<QueuedMessageDisplay messageQueue={[{ text: 'msg', attachments: undefined }]} />);
     expect(lastFrame()).toContain('to edit queued messages'); // 2nd
 
     rerender(<QueuedMessageDisplay messageQueue={[]} />);
-    rerender(<QueuedMessageDisplay messageQueue={['msg']} />);
+    rerender(<QueuedMessageDisplay messageQueue={[{ text: 'msg', attachments: undefined }]} />);
     expect(lastFrame()).toContain('to edit queued messages'); // 3rd
 
     rerender(<QueuedMessageDisplay messageQueue={[]} />);
-    rerender(<QueuedMessageDisplay messageQueue={['msg']} />);
+    rerender(<QueuedMessageDisplay messageQueue={[{ text: 'msg', attachments: undefined }]} />);
     expect(lastFrame()).not.toContain('to edit queued messages'); // 4th — hidden
   });
 });

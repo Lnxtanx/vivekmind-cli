@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -27,7 +27,7 @@ import {
   type BackgroundShellEntry,
   type Config,
   type MonitorEntry,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 export type AgentDialogEntry = BackgroundTaskEntry & {
   kind: 'agent';

@@ -79,7 +79,7 @@ vi.mock('./channel-registry.js', () => ({
   registerPlugin: mockRegisterPlugin,
 }));
 
-vi.mock('@qwen-code/channel-base', () => ({
+vi.mock('@vivekmind/channel-base', () => ({
   AcpBridge: mockAcpBridge,
   SessionRouter: mockSessionRouter,
 }));

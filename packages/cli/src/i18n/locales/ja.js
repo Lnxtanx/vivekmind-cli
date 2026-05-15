@@ -1,10 +1,11 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Japanese translations for Qwen Code CLI
+// Japanese translations for VivekMind CLI
 
 export default {
   // ============================================================================
@@ -55,10 +56,10 @@ export default {
   'For a full list of shortcuts, see {{docPath}}':
     'ショートカットの完全なリストは {{docPath}} を参照',
   'docs/keyboard-shortcuts.md': 'docs/keyboard-shortcuts.md',
-  'for help on Qwen Code': 'Qwen Code のヘルプ',
+  'for help on VivekMind': 'VivekMind のヘルプ',
   'show version info': 'バージョン情報を表示',
   'submit a bug report': 'バグレポートを送信',
-  'About Qwen Code': 'Qwen Code について',
+  'About VivekMind': 'VivekMind について',
 
   // ============================================================================
   // System Information Fields
@@ -84,10 +85,10 @@ export default {
   // ============================================================================
   'Analyzes the project and creates a tailored QWEN.md file.':
     'プロジェクトを分析し、カスタマイズされた QWEN.md ファイルを作成',
-  'List available Qwen Code tools. Usage: /tools [desc]':
-    '利用可能な Qwen Code ツールを一覧表示。使い方: /tools [desc]',
+  'List available VivekMind tools. Usage: /tools [desc]':
+    '利用可能な VivekMind ツールを一覧表示。使い方: /tools [desc]',
   'List available skills.': '利用可能なスキルを一覧表示する。',
-  'Available Qwen Code CLI tools:': '利用可能な Qwen Code CLI ツール:',
+  'Available VivekMind CLI tools:': '利用可能な VivekMind CLI ツール:',
   'No tools available': '利用可能なツールはありません',
   'View or change the approval mode for tool usage':
     'ツール使用の承認モードを表示または変更',
@@ -108,8 +109,8 @@ export default {
     '会話履歴をクリアしてコンテキストを解放',
   'Compresses the context by replacing it with a summary.':
     'コンテキストを要約に置き換えて圧縮',
-  'open full Qwen Code documentation in your browser':
-    'ブラウザで Qwen Code のドキュメントを開く',
+  'open full VivekMind documentation in your browser':
+    'ブラウザで VivekMind のドキュメントを開く',
   'Configuration not available.': '設定が利用できません',
   'change the auth method': '認証方式を変更',
   'Configure authentication information for login':
@@ -172,8 +173,8 @@ export default {
   '❌ Error:': '❌ エラー:',
   'Are you sure you want to delete agent "{{name}}"?':
     'エージェント "{{name}}" を削除してもよろしいですか?',
-  'Project Level (.qwen/agents/)': 'プロジェクトレベル (.qwen/agents/)',
-  'User Level (~/.qwen/agents/)': 'ユーザーレベル (~/.qwen/agents/)',
+  'Project Level (.vivekmind/agents/)': 'プロジェクトレベル (.vivekmind/agents/)',
+  'User Level (~/.vivekmind/agents/)': 'ユーザーレベル (~/.vivekmind/agents/)',
   '✅ Subagent Created Successfully!':
     '✅ サブエージェントの作成に成功しました!',
   'Subagent "{{name}}" has been saved to {{level}} level.':
@@ -184,7 +185,7 @@ export default {
   'Warnings:': '警告:',
   'Step {{n}}: Choose Location': 'ステップ {{n}}: 場所を選択',
   'Step {{n}}: Choose Generation Method': 'ステップ {{n}}: 作成方法を選択',
-  'Generate with Qwen Code (Recommended)': 'Qwen Code で生成(推奨)',
+  'Generate with VivekMind (Recommended)': 'VivekMind で生成(推奨)',
   'Manual Creation': '手動作成',
   'Generating subagent configuration...': 'サブエージェント設定を生成中...',
   'Failed to generate subagent: {{error}}':
@@ -250,11 +251,11 @@ export default {
   // Commands - General (continued)
   '(Use Enter to select{{tabText}})': '(Enter で選択{{tabText}})',
   ', Tab to change focus': '、Tab でフォーカス変更',
-  'To see changes, Qwen Code must be restarted. Press r to exit and apply changes now.':
-    '変更を確認するには Qwen Code を再起動する必要があります。 r を押して終了し、変更を適用してください',
+  'To see changes, VivekMind must be restarted. Press r to exit and apply changes now.':
+    '変更を確認するには VivekMind を再起動する必要があります。 r を押して終了し、変更を適用してください',
   'The command "/{{command}}" is not supported in non-interactive mode.':
     'コマンド "/{{command}}" は非対話モードではサポートされていません',
-  'View and edit Qwen Code settings': 'Qwen Code の設定を表示・編集',
+  'View and edit VivekMind settings': 'VivekMind の設定を表示・編集',
   Settings: '設定',
   'Vim Mode': 'Vim モード',
   'Disable Auto Update': '自動更新を無効化',
@@ -302,7 +303,7 @@ export default {
   'Load Memory From Include Directories':
     'インクルードディレクトリからメモリを読み込み',
   'Respect .gitignore': '.gitignore を優先',
-  'Respect .qwenignore': '.qwenignore を優先',
+  'Respect .vivekmindignore': '.vivekmindignore を優先',
   'Enable Recursive File Search': '再帰的ファイル検索を有効化',
   'Disable Fuzzy Search': 'ファジー検索を無効化',
   'Enable Interactive Shell': '対話型シェルを有効化',
@@ -336,16 +337,16 @@ export default {
   'List active extensions': '有効な拡張機能を一覧表示',
   'Update extensions. Usage: update <extension-names>|--all':
     '拡張機能を更新。使い方: update <拡張機能名>|--all',
-  'You are installing an extension from {{originSource}}. Some features may not work perfectly with Qwen Code.':
-    '{{originSource}} から拡張機能をインストールしています。一部の機能は Qwen Code で完全に動作しない可能性があります。',
+  'You are installing an extension from {{originSource}}. Some features may not work perfectly with VivekMind.':
+    '{{originSource}} から拡張機能をインストールしています。一部の機能は VivekMind で完全に動作しない可能性があります。',
   'manage IDE integration': 'IDE連携を管理',
   'check status of IDE integration': 'IDE連携の状態を確認',
   'install required IDE companion for {{ideName}}':
     '{{ideName}} 用の必要なIDEコンパニオンをインストール',
   'enable IDE integration': 'IDE連携を有効化',
   'disable IDE integration': 'IDE連携を無効化',
-  'IDE integration is not supported in your current environment. To use this feature, run Qwen Code in one of these supported IDEs: VS Code or VS Code forks.':
-    '現在の環境ではIDE連携はサポートされていません。この機能を使用するには、VS Code または VS Code 派生エディタで Qwen Code を実行してください',
+  'IDE integration is not supported in your current environment. To use this feature, run VivekMind in one of these supported IDEs: VS Code or VS Code forks.':
+    '現在の環境ではIDE連携はサポートされていません。この機能を使用するには、VS Code または VS Code 派生エディタで VivekMind を実行してください',
   'Set up GitHub Actions': 'GitHub Actions を設定',
   'Configure terminal keybindings for multiline input (VS Code, Cursor, Windsurf, Trae)':
     '複数行入力用のターミナルキーバインドを設定(VS Code、Cursor、Windsurf、Trae)',
@@ -379,7 +380,7 @@ export default {
   // ============================================================================
   // Commands - Hooks
   // ============================================================================
-  'Manage Qwen Code hooks': 'Qwen Code のフックを管理する',
+  'Manage VivekMind hooks': 'VivekMind のフックを管理する',
   'List all configured hooks': '設定済みのフックをすべて表示する',
   'Enable a disabled hook': '無効なフックを有効にする',
   'Disable an active hook': '有効なフックを無効にする',
@@ -396,16 +397,16 @@ export default {
   'No hook events found.': 'フックイベントが見つかりません。',
   '{{count}} hook configured': '{{count}} 件のフックが設定されています',
   '{{count}} hooks configured': '{{count}} 件のフックが設定されています',
-  'This menu is read-only. To add or modify hooks, edit settings.json directly or ask Qwen Code.':
-    'このメニューは読み取り専用です。フックを追加または変更するには、settings.json を直接編集するか、Qwen Code に尋ねてください。',
+  'This menu is read-only. To add or modify hooks, edit settings.json directly or ask VivekMind.':
+    'このメニューは読み取り専用です。フックを追加または変更するには、settings.json を直接編集するか、VivekMind に尋ねてください。',
   'Enter to select · Esc to cancel': 'Enter で選択 · Esc でキャンセル',
   // Hooks - Detail Step
   'Exit codes:': '終了コード：',
   'Configured hooks:': '設定済みのフック：',
   'No hooks configured for this event.':
     'このイベントにはフックが設定されていません。',
-  'To add hooks, edit settings.json directly or ask Qwen.':
-    'フックを追加するには、settings.json を直接編集するか、Qwen に尋ねてください。',
+  'To add hooks, edit settings.json directly or ask VivekMind.':
+    'フックを追加するには、settings.json を直接編集するか、VivekMind に尋ねてください。',
   'Enter to select · Esc to go back': 'Enter で選択 · Esc で戻る',
   // Hooks - Config Detail Step
   'Hook details': 'フック詳細',
@@ -413,8 +414,8 @@ export default {
   'Extension:': '拡張機能：',
   'Desc:': '説明：',
   'No hook config selected': 'フック設定が選択されていません',
-  'To modify or remove this hook, edit settings.json directly or ask Qwen to help.':
-    'このフックを変更または削除するには、settings.json を直接編集するか、Qwen に尋ねてください。',
+  'To modify or remove this hook, edit settings.json directly or ask VivekMind to help.':
+    'このフックを変更または削除するには、settings.json を直接編集するか、VivekMind に尋ねてください。',
   // Hooks - Disabled Step
   'Hook Configuration - Disabled': 'フック設定 - 無効',
   'All hooks are currently disabled. You have {{count}} that are not running.':
@@ -426,8 +427,8 @@ export default {
   'StatusLine will not be displayed': 'StatusLine は表示されません',
   'Tool operations will proceed without hook validation':
     'ツール操作はフック検証なしで続行されます',
-  'To re-enable hooks, remove "disableAllHooks" from settings.json or ask Qwen Code.':
-    'フックを再有効化するには、settings.json から "disableAllHooks" を削除するか、Qwen Code に尋ねてください。',
+  'To re-enable hooks, remove "disableAllHooks" from settings.json or ask VivekMind.':
+    'フックを再有効化するには、settings.json から "disableAllHooks" を削除するか、VivekMind に尋ねてください。',
   // Hooks - Source
   Project: 'プロジェクト',
   User: 'ユーザー',
@@ -448,8 +449,8 @@ export default {
   'When notifications are sent': '通知送信時',
   'When the user submits a prompt': 'ユーザーがプロンプトを送信した時',
   'When a new session is started': '新しいセッションが開始された時',
-  'Right before Qwen Code concludes its response':
-    'Qwen Code が応答を終了する直前',
+  'Right before VivekMind concludes its response':
+    'VivekMind が応答を終了する直前',
   'When a subagent (Agent tool call) is started':
     'サブエージェント（Agent ツール呼び出し）が開始された時',
   'Right before a subagent concludes its response':
@@ -492,7 +493,7 @@ export default {
     'stderr をユーザーのみに表示し、ツール呼び出しを続ける',
   'block processing, erase original prompt, and show stderr to user only':
     '処理をブロックし、元のプロンプトを消去し、stderr をユーザーのみに表示',
-  'stdout shown to Qwen': 'stdout をモデルに表示',
+  'stdout shown to VivekMind': 'stdout をモデルに表示',
   'show stderr to user only (blocking errors ignored)':
     'stderr をユーザーのみに表示（ブロッキングエラーは無視）',
   'command completes successfully': 'コマンドが正常に完了',
@@ -769,8 +770,8 @@ export default {
   'Share the current conversation to a markdown or json file. Usage: /chat share <file>':
     '現在の会話をmarkdownまたはjsonファイルに共有。使い方: /chat share <ファイル>',
   // Summary
-  'Generate a project summary and save it to .qwen/PROJECT_SUMMARY.md':
-    'プロジェクトサマリーを生成し、.qwen/PROJECT_SUMMARY.md に保存',
+  'Generate a project summary and save it to .vivekmind/PROJECT_SUMMARY.md':
+    'プロジェクトサマリーを生成し、.vivekmind/PROJECT_SUMMARY.md に保存',
   'No chat client available to generate summary.':
     'サマリーを生成するためのチャットクライアントがありません',
   'Already generating summary, wait for previous request to complete':
@@ -899,8 +900,8 @@ export default {
   servers: 'サーバー',
   'Add MCP servers to your settings to get started.':
     '設定にMCPサーバーを追加して開始してください。',
-  'Run qwen --debug to see error logs':
-    'qwen --debug を実行してエラーログを確認してください',
+  'Run vivekmind --debug to see error logs':
+    'vivekmind --debug を実行してエラーログを確認してください',
 
   // MCP OAuth Authentication
   'OAuth Authentication': 'OAuth 認証',
@@ -1009,17 +1010,17 @@ export default {
   'You must select an auth method to proceed. Press Ctrl+C again to exit.':
     '続行するには認証方法を選択してください。Ctrl+C をもう一度押すと終了します',
   'Terms of Services and Privacy Notice': '利用規約とプライバシー通知',
-  'Qwen OAuth': 'Qwen OAuth',
+  'VivekMind OAuth': 'VivekMind OAuth',
   'Discontinued — switch to Coding Plan or API Key':
     '終了 — Coding Plan または API Key に切り替えてください',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch provider.':
-    'Qwen OAuth 無料枠は 2026-04-15 に終了しました。/auth を実行してプロバイダーを切り替えてください。',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Please select Coding Plan or API Key instead.':
-    'Qwen OAuth 無料枠は 2026-04-15 に終了しました。Coding Plan または API Key を選択してください。',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Please select a model from another provider or run /auth to switch.':
-    'Qwen OAuth無料プランは2026-04-15に終了しました。他のプロバイダーのモデルを選択するか、/authを実行して切り替えてください。',
-  '\n⚠ Qwen OAuth free tier was discontinued on 2026-04-15. Please select another option.\n':
-    '\n⚠ Qwen OAuth 無料枠は 2026-04-15 に終了しました。他のオプションを選択してください。\n',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch provider.':
+    'VivekMind OAuth 無料枠は 2026-04-15 に終了しました。/auth を実行してプロバイダーを切り替えてください。',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Please select Coding Plan or API Key instead.':
+    'VivekMind OAuth 無料枠は 2026-04-15 に終了しました。Coding Plan または API Key を選択してください。',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Please select a model from another provider or run /auth to switch.':
+    'VivekMind OAuth無料プランは2026-04-15に終了しました。他のプロバイダーのモデルを選択するか、/authを実行して切り替えてください。',
+  '\n⚠ VivekMind OAuth free tier was discontinued on 2026-04-15. Please select another option.\n':
+    '\n⚠ VivekMind OAuth 無料枠は 2026-04-15 に終了しました。他のオプションを選択してください。\n',
   'Paid \u00B7 Up to 6,000 requests/5 hrs \u00B7 All Alibaba Cloud Coding Plan Models':
     '有料 \u00B7 5時間最大6,000リクエスト \u00B7 すべての Alibaba Cloud Coding Plan モデル',
   'Alibaba Cloud Coding Plan': 'Alibaba Cloud Coding Plan',
@@ -1034,27 +1035,27 @@ export default {
     'ログインに失敗しました。メッセージ: {{message}}',
   'Authentication is enforced to be {{enforcedType}}, but you are currently using {{currentType}}.':
     '認証は {{enforcedType}} に強制されていますが、現在 {{currentType}} を使用しています',
-  'Qwen OAuth authentication timed out. Please try again.':
-    'Qwen OAuth認証がタイムアウトしました。再度お試しください',
-  'Qwen OAuth authentication cancelled.':
-    'Qwen OAuth認証がキャンセルされました',
-  'Qwen OAuth Authentication': 'Qwen OAuth認証',
+  'VivekMind OAuth authentication timed out. Please try again.':
+    'VivekMind OAuth認証がタイムアウトしました。再度お試しください',
+  'VivekMind OAuth authentication cancelled.':
+    'VivekMind OAuth認証がキャンセルされました',
+  'VivekMind OAuth Authentication': 'VivekMind OAuth認証',
   'Please visit this URL to authorize:':
     '認証するには以下のURLにアクセスしてください:',
   'Or scan the QR code below:': 'または以下のQRコードをスキャン:',
   'Waiting for authorization': '認証を待っています',
   'Time remaining:': '残り時間:',
   '(Press ESC or CTRL+C to cancel)': '(ESC または CTRL+C でキャンセル)',
-  'Qwen OAuth Authentication Timeout': 'Qwen OAuth認証タイムアウト',
+  'VivekMind OAuth Authentication Timeout': 'VivekMind OAuth認証タイムアウト',
   'OAuth token expired (over {{seconds}} seconds). Please select authentication method again.':
     'OAuthトークンが期限切れです({{seconds}}秒以上)。認証方法を再度選択してください',
   'Press any key to return to authentication type selection.':
     '認証タイプ選択に戻るには任意のキーを押してください',
-  'Waiting for Qwen OAuth authentication...': 'Qwen OAuth認証を待っています...',
-  'Note: Your existing API key in settings.json will not be cleared when using Qwen OAuth. You can switch back to OpenAI authentication later if needed.':
-    '注: Qwen OAuthを使用しても、settings.json内の既存のAPIキーはクリアされません。必要に応じて後でOpenAI認証に切り替えることができます',
-  'Note: Your existing API key will not be cleared when using Qwen OAuth.':
-    '注: Qwen OAuthを使用しても、既存のAPIキーはクリアされません。',
+  'Waiting for VivekMind OAuth authentication...': 'VivekMind OAuth認証を待っています...',
+  'Note: Your existing API key in settings.json will not be cleared when using VivekMind OAuth. You can switch back to OpenAI authentication later if needed.':
+    '注: VivekMind OAuthを使用しても、settings.json内の既存のAPIキーはクリアされません。必要に応じて後でOpenAI認証に切り替えることができます',
+  'Note: Your existing API key will not be cleared when using VivekMind OAuth.':
+    '注: VivekMind OAuthを使用しても、既存のAPIキーはクリアされません。',
   'Authentication timed out. Please try again.':
     '認証がタイムアウトしました。再度お試しください',
   'Waiting for auth... (Press ESC or CTRL+C to cancel)':
@@ -1063,8 +1064,8 @@ export default {
     '認証に失敗しました。メッセージ: {{message}}',
   'Authenticated successfully with {{authType}} credentials.':
     '{{authType}} 認証情報で正常に認証されました',
-  'Invalid QWEN_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}':
-    '無効な QWEN_DEFAULT_AUTH_TYPE 値: "{{value}}"。有効な値: {{validValues}}',
+  'Invalid VIVEKMIND_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}':
+    '無効な VIVEKMIND_DEFAULT_AUTH_TYPE 値: "{{value}}"。有効な値: {{validValues}}',
   'OpenAI Configuration Required': 'OpenAI設定が必要です',
   'Please enter your OpenAI configuration. You can get an API key from':
     'OpenAI設定を入力してください。APIキーは以下から取得できます',
@@ -1087,10 +1088,10 @@ export default {
   'not set': '未設定',
   none: 'なし',
   unknown: '不明',
-  'Qwen 3.6 Plus — efficient hybrid model with leading coding performance':
-    'Qwen 3.6 Plus — 効率的なハイブリッドモデル、業界トップクラスのコーディング性能',
-  'The latest Qwen Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    'Alibaba Cloud ModelStudioの最新Qwen Visionモデル(バージョン: qwen3-vl-plus-2025-09-23)',
+  'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
+    'VivekMind 3.6 Plus — 効率的なハイブリッドモデル、業界トップクラスのコーディング性能',
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
+    'Alibaba Cloud ModelStudioの最新VivekMind Visionモデル(バージョン: qwen3-vl-plus-2025-09-23)',
   // Dialogs - Permissions
   'Manage folder trust settings': 'フォルダ信頼設定を管理',
   'Manage permission rules': '権限ルールを管理',
@@ -1098,12 +1099,12 @@ export default {
   Ask: '確認',
   Deny: '拒否',
   Workspace: 'ワークスペース',
-  "Qwen Code won't ask before using allowed tools.":
-    'Qwen Code は許可されたツールを使用する前に確認しません。',
-  'Qwen Code will ask before using these tools.':
-    'Qwen Code はこれらのツールを使用する前に確認します。',
-  'Qwen Code is not allowed to use denied tools.':
-    'Qwen Code は拒否されたツールを使用できません。',
+  "VivekMind won't ask before using allowed tools.":
+    'VivekMind は許可されたツールを使用する前に確認しません。',
+  'VivekMind will ask before using these tools.':
+    'VivekMind はこれらのツールを使用する前に確認します。',
+  'VivekMind is not allowed to use denied tools.':
+    'VivekMind は拒否されたツールを使用できません。',
   'Manage trusted directories for this workspace.':
     'このワークスペースの信頼済みディレクトリを管理します。',
   'Any use of the {{tool}} tool': '{{tool}} ツールのすべての使用',
@@ -1113,11 +1114,11 @@ export default {
   'From project settings': 'プロジェクト設定から',
   'From session': 'セッションから',
   'Project settings (local)': 'プロジェクト設定（ローカル）',
-  'Saved in .qwen/settings.local.json': '.qwen/settings.local.json に保存',
+  'Saved in .vivekmind/settings.local.json': '.vivekmind/settings.local.json に保存',
   'Project settings': 'プロジェクト設定',
-  'Checked in at .qwen/settings.json': '.qwen/settings.json にチェックイン',
+  'Checked in at .vivekmind/settings.json': '.vivekmind/settings.json にチェックイン',
   'User settings': 'ユーザー設定',
-  'Saved in at ~/.qwen/settings.json': '~/.qwen/settings.json に保存',
+  'Saved in at ~/.vivekmind/settings.json': '~/.vivekmind/settings.json に保存',
   'Add a new rule…': '新しいルールを追加…',
   'Add {{type}} permission rule': '{{type}}権限ルールを追加',
   'Permission rules are a tool name, optionally followed by a specifier in parentheses.':
@@ -1141,10 +1142,10 @@ export default {
   // Workspace directory management
   'Add directory…': 'ディレクトリを追加…',
   'Add directory to workspace': 'ワークスペースにディレクトリを追加',
-  'Qwen Code can read files in the workspace, and make edits when auto-accept edits is on.':
-    'Qwen Code はワークスペース内のファイルを読み取り、自動編集承認が有効な場合は編集を行えます。',
-  'Qwen Code will be able to read files in this directory and make edits when auto-accept edits is on.':
-    'Qwen Code はこのディレクトリ内のファイルを読み取り、自動編集承認が有効な場合は編集を行えます。',
+  'VivekMind can read files in the workspace, and make edits when auto-accept edits is on.':
+    'VivekMind はワークスペース内のファイルを読み取り、自動編集承認が有効な場合は編集を行えます。',
+  'VivekMind will be able to read files in this directory and make edits when auto-accept edits is on.':
+    'VivekMind はこのディレクトリ内のファイルを読み取り、自動編集承認が有効な場合は編集を行えます。',
   'Enter the path to the directory:': 'ディレクトリのパスを入力してください:',
   'Enter directory path…': 'ディレクトリパスを入力…',
   'Tab to complete · Enter to add · Esc to cancel':
@@ -1216,12 +1217,12 @@ export default {
     '問題が発生したら /bug でメンテナーに報告できます。',
   'Switch auth type quickly with /auth.':
     '/auth で認証タイプをすばやく切り替えられます。',
-  'You can run any shell commands from Qwen Code using ! (e.g. !ls).':
-    'Qwen Code から ! を使って任意のシェルコマンドを実行できます（例: !ls）。',
+  'You can run any shell commands from VivekMind using ! (e.g. !ls).':
+    'VivekMind から ! を使って任意のシェルコマンドを実行できます（例: !ls）。',
   'Type / to open the command popup; Tab autocompletes slash commands and saved prompts.':
     '/ を入力してコマンドポップアップを開きます。Tab でスラッシュコマンドと保存済みプロンプトを補完できます。',
-  'You can resume a previous conversation by running qwen --continue or qwen --resume.':
-    'qwen --continue または qwen --resume で前の会話を再開できます。',
+  'You can resume a previous conversation by running vivekmind --continue or vivekmind --resume.':
+    'vivekmind --continue または vivekmind --resume で前の会話を再開できます。',
   'You can switch permission mode quickly with Shift+Tab or /approval-mode.':
     'Shift+Tab または /approval-mode で権限モードをすばやく切り替えられます。',
   'You can switch permission mode quickly with Tab or /approval-mode.':
@@ -1230,8 +1231,8 @@ export default {
     '/insight でチャット履歴からパーソナライズされたインサイトを生成できます。',
   'Press Ctrl+O to toggle compact mode — hide tool output and thinking for a cleaner view.':
     'Ctrl+O でコンパクトモードを切り替え — ツール出力と思考を非表示にしてすっきり表示。',
-  'Add a QWEN.md file to give Qwen Code persistent project context.':
-    'QWEN.md ファイルを追加すると、Qwen Code に永続的なプロジェクトコンテキストを与えられます。',
+  'Add a QWEN.md file to give VivekMind persistent project context.':
+    'QWEN.md ファイルを追加すると、VivekMind に永続的なプロジェクトコンテキストを与えられます。',
   'Use /btw to ask a quick side question without disrupting the conversation.':
     '会話を中断せずに /btw でちょっとした横道の質問ができます。',
   'Context is almost full! Run /compress now or start /new to continue.':
@@ -1245,8 +1246,8 @@ export default {
     '1. 質問したり、ファイルを編集したり、コマンドを実行したりできます',
   '2. Be specific for the best results.':
     '2. 具体的に指示すると最良の結果が得られます',
-  'files to customize your interactions with Qwen Code.':
-    'Qwen Code との対話をカスタマイズするためのファイル',
+  'files to customize your interactions with VivekMind.':
+    'VivekMind との対話をカスタマイズするためのファイル',
   'for more information.': '詳細情報を確認できます',
   // Exit Screen / Stats
   'Agent powering down. Goodbye!': 'エージェントを終了します。さようなら!',
@@ -1465,9 +1466,9 @@ export default {
   // ============================================================================
   // Commands - Auth
   // ============================================================================
-  'Configure Qwen authentication information with Qwen-OAuth or Alibaba Cloud Coding Plan':
-    'Qwen-OAuth または Alibaba Cloud Coding Plan で Qwen 認証情報を設定する',
-  'Authenticate using Qwen OAuth': 'Qwen OAuth で認証する',
+  'Configure VivekMind authentication information with VivekMind-OAuth or Alibaba Cloud Coding Plan':
+    'VivekMind-OAuth または Alibaba Cloud Coding Plan で VivekMind 認証情報を設定する',
+  'Authenticate using VivekMind OAuth': 'VivekMind OAuth で認証する',
   'Authenticate using Alibaba Cloud Coding Plan':
     'Alibaba Cloud Coding Plan で認証する',
   'Region for Coding Plan (china/global)':
@@ -1475,11 +1476,11 @@ export default {
   'API key for Coding Plan': 'Coding Plan の API キー',
   'Show current authentication status': '現在の認証ステータスを表示',
   'Authentication completed successfully.': '認証が正常に完了しました。',
-  'Starting Qwen OAuth authentication...': 'Qwen OAuth 認証を開始しています...',
-  'Successfully authenticated with Qwen OAuth.':
-    'Qwen OAuth での認証に成功しました。',
-  'Failed to authenticate with Qwen OAuth: {{error}}':
-    'Qwen OAuth での認証に失敗しました: {{error}}',
+  'Starting VivekMind OAuth authentication...': 'VivekMind OAuth 認証を開始しています...',
+  'Successfully authenticated with VivekMind OAuth.':
+    'VivekMind OAuth での認証に成功しました。',
+  'Failed to authenticate with VivekMind OAuth: {{error}}':
+    'VivekMind OAuth での認証に失敗しました: {{error}}',
   'Processing Alibaba Cloud Coding Plan authentication...':
     'Alibaba Cloud Coding Plan 認証を処理しています...',
   'Successfully authenticated with Alibaba Cloud Coding Plan.':
@@ -1499,20 +1500,20 @@ export default {
     '⚠️  認証方法が設定されていません。\n',
   'Run one of the following commands to get started:\n':
     '以下のコマンドのいずれかを実行して開始してください:\n',
-  '  qwen auth qwen-oauth     - Authenticate with Qwen OAuth (discontinued)':
-    '  qwen auth qwen-oauth     - Qwen OAuth で認証（終了）',
-  '  qwen auth coding-plan      - Authenticate with Alibaba Cloud Coding Plan\n':
-    '  qwen auth coding-plan      - Alibaba Cloud Coding Plan で認証\n',
+  '  vivekmind auth vivekmind-oauth     - Authenticate with VivekMind OAuth (discontinued)':
+    '  vivekmind auth vivekmind-oauth     - VivekMind OAuth で認証（終了）',
+  '  vivekmind auth coding-plan      - Authenticate with Alibaba Cloud Coding Plan\n':
+    '  vivekmind auth coding-plan      - Alibaba Cloud Coding Plan で認証\n',
   'Or simply run:': 'または以下を実行:',
-  '  qwen auth                - Interactive authentication setup\n':
-    '  qwen auth                - インタラクティブ認証セットアップ\n',
-  '✓ Authentication Method: Qwen OAuth': '✓ 認証方法: Qwen OAuth',
+  '  vivekmind auth                - Interactive authentication setup\n':
+    '  vivekmind auth                - インタラクティブ認証セットアップ\n',
+  '✓ Authentication Method: VivekMind OAuth': '✓ 認証方法: VivekMind OAuth',
   '  Type: Free tier (discontinued 2026-04-15)':
     '  タイプ: 無料枠（2026-04-15 終了）',
   '  Limit: No longer available': '  制限: 利用不可',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.':
-    'Qwen OAuth 無料枠は 2026-04-15 に終了しました。/auth を実行して Coding Plan、OpenRouter、Fireworks AI、または他のプロバイダーに切り替えてください。',
-  '  Models: Qwen latest models\n': '  モデル: Qwen 最新モデル\n',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.':
+    'VivekMind OAuth 無料枠は 2026-04-15 に終了しました。/auth を実行して Coding Plan、OpenRouter、Fireworks AI、または他のプロバイダーに切り替えてください。',
+  '  Models: VivekMind latest models\n': '  モデル: VivekMind 最新モデル\n',
   '✓ Authentication Method: Alibaba Cloud Coding Plan':
     '✓ 認証方法: Alibaba Cloud Coding Plan',
   '中国 (China) - 阿里云百炼': '中国 (China) - 阿里云百炼',
@@ -1525,8 +1526,8 @@ export default {
     '⚠️  認証方法: Alibaba Cloud Coding Plan（不完全）',
   '  Issue: API key not found in environment or settings\n':
     '  問題: 環境変数または設定にAPIキーが見つかりません\n',
-  '  Run `qwen auth coding-plan` to re-configure.\n':
-    '  `qwen auth coding-plan` を実行して再設定してください。\n',
+  '  Run `vivekmind auth coding-plan` to re-configure.\n':
+    '  `vivekmind auth coding-plan` を実行して再設定してください。\n',
   '✓ Authentication Method: {{type}}': '✓ 認証方法: {{type}}',
   '  Status: Configured\n': '  ステータス: 設定済み\n',
   'Failed to check authentication status: {{error}}':
@@ -1554,5 +1555,5 @@ export default {
   'Not in plan mode. Use "/plan" to enter plan mode first.':
     'Not in plan mode. Use "/plan" to enter plan mode first.',
 
-  "Set up Qwen Code's status line UI": "Set up Qwen Code's status line UI",
+  "Set up VivekMind's status line UI": "Set up VivekMind's status line UI",
 };

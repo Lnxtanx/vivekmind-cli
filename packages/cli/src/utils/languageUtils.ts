@@ -1,25 +1,25 @@
 /**
  * @license
- * Copyright 2025 Qwen team
+ * Copyright 2025 VivekMind team
  * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
  * Utilities for managing the LLM output language rule file.
- * This file handles the creation and maintenance of ~/.qwen/output-language.md
+ * This file handles the creation and maintenance of ~/.vivekmind/output-language.md
  * which instructs the LLM to respond in the user's preferred language.
  */
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { Storage } from '@qwen-code/qwen-code-core';
+import { Storage } from '@vivekmind/core';
 import {
   detectSystemLanguage,
   getLanguageNameFromLocale,
 } from '../i18n/index.js';
 
 const LLM_OUTPUT_LANGUAGE_RULE_FILENAME = 'output-language.md';
-const LLM_OUTPUT_LANGUAGE_MARKER_PREFIX = 'qwen-code:llm-output-language:';
+const LLM_OUTPUT_LANGUAGE_MARKER_PREFIX = 'vivekmind:llm-output-language:';
 
 /** Special value meaning "detect from system settings" */
 export const OUTPUT_LANGUAGE_AUTO = 'auto';
@@ -61,11 +61,11 @@ export function resolveOutputLanguage(
 }
 
 /**
- * Returns the path to the LLM output language rule file (~/.qwen/output-language.md).
+ * Returns the path to the LLM output language rule file (~/.vivekmind/output-language.md).
  */
 function getOutputLanguageFilePath(): string {
   return path.join(
-    Storage.getGlobalQwenDir(),
+    Storage.getGlobalVivekMindDir(),
     LLM_OUTPUT_LANGUAGE_RULE_FILENAME,
   );
 }
@@ -111,7 +111,7 @@ Raw tool/system outputs may contain fixed-format English. Preserve them verbatim
  * Supports both the new marker format and legacy heading format.
  */
 function parseOutputLanguageFromContent(content: string): string | null {
-  // Primary: machine-readable marker (e.g., <!-- qwen-code:llm-output-language: 中文 -->)
+  // Primary: machine-readable marker (e.g., <!-- vivekmind:llm-output-language: 中文 -->)
   const markerRegex = new RegExp(
     String.raw`<!--\s*${LLM_OUTPUT_LANGUAGE_MARKER_PREFIX}\s*(.*?)\s*-->`,
     'i',

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -17,7 +17,7 @@ interface GenerationOption {
 const generationOptions: GenerationOption[] = [
   {
     get label() {
-      return t('Generate with Qwen Code (Recommended)');
+      return t('Generate with VivekMind (Recommended)');
     },
     value: 'qwen',
   },

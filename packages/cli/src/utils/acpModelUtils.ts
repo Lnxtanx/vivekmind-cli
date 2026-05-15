@@ -1,10 +1,10 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AuthType } from '@qwen-code/qwen-code-core';
+import { AuthType } from '@vivekmind/core';
 import { z } from 'zod';
 
 /**

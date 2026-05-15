@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Code
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -11,7 +11,7 @@ import {
   type SessionListItem,
   SessionStartSource,
   type PermissionMode,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { buildResumedHistoryItems } from '../utils/resumeHistoryUtils.js';
 import type { UseHistoryManagerReturn } from './useHistoryManager.js';
 import { MessageType, type HistoryItem } from '../types.js';

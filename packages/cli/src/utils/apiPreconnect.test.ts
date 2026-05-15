@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -20,7 +20,7 @@ const { mockGetOrCreateSharedDispatcher, mockDebugLogger } = vi.hoisted(() => {
     mockDebugLogger,
   };
 });
-vi.mock('@qwen-code/qwen-code-core', () => ({
+vi.mock('@vivekmind/core', () => ({
   createDebugLogger: () => mockDebugLogger,
   detectRuntime: () => 'node',
   getOrCreateSharedDispatcher: mockGetOrCreateSharedDispatcher,
@@ -36,7 +36,7 @@ describe('apiPreconnect', () => {
     delete process.env['https_proxy'];
     delete process.env['HTTP_PROXY'];
     delete process.env['http_proxy'];
-    delete process.env['QWEN_CODE_DISABLE_PRECONNECT'];
+    delete process.env['VIVEKMIND_CODE_DISABLE_PRECONNECT'];
     delete process.env['NODE_EXTRA_CA_CERTS'];
     delete process.env['SANDBOX'];
   });
@@ -48,7 +48,7 @@ describe('apiPreconnect', () => {
   describe('shouldSkipPreconnect', () => {
     it('should skip when NODE_EXTRA_CA_CERTS is set', () => {
       process.env['NODE_EXTRA_CA_CERTS'] = '/path/to/ca.pem';
-      preconnectApi('qwen-oauth');
+      preconnectApi('vivekmind-oauth');
       expect(mockFetch).not.toHaveBeenCalled();
     });
   });
@@ -128,8 +128,8 @@ describe('apiPreconnect', () => {
     });
 
     it('should fall back to authType default when resolvedBaseUrl is a non-URL sentinel', () => {
-      preconnectApi('qwen-oauth', {
-        resolvedBaseUrl: 'DYNAMIC_QWEN_OAUTH_BASE_URL',
+      preconnectApi('vivekmind-oauth', {
+        resolvedBaseUrl: 'DYNAMIC_VIVEKMIND_OAUTH_BASE_URL',
       });
       expect(mockFetch).toHaveBeenCalledWith(
         'https://coding.dashscope.aliyuncs.com',
@@ -138,7 +138,7 @@ describe('apiPreconnect', () => {
     });
 
     it('should fall back to default URL when resolvedBaseUrl is undefined', () => {
-      preconnectApi('qwen-oauth');
+      preconnectApi('vivekmind-oauth');
       expect(mockFetch).toHaveBeenCalledWith(
         'https://coding.dashscope.aliyuncs.com',
         expect.objectContaining({ method: 'HEAD' }),
@@ -147,8 +147,8 @@ describe('apiPreconnect', () => {
   });
 
   describe('preconnect behavior', () => {
-    it('should use default baseUrl for qwen-oauth', () => {
-      preconnectApi('qwen-oauth');
+    it('should use default baseUrl for vivekmind-oauth', () => {
+      preconnectApi('vivekmind-oauth');
       expect(mockFetch).toHaveBeenCalledWith(
         'https://coding.dashscope.aliyuncs.com',
         expect.objectContaining({ method: 'HEAD' }),
@@ -172,7 +172,7 @@ describe('apiPreconnect', () => {
     });
 
     it('should pass shared dispatcher on Node.js runtime', () => {
-      preconnectApi('qwen-oauth');
+      preconnectApi('vivekmind-oauth');
       expect(mockFetch).toHaveBeenCalledWith(
         expect.any(String),
         expect.objectContaining({
@@ -182,19 +182,19 @@ describe('apiPreconnect', () => {
     });
 
     it('should pass undefined proxy to shared dispatcher by default', () => {
-      preconnectApi('qwen-oauth');
+      preconnectApi('vivekmind-oauth');
       expect(mockGetOrCreateSharedDispatcher).toHaveBeenCalledWith(undefined);
     });
 
     it('should pass configured proxy to shared dispatcher', () => {
-      preconnectApi('qwen-oauth', { proxy: 'http://proxy.example.com:8080' });
+      preconnectApi('vivekmind-oauth', { proxy: 'http://proxy.example.com:8080' });
       expect(mockGetOrCreateSharedDispatcher).toHaveBeenCalledWith(
         'http://proxy.example.com:8080',
       );
     });
 
     it('should not fire twice', () => {
-      preconnectApi('qwen-oauth');
+      preconnectApi('vivekmind-oauth');
       preconnectApi('openai');
       expect(mockFetch).toHaveBeenCalledTimes(1);
     });
@@ -205,7 +205,7 @@ describe('apiPreconnect', () => {
       expect(mockFetch).not.toHaveBeenCalled();
 
       // Second call: valid authType → should fire
-      preconnectApi('qwen-oauth');
+      preconnectApi('vivekmind-oauth');
       expect(mockFetch).toHaveBeenCalledTimes(1);
       expect(mockFetch).toHaveBeenCalledWith(
         'https://coding.dashscope.aliyuncs.com',
@@ -216,25 +216,25 @@ describe('apiPreconnect', () => {
     it('should handle fetch errors gracefully', async () => {
       mockFetch.mockRejectedValue(new Error('Network error'));
       // Should not throw
-      expect(() => preconnectApi('qwen-oauth')).not.toThrow();
+      expect(() => preconnectApi('vivekmind-oauth')).not.toThrow();
     });
 
     it('should handle synchronous dispatcher errors gracefully', () => {
       mockGetOrCreateSharedDispatcher.mockImplementation(() => {
         throw new Error('Failed to create dispatcher');
       });
-      expect(() => preconnectApi('qwen-oauth')).not.toThrow();
+      expect(() => preconnectApi('vivekmind-oauth')).not.toThrow();
     });
 
-    it('should skip when QWEN_CODE_DISABLE_PRECONNECT is set', () => {
-      process.env['QWEN_CODE_DISABLE_PRECONNECT'] = '1';
-      preconnectApi('qwen-oauth');
+    it('should skip when VIVEKMIND_CODE_DISABLE_PRECONNECT is set', () => {
+      process.env['VIVEKMIND_CODE_DISABLE_PRECONNECT'] = '1';
+      preconnectApi('vivekmind-oauth');
       expect(mockFetch).not.toHaveBeenCalled();
     });
 
     it('should skip in sandbox mode', () => {
       process.env['SANDBOX'] = '1';
-      preconnectApi('qwen-oauth');
+      preconnectApi('vivekmind-oauth');
       expect(mockFetch).not.toHaveBeenCalled();
     });
   });

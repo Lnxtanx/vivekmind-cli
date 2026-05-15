@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# This script creates an alias for the Gemini CLI
+# This script creates an alias for VivekMind CLI
 
 # Determine the project directory
 PROJECT_DIR=$(cd "$(dirname "$0")/.." && pwd)
-ALIAS_COMMAND="alias qwen='node "${PROJECT_DIR}/scripts/start.js"'"
+ALIAS_COMMAND="alias vivekmind='node "${PROJECT_DIR}/scripts/start.js"'"
 
 # Detect shell and set config file path
 if [[ "${SHELL}" == *"/bash" ]]; then
@@ -22,8 +22,8 @@ echo "  ${ALIAS_COMMAND}"
 echo ""
 
 # Check if the alias already exists
-if grep -q "alias qwen=" "${CONFIG_FILE}"; then
-    echo "A 'qwen' alias already exists in ${CONFIG_FILE}. No changes were made."
+if grep -q "alias vivekmind=" "${CONFIG_FILE}"; then
+    echo "A 'vivekmind' alias already exists in ${CONFIG_FILE}. No changes were made."
     exit 0
 fi
 
@@ -33,7 +33,7 @@ if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
     echo "${ALIAS_COMMAND}" >> "${CONFIG_FILE}"
     echo ""
     echo "Alias added to ${CONFIG_FILE}."
-    echo "Please run 'source ${CONFIG_FILE}' or open a new terminal to use the 'qwen' command."
+    echo "Please run 'source ${CONFIG_FILE}' or open a new terminal to use the 'vivekmind' command."
 else
     echo "Aborted. No changes were made."
 fi

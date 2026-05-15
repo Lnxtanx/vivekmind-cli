@@ -33,11 +33,19 @@ export class GeminiContentGenerator implements ContentGenerator {
     options: {
       apiKey?: string;
       vertexai?: boolean;
-      httpOptions?: { headers: Record<string, string> };
+      httpOptions?: { headers: Record<string, string>; baseUrl?: string };
     },
     contentGeneratorConfig?: ContentGeneratorConfig,
   ) {
     const customHeaders = contentGeneratorConfig?.customHeaders;
+    
+    // Sanitize baseUrl: remove trailing /v1beta or /v1 as the SDK appends its own
+    if (options.httpOptions?.baseUrl) {
+      options.httpOptions.baseUrl = options.httpOptions.baseUrl
+        .replace(/\/v1beta\/?$/, '')
+        .replace(/\/v1\/?$/, '');
+    }
+
     const finalOptions = customHeaders
       ? (() => {
           const baseHttpOptions = options.httpOptions;
@@ -51,6 +59,7 @@ export class GeminiContentGenerator implements ContentGenerator {
                 ...baseHeaders,
                 ...customHeaders,
               },
+              baseUrl: baseHttpOptions?.baseUrl,
             },
           };
         })()
@@ -79,7 +88,7 @@ export class GeminiContentGenerator implements ContentGenerator {
       return defaultValue;
     };
 
-    return {
+    const config: GenerateContentConfig = {
       ...requestConfig,
       temperature: getParameterValue<number>(
         configSamplingParams?.temperature,
@@ -104,15 +113,22 @@ export class GeminiContentGenerator implements ContentGenerator {
         configSamplingParams?.frequency_penalty,
         'frequencyPenalty',
       ),
-      thinkingConfig: getParameterValue(
-        this.buildThinkingConfig(),
-        'thinkingConfig',
-        {
-          includeThoughts: true,
-          thinkingLevel: 'THINKING_LEVEL_UNSPECIFIED' as ThinkingLevel,
-        },
-      ),
     };
+
+    const thinkingConfig = getParameterValue(
+      this.buildThinkingConfig(),
+      'thinkingConfig',
+    );
+
+    if (thinkingConfig && thinkingConfig.includeThoughts === true) {
+      config.thinkingConfig = thinkingConfig;
+    } else {
+      // Very important: delete the property entirely if thoughts are not enabled.
+      // Even { includeThoughts: false } can cause 400 errors on some models.
+      delete config.thinkingConfig;
+    }
+
+    return config;
   }
 
   private buildThinkingConfig():

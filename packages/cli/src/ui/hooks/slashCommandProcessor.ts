@@ -26,7 +26,7 @@ import {
   ToolConfirmationOutcome,
   IdeClient,
   type SessionListItem,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { useSessionStats } from '../contexts/SessionContext.js';
 import type {
   Message,

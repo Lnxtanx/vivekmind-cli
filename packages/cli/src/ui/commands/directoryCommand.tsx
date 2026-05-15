@@ -13,7 +13,7 @@ import * as path from 'node:path';
 import {
   loadServerHierarchicalMemory,
   ConditionalRulesRegistry,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { t } from '../../i18n/index.js';
 import { SettingScope } from '../../config/settings.js';
 

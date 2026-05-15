@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -12,7 +12,7 @@ import type {
   BackgroundShellEntry,
   BackgroundTaskEntry,
   MonitorEntry,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 type AgentTaskTestEntry = BackgroundTaskEntry & {
   resumeBlockedReason?: string;

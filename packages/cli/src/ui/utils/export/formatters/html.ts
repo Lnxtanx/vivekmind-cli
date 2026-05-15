@@ -1,11 +1,11 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import type { ExportSessionData } from '../types.js';
-import { EXPORT_HTML_TEMPLATE as HTML_TEMPLATE } from '@qwen-code/web-templates';
+import { EXPORT_HTML_TEMPLATE as HTML_TEMPLATE } from '@vivekmind/web-templates';
 
 /**
  * Escapes JSON for safe embedding in HTML.

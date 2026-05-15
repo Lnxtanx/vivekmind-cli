@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -476,7 +477,7 @@ describe('getCommandRoots', () => {
   it('should skip leading env var assignments', async () => {
     expect(
       getCommandRoots(
-        'PYTHONPATH=/Users/jinjing/.qwen/skills/scripts python3 -c "print(1)"',
+        'PYTHONPATH=/Users/jinjing/.vivekmind/skills/scripts python3 -c "print(1)"',
       ),
     ).toEqual(['python3']);
   });

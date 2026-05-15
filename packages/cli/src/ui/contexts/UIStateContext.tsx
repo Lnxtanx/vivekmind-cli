@@ -18,7 +18,7 @@ import type {
   PluginChoiceRequest,
 } from '../types.js';
 import type { TodoItem } from '../components/TodoDisplay.js';
-import type { ExternalAuthState, QwenAuthState } from '../hooks/useQwenAuth.js';
+import type { ExternalAuthState, VivekMindAuthState } from '../hooks/useVivekMindAuth.js';
 import type { CommandContext, SlashCommand } from '../commands/types.js';
 import type { TextBuffer } from '../components/shared/text-buffer.js';
 import type {
@@ -27,7 +27,7 @@ import type {
   ApprovalMode,
   IdeInfo,
   SessionListItem,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { DOMElement } from 'ink';
 import type { SessionStatsState } from '../contexts/SessionContext.js';
 import type { ExtensionUpdateState } from '../state/extensions.js';
@@ -37,6 +37,7 @@ import { type UseHistoryManagerReturn } from '../hooks/useHistoryManager.js';
 import { type RestartReason } from '../hooks/useIdeTrustListener.js';
 import { type CodingPlanUpdateRequest } from '../hooks/useCodingPlanUpdates.js';
 import { type ArenaDialogType } from '../hooks/useArenaCommand.js';
+import { type QueuedMessage } from '../hooks/useMessageQueue.js';
 
 export interface UIState {
   history: HistoryItem[];
@@ -49,8 +50,8 @@ export interface UIState {
   isAuthDialogOpen: boolean;
   pendingAuthType: AuthType | undefined;
   externalAuthState: ExternalAuthState | null;
-  // Qwen OAuth state
-  qwenAuthState: QwenAuthState;
+  // VivekMind OAuth state
+  vivekmindAuthState: VivekMindAuthState;
   editorError: string | null;
   isEditorDialogOpen: boolean;
   debugMessage: string;
@@ -102,7 +103,7 @@ export interface UIState {
   elapsedTime: number;
   currentLoadingPhrase: string;
   historyRemountKey: number;
-  messageQueue: string[];
+  messageQueue: QueuedMessage[];
   showAutoAcceptIndicator: ApprovalMode;
   // Quota-related state
   currentModel: string;

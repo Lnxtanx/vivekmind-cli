@@ -9,7 +9,7 @@ import open from 'open';
 import { bugCommand } from './bugCommand.js';
 import { createMockCommandContext } from '../../test-utils/mockCommandContext.js';
 import { GIT_COMMIT_INFO } from '../../generated/git-commit.js';
-import { AuthType } from '@qwen-code/qwen-code-core';
+import { AuthType } from '@vivekmind/core';
 import * as systemInfoUtils from '../../utils/systemInfo.js';
 
 // Mock dependencies
@@ -58,8 +58,8 @@ describe('bugCommand', () => {
 
     const qwenCodeLine =
       GIT_COMMIT_INFO && !['N/A'].includes(GIT_COMMIT_INFO)
-        ? `Qwen Code: 0.1.0 (${GIT_COMMIT_INFO})`
-        : 'Qwen Code: 0.1.0';
+        ? `VivekMind: 0.1.0 (${GIT_COMMIT_INFO})`
+        : 'VivekMind: 0.1.0';
     const expectedInfo = `${qwenCodeLine}
 Runtime: Node.js v20.0.0 / npm 10.0.0
 IDE Client: VSCode
@@ -103,8 +103,8 @@ Memory Usage: 100 MB`;
 
     const qwenCodeLine =
       GIT_COMMIT_INFO && !['N/A'].includes(GIT_COMMIT_INFO)
-        ? `Qwen Code: 0.1.0 (${GIT_COMMIT_INFO})`
-        : 'Qwen Code: 0.1.0';
+        ? `VivekMind: 0.1.0 (${GIT_COMMIT_INFO})`
+        : 'VivekMind: 0.1.0';
     const expectedInfo = `${qwenCodeLine}
 Runtime: Node.js v20.0.0 / npm 10.0.0
 IDE Client: VSCode
@@ -165,8 +165,8 @@ Memory Usage: 100 MB`;
 
     const qwenCodeLine =
       GIT_COMMIT_INFO && !['N/A'].includes(GIT_COMMIT_INFO)
-        ? `Qwen Code: 0.1.0 (${GIT_COMMIT_INFO})`
-        : 'Qwen Code: 0.1.0';
+        ? `VivekMind: 0.1.0 (${GIT_COMMIT_INFO})`
+        : 'VivekMind: 0.1.0';
     const expectedInfo = `${qwenCodeLine}
 Runtime: Node.js v20.0.0 / npm 10.0.0
 IDE Client: VSCode

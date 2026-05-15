@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -38,18 +38,28 @@ const MODALITY_PATTERNS: Array<[RegExp, InputModalities]> = [
   [/^claude-/, { image: true, pdf: true }],
 
   // -------------------
-  // Alibaba / Qwen
+  // Amazon Bedrock — Nova models (image + video)
+  // Bedrock model IDs: amazon.nova-pro-v1, amazon.nova-lite-v1, amazon.nova-micro-v1
+  // After normalize(): nova-pro-v1, nova-lite-v1, nova-micro-v1
+  // -------------------
+  [/^nova-pro/, { image: true, video: true }],
+  [/^nova-lite/, { image: true, video: true }],
+  [/^nova-micro/, { image: true }],
+  [/^nova-canvass/, { image: true, video: true }],
+
+  // -------------------
+  // Alibaba / VivekMind
   // -------------------
   // Qwen3.5-Plus, Qwen3.6-Plus: image + video support
   [/^qwen3\.5-plus/, { image: true, video: true }],
   [/^qwen3\.6-plus/, { image: true, video: true }],
   [/^coder-model$/, { image: true, video: true }],
 
-  // Qwen VL (vision-language) models: image + video
+  // VivekMind VL (vision-language) models: image + video
   [/^qwen-vl-/, { image: true, video: true }],
   [/^qwen3-vl-/, { image: true, video: true }],
 
-  // Qwen coder / text models: text-only
+  // VivekMind coder / text models: text-only
   [/^qwen3-coder-/, {}],
   [/^qwen/, {}],
 
@@ -75,6 +85,38 @@ const MODALITY_PATTERNS: Array<[RegExp, InputModalities]> = [
   // -------------------
   [/^kimi-k2\.5/, { image: true, video: true }],
   [/^kimi-/, {}],
+
+  // -------------------
+  // xAI / Grok — image support
+  // -------------------
+  [/^grok-/, { image: true }],
+
+  // -------------------
+  // Mistral AI — text-only
+  // -------------------
+  [/^mistral/, {}],
+  [/^codestral/, {}],
+
+  // -------------------
+  // Meta Llama — text-only (code models)
+  // -------------------
+  [/^llama-3/, {}],
+  [/^llama3/, {}],
+
+  // -------------------
+  // Reka AI — multimodal (image support)
+  // -------------------
+  [/^reka-/, { image: true }],
+
+  // -------------------
+  // Cohere Command R — text-only
+  // -------------------
+  [/^command-r/, {}],
+
+  // -------------------
+  // Perplexity Sonar — text-only
+  // -------------------
+  [/^sonar/, {}],
 ];
 
 /**

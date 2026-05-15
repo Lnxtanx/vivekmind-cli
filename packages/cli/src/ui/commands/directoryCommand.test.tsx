@@ -6,7 +6,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { directoryCommand, expandHomeDir } from './directoryCommand.js';
-import type { Config, WorkspaceContext } from '@qwen-code/qwen-code-core';
+import type { Config, WorkspaceContext } from '@vivekmind/core';
 import type { CommandContext } from './types.js';
 import { MessageType } from '../types.js';
 import { SettingScope } from '../../config/settings.js';

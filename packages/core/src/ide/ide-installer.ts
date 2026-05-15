@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -10,7 +11,7 @@ import * as path from 'node:path';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import { IDE_DEFINITIONS, type IdeInfo } from './detect-ide.js';
-import { QWEN_CODE_COMPANION_EXTENSION_NAME } from './constants.js';
+import { VIVEKMIND_CODE_COMPANION_EXTENSION_NAME } from './constants.js';
 
 function getVsCodeCommand(platform: NodeJS.Platform = process.platform) {
   return platform === 'win32' ? 'code.cmd' : 'code';
@@ -113,7 +114,7 @@ class VsCodeInstaller implements IdeInstaller {
     if (!commandPath) {
       return {
         success: false,
-        message: `${this.ideInfo.displayName} CLI not found. Please ensure 'code' is in your system's PATH. For help, see https://code.visualstudio.com/docs/configure/command-line#_code-is-not-recognized-as-an-internal-or-external-command. You can also install the '${QWEN_CODE_COMPANION_EXTENSION_NAME}' extension manually from the VS Code marketplace.`,
+        message: `${this.ideInfo.displayName} CLI not found. Please ensure 'code' is in your system's PATH. For help, see https://code.visualstudio.com/docs/configure/command-line#_code-is-not-recognized-as-an-internal-or-external-command. You can also install the '${VIVEKMIND_CODE_COMPANION_EXTENSION_NAME}' extension manually from the VS Code marketplace.`,
       };
     }
 
@@ -123,7 +124,7 @@ class VsCodeInstaller implements IdeInstaller {
         isWindows ? `"${commandPath}"` : commandPath,
         [
           '--install-extension',
-          'qwenlm.qwen-code-vscode-ide-companion',
+          'vivekmind.vivekmind-vscode-ide-companion',
           '--force',
         ],
         { stdio: 'pipe', shell: isWindows },
@@ -142,7 +143,7 @@ class VsCodeInstaller implements IdeInstaller {
     } catch (_error) {
       return {
         success: false,
-        message: `Failed to install ${this.ideInfo.displayName} companion extension. Please try installing '${QWEN_CODE_COMPANION_EXTENSION_NAME}' manually from the ${this.ideInfo.displayName} extension marketplace.`,
+        message: `Failed to install ${this.ideInfo.displayName} companion extension. Please try installing '${VIVEKMIND_CODE_COMPANION_EXTENSION_NAME}' manually from the ${this.ideInfo.displayName} extension marketplace.`,
       };
     }
   }

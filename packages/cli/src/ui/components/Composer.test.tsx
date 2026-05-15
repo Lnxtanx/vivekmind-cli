@@ -21,8 +21,9 @@ vi.mock('../contexts/VimModeContext.js', () => ({
     vimMode: 'NORMAL',
   })),
 }));
-import { ApprovalMode } from '@qwen-code/qwen-code-core';
+import { ApprovalMode } from '@vivekmind/core';
 import { StreamingState } from '../types.js';
+import { type QueuedMessage } from '../hooks/useMessageQueue.js';
 
 // Mock child components
 vi.mock('./LoadingIndicator.js', () => ({
@@ -57,14 +58,14 @@ vi.mock('./Footer.js', () => ({
 }));
 
 vi.mock('./QueuedMessageDisplay.js', () => ({
-  QueuedMessageDisplay: ({ messageQueue }: { messageQueue: string[] }) => {
+  QueuedMessageDisplay: ({ messageQueue }: { messageQueue: QueuedMessage[] }) => {
     if (messageQueue.length === 0) {
       return null;
     }
     return (
       <>
         {messageQueue.map((message, index) => (
-          <Text key={index}>{message}</Text>
+          <Text key={index}>{message.text}</Text>
         ))}
       </>
     );
@@ -223,9 +224,9 @@ describe('Composer', () => {
     it('displays queued messages when present', () => {
       const uiState = createMockUIState({
         messageQueue: [
-          'First queued message',
-          'Second queued message',
-          'Third queued message',
+          { text: 'First queued message', attachments: undefined },
+          { text: 'Second queued message', attachments: undefined },
+          { text: 'Third queued message', attachments: undefined },
         ],
       });
 

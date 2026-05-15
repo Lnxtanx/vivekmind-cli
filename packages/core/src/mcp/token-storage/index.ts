@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -9,6 +10,6 @@ export * from './base-token-storage.js';
 export * from './file-token-storage.js';
 export * from './hybrid-token-storage.js';
 
-export const DEFAULT_SERVICE_NAME = 'qwen-code-oauth';
+export const DEFAULT_SERVICE_NAME = 'vivekmind-oauth';
 export const FORCE_ENCRYPTED_FILE_ENV_VAR =
-  'QWEN_CODE_FORCE_ENCRYPTED_FILE_STORAGE';
+  'VIVEKMIND_CODE_FORCE_ENCRYPTED_FILE_STORAGE';

@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -10,7 +11,7 @@ import os from 'node:os';
 import { ToolNames } from '../tools/tool-names.js';
 import process from 'node:process';
 import { isGitRepository } from '../utils/gitUtils.js';
-import { QWEN_CONFIG_DIR } from '../memory/const.js';
+import { VIVEKMIND_CONFIG_DIR } from '../memory/const.js';
 import type { GenerateContentConfig } from '@google/genai';
 import { createDebugLogger } from '../utils/debugLogger.js';
 
@@ -117,13 +118,13 @@ export function getCoreSystemPrompt(
   model?: string,
   appendInstruction?: string,
 ): string {
-  // if QWEN_SYSTEM_MD is set (and not 0|false), override system prompt from file
-  // default path is .qwen/system.md but can be modified via custom path in QWEN_SYSTEM_MD
+  // if VIVEKMIND_SYSTEM_MD is set (and not 0|false), override system prompt from file
+  // default path is .vivekmind/system.md but can be modified via custom path in VIVEKMIND_SYSTEM_MD
   let systemMdEnabled = false;
   // The default path for the system prompt file. This can be overridden.
-  let systemMdPath = path.resolve(path.join(QWEN_CONFIG_DIR, 'system.md'));
+  let systemMdPath = path.resolve(path.join(VIVEKMIND_CONFIG_DIR, 'system.md'));
   // Resolve the environment variable to get either a path or a switch value.
-  const systemMdResolution = resolvePathFromEnv(process.env['QWEN_SYSTEM_MD']);
+  const systemMdResolution = resolvePathFromEnv(process.env['VIVEKMIND_SYSTEM_MD']);
 
   // Proceed only if the environment variable is set and is not disabled.
   if (systemMdResolution.value && !systemMdResolution.isDisabled) {
@@ -143,7 +144,7 @@ export function getCoreSystemPrompt(
   const basePrompt = systemMdEnabled
     ? fs.readFileSync(systemMdPath, 'utf8')
     : `
-You are Qwen Code, an interactive CLI agent developed by Alibaba Group, specializing in software engineering tasks. Your primary goal is to help users safely and efficiently, adhering strictly to the following instructions and utilizing your available tools.
+You are VivekMind, an open-source terminal AI coding agent developed by VivekMind. Your primary goal is to help users safely and efficiently with software engineering tasks, adhering strictly to the following instructions and utilizing your available tools.
 
 # Core Mandates
 
@@ -326,9 +327,9 @@ ${getToolCallExamples(model || '')}
 Your core function is efficient and safe assistance. Balance extreme conciseness with the crucial need for clarity, especially regarding safety and potential system modifications. Always prioritize user control and project conventions. Never make assumptions about the contents of files; instead use '${ToolNames.READ_FILE}' to ensure you aren't making broad assumptions. Finally, you are an agent - please keep going until the user's query is completely resolved.
 `.trim();
 
-  // if QWEN_WRITE_SYSTEM_MD is set (and not 0|false), write base system prompt to file
+  // if VIVEKMIND_WRITE_SYSTEM_MD is set (and not 0|false), write base system prompt to file
   const writeSystemMdResolution = resolvePathFromEnv(
-    process.env['QWEN_WRITE_SYSTEM_MD'],
+    process.env['VIVEKMIND_WRITE_SYSTEM_MD'],
   );
 
   // Check if the feature is enabled. This proceeds only if the environment
@@ -801,7 +802,7 @@ To help you check their settings, I can read their contents. Which one would you
 
 function getToolCallExamples(model?: string): string {
   // Check for environment variable override first
-  const toolCallStyle = process.env['QWEN_CODE_TOOL_CALL_STYLE'];
+  const toolCallStyle = process.env['VIVEKMIND_CODE_TOOL_CALL_STYLE'];
   if (toolCallStyle) {
     switch (toolCallStyle.toLowerCase()) {
       case 'qwen-coder':
@@ -812,7 +813,7 @@ function getToolCallExamples(model?: string): string {
         return generalToolCallExamples;
       default:
         debugLogger.warn(
-          `Unknown QWEN_CODE_TOOL_CALL_STYLE value: ${toolCallStyle}. Using model-based detection.`,
+          `Unknown VIVEKMIND_CODE_TOOL_CALL_STYLE value: ${toolCallStyle}. Using model-based detection.`,
         );
         break;
     }
@@ -913,13 +914,13 @@ type InsightPromptType =
   | 'at_a_glance';
 
 const INSIGHT_PROMPTS: Record<InsightPromptType, string> = {
-  analysis: `Analyze this Qwen Code session and extract structured facets.
+  analysis: `Analyze this VivekMind session and extract structured facets.
 
 CRITICAL GUIDELINES:
 
 1. **goal_categories**: Count ONLY what the USER explicitly asked for.
-   - DO NOT count Qwen's autonomous codebase exploration
-   - DO NOT count work Qwen decided to do on its own
+   - DO NOT count VivekMind's autonomous codebase exploration
+   - DO NOT count work VivekMind decided to do on its own
    - ONLY count when user says "can you...", "please...", "I need...", "let's...
    - POSSIBLE CATEGORIES (but be open to others that appear in the data):
       - bug_fix
@@ -938,7 +939,7 @@ CRITICAL GUIDELINES:
    - "this is broken", "I give up" → frustrated
 
 3. **friction_counts**: Be specific about what went wrong.
-   - misunderstood_request: Qwen interpreted incorrectly
+   - misunderstood_request: VivekMind interpreted incorrectly
    - wrong_approach: Right goal, wrong solution method
    - buggy_code: Code didn't work correctly
    - user_rejected_action: User said no/stop to a tool call
@@ -946,7 +947,7 @@ CRITICAL GUIDELINES:
 
 4. If very short or just warmup, use warmup_minimal for goal_category`,
 
-  impressive_workflows: `Analyze this Qwen Code usage data and identify what's working well for this user. Use second person ("you").
+  impressive_workflows: `Analyze this VivekMind usage data and identify what's working well for this user. Use second person ("you").
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
@@ -958,18 +959,18 @@ Call respond_in_schema function with A VALID JSON OBJECT as argument:
 
 Include 3 impressive workflows.`,
 
-  project_areas: `Analyze this Qwen Code usage data and identify project areas.
+  project_areas: `Analyze this VivekMind usage data and identify project areas.
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
   "areas": [
-    {"name": "Area name", "session_count": N, "description": "2-3 sentences about what was worked on and how Qwen Code was used."}
+    {"name": "Area name", "session_count": N, "description": "2-3 sentences about what was worked on and how VivekMind was used."}
   ]
 }
 
 Include 4-5 areas. Skip internal QC operations.`,
 
-  future_opportunities: `Analyze this Qwen Code usage data and identify future opportunities.
+  future_opportunities: `Analyze this VivekMind usage data and identify future opportunities.
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
@@ -981,7 +982,7 @@ Call respond_in_schema function with A VALID JSON OBJECT as argument:
 
 Include 3 opportunities. Think BIG - autonomous workflows, parallel agents, iterating against tests.`,
 
-  friction_points: `Analyze this Qwen Code usage data and identify friction points for this user. Use second person ("you").
+  friction_points: `Analyze this VivekMind usage data and identify friction points for this user. Use second person ("you").
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
@@ -993,7 +994,7 @@ Call respond_in_schema function with A VALID JSON OBJECT as argument:
 
 Include 3 friction categories with 2 examples each.`,
 
-  memorable_moment: `Analyze this Qwen Code usage data and find a memorable moment.
+  memorable_moment: `Analyze this VivekMind usage data and find a memorable moment.
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
@@ -1003,16 +1004,16 @@ Call respond_in_schema function with A VALID JSON OBJECT as argument:
 
 Find something genuinely interesting or amusing from the session summaries.`,
 
-  improvements: `Analyze this Qwen Code usage data and suggest improvements.
+  improvements: `Analyze this VivekMind usage data and suggest improvements.
 
 ## QC FEATURES REFERENCE (pick from these for features_to_try):
-1. **MCP Servers**: Connect Qwen to external tools, databases, and APIs via Model Context Protocol.
-   - How to use: Run \`qwen mcp add --transport http <server-name> <http-url>\`
+1. **MCP Servers**: Connect VivekMind to external tools, databases, and APIs via Model Context Protocol.
+   - How to use: Run \`vivekmind mcp add --transport http <server-name> <http-url>\`
    - Good for: database queries, Slack integration, GitHub issue lookup, connecting to internal APIs
-   - Example: "To connect to GitHub, run \`qwen mcp add --header "Authorization: Bearer your_github_mcp_pat" --transport http github https://api.githubcopilot.com/mcp/\` and set the AUTHORIZATION header with your PAT. Then you can ask Qwen to query issues, PRs, or repos."
+   - Example: "To connect to GitHub, run \`vivekmind mcp add --header "Authorization: Bearer your_github_mcp_pat" --transport http github https://api.githubcopilot.com/mcp/\` and set the AUTHORIZATION header with your PAT. Then you can ask VivekMind to query issues, PRs, or repos."
 
 2. **Custom Skills**: Reusable prompts you define as markdown files that run with a single /command.
-   - How to use: Create \`.qwen/skills/commit/SKILL.md\` with instructions. Then type \`/commit\` to run it.
+   - How to use: Create \`.vivekmind/skills/commit/SKILL.md\` with instructions. Then type \`/commit\` to run it.
    - Good for: repetitive workflows - /commit, /review, /test, /deploy, /pr, or complex multi-step workflows
    - SKILL.md format:
     \`\`\`
@@ -1035,18 +1036,18 @@ Find something genuinely interesting or amusing from the session summaries.`,
     - If the user didn't specify a branch, default to the current branch.
     \`\`\`
 
-3. **Headless Mode**: Run Qwen non-interactively from scripts and CI/CD.
-   - How to use: \`qwen -p "fix lint errors"\`
+3. **Headless Mode**: Run VivekMind non-interactively from scripts and CI/CD.
+   - How to use: \`vivekmind -p "fix lint errors"\`
    - Good for: CI/CD integration, batch code fixes, automated reviews
 
-4. **Task Agents**: Qwen spawns focused sub-agents for complex exploration or parallel work.
-   - How to use: Qwen auto-invokes when helpful, or ask "use an agent to explore X"
+4. **Task Agents**: VivekMind spawns focused sub-agents for complex exploration or parallel work.
+   - How to use: VivekMind auto-invokes when helpful, or ask "use an agent to explore X"
    - Good for: codebase exploration, understanding complex systems
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
-  "Qwen_md_additions": [
-    {"addition": "A specific line or block to add to QWEN.md based on workflow patterns. E.g., 'Always run tests after modifying auth-related files'", "why": "1 sentence explaining why this would help based on actual sessions", "prompt_scaffold": "Instructions for where to add this in QWEN.md. E.g., 'Add under ## Testing section'"}
+  "VivekMind_md_additions": [
+    {"addition": "A specific line or block to add to VIVEKMIND.md based on workflow patterns. E.g., 'Always run tests after modifying auth-related files'", "why": "1 sentence explaining why this would help based on actual sessions", "prompt_scaffold": "Instructions for where to add this in VIVEKMIND.md. E.g., 'Add under ## Testing section'"}
   ],
   "features_to_try": [
     {"feature": "Feature name from QC FEATURES REFERENCE above", "one_liner": "What it does", "why_for_you": "Why this would help YOU based on your sessions", "example_code": "Actual command or config to copy"}
@@ -1056,28 +1057,28 @@ Call respond_in_schema function with A VALID JSON OBJECT as argument:
   ]
 }
 
-IMPORTANT for Qwen_md_additions: PRIORITIZE instructions that appear MULTIPLE TIMES in the user data. If user told Qwen the same thing in 2+ sessions (e.g., 'always run tests', 'use TypeScript'), that's a PRIME candidate - they shouldn't have to repeat themselves.
+IMPORTANT for VivekMind_md_additions: PRIORITIZE instructions that appear MULTIPLE TIMES in the user data. If user told VivekMind the same thing in 2+ sessions (e.g., 'always run tests', 'use TypeScript'), that's a PRIME candidate - they shouldn't have to repeat themselves.
 
 IMPORTANT for features_to_try: Pick 2-3 from the QC FEATURES REFERENCE above. Include 2-3 items for each category.`,
 
-  interaction_style: `Analyze this Qwen Code usage data and describe the user's interaction style.
+  interaction_style: `Analyze this VivekMind usage data and describe the user's interaction style.
 
 Call respond_in_schema function with A VALID JSON OBJECT as argument:
 {
-  "narrative": "2-3 paragraphs analyzing HOW the user interacts with Qwen Code. Use second person 'you'. Describe patterns: iterate quickly vs detailed upfront specs? Interrupt often or let Qwen run? Include specific examples. Use **bold** for key insights.",
+  "narrative": "2-3 paragraphs analyzing HOW the user interacts with VivekMind. Use second person 'you'. Describe patterns: iterate quickly vs detailed upfront specs? Interrupt often or let VivekMind run? Include specific examples. Use **bold** for key insights.",
   "key_pattern": "One sentence summary of most distinctive interaction style"
 }
 `,
 
-  at_a_glance: `You're writing an "At a Glance" summary for a Qwen Code usage insights report for Qwen Code users. The goal is to help them understand their usage and improve how they can use Qwen better, especially as models improve.
+  at_a_glance: `You're writing an "At a Glance" summary for a VivekMind usage insights report for VivekMind users. The goal is to help them understand their usage and improve how they can use VivekMind better, especially as models improve.
 
 Use this 4-part structure:
 
-1. **What's working** - What is the user's unique style of interacting with Qwen and what are some impactful things they've done? You can include one or two details, but keep it high level since things might not be fresh in the user's memory. Don't be fluffy or overly complimentary. Also, don't focus on the tool calls they use.
+1. **What's working** - What is the user's unique style of interacting with VivekMind and what are some impactful things they've done? You can include one or two details, but keep it high level since things might not be fresh in the user's memory. Don't be fluffy or overly complimentary. Also, don't focus on the tool calls they use.
 
-2. **What's hindering you** - Split into (a) Qwen's fault (misunderstandings, wrong approaches, bugs) and (b) user-side friction (not providing enough context, environment issues -- ideally more general than just one project). Be honest but constructive.
+2. **What's hindering you** - Split into (a) VivekMind's fault (misunderstandings, wrong approaches, bugs) and (b) user-side friction (not providing enough context, environment issues -- ideally more general than just one project). Be honest but constructive.
 
-3. **Quick wins to try** - Specific Qwen Code features they could try from the examples below, or a workflow technique if you think it's really compelling. (Avoid stuff like "Ask Qwen to confirm before taking actions" or "Type out more context up front" which are less compelling.)
+3. **Quick wins to try** - Specific VivekMind features they could try from the examples below, or a workflow technique if you think it's really compelling. (Avoid stuff like "Ask VivekMind to confirm before taking actions" or "Type out more context up front" which are less compelling.)
 
 4. **Ambitious workflows for better models** - As we move to much more capable models over the next 3-6 months, what should they prepare for? What workflows that seem impossible now will become possible? Draw from the appropriate section below.
 

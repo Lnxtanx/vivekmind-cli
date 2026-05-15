@@ -1,5 +1,5 @@
 {
-  "name": "@qwen-code/channel-plugin-example",
+  "name": "@vivekmind/channel-plugin-example",
   "version": "0.15.6",
   "private": true,
   "type": "module",
@@ -14,7 +14,7 @@
   "files": [
     "dist",
     "src",
-    "qwen-extension.json"
+    "vivekmind-extension.json"
   ],
   "bin": {
     "qwen-channel-plugin-example-server": "dist/start-server.js"
@@ -24,7 +24,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@qwen-code/channel-base": "file:../base",
+    "@vivekmind/channel-base": "file:../base",
     "ws": "^8.18.0"
   },
   "devDependencies": {

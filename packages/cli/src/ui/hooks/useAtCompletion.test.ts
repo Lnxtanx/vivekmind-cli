@@ -13,12 +13,12 @@ import type {
   Config,
   FileSearch,
   FileSystemStructure,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   FileSearchFactory,
   createTmpDir,
   cleanupTmpDir,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { useState } from 'react';
 import type { Suggestion } from '../components/SuggestionsDisplay.js';
 
@@ -52,7 +52,7 @@ describe('useAtCompletion', () => {
     mockConfig = {
       getFileFilteringOptions: vi.fn(() => ({
         respectGitIgnore: true,
-        respectQwenIgnore: true,
+        respectVivekMindIgnore: true,
       })),
       getEnableRecursiveFileSearch: () => true,
       getFileFilteringEnableFuzzySearch: () => true,
@@ -199,7 +199,7 @@ describe('useAtCompletion', () => {
         projectRoot: testRootDir,
         ignoreDirs: [],
         useGitignore: true,
-        useQwenignore: true,
+        useVivekMindIgnore: true,
         cache: false,
         cacheTtl: 0,
         enableRecursiveFileSearch: true,
@@ -483,7 +483,7 @@ describe('useAtCompletion', () => {
         getEnableRecursiveFileSearch: () => false,
         getFileFilteringOptions: vi.fn(() => ({
           respectGitIgnore: true,
-          respectQwenIgnore: true,
+          respectVivekMindIgnore: true,
         })),
         getFileFilteringEnableFuzzySearch: () => true,
       } as unknown as Config;

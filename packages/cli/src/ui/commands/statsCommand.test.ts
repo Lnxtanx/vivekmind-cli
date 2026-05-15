@@ -10,8 +10,8 @@ import { type CommandContext } from './types.js';
 import { createMockCommandContext } from '../../test-utils/mockCommandContext.js';
 import { MessageType } from '../types.js';
 import { formatDuration } from '../utils/formatters.js';
-import { MAIN_SOURCE } from '@qwen-code/qwen-code-core';
-import type { ModelMetricsCore, ModelMetrics } from '@qwen-code/qwen-code-core';
+import { MAIN_SOURCE } from '@vivekmind/core';
+import type { ModelMetricsCore, ModelMetrics } from '@vivekmind/core';
 
 const toModelMetrics = (core: ModelMetricsCore): ModelMetrics => ({
   ...core,

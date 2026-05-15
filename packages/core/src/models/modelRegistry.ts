@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -14,13 +14,13 @@ import {
   type ResolvedModelConfig,
   type AvailableModel,
 } from './types.js';
-import { DEFAULT_QWEN_MODEL } from '../config/models.js';
-import { QWEN_OAUTH_MODELS } from './constants.js';
+import { DEFAULT_VIVEKMIND_MODEL } from '../config/models.js';
+import { VIVEKMIND_OAUTH_MODELS } from './constants.js';
 import { createDebugLogger } from '../utils/debugLogger.js';
 
 const debugLogger = createDebugLogger('MODEL_REGISTRY');
 
-export { QWEN_OAUTH_MODELS } from './constants.js';
+export { VIVEKMIND_OAUTH_MODELS } from './constants.js';
 
 /**
  * Validates if a string key is a valid AuthType enum value.
@@ -46,8 +46,8 @@ export class ModelRegistry {
 
   private getDefaultBaseUrl(authType: AuthType): string {
     switch (authType) {
-      case AuthType.QWEN_OAUTH:
-        return 'DYNAMIC_QWEN_OAUTH_BASE_URL';
+      case AuthType.VIVEKMIND_OAUTH:
+        return 'DYNAMIC_VIVEKMIND_OAUTH_BASE_URL';
       case AuthType.USE_OPENAI:
         return DEFAULT_OPENAI_BASE_URL;
       default:
@@ -58,8 +58,8 @@ export class ModelRegistry {
   constructor(modelProvidersConfig?: ModelProvidersConfig) {
     this.modelsByAuthType = new Map();
 
-    // Always register qwen-oauth models (hard-coded, cannot be overridden)
-    this.registerAuthTypeModels(AuthType.QWEN_OAUTH, QWEN_OAUTH_MODELS);
+    // Always register vivekmind-oauth models (hard-coded, cannot be overridden)
+    this.registerAuthTypeModels(AuthType.VIVEKMIND_OAUTH, VIVEKMIND_OAUTH_MODELS);
 
     // Register user-configured models for other authTypes
     if (modelProvidersConfig) {
@@ -73,8 +73,8 @@ export class ModelRegistry {
           continue;
         }
 
-        // Skip qwen-oauth as it uses hard-coded models
-        if (authType === AuthType.QWEN_OAUTH) {
+        // Skip vivekmind-oauth as it uses hard-coded models
+        if (authType === AuthType.VIVEKMIND_OAUTH) {
           continue;
         }
 
@@ -87,7 +87,7 @@ export class ModelRegistry {
    * Register models for an authType.
    * If multiple models have the same id, the first one takes precedence.
    */
-  private registerAuthTypeModels(
+  registerAuthTypeModels(
     authType: AuthType,
     models: ModelConfig[],
   ): void {
@@ -153,14 +153,14 @@ export class ModelRegistry {
 
   /**
    * Get default model for an authType.
-   * For qwen-oauth, returns the coder model.
+   * For vivekmind-oauth, returns the coder model.
    * For others, returns the first configured model.
    */
   getDefaultModelForAuthType(
     authType: AuthType,
   ): ResolvedModelConfig | undefined {
-    if (authType === AuthType.QWEN_OAUTH) {
-      return this.getModel(authType, DEFAULT_QWEN_MODEL);
+    if (authType === AuthType.VIVEKMIND_OAUTH) {
+      return this.getModel(authType, DEFAULT_VIVEKMIND_MODEL);
     }
     const models = this.modelsByAuthType.get(authType);
     if (!models || models.size === 0) return undefined;
@@ -200,12 +200,12 @@ export class ModelRegistry {
   /**
    * Reload models from updated configuration.
    * Clears existing user-configured models and re-registers from new config.
-   * Preserves hard-coded qwen-oauth models.
+   * Preserves hard-coded vivekmind-oauth models.
    */
   reloadModels(modelProvidersConfig?: ModelProvidersConfig): void {
-    // Clear existing user-configured models (preserve qwen-oauth)
+    // Clear existing user-configured models (preserve vivekmind-oauth)
     for (const authType of this.modelsByAuthType.keys()) {
-      if (authType !== AuthType.QWEN_OAUTH) {
+      if (authType !== AuthType.VIVEKMIND_OAUTH) {
         this.modelsByAuthType.delete(authType);
       }
     }
@@ -222,8 +222,8 @@ export class ModelRegistry {
           continue;
         }
 
-        // Skip qwen-oauth as it uses hard-coded models
-        if (authType === AuthType.QWEN_OAUTH) {
+        // Skip vivekmind-oauth as it uses hard-coded models
+        if (authType === AuthType.VIVEKMIND_OAUTH) {
           continue;
         }
 

@@ -24,15 +24,15 @@ import {
   SlashCommandStatus,
   ToolConfirmationOutcome,
   makeFakeConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 const { logSlashCommand } = vi.hoisted(() => ({
   logSlashCommand: vi.fn(),
 }));
 
-vi.mock('@qwen-code/qwen-code-core', async (importOriginal) => {
+vi.mock('@vivekmind/core', async (importOriginal) => {
   const original =
-    await importOriginal<typeof import('@qwen-code/qwen-code-core')>();
+    await importOriginal<typeof import('@vivekmind/core')>();
   return {
     ...original,
     logSlashCommand,

@@ -1,13 +1,13 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
 // Post-review cleanup for /review Step 11.
-//   - Remove the temporary worktree at .qwen/tmp/review-pr-<n>.
+//   - Remove the temporary worktree at .vivekmind/tmp/review-pr-<n>.
 //   - Delete the local branch ref qwen-review/pr-<n>.
-//   - Remove any .qwen/tmp/qwen-review-<target>-* side files.
+//   - Remove any .vivekmind/tmp/qwen-review-<target>-* side files.
 //
 // The command is idempotent — missing files / branches are silent OK.
 
@@ -65,7 +65,7 @@ function runCleanup(target: string): void {
     }
   }
 
-  // --- Per-target side files (under .qwen/tmp/) -------------------------
+  // --- Per-target side files (under .vivekmind/tmp/) -------------------------
   const prefix = tmpPrefix(target);
   let tmpEntries: string[] = [];
   try {

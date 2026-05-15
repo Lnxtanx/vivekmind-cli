@@ -16,12 +16,12 @@ import {
   usePluginChoiceRequests,
 } from './useExtensionUpdates.js';
 import {
-  QWEN_DIR,
+  VIVEKMIND_DIR,
   type ExtensionManager,
   type Extension,
   type ExtensionUpdateInfo,
   ExtensionUpdateState,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { renderHook, waitFor, act } from '@testing-library/react';
 import { MessageType } from '../types.js';
 
@@ -279,7 +279,7 @@ describe('useExtensionUpdates', () => {
   beforeEach(() => {
     tempHomeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'qwen-cli-test-home-'));
     vi.mocked(os.homedir).mockReturnValue(tempHomeDir);
-    userExtensionsDir = path.join(tempHomeDir, QWEN_DIR, 'extensions');
+    userExtensionsDir = path.join(tempHomeDir, VIVEKMIND_DIR, 'extensions');
     fs.mkdirSync(userExtensionsDir, { recursive: true });
   });
 

@@ -1,11 +1,11 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { describe, expect, it, vi } from 'vitest';
-import type { FileSystemService } from '@qwen-code/qwen-code-core';
+import type { FileSystemService } from '@vivekmind/core';
 import { AcpFileSystemService } from './filesystem.js';
 import type { AgentSideConnection } from '@agentclientprotocol/sdk';
 

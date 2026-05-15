@@ -54,10 +54,29 @@ export interface ContentGenerator {
 
 export enum AuthType {
   USE_OPENAI = 'openai',
-  QWEN_OAUTH = 'qwen-oauth',
+  VIVEKMIND_OAUTH = 'vivekmind-oauth',
   USE_GEMINI = 'gemini',
   USE_VERTEX_AI = 'vertex-ai',
   USE_ANTHROPIC = 'anthropic',
+  USE_BEDROCK = 'bedrock',
+  USE_AZURE_OPENAI = 'azure-openai',
+  USE_ANTHROPIC_VERTEX_AI = 'anthropic-vertex-ai',
+  USE_MISTRAL = 'mistral',
+  USE_DEEPSEEK = 'deepseek',
+  USE_GROQ = 'groq',
+  USE_TOGETHER = 'together',
+  USE_OPENROUTER = 'openrouter',
+  USE_XAI = 'xai',
+  USE_DASHSCOPE = 'dashscope',
+  USE_OLLAMA = 'ollama',
+  USE_LM_STUDIO = 'lm-studio',
+  USE_COHERE = 'cohere',
+  USE_PERPLEXITY = 'perplexity',
+  USE_FIREWORKS = 'fireworks',
+  USE_SILICONFLOW = 'siliconflow',
+  USE_HF = 'huggingface',
+  USE_NOVITA = 'novita',
+  USE_WATSONX = 'watsonx',
 }
 
 /**
@@ -242,9 +261,18 @@ export function validateModelConfig(
 ): ModelConfigValidationResult {
   const errors: Error[] = [];
 
-  // Qwen OAuth doesn't need validation - it uses dynamic tokens
-  if (config.authType === AuthType.QWEN_OAUTH) {
+  // VivekMind OAuth doesn't need validation - it uses dynamic tokens
+  if (config.authType === AuthType.VIVEKMIND_OAUTH) {
     return { valid: true, errors: [] };
+  }
+
+  // Bedrock uses AWS IAM credentials (env vars), not API keys
+  if (config.authType === AuthType.USE_BEDROCK) {
+    if (!config.model) {
+      const envKey = getDefaultModelEnvVar(config.authType);
+      errors.push(new MissingModelError({ authType: config.authType, envKey }));
+    }
+    return { valid: errors.length === 0, errors };
   }
 
   // API key is required for all other auth types
@@ -327,26 +355,44 @@ export async function createContentGenerator(
 
   let baseGenerator: ContentGenerator;
 
-  if (authType === AuthType.USE_OPENAI) {
+  if (
+    authType === AuthType.USE_OPENAI ||
+    authType === AuthType.USE_AZURE_OPENAI ||
+    authType === AuthType.USE_DEEPSEEK ||
+    authType === AuthType.USE_MISTRAL ||
+    authType === AuthType.USE_GROQ ||
+    authType === AuthType.USE_TOGETHER ||
+    authType === AuthType.USE_OPENROUTER ||
+    authType === AuthType.USE_XAI ||
+    authType === AuthType.USE_DASHSCOPE ||
+    authType === AuthType.USE_OLLAMA ||
+    authType === AuthType.USE_LM_STUDIO ||
+    authType === AuthType.USE_COHERE ||
+    authType === AuthType.USE_PERPLEXITY ||
+    authType === AuthType.USE_FIREWORKS ||
+    authType === AuthType.USE_SILICONFLOW ||
+    authType === AuthType.USE_HF ||
+    authType === AuthType.USE_NOVITA
+  ) {
     const { createOpenAIContentGenerator } = await import(
       './openaiContentGenerator/index.js'
     );
     baseGenerator = createOpenAIContentGenerator(generatorConfig, config);
-  } else if (authType === AuthType.QWEN_OAUTH) {
-    const { getQwenOAuthClient: getQwenOauthClient } = await import(
-      '../qwen/qwenOAuth2.js'
+  } else if (authType === AuthType.VIVEKMIND_OAUTH) {
+    const { getVivekMindOAuthClient } = await import(
+      '../vivekmind/vivekmindOAuth2.js'
     );
-    const { QwenContentGenerator } = await import(
-      '../qwen/qwenContentGenerator.js'
+    const { VivekMindContentGenerator } = await import(
+      '../vivekmind/vivekmindContentGenerator.js'
     );
 
     try {
-      const qwenClient = await getQwenOauthClient(
+      const vivekmindClient = await getVivekMindOAuthClient(
         config,
         isInitialAuth ? { requireCachedCredentials: true } : undefined,
       );
-      baseGenerator = new QwenContentGenerator(
-        qwenClient,
+      baseGenerator = new VivekMindContentGenerator(
+        vivekmindClient,
         generatorConfig,
         config,
       );
@@ -368,6 +414,11 @@ export async function createContentGenerator(
       './geminiContentGenerator/index.js'
     );
     baseGenerator = createGeminiContentGenerator(generatorConfig, config);
+  } else if (authType === AuthType.USE_BEDROCK) {
+    const { createBedrockContentGenerator } = await import(
+      './bedrockContentGenerator/index.js'
+    );
+    baseGenerator = createBedrockContentGenerator(generatorConfig, config);
   } else {
     throw new Error(
       `Error creating contentGenerator: Unsupported authType: ${authType}`,

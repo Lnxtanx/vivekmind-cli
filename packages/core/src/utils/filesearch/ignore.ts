@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -14,7 +15,7 @@ const hasFileExtension = picomatch('**/*[*.]*');
 export interface LoadIgnoreRulesOptions {
   projectRoot: string;
   useGitignore: boolean;
-  useQwenignore: boolean;
+  useVivekMindIgnore: boolean;
   ignoreDirs: string[];
 }
 
@@ -27,10 +28,10 @@ export function loadIgnoreRules(options: LoadIgnoreRulesOptions): Ignore {
     }
   }
 
-  if (options.useQwenignore) {
-    const qwenignorePath = path.join(options.projectRoot, '.qwenignore');
-    if (fs.existsSync(qwenignorePath)) {
-      ignorer.add(fs.readFileSync(qwenignorePath, 'utf8'));
+  if (options.useVivekMindIgnore) {
+    const vivekmindignorePath = path.join(options.projectRoot, '.vivekmindignore');
+    if (fs.existsSync(vivekmindignorePath)) {
+      ignorer.add(fs.readFileSync(vivekmindignorePath, 'utf8'));
     }
   }
 

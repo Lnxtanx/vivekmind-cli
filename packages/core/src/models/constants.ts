@@ -1,14 +1,14 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DEFAULT_QWEN_MODEL, MAINLINE_CODER_MODEL } from '../config/models.js';
+import { DEFAULT_VIVEKMIND_MODEL, MAINLINE_CODER_MODEL } from '../config/models.js';
+import { AuthType } from '../core/contentGenerator.js';
 
 import type { ModelConfig } from './types.js';
 
-type AuthType = import('../core/contentGenerator.js').AuthType;
 type ContentGeneratorConfig =
   import('../core/contentGenerator.js').ContentGeneratorConfig;
 
@@ -66,8 +66,9 @@ export const AUTH_ENV_MAPPINGS = {
   openai: {
     apiKey: ['OPENAI_API_KEY'],
     baseUrl: ['OPENAI_BASE_URL'],
-    model: ['OPENAI_MODEL', 'QWEN_MODEL'],
+    model: ['OPENAI_MODEL', 'VIVEKMIND_MODEL'],
   },
+
   anthropic: {
     apiKey: ['ANTHROPIC_API_KEY'],
     baseUrl: ['ANTHROPIC_BASE_URL'],
@@ -83,36 +84,131 @@ export const AUTH_ENV_MAPPINGS = {
     baseUrl: [],
     model: ['GOOGLE_MODEL'],
   },
-  'qwen-oauth': {
+  'vivekmind-oauth': {
     apiKey: [],
     baseUrl: [],
     model: [],
+  },
+  bedrock: {
+    apiKey: ['AWS_ACCESS_KEY_ID'],
+    baseUrl: [],
+    model: ['BEDROCK_MODEL'],
+  },
+  'azure-openai': {
+    apiKey: ['AZURE_OPENAI_API_KEY'],
+    baseUrl: ['AZURE_OPENAI_ENDPOINT'],
+    model: ['AZURE_OPENAI_MODEL'],
+  },
+  'anthropic-vertex-ai': {
+    apiKey: ['GOOGLE_API_KEY'],
+    baseUrl: [],
+    model: ['ANTHROPIC_MODEL'],
+  },
+  mistral: {
+    apiKey: ['MISTRAL_API_KEY'],
+    baseUrl: ['MISTRAL_BASE_URL'],
+    model: ['MISTRAL_MODEL'],
+  },
+  deepseek: {
+    apiKey: ['DEEPSEEK_API_KEY'],
+    baseUrl: ['DEEPSEEK_BASE_URL'],
+    model: ['DEEPSEEK_MODEL'],
+  },
+  groq: {
+    apiKey: ['GROQ_API_KEY'],
+    baseUrl: ['GROQ_BASE_URL'],
+    model: ['GROQ_MODEL'],
+  },
+  together: {
+    apiKey: ['TOGETHER_API_KEY'],
+    baseUrl: ['TOGETHER_BASE_URL'],
+    model: ['TOGETHER_MODEL'],
+  },
+  openrouter: {
+    apiKey: ['OPENROUTER_API_KEY'],
+    baseUrl: ['OPENROUTER_BASE_URL'],
+    model: ['OPENROUTER_MODEL'],
+  },
+  xai: {
+    apiKey: ['XAI_API_KEY'],
+    baseUrl: ['XAI_BASE_URL'],
+    model: ['XAI_MODEL'],
+  },
+  dashscope: {
+    apiKey: ['DASHSCOPE_API_KEY'],
+    baseUrl: ['DASHSCOPE_BASE_URL'],
+    model: ['DASHSCOPE_MODEL'],
+  },
+  ollama: {
+    apiKey: [],
+    baseUrl: ['OLLAMA_BASE_URL'],
+    model: ['OLLAMA_MODEL'],
+  },
+  'lm-studio': {
+    apiKey: [],
+    baseUrl: ['LM_STUDIO_BASE_URL'],
+    model: ['LM_STUDIO_MODEL'],
+  },
+  cohere: {
+    apiKey: ['COHERE_API_KEY'],
+    baseUrl: ['COHERE_BASE_URL'],
+    model: ['COHERE_MODEL'],
+  },
+  perplexity: {
+    apiKey: ['PERPLEXITY_API_KEY'],
+    baseUrl: ['PERPLEXITY_BASE_URL'],
+    model: ['PERPLEXITY_MODEL'],
+  },
+  fireworks: {
+    apiKey: ['FIREWORKS_API_KEY'],
+    baseUrl: ['FIREWORKS_BASE_URL'],
+    model: ['FIREWORKS_MODEL'],
+  },
+  siliconflow: {
+    apiKey: ['SILICONFLOW_API_KEY'],
+    baseUrl: ['SILICONFLOW_BASE_URL'],
+    model: ['SILICONFLOW_MODEL'],
+  },
+  huggingface: {
+    apiKey: ['HF_TOKEN', 'HUGGING_FACE_API_KEY'],
+    baseUrl: ['HF_BASE_URL'],
+    model: ['HF_MODEL'],
+  },
+  novita: {
+    apiKey: ['NOVITA_API_KEY'],
+    baseUrl: ['NOVITA_BASE_URL'],
+    model: ['NOVITA_MODEL'],
+  },
+  watsonx: {
+    apiKey: ['WATSONX_APIKEY'],
+    baseUrl: ['WATSONX_URL'],
+    model: ['WATSONX_MODEL'],
   },
 } as const satisfies Record<AuthType, AuthEnvMapping>;
 
 export const DEFAULT_MODELS = {
   openai: MAINLINE_CODER_MODEL,
-  'qwen-oauth': DEFAULT_QWEN_MODEL,
+  'vivekmind-oauth': DEFAULT_VIVEKMIND_MODEL,
 } as Partial<Record<AuthType, string>>;
 
 /**
- * Hard-coded Qwen OAuth models that are always available.
+ * Hard-coded VivekMind OAuth models that are always available.
  * These cannot be overridden by user configuration.
  */
-export const QWEN_OAUTH_MODELS: ModelConfig[] = [
+export const VIVEKMIND_OAUTH_MODELS: ModelConfig[] = [
   {
     id: 'coder-model',
     name: 'coder-model',
     description:
-      'Qwen 3.6 Plus — efficient hybrid model with leading coding performance',
+      'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance',
     capabilities: { vision: true },
   },
 ];
 
 /**
- * Derive allowed models from QWEN_OAUTH_MODELS for authorization.
+ * Derive allowed models from VIVEKMIND_OAUTH_MODELS for authorization.
  * This ensures single source of truth (SSOT).
  */
-export const QWEN_OAUTH_ALLOWED_MODELS = QWEN_OAUTH_MODELS.map(
+export const VIVEKMIND_OAUTH_ALLOWED_MODELS = VIVEKMIND_OAUTH_MODELS.map(
   (model) => model.id,
 ) as readonly string[];

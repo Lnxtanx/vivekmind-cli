@@ -64,13 +64,13 @@ async function handleNew(args: NewArgs) {
         version: '1.0.0',
       };
       await writeFile(
-        join(args.path, 'qwen-extension.json'),
+        join(args.path, 'vivekmind-extension.json'),
         JSON.stringify(manifest, null, 2),
       );
       writeStdoutLine(`Successfully created new extension at ${args.path}.`);
     }
     writeStdoutLine(
-      `You can install this using "qwen extensions link ${args.path}" to test it out.`,
+      `You can install this using "vivekmind extensions link ${args.path}" to test it out.`,
     );
   } catch (error) {
     writeStderrLine(getErrorMessage(error));

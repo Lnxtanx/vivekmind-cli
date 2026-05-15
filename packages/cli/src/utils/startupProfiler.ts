@@ -1,9 +1,9 @@
 /**
  * Lightweight startup performance profiler.
  *
- * Activated by setting QWEN_CODE_PROFILE_STARTUP=1. When enabled, collects
+ * Activated by setting VIVEKMIND_CODE_PROFILE_STARTUP=1. When enabled, collects
  * high-resolution timestamps at key phases of CLI startup and writes a JSON
- * report to ~/.qwen/startup-perf/ on finalization.
+ * report to ~/.vivekmind/startup-perf/ on finalization.
  *
  * Usage (already wired in index.ts / gemini.tsx):
  *   initStartupProfiler()        — call once at process start to record T0
@@ -51,7 +51,7 @@ export function initStartupProfiler(): void {
   // Reset any prior state so the function is idempotent.
   resetStartupProfiler();
 
-  if (process.env['QWEN_CODE_PROFILE_STARTUP'] !== '1') {
+  if (process.env['VIVEKMIND_CODE_PROFILE_STARTUP'] !== '1') {
     return;
   }
   // Skip profiling in the outer (pre-sandbox) process — the child will
@@ -114,7 +114,7 @@ export function finalizeStartupProfile(sessionId?: string): void {
   }
 
   try {
-    const dir = path.join(os.homedir(), '.qwen', 'startup-perf');
+    const dir = path.join(os.homedir(), '.vivekmind', 'startup-perf');
     fs.mkdirSync(dir, { recursive: true });
 
     const filename = `${report.timestamp.replace(/[:.]/g, '-')}-${report.sessionId}.json`;

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -15,8 +15,8 @@ import {
   MCPOAuthProvider,
   MCPOAuthTokenStorage,
   getErrorMessage,
-} from '@qwen-code/qwen-code-core';
-import type { OAuthDisplayPayload } from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
+import type { OAuthDisplayPayload } from '@vivekmind/core';
 import { appEvents, AppEvent } from '../../../../utils/events.js';
 
 type AuthState = 'idle' | 'authenticating' | 'success' | 'error';

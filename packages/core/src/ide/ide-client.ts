@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -149,7 +150,7 @@ export class IdeClient {
     if (!this.currentIde) {
       this.setState(
         IDEConnectionStatus.Disconnected,
-        `IDE integration is not supported in your current environment. To use this feature, run Qwen Code in one of these supported IDEs: VS Code or VS Code forks`,
+        `IDE integration is not supported in your current environment. To use this feature, run VivekMind in one of these supported IDEs: VS Code or VS Code forks`,
         false,
       );
       return;
@@ -163,7 +164,7 @@ export class IdeClient {
     }
     const workspacePath =
       this.connectionConfig?.workspacePath ??
-      process.env['QWEN_CODE_IDE_WORKSPACE_PATH'];
+      process.env['VIVEKMIND_CODE_IDE_WORKSPACE_PATH'];
 
     const { isValid, error } = IdeClient.validateWorkspacePath(
       workspacePath,
@@ -539,7 +540,7 @@ export class IdeClient {
     if (!isWithinWorkspace) {
       return {
         isValid: false,
-        error: `Directory mismatch. Qwen Code is running in a different location than the open workspace in the IDE. Please run the CLI from one of the following directories: ${ideWorkspacePaths.join(
+        error: `Directory mismatch. VivekMind is running in a different location than the open workspace in the IDE. Please run the CLI from one of the following directories: ${ideWorkspacePaths.join(
           ', ',
         )}`,
       };
@@ -548,7 +549,7 @@ export class IdeClient {
   }
 
   private getPortFromEnv(): string | undefined {
-    const port = process.env['QWEN_CODE_IDE_SERVER_PORT'];
+    const port = process.env['VIVEKMIND_CODE_IDE_SERVER_PORT'];
     if (!port) {
       return undefined;
     }
@@ -556,12 +557,12 @@ export class IdeClient {
   }
 
   private getStdioConfigFromEnv(): StdioConfig | undefined {
-    const command = process.env['QWEN_CODE_IDE_SERVER_STDIO_COMMAND'];
+    const command = process.env['VIVEKMIND_CODE_IDE_SERVER_STDIO_COMMAND'];
     if (!command) {
       return undefined;
     }
 
-    const argsStr = process.env['QWEN_CODE_IDE_SERVER_STDIO_ARGS'];
+    const argsStr = process.env['VIVEKMIND_CODE_IDE_SERVER_STDIO_ARGS'];
     let args: string[] = [];
     if (argsStr) {
       try {
@@ -570,12 +571,12 @@ export class IdeClient {
           args = parsedArgs;
         } else {
           debugLogger.error(
-            'QWEN_CODE_IDE_SERVER_STDIO_ARGS must be a JSON array string.',
+            'VIVEKMIND_CODE_IDE_SERVER_STDIO_ARGS must be a JSON array string.',
           );
         }
       } catch (e) {
         debugLogger.error(
-          'Failed to parse QWEN_CODE_IDE_SERVER_STDIO_ARGS:',
+          'Failed to parse VIVEKMIND_CODE_IDE_SERVER_STDIO_ARGS:',
           e,
         );
       }
@@ -624,13 +625,13 @@ export class IdeClient {
       try {
         const portFile = path.join(
           os.tmpdir(),
-          `qwen-code-ide-server-${this.ideProcessInfo.pid}.json`,
+          `vivekmind-ide-server-${this.ideProcessInfo.pid}.json`,
         );
         const portFileContents = await fs.promises.readFile(portFile, 'utf8');
         return JSON.parse(portFileContents);
       } catch (_) {
         // For older/newer extension versions, the file name matches the pattern
-        // /^qwen-code-ide-server-${pid}-\d+\.json$/. If multiple IDE
+        // /^vivekmind-ide-server-${pid}-\d+\.json$/. If multiple IDE
         // windows are open, multiple files matching the pattern are expected to
         // exist.
       }
@@ -640,7 +641,7 @@ export class IdeClient {
       try {
         const portFile = path.join(
           os.tmpdir(),
-          `qwen-code-ide-server-${portFromEnv}.json`,
+          `vivekmind-ide-server-${portFromEnv}.json`,
         );
         const portFileContents = await fs.promises.readFile(portFile, 'utf8');
         return JSON.parse(portFileContents);

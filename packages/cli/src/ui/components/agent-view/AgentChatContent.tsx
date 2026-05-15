@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -19,7 +19,7 @@ import {
   type AgentCore,
   type AgentInteractive,
   type AgentStatusChangeEvent,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { useUIState } from '../../contexts/UIStateContext.js';
 import { useTerminalSize } from '../../hooks/useTerminalSize.js';
 import { useKeypress } from '../../hooks/useKeypress.js';

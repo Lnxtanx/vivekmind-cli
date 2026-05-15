@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -121,7 +122,7 @@ describe('ide-installer', () => {
           expectedCommand,
           [
             '--install-extension',
-            'qwenlm.qwen-code-vscode-ide-companion',
+            'vivekmind.vivekmind-vscode-ide-companion',
             '--force',
           ],
           { stdio: 'pipe', shell: isActuallyWindows },

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -9,7 +9,7 @@ import {
   AuthType,
   type Config,
   type ModelProvidersConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { LoadedSettings } from '../../config/settings.js';
 import {
   fetchManageModelsCatalog,

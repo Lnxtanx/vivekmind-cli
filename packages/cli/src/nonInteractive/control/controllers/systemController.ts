@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -27,7 +27,7 @@ import {
   MCPServerConfig,
   AuthProviderType,
   type MCPOAuthConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 const debugLogger = createDebugLogger('SYSTEM_CONTROLLER');
 

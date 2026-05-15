@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -58,16 +58,16 @@ vi.mock('node:fs', async (importOriginal) => {
 });
 
 // Mock Storage from core
-vi.mock('@qwen-code/qwen-code-core', async (importOriginal) => {
+vi.mock('@vivekmind/core', async (importOriginal) => {
   const actual =
-    await importOriginal<typeof import('@qwen-code/qwen-code-core')>();
+    await importOriginal<typeof import('@vivekmind/core')>();
   return {
     ...actual,
     Storage: {
-      getGlobalQwenDir: vi.fn().mockReturnValue('/mock/.qwen'),
+      getGlobalVivekMindDir: vi.fn().mockReturnValue('/mock/.vivekmind'),
       getGlobalSettingsPath: vi
         .fn()
-        .mockReturnValue('/mock/.qwen/settings.json'),
+        .mockReturnValue('/mock/.vivekmind/settings.json'),
     },
   };
 });
@@ -741,7 +741,7 @@ describe('languageCommand', () => {
       vi.mocked(i18n.detectSystemLanguage).mockReturnValue('en');
       vi.mocked(fs.readFileSync).mockReturnValue(
         `# Output language preference: English
-<!-- qwen-code:llm-output-language: English -->
+<!-- vivekmind:llm-output-language: English -->
 `,
       );
 
@@ -754,7 +754,7 @@ describe('languageCommand', () => {
       vi.mocked(fs.existsSync).mockReturnValue(true);
       vi.mocked(fs.readFileSync).mockReturnValue(
         `# Output language preference: English
-<!-- qwen-code:llm-output-language: English -->
+<!-- vivekmind:llm-output-language: English -->
 `,
       );
 

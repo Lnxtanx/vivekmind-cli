@@ -3,6 +3,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -13,7 +14,7 @@ initStartupProfiler();
 
 import './src/gemini.js';
 import { main } from './src/gemini.js';
-import { FatalError } from '@qwen-code/qwen-code-core';
+import { FatalError } from '@vivekmind/core';
 import { AlreadyReportedError } from './src/utils/errors.js';
 import { writeStderrLine } from './src/utils/stdioHelpers.js';
 

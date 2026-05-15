@@ -132,7 +132,7 @@ export function microcompactHistory(
   }
   const { gapMs } = trigger;
 
-  const envKeep = process.env['QWEN_MC_KEEP_RECENT'];
+  const envKeep = process.env['VIVEKMIND_MC_KEEP_RECENT'];
   const rawKeepRecent =
     envKeep !== undefined && Number.isFinite(Number(envKeep))
       ? Number(envKeep)

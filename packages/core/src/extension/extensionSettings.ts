@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -49,7 +50,7 @@ const getKeychainStorageName = (
   extensionId: string,
   scope: ExtensionSettingScope,
 ): string => {
-  const base = `Qwen Code Extensions ${extensionName} ${extensionId}`;
+  const base = `VivekMind Extensions ${extensionName} ${extensionId}`;
   if (scope === ExtensionSettingScope.WORKSPACE) {
     return `${base} ${process.cwd()}`;
   }

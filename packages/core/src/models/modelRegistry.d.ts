@@ -1,0 +1,55 @@
+/**
+ * @license
+ * Copyright 2025 VivekMind Team
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { AuthType } from '../core/contentGenerator.js';
+import { type ModelConfig, type ModelProvidersConfig, type ResolvedModelConfig, type AvailableModel } from './types.js';
+export { VIVEKMIND_OAUTH_MODELS } from './constants.js';
+/**
+ * Central registry for managing model configurations.
+ * Models are organized by authType.
+ */
+export declare class ModelRegistry {
+    private modelsByAuthType;
+    private getDefaultBaseUrl;
+    constructor(modelProvidersConfig?: ModelProvidersConfig);
+    /**
+     * Register models for an authType.
+     * If multiple models have the same id, the first one takes precedence.
+     */
+    registerAuthTypeModels(authType: AuthType, models: ModelConfig[]): void;
+    /**
+     * Get all models for a specific authType.
+     * This is used by /model command to show only relevant models.
+     */
+    getModelsForAuthType(authType: AuthType): AvailableModel[];
+    /**
+     * Get model configuration by authType and modelId
+     */
+    getModel(authType: AuthType, modelId: string): ResolvedModelConfig | undefined;
+    /**
+     * Check if model exists for given authType
+     */
+    hasModel(authType: AuthType, modelId: string): boolean;
+    /**
+     * Get default model for an authType.
+     * For vivekmind-oauth, returns the coder model.
+     * For others, returns the first configured model.
+     */
+    getDefaultModelForAuthType(authType: AuthType): ResolvedModelConfig | undefined;
+    /**
+     * Resolve model config by applying defaults
+     */
+    private resolveModelConfig;
+    /**
+     * Validate model configuration
+     */
+    private validateModelConfig;
+    /**
+     * Reload models from updated configuration.
+     * Clears existing user-configured models and re-registers from new config.
+     * Preserves hard-coded vivekmind-oauth models.
+     */
+    reloadModels(modelProvidersConfig?: ModelProvidersConfig): void;
+}

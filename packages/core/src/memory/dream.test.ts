@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -56,8 +57,8 @@ describe('managed auto-memory dream', () => {
       status: 'completed',
       finalText: 'Merged duplicate user memories.',
       filesTouched: [
-        path.join(projectRoot, '.qwen', 'memory', 'user', 'prefs.md'),
-        path.join(projectRoot, '.qwen', 'memory', 'reference', 'dash.md'),
+        path.join(projectRoot, '.vivekmind', 'memory', 'user', 'prefs.md'),
+        path.join(projectRoot, '.vivekmind', 'memory', 'reference', 'dash.md'),
       ],
     });
 

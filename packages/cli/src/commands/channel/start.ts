@@ -2,15 +2,15 @@ import * as path from 'node:path';
 import * as os from 'node:os';
 import type { CommandModule } from 'yargs';
 import { ProxyAgent, setGlobalDispatcher } from 'undici';
-import { normalizeProxyUrl } from '@qwen-code/qwen-code-core';
+import { normalizeProxyUrl } from '@vivekmind/core';
 import { loadSettings } from '../../config/settings.js';
 import { writeStderrLine, writeStdoutLine } from '../../utils/stdioHelpers.js';
-import { AcpBridge, SessionRouter } from '@qwen-code/channel-base';
+import { AcpBridge, SessionRouter } from '@vivekmind/channel-base';
 import type {
   ChannelBase,
   ChannelPlugin,
   ToolCallEvent,
-} from '@qwen-code/channel-base';
+} from '@vivekmind/channel-base';
 import { getPlugin, registerPlugin } from './channel-registry.js';
 import { findCliEntryPath, parseChannelConfig } from './config-utils.js';
 import {
@@ -54,7 +54,7 @@ export function resolveProxy(
 }
 
 function sessionsPath(): string {
-  return path.join(os.homedir(), '.qwen', 'channels', 'sessions.json');
+  return path.join(os.homedir(), '.vivekmind', 'channels', 'sessions.json');
 }
 
 function loadChannelsConfig(): Record<string, unknown> {
@@ -67,7 +67,7 @@ function loadChannelsConfig(): Record<string, unknown> {
 
 /**
  * Load channel plugins from active extensions.
- * Extensions declare channels in their qwen-extension.json manifest.
+ * Extensions declare channels in their vivekmind-extension.json manifest.
  */
 async function loadChannelsFromExtensions(): Promise<number> {
   let loaded = 0;
@@ -163,7 +163,7 @@ function checkDuplicateInstance(): void {
     writeStderrLine(
       `Error: Channel service is already running (PID ${existing.pid}, started ${existing.startedAt}).`,
     );
-    writeStderrLine('Use "qwen channel stop" to stop it first.');
+    writeStderrLine('Use "vivekmind channel stop" to stop it first.');
     process.exit(1);
   }
 }
@@ -299,8 +299,14 @@ async function startAll(proxy?: string): Promise<void> {
 
   if (Object.keys(channelsConfig).length === 0) {
     writeStderrLine(
-      'Error: No channels configured in settings.json. Add entries under "channels".',
+      'Error: No channels configured in settings.json.',
     );
+    writeStderrLine('');
+    writeStderrLine('To set up a channel, use one of:');
+    writeStderrLine('  vivekmind channel configure-telegram    Set up a Telegram bot');
+    writeStderrLine('  vivekmind channel configure-weixin      Set up a WeChat account');
+    writeStderrLine('');
+    writeStderrLine('Or manually add a channel under "channels" in settings.json.');
     process.exit(1);
   }
 

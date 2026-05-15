@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -19,13 +20,13 @@ describe('formatFetchErrorForUser', () => {
     fetchError.cause = tlsCause;
 
     const message = formatFetchErrorForUser(fetchError, {
-      url: 'https://chat.qwen.ai',
+      url: 'https://chat.vivekmind.ai',
     });
 
     expect(message).toContain('fetch failed');
     expect(message).toContain('UNABLE_TO_VERIFY_LEAF_SIGNATURE');
     expect(message).toContain('Troubleshooting:');
-    expect(message).toContain('Confirm you can reach https://chat.qwen.ai');
+    expect(message).toContain('Confirm you can reach https://chat.vivekmind.ai');
     expect(message).toContain('--proxy');
     expect(message).toContain('NODE_EXTRA_CA_CERTS');
   });

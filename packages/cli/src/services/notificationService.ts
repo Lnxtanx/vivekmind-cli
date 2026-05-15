@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -18,7 +18,7 @@
  * When disabled, no notification is sent.
  */
 
-import { createDebugLogger } from '@qwen-code/qwen-code-core';
+import { createDebugLogger } from '@vivekmind/core';
 import type { TerminalNotification } from '../ui/hooks/useTerminalNotification.js';
 import { detectTerminal, generateKittyId } from '../utils/osc.js';
 
@@ -29,7 +29,7 @@ export interface NotificationOptions {
   title?: string;
 }
 
-const DEFAULT_TITLE = 'Qwen Code';
+const DEFAULT_TITLE = 'VivekMind';
 
 /**
  * Send a notification through the auto-detected channel.

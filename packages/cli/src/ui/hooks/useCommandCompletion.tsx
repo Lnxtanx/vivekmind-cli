@@ -17,7 +17,7 @@ import {
 import { toCodePoints } from '../utils/textUtils.js';
 import { useAtCompletion } from './useAtCompletion.js';
 import { useSlashCompletion } from './useSlashCompletion.js';
-import type { Config } from '@qwen-code/qwen-code-core';
+import type { Config } from '@vivekmind/core';
 import { useCompletion } from './useCompletion.js';
 import { parseSlashCommand } from '../../utils/commands.js';
 

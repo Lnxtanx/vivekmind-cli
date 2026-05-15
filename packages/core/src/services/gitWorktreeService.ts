@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -24,7 +24,7 @@ export const BASELINE_COMMIT_MESSAGE = 'baseline (dirty state overlay)';
 
 /**
  * Default directory and branch-prefix name used for worktrees.
- * Changing this value affects the on-disk layout (`~/.qwen/<WORKTREES_DIR>/`)
+ * Changing this value affects the on-disk layout (`~/.vivekmind/<WORKTREES_DIR>/`)
  * **and** the default git branch prefix (`<WORKTREES_DIR>/<sessionId>/…`).
  */
 export const WORKTREES_DIR = 'worktrees';
@@ -109,7 +109,7 @@ export class GitWorktreeService {
     if (customDir) {
       return path.resolve(customDir);
     }
-    return path.join(Storage.getGlobalQwenDir(), WORKTREES_DIR);
+    return path.join(Storage.getGlobalVivekMindDir(), WORKTREES_DIR);
   }
 
   /**

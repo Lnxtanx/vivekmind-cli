@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -32,10 +33,10 @@ const argv = yargs(hideBin(process.argv)).option('q', {
   default: false,
 }).argv;
 
-let qwenSandbox = process.env.QWEN_SANDBOX;
+let qwenSandbox = process.env.VIVEKMIND_SANDBOX;
 
 if (!qwenSandbox) {
-  const userSettingsFile = join(os.homedir(), '.qwen', 'settings.json');
+  const userSettingsFile = join(os.homedir(), '.vivekmind', 'settings.json');
   if (existsSync(userSettingsFile)) {
     const settings = JSON.parse(
       stripJsonComments(readFileSync(userSettingsFile, 'utf-8')),
@@ -49,7 +50,7 @@ if (!qwenSandbox) {
 if (!qwenSandbox) {
   let currentDir = process.cwd();
   while (true) {
-    const qwenEnv = join(currentDir, '.qwen', '.env');
+    const qwenEnv = join(currentDir, '.vivekmind', '.env');
     const regularEnv = join(currentDir, '.env');
     if (existsSync(qwenEnv)) {
       dotenv.config({ path: qwenEnv, quiet: true });
@@ -64,7 +65,7 @@ if (!qwenSandbox) {
     }
     currentDir = parentDir;
   }
-  qwenSandbox = process.env.QWEN_SANDBOX;
+  qwenSandbox = process.env.VIVEKMIND_SANDBOX;
 }
 
 qwenSandbox = (qwenSandbox || '').toLowerCase();
@@ -97,7 +98,7 @@ if (['1', 'true'].includes(qwenSandbox)) {
     command = 'podman';
   } else {
     console.error(
-      'ERROR: install docker or podman or specify command in QWEN_SANDBOX',
+      'ERROR: install docker or podman or specify command in VIVEKMIND_SANDBOX',
     );
     process.exit(1);
   }
@@ -106,7 +107,7 @@ if (['1', 'true'].includes(qwenSandbox)) {
     command = qwenSandbox;
   } else {
     console.error(
-      `ERROR: missing sandbox command '${qwenSandbox}' (from QWEN_SANDBOX)`,
+      `ERROR: missing sandbox command '${qwenSandbox}' (from VIVEKMIND_SANDBOX)`,
     );
     process.exit(1);
   }

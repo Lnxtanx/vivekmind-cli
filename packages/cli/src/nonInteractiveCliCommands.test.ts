@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -9,7 +9,7 @@ import {
   getAvailableCommands,
   handleSlashCommand,
 } from './nonInteractiveCliCommands.js';
-import type { Config } from '@qwen-code/qwen-code-core';
+import type { Config } from '@vivekmind/core';
 import type { LoadedSettings } from './config/settings.js';
 import { CommandKind, type ExecutionMode } from './ui/commands/types.js';
 import { filterCommandsForMode } from './services/commandUtils.js';

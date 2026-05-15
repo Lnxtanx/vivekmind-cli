@@ -1,12 +1,12 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import type { ExtendedSystemInfo } from './systemInfo.js';
 import { t } from '../i18n/index.js';
-import { isCodingPlanConfig } from '@qwen-code/qwen-code-core';
+import { isCodingPlanConfig } from '@vivekmind/core';
 
 /**
  * Field configuration for system information display
@@ -26,7 +26,7 @@ export function getSystemInfoFields(
 ): SystemInfoDisplayField[] {
   const fields: SystemInfoDisplayField[] = [];
 
-  addField(fields, t('Qwen Code'), formatCliVersion(info));
+  addField(fields, t('VivekMind'), formatCliVersion(info));
   addField(fields, t('Runtime'), formatRuntime(info));
   addField(fields, t('IDE Client'), info.ideClient);
   addField(fields, t('OS'), formatOs(info));
@@ -96,9 +96,9 @@ function formatAuth(info: ExtendedSystemInfo): string {
 
   if (
     info.selectedAuthType.startsWith('oauth') ||
-    info.selectedAuthType === 'qwen-oauth'
+    info.selectedAuthType === 'vivekmind-oauth'
   ) {
-    return 'Qwen OAuth';
+    return 'VivekMind OAuth';
   }
 
   return `API Key - ${info.selectedAuthType}`;
@@ -111,7 +111,7 @@ function formatBaseUrl(info: ExtendedSystemInfo): string {
 
   if (
     info.selectedAuthType.startsWith('oauth') ||
-    info.selectedAuthType === 'qwen-oauth'
+    info.selectedAuthType === 'vivekmind-oauth'
   ) {
     return '';
   }

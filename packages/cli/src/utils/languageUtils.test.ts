@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen team
+ * Copyright 2025 VivekMind team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -35,10 +35,10 @@ vi.mock('../i18n/index.js', () => ({
   }),
 }));
 
-// Mock @qwen-code/qwen-code-core
-vi.mock('@qwen-code/qwen-code-core', () => ({
+// Mock @vivekmind/core
+vi.mock('@vivekmind/core', () => ({
   Storage: {
-    getGlobalQwenDir: vi.fn(() => '/mock/home/.qwen'),
+    getGlobalVivekMindDir: vi.fn(() => '/mock/home/.vivekmind'),
   },
 }));
 
@@ -180,7 +180,7 @@ describe('languageUtils', () => {
     it('should create directory and write file', () => {
       writeOutputLanguageFile('Chinese');
 
-      const globalDir = '/mock/home/.qwen';
+      const globalDir = '/mock/home/.vivekmind';
       const expectedDir = path.join(globalDir);
       const expectedFilePath = path.join(globalDir, 'output-language.md');
 
@@ -209,7 +209,7 @@ describe('languageUtils', () => {
 
       const writtenContent = vi.mocked(fs.writeFileSync).mock.calls[0][1];
       expect(writtenContent).toContain(
-        '<!-- qwen-code:llm-output-language: Chinese -->',
+        '<!-- vivekmind:llm-output-language: Chinese -->',
       );
     });
 
@@ -222,7 +222,7 @@ describe('languageUtils', () => {
         '# Output language preference: Test--Language',
       );
       expect(writtenContent).toContain(
-        '<!-- qwen-code:llm-output-language: TestLanguage -->',
+        '<!-- vivekmind:llm-output-language: TestLanguage -->',
       );
     });
 
@@ -321,7 +321,7 @@ describe('languageUtils', () => {
       vi.mocked(i18n.detectSystemLanguage).mockReturnValue('en');
       vi.mocked(fs.readFileSync).mockReturnValue(
         `# Output language preference: French
-<!-- qwen-code:llm-output-language: French -->
+<!-- vivekmind:llm-output-language: French -->
 `,
       );
 
@@ -334,7 +334,7 @@ describe('languageUtils', () => {
       vi.mocked(fs.existsSync).mockReturnValue(true);
       vi.mocked(fs.readFileSync).mockReturnValue(
         `# Output language preference: French
-<!-- qwen-code:llm-output-language: French -->
+<!-- vivekmind:llm-output-language: French -->
 `,
       );
 
@@ -424,8 +424,8 @@ describe('languageUtils', () => {
 
   describe('output-language.md path resolution priority', () => {
     it('should prefer project-level path over global path', () => {
-      const projectPath = '/project/.qwen/output-language.md';
-      const globalPath = '/mock/home/.qwen/output-language.md';
+      const projectPath = '/project/.vivekmind/output-language.md';
+      const globalPath = '/mock/home/.vivekmind/output-language.md';
 
       vi.mocked(fs.existsSync).mockImplementation((p) => {
         if (p.toString() === projectPath) return true;
@@ -444,8 +444,8 @@ describe('languageUtils', () => {
     });
 
     it('should fall back to global path when project-level does not exist', () => {
-      const projectPath = '/project/.qwen/output-language.md';
-      const globalPath = '/mock/home/.qwen/output-language.md';
+      const projectPath = '/project/.vivekmind/output-language.md';
+      const globalPath = '/mock/home/.vivekmind/output-language.md';
 
       vi.mocked(fs.existsSync).mockImplementation((p) => {
         if (p.toString() === projectPath) return false;
@@ -464,8 +464,8 @@ describe('languageUtils', () => {
     });
 
     it('should return undefined when neither path exists', () => {
-      const projectPath = '/project/.qwen/output-language.md';
-      const globalPath = '/mock/home/.qwen/output-language.md';
+      const projectPath = '/project/.vivekmind/output-language.md';
+      const globalPath = '/mock/home/.vivekmind/output-language.md';
 
       vi.mocked(fs.existsSync).mockReturnValue(false);
 

@@ -1,12 +1,12 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import type { Part } from '@google/genai';
-import { ToolNames } from '@qwen-code/qwen-code-core';
-import type { ChatRecord, Config, Kind } from '@qwen-code/qwen-code-core';
+import { ToolNames } from '@vivekmind/core';
+import type { ChatRecord, Config, Kind } from '@vivekmind/core';
 import type { ExportMessage, ExportSessionData } from './types.js';
 
 /**

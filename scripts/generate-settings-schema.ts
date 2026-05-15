@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen team
+ * Copyright 2025 VivekMind team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -169,7 +169,7 @@ function generateJsonSchema(
   const jsonSchema: JsonSchemaProperty = {
     $schema: 'http://json-schema.org/draft-07/schema#',
     type: 'object',
-    description: 'Qwen Code settings configuration',
+    description: 'VivekMind settings configuration',
     properties: {},
     additionalProperties: true,
   };

@@ -1,11 +1,11 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { describe, expect, it } from 'vitest';
-import { AgentStatus } from '@qwen-code/qwen-code-core';
+import { AgentStatus } from '@vivekmind/core';
 import { renderWithProviders } from '../../../test-utils/render.js';
 import { ArenaSessionCard } from './ArenaCards.js';
 import type { ArenaAgentCardData } from '../../types.js';

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -10,10 +10,10 @@ import {
   getFilteredQwenModels,
   getOpenAIAvailableModelFromEnv,
 } from './availableModels.js';
-import { AuthType, type Config } from '@qwen-code/qwen-code-core';
+import { AuthType, type Config } from '@vivekmind/core';
 
 describe('availableModels', () => {
-  describe('Qwen models', () => {
+  describe('VivekMind models', () => {
     const qwenModels = getFilteredQwenModels();
 
     it('should include only coder-model', () => {
@@ -77,28 +77,28 @@ describe('availableModels', () => {
       process.env = originalEnv;
     });
 
-    it('should return hard-coded qwen models for qwen-oauth', () => {
-      const models = getAvailableModelsForAuthType(AuthType.QWEN_OAUTH);
+    it('should return hard-coded qwen models for vivekmind-oauth', () => {
+      const models = getAvailableModelsForAuthType(AuthType.VIVEKMIND_OAUTH);
       expect(models.length).toBe(1);
       expect(models[0].id).toBe('coder-model');
       expect(models[0].isVision).toBe(true);
     });
 
-    it('should use config models for qwen-oauth when config is provided', () => {
+    it('should use config models for vivekmind-oauth when config is provided', () => {
       const mockConfig = {
         getAvailableModelsForAuthType: vi.fn().mockReturnValue([
           {
             id: 'custom',
             label: 'Custom',
             description: 'Custom model',
-            authType: AuthType.QWEN_OAUTH,
+            authType: AuthType.VIVEKMIND_OAUTH,
             isVision: false,
           },
         ]),
       } as unknown as Config;
 
       const models = getAvailableModelsForAuthType(
-        AuthType.QWEN_OAUTH,
+        AuthType.VIVEKMIND_OAUTH,
         mockConfig,
       );
       expect(models).toEqual([

@@ -22,7 +22,7 @@ const createMockConfig = (
   mockFileService?: FileDiscoveryService,
   fileFilteringOptions?: {
     respectGitIgnore: boolean;
-    respectQwenIgnore: boolean;
+    respectVivekMindIgnore: boolean;
   },
 ): Config => {
   const workspace = new WorkspaceContext(cwd, otherDirs);
@@ -36,7 +36,7 @@ const createMockConfig = (
     getFileFilteringOptions: () =>
       fileFilteringOptions ?? {
         respectGitIgnore: true,
-        respectQwenIgnore: true,
+        respectVivekMindIgnore: true,
       },
     getTruncateToolOutputThreshold: () => 2500,
     getTruncateToolOutputLines: () => 500,
@@ -316,7 +316,7 @@ describe('readPathFromWorkspace', () => {
         ['ignored.txt'],
         {
           respectGitIgnore: true,
-          respectQwenIgnore: true,
+          respectVivekMindIgnore: true,
         },
       );
     });
@@ -361,14 +361,14 @@ describe('readPathFromWorkspace', () => {
       } as unknown as FileDiscoveryService;
       const config = createMockConfig(CWD, [], mockFileService, {
         respectGitIgnore: false,
-        respectQwenIgnore: true,
+        respectVivekMindIgnore: true,
       });
       await readPathFromWorkspace('ignored.txt', config);
       expect(mockFileService.filterFiles).toHaveBeenCalledWith(
         ['ignored.txt'],
         {
           respectGitIgnore: false,
-          respectQwenIgnore: true,
+          respectVivekMindIgnore: true,
         },
       );
     });

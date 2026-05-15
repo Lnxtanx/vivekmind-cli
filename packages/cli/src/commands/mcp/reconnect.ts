@@ -11,9 +11,9 @@ import {
   Config,
   FileDiscoveryService,
   ExtensionManager,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { isWorkspaceTrusted } from '../../config/trustedFolders.js';
-import type { MCPServerConfig } from '@qwen-code/qwen-code-core';
+import type { MCPServerConfig } from '@vivekmind/core';
 
 async function getMcpServersFromConfig(
   extensionManager?: ExtensionManager,
@@ -151,7 +151,7 @@ export const reconnectCommand: CommandModule = {
   describe: 'Reconnect MCP server(s)',
   builder: (yargs) =>
     yargs
-      .usage('Usage: qwen mcp reconnect [options] [server-name]')
+      .usage('Usage: vivekmind mcp reconnect [options] [server-name]')
       .positional('server-name', {
         describe: 'Name of the server to reconnect',
         type: 'string',

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -8,7 +8,7 @@ import type React from 'react';
 import { useMemo, useState } from 'react';
 import { Box, Text } from 'ink';
 import Link from 'ink-link';
-import { AuthType } from '@qwen-code/qwen-code-core';
+import { AuthType } from '@vivekmind/core';
 import { useConfig } from '../../contexts/ConfigContext.js';
 import { theme } from '../../semantic-colors.js';
 import { useKeypress } from '../../hooks/useKeypress.js';
@@ -21,7 +21,7 @@ interface ArenaStartDialogProps {
 }
 
 const MODEL_PROVIDERS_DOCUMENTATION_URL =
-  'https://qwenlm.github.io/qwen-code-docs/en/users/configuration/settings/#modelproviders';
+  'https://qwenlm.github.io/vivekmind-docs/en/users/configuration/settings/#modelproviders';
 
 export function ArenaStartDialog({
   onClose,
@@ -36,7 +36,7 @@ export function ArenaStartDialog({
 
     return selectableModels.map((model) => {
       const token = `${model.authType}:${model.id}`;
-      const isQwenOauth = model.authType === AuthType.QWEN_OAUTH;
+      const isQwenOauth = model.authType === AuthType.VIVEKMIND_OAUTH;
       return {
         key: token,
         value: token,
@@ -113,7 +113,7 @@ export function ArenaStartDialog({
         <Box marginTop={1} flexDirection="column">
           {hasDisabledQwenOauth && (
             <Text color={theme.status.warning}>
-              {t('Note: qwen-oauth models are not supported in Arena.')}
+              {t('Note: vivekmind-oauth models are not supported in Arena.')}
             </Text>
           )}
           {needsMoreModels && (

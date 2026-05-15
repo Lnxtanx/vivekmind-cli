@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Code
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -27,7 +27,7 @@ const mockConnect = vi.fn();
 const mockGetInstance = vi.fn().mockResolvedValue({ connect: mockConnect });
 const mockLogIdeConnection = vi.fn();
 
-vi.mock('@qwen-code/qwen-code-core', async (importOriginal) => {
+vi.mock('@vivekmind/core', async (importOriginal) => {
   const actual = await importOriginal<Record<string, unknown>>();
   return {
     ...actual,
@@ -77,8 +77,8 @@ describe('initializeApp', () => {
     expect(mockInitializeI18n).toHaveBeenCalledWith('en');
   });
 
-  it('should initialize i18n with QWEN_CODE_LANG env var if set', async () => {
-    vi.stubEnv('QWEN_CODE_LANG', 'zh');
+  it('should initialize i18n with VIVEKMIND_CODE_LANG env var if set', async () => {
+    vi.stubEnv('VIVEKMIND_CODE_LANG', 'zh');
 
     await initializeApp(mockConfig as never, mockSettings as never);
     expect(mockInitializeI18n).toHaveBeenCalledWith('zh');

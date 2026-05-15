@@ -13,11 +13,18 @@ import type {
   ToolResultDisplay,
   AgentStatus,
   ArenaDiffSummary,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { PartListUnion } from '@google/genai';
 import { type ReactNode } from 'react';
 
 export type { ThoughtSummary };
+
+export interface Attachment {
+  id: string;
+  path: string;
+  filename: string;
+}
+
 
 export enum AuthState {
   // Attemtping to authenticate or re-authenticate

@@ -6,7 +6,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { AuthType } from '@qwen-code/qwen-code-core';
+import { AuthType } from '@vivekmind/core';
 import {
   useAuthCommand,
   generateCustomApiKeyEnvKey,
@@ -22,7 +22,7 @@ import {
 
 vi.mock('../hooks/useQwenAuth.js', () => ({
   useQwenAuth: vi.fn(() => ({
-    qwenAuthState: {},
+    vivekmindAuthState: {},
     cancelQwenAuth: vi.fn(),
   })),
 }));
@@ -233,7 +233,7 @@ describe('generateCustomApiKeyEnvKey', () => {
       'openai',
       'https://api.openai.com/v1',
     );
-    expect(key).toBe('QWEN_CUSTOM_API_KEY_OPENAI_HTTPS_API_OPENAI_COM_V1');
+    expect(key).toBe('VIVEKMIND_CUSTOM_API_KEY_OPENAI_HTTPS_API_OPENAI_COM_V1');
   });
 
   it('generates env key from anthropic protocol and base URL', () => {
@@ -242,7 +242,7 @@ describe('generateCustomApiKeyEnvKey', () => {
       'https://api.anthropic.com/v1',
     );
     expect(key).toBe(
-      'QWEN_CUSTOM_API_KEY_ANTHROPIC_HTTPS_API_ANTHROPIC_COM_V1',
+      'VIVEKMIND_CUSTOM_API_KEY_ANTHROPIC_HTTPS_API_ANTHROPIC_COM_V1',
     );
   });
 
@@ -252,7 +252,7 @@ describe('generateCustomApiKeyEnvKey', () => {
       'https://generativelanguage.googleapis.com',
     );
     expect(key).toBe(
-      'QWEN_CUSTOM_API_KEY_GEMINI_HTTPS_GENERATIVELANGUAGE_GOOGLEAPIS_COM',
+      'VIVEKMIND_CUSTOM_API_KEY_GEMINI_HTTPS_GENERATIVELANGUAGE_GOOGLEAPIS_COM',
     );
   });
 
@@ -261,7 +261,7 @@ describe('generateCustomApiKeyEnvKey', () => {
       'openai',
       'http://localhost:11434/v1',
     );
-    expect(key).toBe('QWEN_CUSTOM_API_KEY_OPENAI_HTTP_LOCALHOST_11434_V1');
+    expect(key).toBe('VIVEKMIND_CUSTOM_API_KEY_OPENAI_HTTP_LOCALHOST_11434_V1');
   });
 
   it('normalizes trailing slashes and special chars', () => {
@@ -269,7 +269,7 @@ describe('generateCustomApiKeyEnvKey', () => {
       'openai',
       'https://openrouter.ai/api/v1/',
     );
-    expect(key).toBe('QWEN_CUSTOM_API_KEY_OPENAI_HTTPS_OPENROUTER_AI_API_V1');
+    expect(key).toBe('VIVEKMIND_CUSTOM_API_KEY_OPENAI_HTTPS_OPENROUTER_AI_API_V1');
   });
 
   it('different protocols with same base URL produce different keys', () => {

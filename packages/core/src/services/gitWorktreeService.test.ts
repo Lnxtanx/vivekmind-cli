@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -35,7 +35,7 @@ vi.mock('../utils/shell-utils.js', () => ({
 const hoistedMockGetGlobalQwenDir = vi.hoisted(() => vi.fn());
 vi.mock('../config/storage.js', () => ({
   Storage: {
-    getGlobalQwenDir: hoistedMockGetGlobalQwenDir,
+    getGlobalVivekMindDir: hoistedMockGetGlobalQwenDir,
   },
 }));
 

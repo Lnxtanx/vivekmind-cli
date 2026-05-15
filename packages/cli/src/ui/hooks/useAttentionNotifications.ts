@@ -1,24 +1,24 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { useEffect, useMemo, useRef } from 'react';
 import { StreamingState } from '../types.js';
 import type { LoadedSettings } from '../../config/settings.js';
-import type { Config } from '@qwen-code/qwen-code-core';
+import type { Config } from '@vivekmind/core';
 import {
   fireNotificationHook,
   NotificationType,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { TerminalNotification } from './useTerminalNotification.js';
 import type { TrackedToolCall } from './useReactToolScheduler.js';
 import { sendNotification } from '../../services/notificationService.js';
 
 export const LONG_TASK_NOTIFICATION_THRESHOLD_SECONDS = 20;
 
-const NOTIFICATION_TITLE = 'Qwen Code';
+const NOTIFICATION_TITLE = 'VivekMind';
 
 interface UseAttentionNotificationsOptions {
   isFocused: boolean;
@@ -63,8 +63,8 @@ export const useAttentionNotifications = ({
       terminalBellEnabled
     ) {
       const message = awaitingToolName
-        ? `Qwen Code needs your permission to use ${awaitingToolName}`
-        : 'Qwen Code is waiting for your input';
+        ? `VivekMind needs your permission to use ${awaitingToolName}`
+        : 'VivekMind is waiting for your input';
 
       sendNotification(
         { message, title: NOTIFICATION_TITLE },
@@ -99,7 +99,7 @@ export const useAttentionNotifications = ({
       if (wasLongTask && !isFocused && terminalBellEnabled) {
         sendNotification(
           {
-            message: 'Qwen Code is waiting for your input',
+            message: 'VivekMind is waiting for your input',
             title: NOTIFICATION_TITLE,
           },
           terminal,
@@ -115,7 +115,7 @@ export const useAttentionNotifications = ({
         if (hooksEnabled && messageBus) {
           fireNotificationHook(
             messageBus,
-            'Qwen Code is waiting for your input',
+            'VivekMind is waiting for your input',
             NotificationType.IdlePrompt,
             'Waiting for input',
           ).catch(() => {

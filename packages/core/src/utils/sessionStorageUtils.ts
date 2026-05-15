@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Code
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -29,7 +29,7 @@ export const MAX_FULL_SCAN_BYTES = 64 * 1024 * 1024;
 /**
  * Flags used when opening session files for metadata reads. `O_NOFOLLOW`
  * refuses to follow symlinks — defense in depth so a symlink planted in
- * `~/.qwen/tmp/<hash>/chats/` (by another local user or an extension with
+ * `~/.vivekmind/tmp/<hash>/chats/` (by another local user or an extension with
  * filesystem access) can't redirect a metadata read to an unrelated file.
  * Falls back to plain read-only when the flag isn't available (e.g. Windows
  * doesn't expose O_NOFOLLOW; the constant is `undefined` there).

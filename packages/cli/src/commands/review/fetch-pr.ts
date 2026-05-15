@@ -1,10 +1,10 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// `qwen review fetch-pr`: prepare a PR review's working state in a single
+// `vivekmind review fetch-pr`: prepare a PR review's working state in a single
 // deterministic pass.
 //
 //   1. Clean any stale worktree / branch from a previously interrupted run
@@ -15,7 +15,7 @@
 //   3. `gh pr view ...` to fetch metadata (head/base ref names, head SHA,
 //      diff stats, cross-repo flag).
 //   4. `git worktree add` to create an ephemeral worktree at
-//      `.qwen/tmp/review-pr-<n>` so subsequent steps can run in isolation.
+//      `.vivekmind/tmp/review-pr-<n>` so subsequent steps can run in isolation.
 //   5. Emit a single JSON report describing the resulting state, which the
 //      LLM reads to drive the rest of Step 1.
 

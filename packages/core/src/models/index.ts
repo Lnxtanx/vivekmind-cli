@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -18,6 +18,12 @@ export {
 export { ModelRegistry } from './modelRegistry.js';
 
 export {
+  VISION_MODEL_MAP,
+  getVisionCapability,
+  type VisionCapability,
+} from './model-capabilities.js';
+
+export {
   ModelsConfig,
   type ModelsConfigOptions,
   type OnModelChangeCallback,
@@ -29,8 +35,8 @@ export {
   DEFAULT_MODELS,
   MODEL_GENERATION_CONFIG_FIELDS,
   PROVIDER_SOURCED_FIELDS,
-  QWEN_OAUTH_ALLOWED_MODELS,
-  QWEN_OAUTH_MODELS,
+  VIVEKMIND_OAUTH_ALLOWED_MODELS,
+  VIVEKMIND_OAUTH_MODELS,
 } from './constants.js';
 
 // Model configuration resolver

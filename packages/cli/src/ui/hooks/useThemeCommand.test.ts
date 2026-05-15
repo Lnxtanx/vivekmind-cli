@@ -15,14 +15,14 @@ import { themeManager } from '../themes/theme-manager.js';
 describe('useThemeCommand', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
-    themeManager.setActiveTheme('Qwen Dark');
+    themeManager.setActiveTheme('VivekMind Dark');
   });
 
   it('restores previous theme on cancel (Esc)', () => {
     const setValue =
       vi.fn<(scope: SettingScope, key: string, value: unknown) => void>();
     const settings = {
-      merged: { ui: { theme: 'Qwen Dark' } },
+      merged: { ui: { theme: 'VivekMind Dark' } },
       user: { settings: { ui: {} } },
       workspace: { settings: { ui: {} } },
       setValue,

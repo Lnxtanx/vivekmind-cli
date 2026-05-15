@@ -1,9 +1,15 @@
 # Security Policy
 
-## Reporting a Vulnerability
+Please report security issues privately to the VivekMind maintainers.
 
-If you believe you have discovered a security vulnerability, please report it to us through the following portal: [Report Security Issue](https://yundun.console.aliyun.com/?p=xznew#/taskmanagement/tasks/detail/151)
+Do not open a public issue for vulnerabilities, leaked credentials, authentication bypasses, or sandbox escapes.
 
-> **Note:** This channel is strictly for reporting security-related issues. Non-security vulnerabilities or general bug reports will not be addressed here.
+When reporting, include:
 
-We sincerely appreciate your responsible disclosure and your contribution to helping us keep our project secure.
+- affected version or commit
+- operating system and shell
+- reproduction steps
+- expected and actual behavior
+- relevant logs with secrets removed
+
+VivekMind is a fork of VivekMind, so inherited upstream security fixes should be reviewed and merged promptly when applicable.

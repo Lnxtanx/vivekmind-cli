@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -16,8 +16,8 @@ import type {
   ServerGeminiStreamEvent,
   ToolCallRequestInfo,
   ToolCallResponseInfo,
-} from '@qwen-code/qwen-code-core';
-import { createDebugLogger } from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
+import { createDebugLogger } from '@vivekmind/core';
 import type { Part } from '@google/genai';
 import { StreamJsonOutputAdapter } from '../nonInteractive/io/index.js';
 

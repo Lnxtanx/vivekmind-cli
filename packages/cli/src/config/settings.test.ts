@@ -56,7 +56,7 @@ import {
   SETTINGS_VERSION_KEY,
 } from './settings.js';
 import { needsMigration } from './migration/index.js';
-import { QWEN_DIR } from '@qwen-code/qwen-code-core';
+import { VIVEKMIND_DIR } from '@vivekmind/core';
 
 const MOCK_WORKSPACE_DIR = '/mock/workspace';
 // Use the (mocked) SETTINGS_DIRECTORY_NAME for consistency
@@ -2310,16 +2310,16 @@ describe('Settings Loading and Merging', () => {
       delete process.env['TEST_PORT'];
     });
 
-    describe('when QWEN_CODE_SYSTEM_SETTINGS_PATH is set', () => {
+    describe('when VIVEKMIND_CODE_SYSTEM_SETTINGS_PATH is set', () => {
       const MOCK_ENV_SYSTEM_SETTINGS_PATH = '/mock/env/system/settings.json';
 
       beforeEach(() => {
-        process.env['QWEN_CODE_SYSTEM_SETTINGS_PATH'] =
+        process.env['VIVEKMIND_CODE_SYSTEM_SETTINGS_PATH'] =
           MOCK_ENV_SYSTEM_SETTINGS_PATH;
       });
 
       afterEach(() => {
-        delete process.env['QWEN_CODE_SYSTEM_SETTINGS_PATH'];
+        delete process.env['VIVEKMIND_CODE_SYSTEM_SETTINGS_PATH'];
       });
 
       it('should load system settings from the path specified in the environment variable', () => {
@@ -2647,7 +2647,7 @@ describe('Settings Loading and Merging', () => {
       isWorkspaceTrustedValue = true,
     }) {
       delete process.env['TESTTEST']; // reset
-      const geminiEnvPath = path.resolve(path.join(QWEN_DIR, '.env'));
+      const geminiEnvPath = path.resolve(path.join(VIVEKMIND_DIR, '.env'));
 
       vi.mocked(isWorkspaceTrusted).mockReturnValue({
         isTrusted: isWorkspaceTrustedValue,
@@ -2776,7 +2776,7 @@ describe('Settings Loading and Merging', () => {
       });
 
       it('should allow .env file to override settings.env values', () => {
-        const geminiEnvPath = path.resolve(path.join(QWEN_DIR, '.env'));
+        const geminiEnvPath = path.resolve(path.join(VIVEKMIND_DIR, '.env'));
         const userSettingsContent: Settings = {
           env: {
             ENV_OVERRIDE_TEST: 'from_settings',
@@ -2810,7 +2810,7 @@ describe('Settings Loading and Merging', () => {
       it('should not override existing system environment variables', () => {
         process.env['SYSTEM_ENV_VAR'] = 'system_value';
 
-        const geminiEnvPath = path.resolve(path.join(QWEN_DIR, '.env'));
+        const geminiEnvPath = path.resolve(path.join(VIVEKMIND_DIR, '.env'));
         const userSettingsContent: Settings = {
           env: {
             SYSTEM_ENV_VAR: 'from_settings',

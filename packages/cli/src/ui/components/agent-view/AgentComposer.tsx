@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -24,7 +24,7 @@ import {
   isTerminalStatus,
   ApprovalMode,
   APPROVAL_MODES,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   useAgentViewState,
   useAgentViewActions,
@@ -44,6 +44,7 @@ import { AgentFooter } from './AgentFooter.js';
 import { keyMatchers, Command } from '../../keyMatchers.js';
 import { theme } from '../../semantic-colors.js';
 import { t } from '../../../i18n/index.js';
+import type { QueuedMessage } from '../../hooks/useMessageQueue.js';
 
 // ─── Types ──────────────────────────────────────────────────
 
@@ -186,7 +187,7 @@ export const AgentComposer: React.FC<AgentComposerProps> = ({ agentId }) => {
 
   // ── Message queue (accumulate while streaming, flush as one prompt on idle) ──
 
-  const [messageQueue, setMessageQueue] = useState<string[]>([]);
+  const [messageQueue, setMessageQueue] = useState<QueuedMessage[]>([]);
 
   // When agent becomes idle (and not terminal), flush queued messages.
   useEffect(() => {
@@ -196,7 +197,7 @@ export const AgentComposer: React.FC<AgentComposerProps> = ({ agentId }) => {
       status !== undefined &&
       !isTerminalStatus(status)
     ) {
-      const combined = messageQueue.join('\n');
+      const combined = messageQueue.map((m) => m.text).join('\n');
       setMessageQueue([]);
       interactiveAgent?.enqueueMessage(combined);
     }
@@ -209,7 +210,10 @@ export const AgentComposer: React.FC<AgentComposerProps> = ({ agentId }) => {
       if (streamingState === StreamingState.Idle) {
         interactiveAgent.enqueueMessage(trimmed);
       } else {
-        setMessageQueue((prev) => [...prev, trimmed]);
+        setMessageQueue((prev) => [
+          ...prev,
+          { text: trimmed, attachments: undefined },
+        ]);
       }
     },
     [interactiveAgent, streamingState],

@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -17,14 +18,14 @@ export class FileTokenStorage extends BaseTokenStorage {
 
   constructor(serviceName: string) {
     super(serviceName);
-    const configDir = path.join(os.homedir(), '.qwen');
+    const configDir = path.join(os.homedir(), '.vivekmind');
     this.tokenFilePath = path.join(configDir, 'mcp-oauth-tokens-v2.json');
     this.encryptionKey = this.deriveEncryptionKey();
   }
 
   private deriveEncryptionKey(): Buffer {
-    const salt = `${os.hostname()}-${os.userInfo().username}-qwen-code`;
-    return crypto.scryptSync('qwen-code-oauth', salt, 32);
+    const salt = `${os.hostname()}-${os.userInfo().username}-vivekmind`;
+    return crypto.scryptSync('vivekmind-oauth', salt, 32);
   }
 
   private encrypt(text: string): string {

@@ -10,7 +10,7 @@ import {
   IdeConnectionType,
   logIdeConnection,
   type Config,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { type LoadedSettings } from '../config/settings.js';
 import { performInitialAuth } from './auth.js';
 import { validateTheme } from './theme.js';
@@ -36,7 +36,7 @@ export async function initializeApp(
 ): Promise<InitializationResult> {
   // Initialize i18n system
   const languageSetting =
-    process.env['QWEN_CODE_LANG'] ||
+    process.env['VIVEKMIND_CODE_LANG'] ||
     (settings.merged.general?.language as string) ||
     'auto';
   await initializeI18n(languageSetting as SupportedLanguage | 'auto');

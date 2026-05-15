@@ -22,7 +22,7 @@ import type {
   AnsiOutputDisplay,
   Config,
   McpToolProgressData,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { AgentExecutionDisplay } from '../subagents/index.js';
 import { PlanSummaryDisplay } from '../PlanSummaryDisplay.js';
 import { ShellInputPrompt } from '../ShellInputPrompt.js';

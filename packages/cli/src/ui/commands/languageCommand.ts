@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen team
+ * Copyright 2025 VivekMind team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -28,7 +28,7 @@ import {
   resolveOutputLanguage,
   updateOutputLanguageFile,
 } from '../../utils/languageUtils.js';
-import { createDebugLogger } from '@qwen-code/qwen-code-core';
+import { createDebugLogger } from '@vivekmind/core';
 
 const debugLogger = createDebugLogger('LANGUAGE_COMMAND');
 

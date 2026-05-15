@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -19,11 +19,11 @@ import type {
   ToolExecuteConfirmationDetails,
   ToolMcpConfirmationDetails,
   ApprovalMode,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   InputFormat,
   ToolConfirmationOutcome,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type {
   CLIControlPermissionRequest,
   CLIControlSetPermissionModeRequest,

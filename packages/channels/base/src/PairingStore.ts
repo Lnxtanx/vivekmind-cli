@@ -22,7 +22,7 @@ export class PairingStore {
   private allowlistPath: string;
 
   constructor(channelName: string) {
-    this.dir = path.join(os.homedir(), '.qwen', 'channels');
+    this.dir = path.join(os.homedir(), '.vivekmind', 'channels');
     this.pendingPath = path.join(this.dir, `${channelName}-pairing.json`);
     this.allowlistPath = path.join(this.dir, `${channelName}-allowlist.json`);
   }

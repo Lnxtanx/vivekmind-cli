@@ -8,7 +8,7 @@ import {
   ApprovalMode,
   AuthType,
   Config,
-  DEFAULT_QWEN_EMBEDDING_MODEL,
+  DEFAULT_VIVEKMIND_EMBEDDING_MODEL,
   FileDiscoveryService,
   getAllGeminiMdFilenames,
   loadServerHierarchicalMemory,
@@ -31,7 +31,7 @@ import {
   isBareMode,
   isToolEnabled,
   type MCPServerConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { extensionsCommand } from '../commands/extensions.js';
 import { hooksCommand } from '../commands/hooks.js';
 import type { Settings } from './settings.js';
@@ -197,9 +197,9 @@ export async function parseArguments(): Promise<CliArgs> {
 
   const yargsInstance = yargs(rawArgv)
     .locale('en')
-    .scriptName('qwen')
+    .scriptName('vivekmind')
     .usage(
-      'Usage: qwen [options] [command]\n\nQwen Code - Launch an interactive CLI, use -p/--prompt for non-interactive mode',
+      'Usage: vivekmind [options] [command]\n\nVivekMind - Launch an interactive CLI, use -p/--prompt for non-interactive mode',
     )
     .option('telemetry', {
       type: 'boolean',
@@ -270,7 +270,7 @@ export async function parseArguments(): Promise<CliArgs> {
     })
     .option('proxy', {
       type: 'string',
-      description: 'Proxy for Qwen Code, like schema://user:password@host:port',
+      description: 'Proxy for VivekMind, like schema://user:password@host:port',
     })
     .deprecateOption(
       'proxy',
@@ -281,7 +281,7 @@ export async function parseArguments(): Promise<CliArgs> {
       description:
         'Enable chat recording to disk. If false, chat history is not saved and --continue/--resume will not work.',
     })
-    .command('$0 [query..]', 'Launch Qwen Code CLI', (yargsInstance: Argv) =>
+    .command('$0 [query..]', 'Launch VivekMind CLI', (yargsInstance: Argv) =>
       yargsInstance
         .positional('query', {
           description:
@@ -517,7 +517,7 @@ export async function parseArguments(): Promise<CliArgs> {
           description:
             'Slash command names to hide/disable (comma-separated or ' +
             'repeated). Merged with the `slashCommands.disabled` setting ' +
-            'and QWEN_DISABLED_SLASH_COMMANDS. Matched case-insensitively ' +
+            'and VIVEKMIND_DISABLED_SLASH_COMMANDS. Matched case-insensitively ' +
             'against the final command name.',
           coerce: (names: string[]) =>
             names.flatMap((n) => n.split(',').map((t) => t.trim())),
@@ -534,7 +534,7 @@ export async function parseArguments(): Promise<CliArgs> {
           choices: [
             AuthType.USE_OPENAI,
             AuthType.USE_ANTHROPIC,
-            AuthType.QWEN_OAUTH,
+            AuthType.VIVEKMIND_OAUTH,
             AuthType.USE_GEMINI,
             AuthType.USE_VERTEX_AI,
           ],
@@ -828,9 +828,9 @@ export async function loadCliConfig(
   const debugMode = isDebugMode(argv);
   const bareMode = isBareMode(argv.bare);
 
-  // Set runtime output directory from settings (env var QWEN_RUNTIME_DIR
+  // Set runtime output directory from settings (env var VIVEKMIND_RUNTIME_DIR
   // is auto-detected inside getRuntimeBaseDir() at each call site).
-  // Pass cwd so that relative paths like ".qwen" resolve per-project.
+  // Pass cwd so that relative paths like ".vivekmind" resolve per-project.
   Storage.setRuntimeBaseDir(settings.advanced?.runtimeOutputDir, cwd);
 
   const ideMode = settings.ide?.enabled ?? false;
@@ -852,11 +852,11 @@ export async function loadCliConfig(
   // Automatically load output-language.md if it exists
   const projectStorage = new Storage(cwd);
   const projectOutputLanguagePath = path.join(
-    projectStorage.getQwenDir(),
+    projectStorage.getVivekMindDir(),
     'output-language.md',
   );
   const globalOutputLanguagePath = path.join(
-    Storage.getGlobalQwenDir(),
+    Storage.getGlobalVivekMindDir(),
     'output-language.md',
   );
 
@@ -1024,7 +1024,7 @@ export async function loadCliConfig(
   };
   for (const name of settings.slashCommands?.disabled ?? []) addDisabled(name);
   for (const name of argv.disabledSlashCommands ?? []) addDisabled(name);
-  for (const name of (process.env['QWEN_DISABLED_SLASH_COMMANDS'] ?? '').split(
+  for (const name of (process.env['VIVEKMIND_DISABLED_SLASH_COMMANDS'] ?? '').split(
     ',',
   )) {
     addDisabled(name);
@@ -1151,7 +1151,7 @@ export async function loadCliConfig(
       sessionId = argv.resume;
       sessionData = await sessionService.loadSession(argv.resume);
       if (!sessionData) {
-        const message = `No saved session found with ID ${argv.resume}. Run \`qwen --resume\` without an ID to choose from existing sessions.`;
+        const message = `No saved session found with ID ${argv.resume}. Run \`vivekmind --resume\` without an ID to choose from existing sessions.`;
         writeStderrLine(message);
         process.exit(1);
       }
@@ -1174,7 +1174,7 @@ export async function loadCliConfig(
   const config = new Config({
     sessionId,
     sessionData,
-    embeddingModel: DEFAULT_QWEN_EMBEDDING_MODEL,
+    embeddingModel: DEFAULT_VIVEKMIND_EMBEDDING_MODEL,
     sandbox: sandboxConfig,
     targetDir: cwd,
     includeDirectories,

@@ -12,8 +12,10 @@ import {
   saveWelcomeBackRestartChoice,
   type ProjectSummaryInfo,
   type Config,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { type Settings } from '../../config/settingsSchema.js';
+
+import { type Attachment } from '../types.js';
 
 export interface WelcomeBackState {
   welcomeBackInfo: ProjectSummaryInfo | null;
@@ -32,7 +34,7 @@ export interface WelcomeBackActions {
 
 export function useWelcomeBack(
   config: Config,
-  submitQuery: (query: string) => void,
+  submitQuery: (query: string, attachments?: Attachment[]) => void,
   buffer: { setText: (text: string) => void },
   settings: Settings,
 ): WelcomeBackState & WelcomeBackActions {
@@ -99,7 +101,7 @@ export function useWelcomeBack(
 
       if (choice === 'continue' && welcomeBackInfo?.content) {
         // Create the context message to fill in the input box
-        const contextMessage = `@.qwen/PROJECT_SUMMARY.md, Based on our previous conversation,Let's continue?`;
+        const contextMessage = `@.vivekmind/PROJECT_SUMMARY.md, Based on our previous conversation,Let's continue?`;
 
         // Set the input fill state instead of directly submitting
         setInputFillText(contextMessage);

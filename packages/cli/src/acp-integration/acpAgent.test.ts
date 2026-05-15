@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -75,7 +75,7 @@ vi.mock('node:stream', async (importOriginal) => {
 });
 
 // Mock core dependencies
-vi.mock('@qwen-code/qwen-code-core', () => ({
+vi.mock('@vivekmind/core', () => ({
   createDebugLogger: () => ({
     debug: vi.fn(),
     error: vi.fn(),
@@ -86,8 +86,8 @@ vi.mock('@qwen-code/qwen-code-core', () => ({
   APPROVAL_MODES: [],
   AuthType: {},
   clearCachedCredentialFile: vi.fn(),
-  QwenOAuth2Event: {},
-  qwenOAuth2Events: { on: vi.fn(), off: vi.fn() },
+  VivekMindOAuth2Event: {},
+  vivekmindOAuth2Events: { on: vi.fn(), off: vi.fn() },
   MCPServerConfig: vi.fn().mockImplementation((...args: unknown[]) => ({
     _args: args,
   })),
@@ -123,10 +123,10 @@ import {
   toSseServer,
   toHttpServer,
 } from './acpAgent.js';
-import type { Config } from '@qwen-code/qwen-code-core';
+import type { Config } from '@vivekmind/core';
 import type { LoadedSettings } from '../config/settings.js';
 import type { CliArgs } from '../config/config.js';
-import { SessionEndReason, MCPServerConfig } from '@qwen-code/qwen-code-core';
+import { SessionEndReason, MCPServerConfig } from '@vivekmind/core';
 import type { McpServer } from '@agentclientprotocol/sdk';
 import { AgentSideConnection } from '@agentclientprotocol/sdk';
 import { loadSettings } from '../config/settings.js';
@@ -618,10 +618,10 @@ describe('toHttpServer', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Tests for QwenAgent.initialize() mcpCapabilities + newSession SSE/HTTP
+// Tests for VivekMindAgent.initialize() mcpCapabilities + newSession SSE/HTTP
 // ---------------------------------------------------------------------------
 
-describe('QwenAgent MCP SSE/HTTP support', () => {
+describe('VivekMindAgent MCP SSE/HTTP support', () => {
   // We need to capture the agent factory from AgentSideConnection constructor
   let capturedAgentFactory:
     | ((conn: AgentSideConnectionLike) => AgentLike)

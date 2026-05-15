@@ -4,7 +4,7 @@ import { basename, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { DWClient, TOPIC_ROBOT, EventAck } from 'dingtalk-stream-sdk-nodejs';
 import type { DWClientDownStream } from 'dingtalk-stream-sdk-nodejs';
-import { ChannelBase } from '@qwen-code/channel-base';
+import { ChannelBase } from '@vivekmind/channel-base';
 import { normalizeDingTalkMarkdown, extractTitle } from './markdown.js';
 import { downloadMedia } from './media.js';
 import type {
@@ -12,7 +12,7 @@ import type {
   ChannelBaseOptions,
   Envelope,
   AcpBridge,
-} from '@qwen-code/channel-base';
+} from '@vivekmind/channel-base';
 
 /**
  * Raw DingTalk message data — the SDK's RobotMessage type only covers text,

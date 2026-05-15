@@ -9,14 +9,14 @@ import * as os from 'node:os';
 import * as path from 'node:path';
 import {
   ToolNames,
-  DEFAULT_QWEN_MODEL,
+  DEFAULT_VIVEKMIND_MODEL,
   OutputFormat,
   NativeLspService,
   Storage,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { loadCliConfig, parseArguments, type CliArgs } from './config.js';
 import type { Settings } from './settings.js';
-import * as ServerConfig from '@qwen-code/qwen-code-core';
+import * as ServerConfig from '@vivekmind/core';
 import { isWorkspaceTrusted } from './trustedFolders.js';
 
 const mockWriteStderrLine = vi.hoisted(() => vi.fn());
@@ -124,7 +124,7 @@ vi.mock('command-exists', () => ({
   },
 }));
 
-vi.mock('@qwen-code/qwen-code-core', async (importOriginal) => {
+vi.mock('@vivekmind/core', async (importOriginal) => {
   const actualServer = await importOriginal<typeof ServerConfig>();
   const SkillManagerMock = vi.fn();
   SkillManagerMock.prototype.startWatching = vi
@@ -160,11 +160,11 @@ vi.mock('@qwen-code/qwen-code-core', async (importOriginal) => {
     ),
     DEFAULT_MEMORY_FILE_FILTERING_OPTIONS: {
       respectGitIgnore: false,
-      respectQwenIgnore: true,
+      respectVivekMindIgnore: true,
     },
     DEFAULT_FILE_FILTERING_OPTIONS: {
       respectGitIgnore: true,
-      respectQwenIgnore: true,
+      respectVivekMindIgnore: true,
     },
   };
 });
@@ -1699,7 +1699,7 @@ describe('loadCliConfig model selection', () => {
       [],
     );
 
-    expect(config.getModel()).toBe(DEFAULT_QWEN_MODEL);
+    expect(config.getModel()).toBe(DEFAULT_VIVEKMIND_MODEL);
   });
 
   it('always prefers model from argvs', async () => {
@@ -2467,13 +2467,13 @@ describe('loadCliConfig fileFiltering', () => {
       value: false,
     },
     {
-      property: 'respectQwenIgnore',
-      getter: (c) => c.getFileFilteringRespectQwenIgnore(),
+      property: 'respectVivekMindIgnore',
+      getter: (c) => c.getFileFilteringRespectVivekMindIgnore(),
       value: true,
     },
     {
-      property: 'respectQwenIgnore',
-      getter: (c) => c.getFileFilteringRespectQwenIgnore(),
+      property: 'respectVivekMindIgnore',
+      getter: (c) => c.getFileFilteringRespectVivekMindIgnore(),
       value: false,
     },
     {
@@ -2599,8 +2599,8 @@ describe('parseArguments with positional prompt', () => {
 });
 
 describe('Telemetry configuration via environment variables', () => {
-  it('should prioritize QWEN_TELEMETRY_ENABLED over settings', async () => {
-    vi.stubEnv('QWEN_TELEMETRY_ENABLED', 'true');
+  it('should prioritize VIVEKMIND_TELEMETRY_ENABLED over settings', async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_ENABLED', 'true');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = { telemetry: { enabled: false } };
@@ -2608,8 +2608,8 @@ describe('Telemetry configuration via environment variables', () => {
     expect(config.getTelemetryEnabled()).toBe(true);
   });
 
-  it('should prioritize QWEN_TELEMETRY_TARGET over settings', async () => {
-    vi.stubEnv('QWEN_TELEMETRY_TARGET', 'gcp');
+  it('should prioritize VIVEKMIND_TELEMETRY_TARGET over settings', async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_TARGET', 'gcp');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = {
@@ -2619,8 +2619,8 @@ describe('Telemetry configuration via environment variables', () => {
     expect(config.getTelemetryTarget()).toBe('gcp');
   });
 
-  it('should throw when QWEN_TELEMETRY_TARGET is invalid', async () => {
-    vi.stubEnv('QWEN_TELEMETRY_TARGET', 'bogus');
+  it('should throw when VIVEKMIND_TELEMETRY_TARGET is invalid', async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_TARGET', 'bogus');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = {
@@ -2632,9 +2632,9 @@ describe('Telemetry configuration via environment variables', () => {
     vi.unstubAllEnvs();
   });
 
-  it('should prioritize QWEN_TELEMETRY_OTLP_ENDPOINT over settings and default env var', async () => {
+  it('should prioritize VIVEKMIND_TELEMETRY_OTLP_ENDPOINT over settings and default env var', async () => {
     vi.stubEnv('OTEL_EXPORTER_OTLP_ENDPOINT', 'http://default.env.com');
-    vi.stubEnv('QWEN_TELEMETRY_OTLP_ENDPOINT', 'http://gemini.env.com');
+    vi.stubEnv('VIVEKMIND_TELEMETRY_OTLP_ENDPOINT', 'http://gemini.env.com');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = {
@@ -2644,8 +2644,8 @@ describe('Telemetry configuration via environment variables', () => {
     expect(config.getTelemetryOtlpEndpoint()).toBe('http://gemini.env.com');
   });
 
-  it('should prioritize QWEN_TELEMETRY_OTLP_PROTOCOL over settings', async () => {
-    vi.stubEnv('QWEN_TELEMETRY_OTLP_PROTOCOL', 'http');
+  it('should prioritize VIVEKMIND_TELEMETRY_OTLP_PROTOCOL over settings', async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_OTLP_PROTOCOL', 'http');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = { telemetry: { otlpProtocol: 'grpc' } };
@@ -2653,8 +2653,8 @@ describe('Telemetry configuration via environment variables', () => {
     expect(config.getTelemetryOtlpProtocol()).toBe('http');
   });
 
-  it('should prioritize QWEN_TELEMETRY_LOG_PROMPTS over settings', async () => {
-    vi.stubEnv('QWEN_TELEMETRY_LOG_PROMPTS', 'false');
+  it('should prioritize VIVEKMIND_TELEMETRY_LOG_PROMPTS over settings', async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_LOG_PROMPTS', 'false');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = { telemetry: { logPrompts: true } };
@@ -2662,8 +2662,8 @@ describe('Telemetry configuration via environment variables', () => {
     expect(config.getTelemetryLogPromptsEnabled()).toBe(false);
   });
 
-  it('should prioritize QWEN_TELEMETRY_OUTFILE over settings', async () => {
-    vi.stubEnv('QWEN_TELEMETRY_OUTFILE', '/gemini/env/telemetry.log');
+  it('should prioritize VIVEKMIND_TELEMETRY_OUTFILE over settings', async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_OUTFILE', '/gemini/env/telemetry.log');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = {
@@ -2673,8 +2673,8 @@ describe('Telemetry configuration via environment variables', () => {
     expect(config.getTelemetryOutfile()).toBe('/gemini/env/telemetry.log');
   });
 
-  it('should prioritize QWEN_TELEMETRY_USE_COLLECTOR over settings', async () => {
-    vi.stubEnv('QWEN_TELEMETRY_USE_COLLECTOR', 'true');
+  it('should prioritize VIVEKMIND_TELEMETRY_USE_COLLECTOR over settings', async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_USE_COLLECTOR', 'true');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = { telemetry: { useCollector: false } };
@@ -2682,8 +2682,8 @@ describe('Telemetry configuration via environment variables', () => {
     expect(config.getTelemetryUseCollector()).toBe(true);
   });
 
-  it('should use settings value when QWEN_TELEMETRY_ENABLED is not set', async () => {
-    vi.stubEnv('QWEN_TELEMETRY_ENABLED', undefined);
+  it('should use settings value when VIVEKMIND_TELEMETRY_ENABLED is not set', async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_ENABLED', undefined);
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = { telemetry: { enabled: true } };
@@ -2691,8 +2691,8 @@ describe('Telemetry configuration via environment variables', () => {
     expect(config.getTelemetryEnabled()).toBe(true);
   });
 
-  it('should use settings value when QWEN_TELEMETRY_TARGET is not set', async () => {
-    vi.stubEnv('QWEN_TELEMETRY_TARGET', undefined);
+  it('should use settings value when VIVEKMIND_TELEMETRY_TARGET is not set', async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_TARGET', undefined);
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = {
@@ -2702,16 +2702,16 @@ describe('Telemetry configuration via environment variables', () => {
     expect(config.getTelemetryTarget()).toBe('local');
   });
 
-  it("should treat QWEN_TELEMETRY_ENABLED='1' as true", async () => {
-    vi.stubEnv('QWEN_TELEMETRY_ENABLED', '1');
+  it("should treat VIVEKMIND_TELEMETRY_ENABLED='1' as true", async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_ENABLED', '1');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const config = await loadCliConfig({}, argv, undefined, []);
     expect(config.getTelemetryEnabled()).toBe(true);
   });
 
-  it("should treat QWEN_TELEMETRY_ENABLED='0' as false", async () => {
-    vi.stubEnv('QWEN_TELEMETRY_ENABLED', '0');
+  it("should treat VIVEKMIND_TELEMETRY_ENABLED='0' as false", async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_ENABLED', '0');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const config = await loadCliConfig(
@@ -2723,16 +2723,16 @@ describe('Telemetry configuration via environment variables', () => {
     expect(config.getTelemetryEnabled()).toBe(false);
   });
 
-  it("should treat QWEN_TELEMETRY_LOG_PROMPTS='1' as true", async () => {
-    vi.stubEnv('QWEN_TELEMETRY_LOG_PROMPTS', '1');
+  it("should treat VIVEKMIND_TELEMETRY_LOG_PROMPTS='1' as true", async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_LOG_PROMPTS', '1');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const config = await loadCliConfig({}, argv, undefined, []);
     expect(config.getTelemetryLogPromptsEnabled()).toBe(true);
   });
 
-  it("should treat QWEN_TELEMETRY_LOG_PROMPTS='false' as false", async () => {
-    vi.stubEnv('QWEN_TELEMETRY_LOG_PROMPTS', 'false');
+  it("should treat VIVEKMIND_TELEMETRY_LOG_PROMPTS='false' as false", async () => {
+    vi.stubEnv('VIVEKMIND_TELEMETRY_LOG_PROMPTS', 'false');
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const config = await loadCliConfig(
@@ -2752,18 +2752,18 @@ describe('sandbox image resolution precedence', () => {
     vi.resetAllMocks();
     vi.mocked(os.homedir).mockReturnValue('/mock/home/user');
     vi.stubEnv('GEMINI_API_KEY', 'test-api-key');
-    delete process.env['QWEN_SANDBOX_IMAGE'];
+    delete process.env['VIVEKMIND_SANDBOX_IMAGE'];
   });
 
   afterEach(() => {
     process.argv = originalArgv;
     vi.unstubAllEnvs();
     vi.restoreAllMocks();
-    delete process.env['QWEN_SANDBOX_IMAGE'];
+    delete process.env['VIVEKMIND_SANDBOX_IMAGE'];
   });
 
   it('uses --sandbox-image over env and settings', async () => {
-    vi.stubEnv('QWEN_SANDBOX_IMAGE', 'env-image');
+    vi.stubEnv('VIVEKMIND_SANDBOX_IMAGE', 'env-image');
     process.argv = [
       'node',
       'script.js',
@@ -2782,8 +2782,8 @@ describe('sandbox image resolution precedence', () => {
     expect(config.getSandbox()?.image).toBe('cli-image');
   });
 
-  it('uses QWEN_SANDBOX_IMAGE over tools.sandboxImage', async () => {
-    vi.stubEnv('QWEN_SANDBOX_IMAGE', 'env-image');
+  it('uses VIVEKMIND_SANDBOX_IMAGE over tools.sandboxImage', async () => {
+    vi.stubEnv('VIVEKMIND_SANDBOX_IMAGE', 'env-image');
     process.argv = ['node', 'script.js', '--sandbox'];
     const argv = await parseArguments();
     const settings: Settings = {
@@ -2824,21 +2824,21 @@ describe('sandbox image resolution precedence', () => {
 
 describe('loadCliConfig runtimeOutputDir', () => {
   const originalArgv = process.argv;
-  const originalRuntimeEnv = process.env['QWEN_RUNTIME_DIR'];
+  const originalRuntimeEnv = process.env['VIVEKMIND_RUNTIME_DIR'];
 
   beforeEach(() => {
     process.argv = ['node', 'script.js'];
     Storage.setRuntimeBaseDir(null);
-    delete process.env['QWEN_RUNTIME_DIR'];
+    delete process.env['VIVEKMIND_RUNTIME_DIR'];
   });
 
   afterEach(() => {
     process.argv = originalArgv;
     Storage.setRuntimeBaseDir(null);
     if (originalRuntimeEnv !== undefined) {
-      process.env['QWEN_RUNTIME_DIR'] = originalRuntimeEnv;
+      process.env['VIVEKMIND_RUNTIME_DIR'] = originalRuntimeEnv;
     } else {
-      delete process.env['QWEN_RUNTIME_DIR'];
+      delete process.env['VIVEKMIND_RUNTIME_DIR'];
     }
     vi.unstubAllEnvs();
     vi.restoreAllMocks();
@@ -2857,24 +2857,24 @@ describe('loadCliConfig runtimeOutputDir', () => {
   it('should resolve relative runtimeOutputDir against cwd', async () => {
     const argv = await parseArguments();
     const settings: Settings = {
-      advanced: { runtimeOutputDir: '.qwen' },
+      advanced: { runtimeOutputDir: '.vivekmind' },
     };
     const cwd = path.resolve('workspace', 'my-project');
     await loadCliConfig(settings, argv, cwd);
-    expect(Storage.getRuntimeBaseDir()).toBe(path.join(cwd, '.qwen'));
+    expect(Storage.getRuntimeBaseDir()).toBe(path.join(cwd, '.vivekmind'));
   });
 
   it('should not set runtime base dir when runtimeOutputDir is absent', async () => {
     const argv = await parseArguments();
     const settings: Settings = {};
     await loadCliConfig(settings, argv);
-    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalQwenDir());
+    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalVivekMindDir());
   });
 
-  it('should let QWEN_RUNTIME_DIR env var take priority over settings', async () => {
+  it('should let VIVEKMIND_RUNTIME_DIR env var take priority over settings', async () => {
     const envDir = path.resolve('from-env');
     const settingsDir = path.resolve('from-settings');
-    process.env['QWEN_RUNTIME_DIR'] = envDir;
+    process.env['VIVEKMIND_RUNTIME_DIR'] = envDir;
     const argv = await parseArguments();
     const settings: Settings = {
       advanced: { runtimeOutputDir: settingsDir },
@@ -2894,6 +2894,6 @@ describe('loadCliConfig runtimeOutputDir', () => {
     expect(Storage.getRuntimeBaseDir()).toBe(firstRuntimeDir);
 
     await loadCliConfig({}, argv);
-    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalQwenDir());
+    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalVivekMindDir());
   });
 });

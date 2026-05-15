@@ -14,7 +14,7 @@ import {
   type EditorType,
   type ApprovalMode,
   type CodingPlanRegion,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { type SettingScope } from '../../config/settings.js';
 import { type AlibabaStandardRegion } from '../../constants/alibabaStandardApiKey.js';
 import type { AuthState, HistoryItem } from '../types.js';
@@ -54,10 +54,7 @@ export interface UIActions {
   ) => Promise<void>;
   handleOpenRouterSubmit: () => Promise<void>;
   handleCustomApiKeySubmit: (
-    protocol:
-      | AuthType.USE_OPENAI
-      | AuthType.USE_ANTHROPIC
-      | AuthType.USE_GEMINI,
+    protocol: AuthType,
     baseUrl: string,
     apiKey: string,
     modelIdsInput: string,
@@ -71,7 +68,20 @@ export interface UIActions {
       maxTokens?: number;
     },
   ) => Promise<void>;
+  handleBedrockCredentialsSubmit: (
+    accessKeyId: string,
+    secretAccessKey: string,
+    region: string,
+    modelIdsInput: string,
+  ) => Promise<void>;
+  handleVertexCredentialsSubmit: (
+    protocol: AuthType,
+    projectId: string,
+    location: string,
+    modelIdsInput: string,
+  ) => Promise<void>;
   setAuthState: (state: AuthState) => void;
+  setPendingAuthType: (authType: AuthType | undefined) => void;
   onAuthError: (error: string | null) => void;
   cancelAuthentication: () => void;
   handleEditorSelect: (

@@ -30,7 +30,7 @@ export class DashScopeOpenAICompatibleProvider extends DefaultOpenAICompatiblePr
   ): boolean {
     const { authType, baseUrl } = contentGeneratorConfig;
 
-    if (authType === AuthType.QWEN_OAUTH) return true;
+    if (authType === AuthType.VIVEKMIND_OAUTH) return true;
     if (!baseUrl) return true;
 
     // Matches: dashscope.aliyuncs.com, *.dashscope.aliyuncs.com, or *.dashscope-intl.aliyuncs.com

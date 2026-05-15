@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -37,7 +38,7 @@ import {
 } from '../telemetry/types.js';
 import type { UiTelemetryService } from '../telemetry/uiTelemetry.js';
 
-const debugLogger = createDebugLogger('QWEN_CODE_CHAT');
+const debugLogger = createDebugLogger('VIVEKMIND_CODE_CHAT');
 
 export enum StreamEventType {
   /** A regular content chunk from the API. */
@@ -387,7 +388,7 @@ export class GeminiChat {
         const hasUserMaxTokensOverride =
           (cgConfig?.samplingParams?.max_tokens !== undefined &&
             cgConfig?.samplingParams?.max_tokens !== null) ||
-          !!process.env['QWEN_CODE_MAX_OUTPUT_TOKENS'];
+          !!process.env['VIVEKMIND_CODE_MAX_OUTPUT_TOKENS'];
 
         let lastFinishReason: string | undefined;
 
@@ -730,7 +731,7 @@ export class GeminiChat {
       signal: params.config?.abortSignal,
       heartbeatFn: (info) => {
         process.stderr.write(
-          `[qwen-code] Waiting for API capacity... attempt ${info.attempt}, retry in ${Math.ceil(info.remainingMs / 1000)}s\n`,
+          `[vivekmind] Waiting for API capacity... attempt ${info.attempt}, retry in ${Math.ceil(info.remainingMs / 1000)}s\n`,
         );
       },
     });

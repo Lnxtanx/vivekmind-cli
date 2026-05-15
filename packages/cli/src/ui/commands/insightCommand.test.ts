@@ -1,13 +1,13 @@
 /**
  * @license
- * Copyright 2025 Qwen Code
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 import path from 'path';
 import open from 'open';
-import { parseInsightMessage, Storage } from '@qwen-code/qwen-code-core';
+import { parseInsightMessage, Storage } from '@vivekmind/core';
 import { insightCommand } from './insightCommand.js';
 import type { CommandContext } from './types.js';
 import { createMockCommandContext } from '../../test-utils/mockCommandContext.js';

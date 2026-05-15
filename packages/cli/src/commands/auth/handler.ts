@@ -9,7 +9,7 @@ import {
   getErrorMessage,
   type Config,
   type ProviderModelConfig as ModelConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { writeStdoutLine, writeStderrLine } from '../../utils/stdioHelpers.js';
 import { t } from '../../i18n/index.js';
 import { getPersistScopeForModelSelection } from '../../config/modelProvidersScope.js';
@@ -41,7 +41,7 @@ function formatElapsedTime(startMs: number): string {
   return `${((Date.now() - startMs) / 1000).toFixed(2)}s`;
 }
 
-interface QwenAuthOptions {
+interface VivekMindAuthOptions {
   region?: string;
   key?: string;
 }
@@ -141,16 +141,16 @@ async function loadAuthConfig(settings: LoadedSettings) {
 /**
  * Handles the authentication process based on the specified command and options
  */
-export async function handleQwenAuth(
-  command: 'qwen-oauth' | 'coding-plan' | 'openrouter',
-  options: QwenAuthOptions,
+export async function handleVivekMindAuth(
+  command: 'vivekmind-oauth' | 'coding-plan' | 'openrouter',
+  options: VivekMindAuthOptions,
 ) {
   try {
     const settings = loadSettings();
     const config = await loadAuthConfig(settings);
 
-    if (command === 'qwen-oauth') {
-      await handleQwenOAuth(config, settings);
+    if (command === 'vivekmind-oauth') {
+      await handleVivekMindOAuth(config, settings);
     } else if (command === 'coding-plan') {
       await handleCodePlanAuth(config, settings, options);
     } else if (command === 'openrouter') {
@@ -167,30 +167,30 @@ export async function handleQwenAuth(
 }
 
 /**
- * Handles Qwen OAuth authentication
+ * Handles VivekMind OAuth authentication
  */
-async function handleQwenOAuth(
+async function handleVivekMindOAuth(
   config: Config,
   settings: LoadedSettings,
 ): Promise<void> {
-  writeStdoutLine(t('Starting Qwen OAuth authentication...'));
+  writeStdoutLine(t('Starting VivekMind OAuth authentication...'));
 
   try {
-    await config.refreshAuth(AuthType.QWEN_OAUTH);
+    await config.refreshAuth(AuthType.VIVEKMIND_OAUTH);
 
     // Persist the auth type
     const authTypeScope = getPersistScopeForModelSelection(settings);
     settings.setValue(
       authTypeScope,
       'security.auth.selectedType',
-      AuthType.QWEN_OAUTH,
+      AuthType.VIVEKMIND_OAUTH,
     );
 
-    writeStdoutLine(t('Successfully authenticated with Qwen OAuth.'));
+    writeStdoutLine(t('Successfully authenticated with VivekMind OAuth.'));
     process.exit(0);
   } catch (error) {
     writeStderrLine(
-      t('Failed to authenticate with Qwen OAuth: {{error}}', {
+      t('Failed to authenticate with VivekMind OAuth: {{error}}', {
         error: getErrorMessage(error),
       }),
     );
@@ -204,7 +204,7 @@ async function handleQwenOAuth(
 async function handleCodePlanAuth(
   config: Config,
   settings: LoadedSettings,
-  options: QwenAuthOptions,
+  options: VivekMindAuthOptions,
 ): Promise<void> {
   const { region, key } = options;
 
@@ -314,7 +314,7 @@ async function handleCodePlanAuth(
 async function handleOpenRouterAuth(
   config: Config,
   settings: LoadedSettings,
-  options: QwenAuthOptions,
+  options: VivekMindAuthOptions,
 ): Promise<void> {
   writeStdoutLine(t('Processing OpenRouter authentication...'));
 
@@ -532,8 +532,8 @@ export async function runInteractiveAuth() {
         description: t('Bring your own API key'),
       },
       {
-        value: 'qwen-oauth' as const,
-        label: t('Qwen OAuth'),
+        value: 'vivekmind-oauth' as const,
+        label: t('VivekMind OAuth'),
         description: t('Discontinued — switch to Coding Plan or API Key'),
       },
     ],
@@ -542,22 +542,22 @@ export async function runInteractiveAuth() {
 
   let choice = await selector.select();
 
-  // If user selects discontinued Qwen OAuth, warn and re-prompt
-  while (choice === 'qwen-oauth') {
+  // If user selects discontinued VivekMind OAuth, warn and re-prompt
+  while (choice === 'vivekmind-oauth') {
     writeStdoutLine(
       t(
-        '\n⚠ Qwen OAuth free tier was discontinued on 2026-04-15. Please select another option.\n',
+        '\n⚠ VivekMind OAuth free tier was discontinued on 2026-04-15. Please select another option.\n',
       ),
     );
     choice = await selector.select();
   }
 
   if (choice === 'coding-plan') {
-    await handleQwenAuth('coding-plan', {});
+    await handleVivekMindAuth('coding-plan', {});
   } else if (choice === 'api-key') {
     await handleApiKeyAuth();
   } else if (choice === 'openrouter') {
-    await handleQwenAuth('openrouter', {});
+    await handleVivekMindAuth('openrouter', {});
   }
 }
 
@@ -723,7 +723,7 @@ async function handleAlibabaStandardApiKeyAuth(): Promise<void> {
 function handleCustomApiKeyAuth(): void {
   writeStdoutLine(
     t(
-      '\nYou can configure your API key and models in settings.json.\nRefer to the documentation for setup instructions:\n  https://qwenlm.github.io/qwen-code-docs/en/users/configuration/model-providers/\n',
+      '\nYou can configure your API key and models in settings.json.\nRefer to the documentation for setup instructions:\n  https://qwenlm.github.io/vivekmind-docs/en/users/configuration/model-providers/\n',
     ),
   );
   process.exit(0);
@@ -792,34 +792,34 @@ export async function showAuthStatus(): Promise<void> {
       writeStdoutLine(t('⚠️  No authentication method configured.\n'));
       writeStdoutLine(t('Run one of the following commands to get started:\n'));
       writeStdoutLine(
-        t('  qwen auth openrouter      - Configure OpenRouter API key'),
+        t('  vivekmind auth openrouter      - Configure OpenRouter API key'),
       );
       writeStdoutLine(
         t(
-          '  qwen auth coding-plan    - Authenticate with Alibaba Cloud Coding Plan',
+          '  vivekmind auth coding-plan    - Authenticate with Alibaba Cloud Coding Plan',
         ),
       );
       writeStdoutLine(
-        t('  qwen auth api-key        - Authenticate with an API key'),
+        t('  vivekmind auth api-key        - Authenticate with an API key'),
       );
       writeStdoutLine(
         t(
-          '  qwen auth qwen-oauth     - Authenticate with Qwen OAuth (discontinued)\n',
+          '  vivekmind auth vivekmind-oauth     - Authenticate with VivekMind OAuth (discontinued)\n',
         ),
       );
       writeStdoutLine(t('Or simply run:'));
       writeStdoutLine(
-        t('  qwen auth                - Interactive authentication setup\n'),
+        t('  vivekmind auth                - Interactive authentication setup\n'),
       );
       process.exit(0);
     }
 
     // Display status based on auth type
-    if (selectedType === AuthType.QWEN_OAUTH) {
-      writeStdoutLine(t('✓ Authentication Method: Qwen OAuth'));
+    if (selectedType === AuthType.VIVEKMIND_OAUTH) {
+      writeStdoutLine(t('✓ Authentication Method: VivekMind OAuth'));
       writeStdoutLine(t('  Type: Free tier (discontinued 2026-04-15)'));
       writeStdoutLine(t('  Limit: No longer available'));
-      writeStdoutLine(t('  Models: Qwen latest models'));
+      writeStdoutLine(t('  Models: VivekMind latest models'));
       writeStdoutLine(
         t('\n  ⚠ Run /auth to switch to Coding Plan or another provider.\n'),
       );
@@ -873,7 +873,7 @@ export async function showAuthStatus(): Promise<void> {
           writeStdoutLine(
             t('  Issue: API key not found in environment or settings\n'),
           );
-          writeStdoutLine(t('  Run `qwen auth openrouter` to re-configure.\n'));
+          writeStdoutLine(t('  Run `vivekmind auth openrouter` to re-configure.\n'));
         }
       } else if (detectedCodingPlanRegion) {
         const hasCodingPlanKey =
@@ -921,7 +921,7 @@ export async function showAuthStatus(): Promise<void> {
             t('  Issue: API key not found in environment or settings\n'),
           );
           writeStdoutLine(
-            t('  Run `qwen auth coding-plan` to re-configure.\n'),
+            t('  Run `vivekmind auth coding-plan` to re-configure.\n'),
           );
         }
       } else if (isActiveStandard) {
@@ -952,7 +952,7 @@ export async function showAuthStatus(): Promise<void> {
           writeStdoutLine(
             t('  Issue: API key not found in environment or settings\n'),
           );
-          writeStdoutLine(t('  Run `qwen auth api-key` to re-configure.\n'));
+          writeStdoutLine(t('  Run `vivekmind auth api-key` to re-configure.\n'));
         }
       } else if (activeConfig) {
         let hasApiKey: boolean;
@@ -1064,7 +1064,7 @@ export async function showAuthStatus(): Promise<void> {
             t('  Issue: API key not found in environment or settings\n'),
           );
           writeStdoutLine(
-            t('  Run `qwen auth coding-plan` to re-configure.\n'),
+            t('  Run `vivekmind auth coding-plan` to re-configure.\n'),
           );
         } else {
           writeStdoutLine(

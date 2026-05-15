@@ -19,12 +19,12 @@ import type {
   ToolCall,
   Status as CoreStatus,
   EditorType,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   CoreToolScheduler,
   createDebugLogger,
   isAutoMemPath,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import * as path from 'node:path';
 import { useCallback, useState, useMemo } from 'react';
 import type {

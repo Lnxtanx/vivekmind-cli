@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "description": "Qwen Code settings configuration",
+  "description": "VivekMind settings configuration",
   "properties": {
     "mcpServers": {
       "description": "Configuration for MCP servers.",
@@ -66,7 +66,7 @@
           "default": 5
         },
         "gitCoAuthor": {
-          "description": "Automatically add a Co-authored-by trailer to git commit messages when commits are made through Qwen Code.",
+          "description": "Automatically add a Co-authored-by trailer to git commit messages when commits are made through VivekMind.",
           "type": "boolean",
           "default": true
         },
@@ -87,7 +87,7 @@
           "default": false
         },
         "language": {
-          "description": "The language for the user interface. Use \"auto\" to detect from system settings. You can also use custom language codes (e.g., \"es\", \"fr\") by placing JS language files in ~/.qwen/locales/ (e.g., ~/.qwen/locales/es.js). Options: auto, en, zh-TW, zh, ru, de, ja, pt, fr, ca",
+          "description": "The language for the user interface. Use \"auto\" to detect from system settings. You can also use custom language codes (e.g., \"es\", \"fr\") by placing JS language files in ~/.vivekmind/locales/ (e.g., ~/.vivekmind/locales/es.js). Options: auto, en, zh-TW, zh, ru, de, ja, pt, fr, ca",
           "enum": [
             "auto",
             "en",
@@ -162,7 +162,7 @@
         "theme": {
           "description": "The color theme for the UI.",
           "type": "string",
-          "default": "Qwen Dark"
+          "default": "VivekMind Dark"
         },
         "statusLine": {
           "description": "Custom status line display configuration. Optional `refreshInterval` (seconds, >= 1) re-runs the command on a timer so external data stays fresh.",
@@ -180,7 +180,7 @@
           "default": false
         },
         "showStatusInTitle": {
-          "description": "Show Qwen Code status and thoughts in the terminal window title",
+          "description": "Show VivekMind status and thoughts in the terminal window title",
           "type": "boolean",
           "default": false
         },
@@ -212,7 +212,7 @@
           "default": true
         },
         "enableUserFeedback": {
-          "description": "Show optional feedback dialog after conversations to help improve Qwen performance.",
+          "description": "Show optional feedback dialog after conversations to help improve VivekMind performance.",
           "type": "boolean",
           "default": true
         },
@@ -377,7 +377,7 @@
               "default": "auto"
             },
             "contextWindowSize": {
-              "description": "Overrides the default context window size for the selected model. Use this setting when a provider's effective context limit differs from Qwen Code's default. This value defines the model's assumed maximum context capacity, not a per-request token limit.",
+              "description": "Overrides the default context window size for the selected model. Use this setting when a provider's effective context limit differs from VivekMind's default. This value defines the model's assumed maximum context capacity, not a per-request token limit.",
               "type": "number"
             }
           }
@@ -439,8 +439,8 @@
               "type": "boolean",
               "default": true
             },
-            "respectQwenIgnore": {
-              "description": "Respect .qwenignore files when searching",
+            "respectVivekMindIgnore": {
+              "description": "Respect .vivekmindignore files when searching",
               "type": "boolean",
               "default": true
             },
@@ -524,7 +524,7 @@
           "additionalProperties": true
         },
         "sandboxImage": {
-          "description": "Sandbox image URI used by Docker/Podman when --sandbox-image and QWEN_SANDBOX_IMAGE are not set.",
+          "description": "Sandbox image URI used by Docker/Podman when --sandbox-image and VIVEKMIND_SANDBOX_IMAGE are not set.",
           "type": "string"
         },
         "shell": {
@@ -719,7 +719,7 @@
           "additionalProperties": true
         },
         "runtimeOutputDir": {
-          "description": "Custom directory for runtime output (temp files, debug logs, session data, todos, etc.). Config files remain at ~/.qwen. Env var QWEN_RUNTIME_DIR takes priority.",
+          "description": "Custom directory for runtime output (temp files, debug logs, session data, todos, etc.). Config files remain at ~/.vivekmind. Env var VIVEKMIND_RUNTIME_DIR takes priority.",
           "type": "string"
         }
       }
@@ -739,7 +739,7 @@
           "type": "object",
           "properties": {
             "worktreeBaseDir": {
-              "description": "Custom base directory for Arena worktrees. Defaults to ~/.qwen/arena.",
+              "description": "Custom base directory for Arena worktrees. Defaults to ~/.vivekmind/arena.",
               "type": "string"
             },
             "preserveArtifacts": {
@@ -2021,12 +2021,12 @@
       "type": "object",
       "properties": {
         "cron": {
-          "description": "Enable in-session cron/loop tools (experimental). When enabled, the model can create recurring prompts using cron_create, cron_list, and cron_delete tools. Can also be enabled via QWEN_CODE_ENABLE_CRON=1 environment variable.",
+          "description": "Enable in-session cron/loop tools (experimental). When enabled, the model can create recurring prompts using cron_create, cron_list, and cron_delete tools. Can also be enabled via VIVEKMIND_CODE_ENABLE_CRON=1 environment variable.",
           "type": "boolean",
           "default": false
         },
         "emitToolUseSummaries": {
-          "description": "Generate a short LLM-based label after each tool batch completes. In compact mode the label replaces the generic `Tool × N` header; in full mode it appears as a dim `● <label>` line below the tool group. Requires a fast model to be configured; runs in parallel with the next API call so latency is hidden. Currently affects interactive CLI rendering only — SDK / non-interactive emission of the `tool_use_summary` message is not yet wired (the message factory is exported for a follow-up PR). Can be overridden with QWEN_CODE_EMIT_TOOL_USE_SUMMARIES=0 or =1.",
+          "description": "Generate a short LLM-based label after each tool batch completes. In compact mode the label replaces the generic `Tool × N` header; in full mode it appears as a dim `● <label>` line below the tool group. Requires a fast model to be configured; runs in parallel with the next API call so latency is hidden. Currently affects interactive CLI rendering only — SDK / non-interactive emission of the `tool_use_summary` message is not yet wired (the message factory is exported for a follow-up PR). Can be overridden with VIVEKMIND_CODE_EMIT_TOOL_USE_SUMMARIES=0 or =1.",
           "type": "boolean",
           "default": true
         }

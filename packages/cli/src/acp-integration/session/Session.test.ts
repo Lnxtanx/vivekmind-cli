@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -9,9 +9,9 @@ import * as fs from 'node:fs/promises';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { Session } from './Session.js';
-import type { Config, GeminiChat } from '@qwen-code/qwen-code-core';
-import { ApprovalMode, AuthType } from '@qwen-code/qwen-code-core';
-import * as core from '@qwen-code/qwen-code-core';
+import type { Config, GeminiChat } from '@vivekmind/core';
+import { ApprovalMode, AuthType } from '@vivekmind/core';
+import * as core from '@vivekmind/core';
 import type {
   AgentSideConnection,
   PromptRequest,

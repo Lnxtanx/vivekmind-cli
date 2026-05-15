@@ -1,0 +1,438 @@
+{
+  "//": [
+    "=======================================================================",
+    " VivekMind — Universal AI Provider Settings Template",
+    "=======================================================================",
+    "",
+    " HOW TO USE:",
+    " 1. Copy this file to ~/.vivekmind/settings.json",
+    "    (or let VivekMind auto-create it on first run)",
+    " 2. Uncomment the providers you want to use",
+    " 3. Set the corresponding environment variable for each provider's API key",
+    "    e.g.  export OPENAI_API_KEY=sk-...",
+    " 4. Run: vivekmind",
+    "",
+    " ⚠️  SECURITY WARNING:",
+    " NEVER put real API keys in this file!",
+    " Use the 'envKey' field to reference environment variables only.",
+    " NEVER commit settings.json with real credentials to version control.",
+    "",
+    " Each provider entry under 'modelProviders' is keyed by authType.",
+    " All OpenAI-compatible providers use authType 'openai'.",
+    " Native providers use their own authType (anthropic, gemini, bedrock).",
+    "======================================================================="
+  ],
+
+  "modelProviders": {
+    "openai": [
+      {
+        "//": "--- OpenAI ---",
+        "id": "gpt-5.2",
+        "name": "GPT-5.2",
+        "description": "OpenAI GPT-5.2 — Latest flagship, complex reasoning & coding",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 400000 }
+      },
+      {
+        "id": "gpt-5.4-mini",
+        "name": "GPT-5.4 Mini",
+        "description": "OpenAI GPT-5.4 Mini — Fast, efficient, daily tasks",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 200000 }
+      },
+      {
+        "id": "gpt-4.1",
+        "name": "GPT-4.1",
+        "description": "OpenAI GPT-4.1 — Coding optimized, 1M context",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      },
+      {
+        "id": "gpt-4o",
+        "name": "GPT-4o",
+        "description": "OpenAI GPT-4o — Multimodal flagship (text + image)",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 128000 }
+      },
+      {
+        "id": "o3",
+        "name": "o3",
+        "description": "OpenAI o3 — Reasoning model",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 200000 }
+      },
+      {
+        "id": "o4-mini",
+        "name": "o4-mini",
+        "description": "OpenAI o4-mini — Latest small reasoning model",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 200000 }
+      },
+      {
+        "id": "codex-mini",
+        "name": "Codex Mini",
+        "description": "OpenAI Codex Mini — Coding specialist",
+        "envKey": "OPENAI_API_KEY",
+        "baseUrl": "https://api.openai.com/v1",
+        "generationConfig": { "contextWindowSize": 128000 }
+      }
+    ],
+
+    "anthropic": [
+      {
+        "//": "--- Anthropic Claude ---",
+        "id": "claude-opus-4-7",
+        "name": "Claude Opus 4.7",
+        "description": "Anthropic Claude Opus 4.7 — Most capable, agentic coding",
+        "envKey": "ANTHROPIC_API_KEY",
+        "baseUrl": "https://api.anthropic.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      },
+      {
+        "id": "claude-sonnet-4-6",
+        "name": "Claude Sonnet 4.6",
+        "description": "Anthropic Claude Sonnet 4.6 — Best speed/intelligence balance",
+        "envKey": "ANTHROPIC_API_KEY",
+        "baseUrl": "https://api.anthropic.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      },
+      {
+        "id": "claude-haiku-4-5-20251001",
+        "name": "Claude Haiku 4.5",
+        "description": "Anthropic Claude Haiku 4.5 — Fastest, near-frontier",
+        "envKey": "ANTHROPIC_API_KEY",
+        "baseUrl": "https://api.anthropic.com/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 200000 }
+      }
+    ],
+
+    "gemini": [
+      {
+        "//": "--- Google Gemini ---",
+        "id": "gemini-3-pro",
+        "name": "Gemini 3 Pro",
+        "description": "Google Gemini 3 Pro — Latest flagship, PhD-level reasoning",
+        "envKey": "GEMINI_API_KEY",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      },
+      {
+        "id": "gemini-2.5-pro",
+        "name": "Gemini 2.5 Pro",
+        "description": "Google Gemini 2.5 Pro — Advanced reasoning, 1M context",
+        "envKey": "GEMINI_API_KEY",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      },
+      {
+        "id": "gemini-2.5-flash",
+        "name": "Gemini 2.5 Flash",
+        "description": "Google Gemini 2.5 Flash — Fast, 1M context, thinking",
+        "envKey": "GEMINI_API_KEY",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      },
+      {
+        "id": "gemini-2.5-flash-lite",
+        "name": "Gemini 2.5 Flash-Lite",
+        "description": "Google Gemini 2.5 Flash-Lite — Ultra-efficient",
+        "envKey": "GEMINI_API_KEY",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      }
+    ],
+
+    "azure-openai": [
+      {
+        "//": "--- Azure OpenAI ---",
+        "id": "gpt-5.2",
+        "name": "GPT-5.2 (Azure)",
+        "envKey": "AZURE_OPENAI_API_KEY",
+        "baseUrl": "https://YOUR_RESOURCE_NAME.openai.azure.com",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 400000 }
+      }
+    ],
+
+    "anthropic-vertex-ai": [
+      {
+        "//": "--- Anthropic on Vertex AI ---",
+        "id": "claude-opus-4-7",
+        "name": "Claude Opus 4.7 (Vertex)",
+        "envKey": "GOOGLE_API_KEY",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      }
+    ],
+
+    "bedrock": [
+      {
+        "//": "--- AWS Bedrock ---",
+        "id": "anthropic.claude-opus-4-7",
+        "name": "Claude Opus 4.7 (Bedrock)",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      },
+      {
+        "id": "amazon.nova-pro-v1",
+        "name": "Amazon Nova Pro",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      },
+      {
+        "id": "meta.llama4-maverick-instruct-v1:0",
+        "name": "Llama 4 Maverick",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "mistral": [
+      {
+        "//": "--- Mistral AI ---",
+        "id": "mistral-large-2411",
+        "name": "Mistral Large",
+        "envKey": "MISTRAL_API_KEY",
+        "baseUrl": "https://api.mistral.ai/v1",
+        "generationConfig": { "contextWindowSize": 128000 }
+      },
+      {
+        "id": "codestral-2505",
+        "name": "Codestral",
+        "envKey": "MISTRAL_API_KEY",
+        "baseUrl": "https://api.mistral.ai/v1",
+        "generationConfig": { "contextWindowSize": 256000 }
+      },
+      {
+        "id": "pixtral-large-2502",
+        "name": "Pixtral Large",
+        "envKey": "MISTRAL_API_KEY",
+        "baseUrl": "https://api.mistral.ai/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 128000 }
+      }
+    ],
+
+    "deepseek": [
+      {
+        "//": "--- DeepSeek ---",
+        "id": "deepseek-chat",
+        "name": "DeepSeek Chat (V3)",
+        "envKey": "DEEPSEEK_API_KEY",
+        "baseUrl": "https://api.deepseek.com/v1",
+        "generationConfig": { "contextWindowSize": 131072 }
+      },
+      {
+        "id": "deepseek-reasoner",
+        "name": "DeepSeek Reasoner (R1)",
+        "envKey": "DEEPSEEK_API_KEY",
+        "baseUrl": "https://api.deepseek.com/v1",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "groq": [
+      {
+        "//": "--- Groq ---",
+        "id": "llama-3.3-70b-versatile",
+        "name": "Llama 3.3 70B (Groq)",
+        "envKey": "GROQ_API_KEY",
+        "baseUrl": "https://api.groq.com/openai/v1",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "together": [
+      {
+        "//": "--- Together AI ---",
+        "id": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+        "name": "Llama 3.3 70B (Together)",
+        "envKey": "TOGETHER_API_KEY",
+        "baseUrl": "https://api.together.xyz/v1",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "openrouter": [
+      {
+        "//": "--- OpenRouter ---",
+        "id": "anthropic/claude-opus-4-7",
+        "name": "Claude Opus 4.7 (OpenRouter)",
+        "envKey": "OPENROUTER_API_KEY",
+        "baseUrl": "https://openrouter.ai/api/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 1000000 }
+      }
+    ],
+
+    "xai": [
+      {
+        "//": "--- xAI (Grok) ---",
+        "id": "grok-4",
+        "name": "Grok 4",
+        "envKey": "XAI_API_KEY",
+        "baseUrl": "https://api.x.ai/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "dashscope": [
+      {
+        "//": "--- Alibaba DashScope ---",
+        "id": "qwen3-coder-plus",
+        "name": "Qwen3 Coder Plus",
+        "envKey": "DASHSCOPE_API_KEY",
+        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "generationConfig": { "contextWindowSize": 1000000 }
+      },
+      {
+        "id": "qwen-vl-max",
+        "name": "VivekMind VL Max",
+        "envKey": "DASHSCOPE_API_KEY",
+        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "capabilities": { "vision": true },
+        "generationConfig": { "contextWindowSize": 128000 }
+      }
+    ],
+
+    "ollama": [
+      {
+        "//": "--- Ollama (Local) ---",
+        "id": "llama3.3:70b",
+        "name": "Llama 3.3 70B (Ollama)",
+        "baseUrl": "http://localhost:11434/v1",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "lm-studio": [
+      {
+        "//": "--- LM Studio (Local) ---",
+        "id": "loaded-model",
+        "name": "Loaded Model (LM Studio)",
+        "baseUrl": "http://localhost:1234/v1",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "cohere": [
+      {
+        "//": "--- Cohere ---",
+        "id": "command-r-plus",
+        "name": "Command R+",
+        "envKey": "COHERE_API_KEY",
+        "baseUrl": "https://api.cohere.com/v1",
+        "generationConfig": { "contextWindowSize": 128000 }
+      }
+    ],
+
+    "perplexity": [
+      {
+        "//": "--- Perplexity ---",
+        "id": "sonar-pro",
+        "name": "Sonar Pro",
+        "envKey": "PERPLEXITY_API_KEY",
+        "baseUrl": "https://api.perplexity.ai",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "fireworks": [
+      {
+        "//": "--- Fireworks AI ---",
+        "id": "accounts/fireworks/models/llama4-maverick-instruct-basic",
+        "name": "Llama 4 Maverick (Fireworks)",
+        "envKey": "FIREWORKS_API_KEY",
+        "baseUrl": "https://api.fireworks.ai/inference/v1",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "siliconflow": [
+      {
+        "//": "--- SiliconFlow ---",
+        "id": "deepseek-ai/DeepSeek-V3",
+        "name": "DeepSeek V3 (SiliconFlow)",
+        "envKey": "SILICONFLOW_API_KEY",
+        "baseUrl": "https://api.siliconflow.cn/v1",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "huggingface": [
+      {
+        "//": "--- Hugging Face ---",
+        "id": "meta-llama/Llama-3.3-70B-Instruct",
+        "name": "Llama 3.3 70B (HF)",
+        "envKey": "HF_TOKEN",
+        "baseUrl": "https://api-inference.huggingface.co/v1",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "novita": [
+      {
+        "//": "--- Novita AI ---",
+        "id": "meta-llama/llama-3.1-70b-instruct",
+        "name": "Llama 3.1 70B (Novita)",
+        "envKey": "NOVITA_API_KEY",
+        "baseUrl": "https://api.novita.ai/v3/openai",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ],
+
+    "watsonx": [
+      {
+        "//": "--- IBM Watsonx ---",
+        "id": "meta-llama/llama-4-maverick-instruct",
+        "name": "Llama 4 Maverick (Watsonx)",
+        "envKey": "WATSONX_APIKEY",
+        "baseUrl": "https://us-south.ml.cloud.ibm.com/ml/v1/text/generation",
+        "generationConfig": { "contextWindowSize": 131072 }
+      }
+    ]
+  },
+
+  "//": [
+    "=======================================================================",
+    " Channels — Connect VivekMind to messaging platforms",
+    "=======================================================================",
+    "",
+    " Each channel entry is a named configuration under the 'channels' key.",
+    " The 'type' field selects the adapter (telegram, weixin, dingtalk, etc.).",
+    " The 'token' field references an environment variable (e.g. $TELEGRAM_BOT_TOKEN).",
+    "",
+    " Setup Telegram:  vivekmind channel configure-telegram",
+    " Setup WeChat:    vivekmind channel configure-weixin",
+    " Start channels:  vivekmind channel start [name]",
+    "======================================================================="
+  ],
+
+  "channels": {
+    "//my-telegram": "--- Example: Telegram Bot ---",
+    "//my-telegram": {
+      "//": "Get a token from @BotFather on Telegram",
+      "type": "telegram",
+      "token": "$TELEGRAM_BOT_TOKEN",
+      "//model": "Optional: override the model for this channel",
+      "//cwd": "Optional: working directory for file operations",
+      "//allowedUsers": ["123456789"],
+      "//senderPolicy": "allowlist"
+    }
+  }
+}

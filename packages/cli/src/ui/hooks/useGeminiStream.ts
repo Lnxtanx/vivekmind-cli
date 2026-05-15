@@ -25,7 +25,7 @@ import type {
   ToolCallRequestInfo,
   GeminiErrorEventValue,
   StopFailureErrorType,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   GeminiEventType as ServerGeminiEventType,
   SendMessageType,
@@ -50,7 +50,9 @@ import {
   isSupportedImageMimeType,
   getUnsupportedImageFormatWarning,
   generateToolUseSummary,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
+
+export { SendMessageType };
 import { type Part, type PartListUnion, FinishReason } from '@google/genai';
 import type {
   HistoryItem,
@@ -58,7 +60,12 @@ import type {
   HistoryItemToolGroup,
   SlashCommandProcessorResult,
 } from '../types.js';
-import { StreamingState, MessageType, ToolCallStatus } from '../types.js';
+import {
+  StreamingState,
+  MessageType,
+  ToolCallStatus,
+  type Attachment,
+} from '../types.js';
 import {
   isAtCommand,
   isBtwCommand,
@@ -82,6 +89,7 @@ import {
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { useSessionStats } from '../contexts/SessionContext.js';
+import { type QueuedMessage } from './useMessageQueue.js';
 import type { LoadedSettings } from '../../config/settings.js';
 import { t } from '../../i18n/index.js';
 import { useDualOutput } from '../../dualOutput/DualOutputContext.js';
@@ -271,7 +279,7 @@ export const useGeminiStream = (
   setShellInputFocused: (value: boolean) => void,
   terminalWidth: number,
   terminalHeight: number,
-  midTurnDrainRef?: React.RefObject<(() => string[]) | null>,
+  midTurnDrainRef?: React.RefObject<(() => QueuedMessage[]) | null>,
 ) => {
   const [initError, setInitError] = useState<string | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -621,6 +629,7 @@ export const useGeminiStream = (
       abortSignal: AbortSignal,
       prompt_id: string,
       submitType: SendMessageType,
+      attachments?: Attachment[],
     ): Promise<{
       queryToSend: PartListUnion | null;
       shouldProceed: boolean;
@@ -718,6 +727,7 @@ export const useGeminiStream = (
             messageId: userMessageTimestamp,
             signal: abortSignal,
             addItem,
+            attachments,
           });
 
           if (!atCommandResult.shouldProceed) {
@@ -1477,6 +1487,7 @@ export const useGeminiStream = (
       submitType: SendMessageType = SendMessageType.UserQuery,
       prompt_id?: string,
       metadata?: { notificationDisplayText?: string },
+      attachments?: Attachment[],
     ) => {
       const allowConcurrentBtwDuringResponse =
         submitType === SendMessageType.UserQuery &&
@@ -1554,6 +1565,7 @@ export const useGeminiStream = (
                 abortSignal,
                 prompt_id!,
                 submitType,
+                attachments,
               );
 
         if (!shouldProceed || queryToSend === null) {
@@ -2065,10 +2077,10 @@ export const useGeminiStream = (
       if (drained.length > 0) {
         for (const msg of drained) {
           responsesToSend.push({
-            text: `\n[User message received during tool execution]: ${msg}`,
+            text: `\n[User message received during tool execution]: ${msg.text}`,
           });
           // Record in UI history so the transcript stays complete.
-          addItem({ type: MessageType.USER, text: msg }, Date.now());
+          addItem({ type: MessageType.USER, text: msg.text }, Date.now());
         }
       }
 

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -9,11 +9,12 @@ import process from 'node:process';
 import { AuthType } from '../core/contentGenerator.js';
 import type { ContentGeneratorConfig } from '../core/contentGenerator.js';
 import type { ContentGeneratorConfigSources } from '../core/contentGenerator.js';
-import { DEFAULT_QWEN_MODEL } from '../config/models.js';
+import { DEFAULT_VIVEKMIND_MODEL } from '../config/models.js';
 import { tokenLimit } from '../core/tokenLimits.js';
 import { defaultModalities } from '../core/modalityDefaults.js';
 
 import { ModelRegistry } from './modelRegistry.js';
+import { ModelDiscoveryService } from './discovery.js';
 import {
   type ModelProvidersConfig,
   type ResolvedModelConfig,
@@ -71,6 +72,7 @@ export interface ModelsConfigOptions {
  */
 export class ModelsConfig {
   private readonly modelRegistry: ModelRegistry;
+  private readonly discoveryService: ModelDiscoveryService;
 
   // Current selection state
   private currentAuthType: AuthType | undefined;
@@ -82,8 +84,8 @@ export class ModelsConfig {
   // Flag for strict model provider selection
   private strictModelProviderSelection: boolean = false;
 
-  // One-shot flag for qwen-oauth credential caching
-  private requireCachedQwenCredentialsOnce: boolean = false;
+  // One-shot flag for vivekmind-oauth credential caching
+  private requireCachedVivekMindCredentialsOnce: boolean = false;
 
   // One-shot flag indicating credentials were manually set via updateCredentials()
   // When true, syncAfterAuthRefresh should NOT override these credentials with
@@ -144,6 +146,7 @@ export class ModelsConfig {
 
   constructor(options: ModelsConfigOptions = {}) {
     this.modelRegistry = new ModelRegistry(options.modelProvidersConfig);
+    this.discoveryService = new ModelDiscoveryService();
     this.onModelChange = options.onModelChange;
 
     // Initialize generation config
@@ -172,7 +175,7 @@ export class ModelsConfig {
     generationConfig: Partial<ContentGeneratorConfig>;
     generationConfigSources: ContentGeneratorConfigSources;
     strictModelProviderSelection: boolean;
-    requireCachedQwenCredentialsOnce: boolean;
+    requireCachedVivekMindCredentialsOnce: boolean;
     hasManualCredentials: boolean;
     activeRuntimeModelSnapshotId: string | undefined;
   } {
@@ -183,7 +186,7 @@ export class ModelsConfig {
         this.generationConfigSources,
       ),
       strictModelProviderSelection: this.strictModelProviderSelection,
-      requireCachedQwenCredentialsOnce: this.requireCachedQwenCredentialsOnce,
+      requireCachedVivekMindCredentialsOnce: this.requireCachedVivekMindCredentialsOnce,
       hasManualCredentials: this.hasManualCredentials,
       activeRuntimeModelSnapshotId: this.activeRuntimeModelSnapshotId,
     };
@@ -202,8 +205,8 @@ export class ModelsConfig {
     this._generationConfig = snapshot.generationConfig;
     this.generationConfigSources = snapshot.generationConfigSources;
     this.strictModelProviderSelection = snapshot.strictModelProviderSelection;
-    this.requireCachedQwenCredentialsOnce =
-      snapshot.requireCachedQwenCredentialsOnce;
+    this.requireCachedVivekMindCredentialsOnce =
+      snapshot.requireCachedVivekMindCredentialsOnce;
     this.hasManualCredentials = snapshot.hasManualCredentials;
     this.activeRuntimeModelSnapshotId = snapshot.activeRuntimeModelSnapshotId;
   }
@@ -212,7 +215,7 @@ export class ModelsConfig {
    * Get current model ID
    */
   getModel(): string {
-    return this._generationConfig.model || DEFAULT_QWEN_MODEL;
+    return this._generationConfig.model || DEFAULT_VIVEKMIND_MODEL;
   }
 
   /**
@@ -251,7 +254,7 @@ export class ModelsConfig {
    *
    * Notes:
    * - By default, returns models across all authTypes.
-   * - qwen-oauth models are always ordered first.
+   * - vivekmind-oauth models are always ordered first.
    * - Runtime model option (if active) is included before registry models of the same authType.
    */
   getAllConfiguredModels(authTypes?: AuthType[]): AvailableModel[] {
@@ -268,13 +271,13 @@ export class ModelsConfig {
       }
     }
 
-    // Force qwen-oauth to the front (if requested / defaulted in).
+    // Force vivekmind-oauth to the front (if requested / defaulted in).
     const orderedAuthTypes: AuthType[] = [];
-    if (uniqueAuthTypes.includes(AuthType.QWEN_OAUTH)) {
-      orderedAuthTypes.push(AuthType.QWEN_OAUTH);
+    if (uniqueAuthTypes.includes(AuthType.VIVEKMIND_OAUTH)) {
+      orderedAuthTypes.push(AuthType.VIVEKMIND_OAUTH);
     }
     for (const authType of uniqueAuthTypes) {
-      if (authType !== AuthType.QWEN_OAUTH) {
+      if (authType !== AuthType.VIVEKMIND_OAUTH) {
         orderedAuthTypes.push(authType);
       }
     }
@@ -292,6 +295,20 @@ export class ModelsConfig {
       allModels.push(...this.modelRegistry.getModelsForAuthType(authType));
     }
     return allModels;
+  }
+
+  /**
+   * Discover models for dynamic providers
+   */
+  async discoverModels(authType: AuthType): Promise<void> {
+    const { apiKey, baseUrl } = this._generationConfig;
+    const discovered = await this.discoveryService.discoverModels(authType, {
+      apiKey,
+      baseUrl,
+    });
+    if (discovered.length > 0) {
+      this.modelRegistry.registerAuthTypeModels(authType, discovered);
+    }
   }
 
   /**
@@ -320,11 +337,11 @@ export class ModelsConfig {
     newModel: string,
     metadata?: ModelSwitchMetadata,
   ): Promise<void> {
-    // Special case: qwen-oauth model switch - hot update in place
+    // Special case: vivekmind-oauth model switch - hot update in place
     // coder-model supports vision capabilities and can be hot-updated
     if (
-      this.currentAuthType === AuthType.QWEN_OAUTH &&
-      newModel === DEFAULT_QWEN_MODEL
+      this.currentAuthType === AuthType.VIVEKMIND_OAUTH &&
+      newModel === DEFAULT_VIVEKMIND_MODEL
     ) {
       this.strictModelProviderSelection = false;
       this._generationConfig.model = newModel;
@@ -335,7 +352,7 @@ export class ModelsConfig {
 
       // Notify Config to update contentGeneratorConfig
       if (this.onModelChange) {
-        await this.onModelChange(AuthType.QWEN_OAUTH, false);
+        await this.onModelChange(AuthType.VIVEKMIND_OAUTH, false);
       }
       return;
     }
@@ -382,13 +399,22 @@ export class ModelsConfig {
     }
 
     const rollbackSnapshot = this.createStateSnapshotForRollback();
-    if (authType === AuthType.QWEN_OAUTH && options?.requireCachedCredentials) {
-      this.requireCachedQwenCredentialsOnce = true;
+    if (authType === AuthType.VIVEKMIND_OAUTH && options?.requireCachedCredentials) {
+      this.requireCachedVivekMindCredentialsOnce = true;
     }
 
     try {
       const isAuthTypeChange = authType !== this.currentAuthType;
       this.currentAuthType = authType;
+
+      // Trigger discovery for dynamic providers if needed
+      if (
+        authType === AuthType.USE_OLLAMA ||
+        authType === AuthType.USE_LM_STUDIO ||
+        authType === AuthType.USE_OPENROUTER
+      ) {
+        await this.discoverModels(authType);
+      }
 
       const model = this.modelRegistry.getModel(authType, modelId);
       if (!model) {
@@ -684,8 +710,8 @@ export class ModelsConfig {
    * Check and consume the one-shot cached credentials flag
    */
   consumeRequireCachedCredentialsFlag(): boolean {
-    const value = this.requireCachedQwenCredentialsOnce;
-    this.requireCachedQwenCredentialsOnce = false;
+    const value = this.requireCachedVivekMindCredentialsOnce;
+    this.requireCachedVivekMindCredentialsOnce = false;
     return value;
   }
 
@@ -708,17 +734,17 @@ export class ModelsConfig {
 
     // Clear credentials to avoid reusing previous model's API key
 
-    // For Qwen OAuth, apiKey must always be a placeholder. It will be dynamically
+    // For VivekMind OAuth, apiKey must always be a placeholder. It will be dynamically
     // replaced when building requests. Do not preserve any previous key or read
     // from envKey.
     //
     // (OpenAI client instantiation requires an apiKey even though it will be
     // replaced later.)
-    if (this.currentAuthType === AuthType.QWEN_OAUTH) {
-      this._generationConfig.apiKey = 'QWEN_OAUTH_DYNAMIC_TOKEN';
+    if (this.currentAuthType === AuthType.VIVEKMIND_OAUTH) {
+      this._generationConfig.apiKey = 'VIVEKMIND_OAUTH_DYNAMIC_TOKEN';
       this.generationConfigSources['apiKey'] = {
         kind: 'computed',
-        detail: 'Qwen OAuth placeholder token',
+        detail: 'VivekMind OAuth placeholder token',
       };
       this._generationConfig.apiKeyEnvKey = undefined;
       delete this.generationConfigSources['apiKeyEnvKey'];
@@ -804,13 +830,13 @@ export class ModelsConfig {
    * - We're checking if switching between two models within the SAME authType needs refresh
    *
    * Examples:
-   * - Qwen OAuth: coder-model switches (same authType, hot-update safe)
+   * - VivekMind OAuth: coder-model switches (same authType, hot-update safe)
    * - OpenAI: model-a -> model-b with same envKey (same authType, hot-update safe)
    * - OpenAI: gpt-4 -> deepseek-chat with different envKey (same authType, needs refresh)
    *
    * Cross-authType scenarios:
-   * - OpenAI -> Qwen OAuth: handled by switchModel(authType, modelId), always refreshes
-   * - Qwen OAuth -> OpenAI: handled by switchModel(authType, modelId), always refreshes
+   * - OpenAI -> VivekMind OAuth: handled by switchModel(authType, modelId), always refreshes
+   * - VivekMind OAuth -> OpenAI: handled by switchModel(authType, modelId), always refreshes
    */
   private checkRequiresRefresh(previousModelId: string): boolean {
     // Defensive: this method is only called after switchModel() sets currentAuthType,
@@ -820,9 +846,9 @@ export class ModelsConfig {
       return true;
     }
 
-    // For Qwen OAuth, model switches within the same authType can always be hot-updated
+    // For VivekMind OAuth, model switches within the same authType can always be hot-updated
     // (coder-model supports vision capabilities and doesn't require ContentGenerator recreation)
-    if (authType === AuthType.QWEN_OAUTH) {
+    if (authType === AuthType.VIVEKMIND_OAUTH) {
       return false;
     }
 
@@ -1180,12 +1206,15 @@ export class ModelsConfig {
       label: snapshot.modelId,
       authType: snapshot.authType,
       /**
-       * `isVision` is for automatic switching of qwen-oauth vision model.
+       * `isVision` is for automatic switching of vivekmind-oauth vision model.
        * Runtime models are basically specified via CLI arguments, env variables,
        * or settings for other auth types.
        */
       isVision: false,
       contextWindowSize: snapshot.generationConfig?.contextWindowSize,
+      baseUrl: snapshot.baseUrl,
+      apiKey: snapshot.apiKey,
+      envKey: snapshot.apiKeyEnvKey,
       isRuntimeModel: true,
       runtimeSnapshotId: snapshot.id,
     };

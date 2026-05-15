@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -10,8 +10,8 @@ import {
   AuthType,
   clearCachedCredentialFile,
   createDebugLogger,
-  QwenOAuth2Event,
-  qwenOAuth2Events,
+  VivekMindOAuth2Event,
+  vivekmindOAuth2Events,
   MCPServerConfig,
   SessionService,
   SESSION_TITLE_MAX_LENGTH,
@@ -22,7 +22,7 @@ import {
   SessionStartSource,
   SessionEndReason,
   type PermissionMode,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   AgentSideConnection,
   RequestError,
@@ -95,7 +95,7 @@ export async function runAcpAgent(
 
   const stream = ndJsonStream(stdout, stdin);
   const connection = new AgentSideConnection(
-    (conn) => new QwenAgent(config, settings, argv, conn),
+    (conn) => new VivekMindAgent(config, settings, argv, conn),
     stream,
   );
 
@@ -189,7 +189,7 @@ export function toHttpServer(
   return undefined;
 }
 
-class QwenAgent implements Agent {
+class VivekMindAgent implements Agent {
   private sessions: Map<string, Session> = new Map();
   private clientCapabilities: ClientCapabilities | undefined;
 
@@ -208,8 +208,8 @@ class QwenAgent implements Agent {
     return {
       protocolVersion: PROTOCOL_VERSION,
       agentInfo: {
-        name: 'qwen-code',
-        title: 'Qwen Code',
+        name: 'vivekmind',
+        title: 'VivekMind',
         version,
       },
       authMethods,
@@ -243,8 +243,8 @@ class QwenAgent implements Agent {
       });
     };
 
-    if (method === AuthType.QWEN_OAUTH) {
-      qwenOAuth2Events.once(QwenOAuth2Event.AuthUri, authUriHandler);
+    if (method === AuthType.VIVEKMIND_OAUTH) {
+      vivekmindOAuth2Events.once(VivekMindOAuth2Event.AuthUri, authUriHandler);
     }
 
     await clearCachedCredentialFile();
@@ -256,8 +256,8 @@ class QwenAgent implements Agent {
         method,
       );
     } finally {
-      if (method === AuthType.QWEN_OAUTH) {
-        qwenOAuth2Events.off(QwenOAuth2Event.AuthUri, authUriHandler);
+      if (method === AuthType.VIVEKMIND_OAUTH) {
+        vivekmindOAuth2Events.off(VivekMindOAuth2Event.AuthUri, authUriHandler);
       }
     }
   }
@@ -601,7 +601,7 @@ class QwenAgent implements Agent {
     if (!selectedType) {
       throw RequestError.authRequired(
         { authMethods: this.pickAuthMethodsForAuthRequired() },
-        'Use Qwen Code CLI to authenticate first.',
+        'Use VivekMind CLI to authenticate first.',
       );
     }
 
@@ -625,13 +625,13 @@ class QwenAgent implements Agent {
     const authMethods = buildAuthMethods();
     const errorMessage = this.extractErrorMessage(error);
     if (
-      errorMessage?.includes('qwen-oauth') ||
-      errorMessage?.includes('Qwen OAuth')
+      errorMessage?.includes('vivekmind-oauth') ||
+      errorMessage?.includes('VivekMind OAuth')
     ) {
-      const qwenOAuthMethods = authMethods.filter(
-        (m) => m.id === AuthType.QWEN_OAUTH,
+      const vivekmindOAuthMethods = authMethods.filter(
+        (m) => m.id === AuthType.VIVEKMIND_OAUTH,
       );
-      return qwenOAuthMethods.length ? qwenOAuthMethods : authMethods;
+      return vivekmindOAuthMethods.length ? vivekmindOAuthMethods : authMethods;
     }
 
     if (selectedType) {

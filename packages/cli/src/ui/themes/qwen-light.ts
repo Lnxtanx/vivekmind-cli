@@ -7,7 +7,7 @@
 import { type ColorsTheme, Theme } from './theme.js';
 import { lightSemanticColors } from './semantic-tokens.js';
 
-const qwenLightColors: ColorsTheme = {
+const vivekmindLightColors: ColorsTheme = {
   type: 'light',
   Background: '#f8f9fa',
   Foreground: '#5c6166',
@@ -27,92 +27,92 @@ const qwenLightColors: ColorsTheme = {
   GradientColors: ['#399ee6', '#86b300'],
 };
 
-export const QwenLight: Theme = new Theme(
-  'Qwen Light',
+export const VivekMindLight: Theme = new Theme(
+  'VivekMind Light',
   'light',
   {
     hljs: {
       display: 'block',
       overflowX: 'auto',
       padding: '0.5em',
-      background: qwenLightColors.Background,
-      color: qwenLightColors.Foreground,
+      background: vivekmindLightColors.Background,
+      color: vivekmindLightColors.Foreground,
     },
     'hljs-comment': {
-      color: qwenLightColors.Comment,
+      color: vivekmindLightColors.Comment,
       fontStyle: 'italic',
     },
     'hljs-quote': {
-      color: qwenLightColors.AccentCyan,
+      color: vivekmindLightColors.AccentCyan,
       fontStyle: 'italic',
     },
     'hljs-string': {
-      color: qwenLightColors.AccentGreen,
+      color: vivekmindLightColors.AccentGreen,
     },
     'hljs-constant': {
-      color: qwenLightColors.AccentCyan,
+      color: vivekmindLightColors.AccentCyan,
     },
     'hljs-number': {
-      color: qwenLightColors.AccentPurple,
+      color: vivekmindLightColors.AccentPurple,
     },
     'hljs-keyword': {
-      color: qwenLightColors.AccentYellow,
+      color: vivekmindLightColors.AccentYellow,
     },
     'hljs-selector-tag': {
-      color: qwenLightColors.AccentYellow,
+      color: vivekmindLightColors.AccentYellow,
     },
     'hljs-attribute': {
-      color: qwenLightColors.AccentYellow,
+      color: vivekmindLightColors.AccentYellow,
     },
     'hljs-variable': {
-      color: qwenLightColors.Foreground,
+      color: vivekmindLightColors.Foreground,
     },
     'hljs-variable.language': {
-      color: qwenLightColors.LightBlue,
+      color: vivekmindLightColors.LightBlue,
       fontStyle: 'italic',
     },
     'hljs-title': {
-      color: qwenLightColors.AccentBlue,
+      color: vivekmindLightColors.AccentBlue,
     },
     'hljs-section': {
-      color: qwenLightColors.AccentGreen,
+      color: vivekmindLightColors.AccentGreen,
       fontWeight: 'bold',
     },
     'hljs-type': {
-      color: qwenLightColors.LightBlue,
+      color: vivekmindLightColors.LightBlue,
     },
     'hljs-class .hljs-title': {
-      color: qwenLightColors.AccentBlue,
+      color: vivekmindLightColors.AccentBlue,
     },
     'hljs-tag': {
-      color: qwenLightColors.LightBlue,
+      color: vivekmindLightColors.LightBlue,
     },
     'hljs-name': {
-      color: qwenLightColors.AccentBlue,
+      color: vivekmindLightColors.AccentBlue,
     },
     'hljs-builtin-name': {
-      color: qwenLightColors.AccentYellow,
+      color: vivekmindLightColors.AccentYellow,
     },
     'hljs-meta': {
-      color: qwenLightColors.AccentYellow,
+      color: vivekmindLightColors.AccentYellow,
     },
     'hljs-symbol': {
-      color: qwenLightColors.AccentRed,
+      color: vivekmindLightColors.AccentRed,
     },
     'hljs-bullet': {
-      color: qwenLightColors.AccentYellow,
+      color: vivekmindLightColors.AccentYellow,
     },
     'hljs-regexp': {
-      color: qwenLightColors.AccentCyan,
+      color: vivekmindLightColors.AccentCyan,
     },
     'hljs-link': {
-      color: qwenLightColors.LightBlue,
+      color: vivekmindLightColors.LightBlue,
     },
     'hljs-deletion': {
-      color: qwenLightColors.AccentRed,
+      color: vivekmindLightColors.AccentRed,
     },
     'hljs-addition': {
-      color: qwenLightColors.AccentGreen,
+      color: vivekmindLightColors.AccentGreen,
     },
     'hljs-emphasis': {
       fontStyle: 'italic',
@@ -121,21 +121,21 @@ export const QwenLight: Theme = new Theme(
       fontWeight: 'bold',
     },
     'hljs-literal': {
-      color: qwenLightColors.AccentCyan,
+      color: vivekmindLightColors.AccentCyan,
     },
     'hljs-built_in': {
-      color: qwenLightColors.AccentRed,
+      color: vivekmindLightColors.AccentRed,
     },
     'hljs-doctag': {
-      color: qwenLightColors.AccentRed,
+      color: vivekmindLightColors.AccentRed,
     },
     'hljs-template-variable': {
-      color: qwenLightColors.AccentCyan,
+      color: vivekmindLightColors.AccentCyan,
     },
     'hljs-selector-id': {
-      color: qwenLightColors.AccentRed,
+      color: vivekmindLightColors.AccentRed,
     },
   },
-  qwenLightColors,
+  vivekmindLightColors,
   lightSemanticColors,
 );

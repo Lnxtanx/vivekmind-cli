@@ -6,7 +6,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { showAuthStatus } from './handler.js';
-import { AuthType } from '@qwen-code/qwen-code-core';
+import { AuthType } from '@vivekmind/core';
 import { CODING_PLAN_ENV_KEY } from '../../constants/codingPlan.js';
 import type { LoadedSettings } from '../../config/settings.js';
 
@@ -61,23 +61,23 @@ describe('showAuthStatus', () => {
       expect.stringContaining('No authentication method configured'),
     );
     expect(writeStdoutLine).toHaveBeenCalledWith(
-      expect.stringContaining('qwen auth openrouter'),
+      expect.stringContaining('vivekmind auth openrouter'),
     );
     expect(writeStdoutLine).toHaveBeenCalledWith(
-      expect.stringContaining('qwen auth qwen-oauth'),
+      expect.stringContaining('vivekmind auth vivekmind-oauth'),
     );
     expect(writeStdoutLine).toHaveBeenCalledWith(
-      expect.stringContaining('qwen auth coding-plan'),
+      expect.stringContaining('vivekmind auth coding-plan'),
     );
     expect(process.exit).toHaveBeenCalledWith(0);
   });
 
-  it('should show Qwen OAuth status when configured', async () => {
+  it('should show VivekMind OAuth status when configured', async () => {
     vi.mocked(loadSettings).mockReturnValue(
       createMockSettings({
         security: {
           auth: {
-            selectedType: AuthType.QWEN_OAUTH,
+            selectedType: AuthType.VIVEKMIND_OAUTH,
           },
         },
       }),
@@ -86,7 +86,7 @@ describe('showAuthStatus', () => {
     await showAuthStatus();
 
     expect(writeStdoutLine).toHaveBeenCalledWith(
-      expect.stringContaining('Qwen OAuth'),
+      expect.stringContaining('VivekMind OAuth'),
     );
     expect(writeStdoutLine).toHaveBeenCalledWith(
       expect.stringContaining('Free tier (discontinued 2026-04-15)'),
@@ -195,7 +195,7 @@ describe('showAuthStatus', () => {
       expect.stringContaining('OpenRouter (Incomplete)'),
     );
     expect(writeStdoutLine).toHaveBeenCalledWith(
-      expect.stringContaining('qwen auth openrouter'),
+      expect.stringContaining('vivekmind auth openrouter'),
     );
   });
 

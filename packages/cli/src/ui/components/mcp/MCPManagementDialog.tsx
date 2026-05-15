@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -30,7 +30,7 @@ import {
   type AnyDeclarativeTool,
   type DiscoveredMCPPrompt,
   createDebugLogger,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { loadSettings, SettingScope } from '../../../config/settings.js';
 import { isToolValid, getToolInvalidReasons } from './utils.js';
 import { useTerminalSize } from '../../hooks/useTerminalSize.js';

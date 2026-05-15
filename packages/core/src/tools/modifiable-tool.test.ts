@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -85,7 +86,7 @@ describe('modifyWithEditor', () => {
   afterEach(async () => {
     vi.restoreAllMocks();
     await fsp.rm(testProjectDir, { recursive: true, force: true });
-    const diffDir = path.join(os.tmpdir(), 'qwen-code-tool-modify-diffs');
+    const diffDir = path.join(os.tmpdir(), 'vivekmind-tool-modify-diffs');
     await fsp.rm(diffDir, { recursive: true, force: true });
   });
 
@@ -143,7 +144,7 @@ describe('modifyWithEditor', () => {
     });
 
     it('should create temp directory if it does not exist', async () => {
-      const diffDir = path.join(os.tmpdir(), 'qwen-code-tool-modify-diffs');
+      const diffDir = path.join(os.tmpdir(), 'vivekmind-tool-modify-diffs');
       await fsp.rm(diffDir, { recursive: true, force: true }).catch(() => {});
 
       await modifyWithEditor(
@@ -159,7 +160,7 @@ describe('modifyWithEditor', () => {
     });
 
     it('should not create temp directory if it already exists', async () => {
-      const diffDir = path.join(os.tmpdir(), 'qwen-code-tool-modify-diffs');
+      const diffDir = path.join(os.tmpdir(), 'vivekmind-tool-modify-diffs');
       await fsp.mkdir(diffDir, { recursive: true });
 
       const mkdirSpy = vi.spyOn(fs, 'mkdirSync');
@@ -296,10 +297,10 @@ describe('modifyWithEditor', () => {
 
     expect(mockOpenDiff).toHaveBeenCalledOnce();
     const [oldFilePath, newFilePath] = mockOpenDiff.mock.calls[0];
-    expect(oldFilePath).toMatch(/qwen-code-modify-test-file-old-\d+\.txt$/);
-    expect(newFilePath).toMatch(/qwen-code-modify-test-file-new-\d+\.txt$/);
+    expect(oldFilePath).toMatch(/vivekmind-modify-test-file-old-\d+\.txt$/);
+    expect(newFilePath).toMatch(/vivekmind-modify-test-file-new-\d+\.txt$/);
 
-    const diffDir = path.join(os.tmpdir(), 'qwen-code-tool-modify-diffs');
+    const diffDir = path.join(os.tmpdir(), 'vivekmind-tool-modify-diffs');
     expect(path.dirname(oldFilePath)).toBe(diffDir);
     expect(path.dirname(newFilePath)).toBe(diffDir);
   });
@@ -318,10 +319,10 @@ describe('modifyWithEditor', () => {
 
     expect(mockOpenDiff).toHaveBeenCalledOnce();
     const [oldFilePath, newFilePath] = mockOpenDiff.mock.calls[0];
-    expect(oldFilePath).toMatch(/qwen-code-modify-test-file-old-\d+$/);
-    expect(newFilePath).toMatch(/qwen-code-modify-test-file-new-\d+$/);
+    expect(oldFilePath).toMatch(/vivekmind-modify-test-file-old-\d+$/);
+    expect(newFilePath).toMatch(/vivekmind-modify-test-file-new-\d+$/);
 
-    const diffDir = path.join(os.tmpdir(), 'qwen-code-tool-modify-diffs');
+    const diffDir = path.join(os.tmpdir(), 'vivekmind-tool-modify-diffs');
     expect(path.dirname(oldFilePath)).toBe(diffDir);
     expect(path.dirname(newFilePath)).toBe(diffDir);
   });

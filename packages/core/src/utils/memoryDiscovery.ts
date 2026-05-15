@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -11,7 +12,7 @@ import { homedir } from 'node:os';
 import { getAllGeminiMdFilenames } from '../memory/const.js';
 import type { FileDiscoveryService } from '../services/fileDiscoveryService.js';
 import { processImports } from './memoryImportProcessor.js';
-import { QWEN_DIR } from './paths.js';
+import { VIVEKMIND_DIR } from './paths.js';
 import { createDebugLogger } from './debugLogger.js';
 import { loadRules, type RuleFile } from './rulesDiscovery.js';
 
@@ -132,7 +133,7 @@ async function getGeminiMdFilePathsInternalForEachDir(
     const resolvedHome = path.resolve(userHomePath);
     const globalMemoryPath = path.join(
       resolvedHome,
-      QWEN_DIR,
+      VIVEKMIND_DIR,
       geminiMdFilename,
     );
 
@@ -200,7 +201,7 @@ async function getGeminiMdFilePathsInternalForEachDir(
         : path.dirname(resolvedHome);
 
       while (currentDir && currentDir !== path.dirname(currentDir)) {
-        if (currentDir === path.join(resolvedHome, QWEN_DIR)) {
+        if (currentDir === path.join(resolvedHome, VIVEKMIND_DIR)) {
           break;
         }
 
@@ -339,7 +340,7 @@ export interface LoadServerHierarchicalMemoryOptions {
 
 /**
  * Loads hierarchical QWEN.md files and concatenates their content.
- * Also loads path-based context rules from `.qwen/rules/` directories.
+ * Also loads path-based context rules from `.vivekmind/rules/` directories.
  * This function is intended for use by the server.
  *
  * @param contextRuleExcludes - Glob patterns to skip when loading rules.
@@ -391,7 +392,7 @@ export async function loadServerHierarchicalMemory(
     ).length;
   }
 
-  // Load path-based context rules from .qwen/rules/ directories
+  // Load path-based context rules from .vivekmind/rules/ directories
   const resolvedCwd = path.resolve(currentWorkingDirectory);
   const foundRoot = await findProjectRoot(resolvedCwd);
   const effectiveRoot = foundRoot ?? resolvedCwd;

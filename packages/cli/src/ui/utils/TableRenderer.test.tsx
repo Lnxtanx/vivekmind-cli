@@ -160,7 +160,7 @@ describe('<TableRenderer />', () => {
     // This is the classic failure case: CJK chars counted as width 1
     // causes column misalignment
     const output = renderTable(
-      ['对比项', 'Claude Code', 'Qwen Code'],
+      ['对比项', 'Claude Code', 'VivekMind'],
       [
         ['性能', '优秀', '优秀'],
         ['中文支持', '一般', '很好'],
@@ -171,7 +171,7 @@ describe('<TableRenderer />', () => {
 
     expect(output).toContain('对比项');
     expect(output).toContain('Claude Code');
-    expect(output).toContain('Qwen Code');
+    expect(output).toContain('VivekMind');
     expect(output).toContain('性能');
     expect(output).toContain('中文支持');
     expect(output).toContain('开源');
@@ -342,11 +342,11 @@ describe('<TableRenderer />', () => {
   it('renders markdown links as readable plain text in cells', () => {
     const output = renderTable(
       ['Name', 'Link'],
-      [['Doc', '[Qwen](https://example.com/path)']],
+      [['Doc', '[VivekMind](https://example.com/path)']],
       60,
     );
-    expect(output).toContain('Qwen');
-    expect(output).not.toContain('[Qwen](');
+    expect(output).toContain('VivekMind');
+    expect(output).not.toContain('[VivekMind](');
   });
 
   it('renders inline code and bold text readably in the same cell', () => {

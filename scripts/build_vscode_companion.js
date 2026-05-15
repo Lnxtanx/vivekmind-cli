@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -24,7 +25,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
-execSync('npm --workspace=qwen-code-vscode-ide-companion run package', {
+execSync('npm --workspace=vivekmind-vscode-ide-companion run package', {
   stdio: 'inherit',
   cwd: root,
 });

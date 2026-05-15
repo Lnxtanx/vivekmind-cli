@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -8,10 +8,10 @@
  * Utility functions for writing to stdout/stderr in CLI commands.
  *
  * These helpers are used instead of console.log/console.error in standalone
- * CLI commands (like `qwen extensions list`) where the output IS the user-facing
+ * CLI commands (like `vivekmind extensions list`) where the output IS the user-facing
  * result, not debug logging.
  *
- * For debug/diagnostic logging, use `createDebugLogger()` from @qwen-code/qwen-code-core.
+ * For debug/diagnostic logging, use `createDebugLogger()` from @vivekmind/core.
  */
 
 /**

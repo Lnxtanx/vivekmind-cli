@@ -5,8 +5,8 @@ import {
   saveAccount,
   clearAccount,
   DEFAULT_BASE_URL,
-} from '@qwen-code/channel-weixin/accounts';
-import { startLogin, waitForLogin } from '@qwen-code/channel-weixin/login';
+} from '@vivekmind/channel-weixin/accounts';
+import { startLogin, waitForLogin } from '@vivekmind/channel-weixin/login';
 
 export const configureWeixinCommand: CommandModule<
   object,
@@ -70,7 +70,7 @@ export const configureWeixinCommand: CommandModule<
         writeStdoutLine(
           'Credentials saved. You can now start a weixin channel with:',
         );
-        writeStdoutLine('  qwen channel start <name>');
+        writeStdoutLine('  vivekmind channel start <name>');
       } else {
         writeStderrLine('\n' + result.message);
         process.exit(1);

@@ -15,8 +15,8 @@ import {
   SETTINGS_DIRECTORY_NAME,
 } from '../config/settings.js';
 import { promisify } from 'node:util';
-import type { Config, SandboxConfig } from '@qwen-code/qwen-code-core';
-import { FatalSandboxError } from '@qwen-code/qwen-code-core';
+import type { Config, SandboxConfig } from '@vivekmind/core';
+import { FatalSandboxError } from '@vivekmind/core';
 import { randomBytes } from 'node:crypto';
 import { writeStderrLine } from './stdioHelpers.js';
 
@@ -35,9 +35,9 @@ function getContainerPath(hostPath: string): string {
   return hostPath;
 }
 
-const LOCAL_DEV_SANDBOX_IMAGE_NAME = 'qwen-code-sandbox';
-const SANDBOX_NETWORK_NAME = 'qwen-code-sandbox';
-const SANDBOX_PROXY_NAME = 'qwen-code-sandbox-proxy';
+const LOCAL_DEV_SANDBOX_IMAGE_NAME = 'vivekmind-sandbox';
+const SANDBOX_NETWORK_NAME = 'vivekmind-sandbox';
+const SANDBOX_PROXY_NAME = 'vivekmind-sandbox-proxy';
 const BUILTIN_SEATBELT_PROFILES = [
   'permissive-open',
   'permissive-closed',
@@ -263,8 +263,8 @@ export async function start_sandbox(
         ...finalArgv.map((arg) => quote([arg])),
       ].join(' '),
     );
-    // start and set up proxy if QWEN_SANDBOX_PROXY_COMMAND is set
-    const proxyCommand = process.env['QWEN_SANDBOX_PROXY_COMMAND'];
+    // start and set up proxy if VIVEKMIND_SANDBOX_PROXY_COMMAND is set
+    const proxyCommand = process.env['VIVEKMIND_SANDBOX_PROXY_COMMAND'];
     let proxyProcess: ChildProcess | undefined = undefined;
     let sandboxProcess: ChildProcess | undefined = undefined;
     const sandboxEnv = { ...process.env };
@@ -337,7 +337,7 @@ export async function start_sandbox(
 
   writeStderrLine(`hopping into sandbox (command: ${config.command}) ...`);
 
-  // determine full path for qwen-code to distinguish linked vs installed setting
+  // determine full path for vivekmind to distinguish linked vs installed setting
   const gcPath = fs.realpathSync(process.argv[1]);
 
   const projectSandboxDockerfile = path.join(
@@ -350,13 +350,13 @@ export async function start_sandbox(
   const workdir = path.resolve(process.cwd());
   const containerWorkdir = getContainerPath(workdir);
 
-  // if BUILD_SANDBOX is set, then call scripts/build_sandbox.js under qwen-code repo
+  // if BUILD_SANDBOX is set, then call scripts/build_sandbox.js under vivekmind repo
   //
-  // note this can only be done with binary linked from qwen-code repo
+  // note this can only be done with binary linked from vivekmind repo
   if (process.env['BUILD_SANDBOX']) {
-    if (!gcPath.includes('qwen-code/packages/')) {
+    if (!gcPath.includes('vivekmind/packages/')) {
       throw new FatalSandboxError(
-        'Cannot build sandbox using installed Qwen Code binary; ' +
+        'Cannot build sandbox using installed VivekMind binary; ' +
           'run `npm link ./packages/cli` under QwenCode-cli repo to switch to linked binary.',
       );
     } else {
@@ -378,7 +378,7 @@ export async function start_sandbox(
           stdio: 'inherit',
           env: {
             ...process.env,
-            QWEN_SANDBOX: config.command, // in case sandbox is enabled via flags (see config.ts under cli package)
+            VIVEKMIND_SANDBOX: config.command, // in case sandbox is enabled via flags (see config.ts under cli package)
           },
         },
       );
@@ -389,8 +389,8 @@ export async function start_sandbox(
   if (!(await ensureSandboxImageIsPresent(config.command, image))) {
     const remedy =
       image === LOCAL_DEV_SANDBOX_IMAGE_NAME
-        ? 'Try running `npm run build:all` or `npm run build:sandbox` under the qwen-code repo to build it locally, or check the image name and your network connection.'
-        : 'Please check the image name, your network connection, or notify qwen-code-dev@service.alibaba.com if the issue persists.';
+        ? 'Try running `npm run build:all` or `npm run build:sandbox` under the vivekmind repo to build it locally, or check the image name and your network connection.'
+        : 'Please check the image name, your network connection, or notify vivekmind-dev@service.alibaba.com if the issue persists.';
     throw new FatalSandboxError(
       `Sandbox image '${image}' is missing or could not be pulled. ${remedy}`,
     );
@@ -498,8 +498,8 @@ export async function start_sandbox(
 
   // copy proxy environment variables, replacing localhost with SANDBOX_PROXY_NAME
   // copy as both upper-case and lower-case as is required by some utilities
-  // QWEN_SANDBOX_PROXY_COMMAND implies HTTPS_PROXY unless HTTP_PROXY is set
-  const proxyCommand = process.env['QWEN_SANDBOX_PROXY_COMMAND'];
+  // VIVEKMIND_SANDBOX_PROXY_COMMAND implies HTTPS_PROXY unless HTTP_PROXY is set
+  const proxyCommand = process.env['VIVEKMIND_SANDBOX_PROXY_COMMAND'];
 
   if (proxyCommand) {
     let proxy =
@@ -541,10 +541,10 @@ export async function start_sandbox(
   // name container after image, plus random suffix to avoid conflicts
   const imageName = parseImageName(image);
   const isIntegrationTest =
-    process.env['QWEN_CODE_INTEGRATION_TEST'] === 'true';
+    process.env['VIVEKMIND_CODE_INTEGRATION_TEST'] === 'true';
   let containerName;
   if (isIntegrationTest) {
-    containerName = `qwen-code-integration-test-${randomBytes(4).toString(
+    containerName = `vivekmind-integration-test-${randomBytes(4).toString(
       'hex',
     )}`;
     writeStderrLine(`ContainerName: ${containerName}`);
@@ -563,11 +563,11 @@ export async function start_sandbox(
   }
   args.push('--name', containerName, '--hostname', containerName);
 
-  // copy QWEN_CODE_TEST_VAR for integration tests
-  if (process.env['QWEN_CODE_TEST_VAR']) {
+  // copy VIVEKMIND_CODE_TEST_VAR for integration tests
+  if (process.env['VIVEKMIND_CODE_TEST_VAR']) {
     args.push(
       '--env',
-      `QWEN_CODE_TEST_VAR=${process.env['QWEN_CODE_TEST_VAR']}`,
+      `VIVEKMIND_CODE_TEST_VAR=${process.env['VIVEKMIND_CODE_TEST_VAR']}`,
     );
   }
 
@@ -579,7 +579,7 @@ export async function start_sandbox(
     args.push('--env', `GOOGLE_API_KEY=${process.env['GOOGLE_API_KEY']}`);
   }
 
-  // copy OPENAI_API_KEY and related env vars for Qwen
+  // copy OPENAI_API_KEY and related env vars for VivekMind
   if (process.env['OPENAI_API_KEY']) {
     args.push('--env', `OPENAI_API_KEY=${process.env['OPENAI_API_KEY']}`);
   }
@@ -637,8 +637,8 @@ export async function start_sandbox(
 
   // Pass through IDE mode environment variables
   for (const envVar of [
-    'QWEN_CODE_IDE_SERVER_PORT',
-    'QWEN_CODE_IDE_WORKSPACE_PATH',
+    'VIVEKMIND_CODE_IDE_SERVER_PORT',
+    'VIVEKMIND_CODE_IDE_WORKSPACE_PATH',
     'TERM_PROGRAM',
   ]) {
     if (process.env[envVar]) {
@@ -714,13 +714,13 @@ export async function start_sandbox(
 
   // Check if we should use current user's UID/GID in sandbox
   // In integration test mode, we still respect SANDBOX_SET_UID_GID to allow
-  // tests that need to access host's ~/.qwen (e.g., --resume functionality)
+  // tests that need to access host's ~/.vivekmind (e.g., --resume functionality)
   const useCurrentUser = await shouldUseCurrentUserInSandbox();
 
   if (useCurrentUser) {
     // SANDBOX_SET_UID_GID is enabled: create user with host's UID/GID
     // This includes integration test mode with SANDBOX_SET_UID_GID=true,
-    // allowing tests that need to access host's ~/.qwen (e.g., --resume) to work.
+    // allowing tests that need to access host's ~/.vivekmind (e.g., --resume) to work.
     // For the user-creation logic to work, the container must start as root.
     // The entrypoint script then handles dropping privileges to the correct user.
     args.push('--user', 'root');
@@ -769,7 +769,7 @@ export async function start_sandbox(
   // push container entrypoint (including args)
   args.push(...finalEntrypoint);
 
-  // start and set up proxy if QWEN_SANDBOX_PROXY_COMMAND is set
+  // start and set up proxy if VIVEKMIND_SANDBOX_PROXY_COMMAND is set
   let proxyProcess: ChildProcess | undefined = undefined;
   let sandboxProcess: ChildProcess | undefined = undefined;
 

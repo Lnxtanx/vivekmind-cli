@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -418,7 +419,7 @@ describe('convertClaudePluginPackage', () => {
       'crlf-agents-plugin',
     );
 
-    // Verify: agent file was properly parsed and converted into .qwen/agents folder structure
+    // Verify: agent file was properly parsed and converted into .vivekmind/agents folder structure
     const convertedAgentsDir = path.join(result.convertedDir, 'agents');
     expect(fs.existsSync(convertedAgentsDir)).toBe(true);
 
@@ -436,7 +437,7 @@ describe('convertClaudePluginPackage', () => {
     fs.rmSync(result.convertedDir, { recursive: true, force: true });
   });
 
-  it('should convert hooks from Claude plugin format to Qwen format with variable substitution', async () => {
+  it('should convert hooks from Claude plugin format to VivekMind format with variable substitution', async () => {
     // Setup: Create a plugin with hooks in Claude format
     const pluginSourceDir = path.join(testDir, 'plugin-with-hooks');
     fs.mkdirSync(pluginSourceDir, { recursive: true });
@@ -527,7 +528,7 @@ describe('performVariableReplacement for Claude extensions', () => {
     }
   });
 
-  it('should replace .claude with .qwen in shell scripts', () => {
+  it('should replace .claude with .vivekmind in shell scripts', () => {
     const extDir = path.join(testDir, 'ext-sh');
     fs.mkdirSync(extDir, { recursive: true });
 
@@ -540,9 +541,9 @@ describe('performVariableReplacement for Claude extensions', () => {
     performVariableReplacement(extDir);
 
     const result = fs.readFileSync(path.join(extDir, 'setup.sh'), 'utf-8');
-    expect(result).toContain('$HOME/.qwen/config');
-    expect(result).toContain('~/.qwen/cache');
-    expect(result).toContain('./.qwen/local');
+    expect(result).toContain('$HOME/.vivekmind/config');
+    expect(result).toContain('~/.vivekmind/cache');
+    expect(result).toContain('./.vivekmind/local');
     expect(result).not.toContain('.claude');
   });
 

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -10,7 +10,7 @@ import { ExtensionsManagerDialog } from './ExtensionsManagerDialog.js';
 import { UIStateContext } from '../../contexts/UIStateContext.js';
 import { KeypressProvider } from '../../contexts/KeypressContext.js';
 import type { UIState } from '../../contexts/UIStateContext.js';
-import type { Config, Extension } from '@qwen-code/qwen-code-core';
+import type { Config, Extension } from '@vivekmind/core';
 import { ExtensionUpdateState } from '../../state/extensions.js';
 
 const createMockExtension = (
@@ -22,7 +22,7 @@ const createMockExtension = (
     id: name,
     name,
     version,
-    path: `/home/user/.qwen/extensions/${name}`,
+    path: `/home/user/.vivekmind/extensions/${name}`,
     isActive,
     installMetadata: {
       type: 'git',

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Code
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -150,7 +150,7 @@ const TAIL_READ_SIZE = 64 * 1024;
  * - Removing sessions
  *
  * Sessions are stored as JSONL files, one per session.
- * File location: ~/.qwen/tmp/<project_id>/chats/
+ * File location: ~/.vivekmind/tmp/<project_id>/chats/
  */
 export class SessionService {
   private readonly storage: Storage;

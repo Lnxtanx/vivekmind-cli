@@ -59,7 +59,7 @@ describe('normalize', () => {
     expect(normalize('gemini-2.0-flash-preview')).toBe('gemini-2.0-flash');
   });
 
-  it('should not remove "-latest" from specific Qwen model names', () => {
+  it('should not remove "-latest" from specific VivekMind model names', () => {
     expect(normalize('qwen-plus-latest')).toBe('qwen-plus-latest');
     expect(normalize('qwen-flash-latest')).toBe('qwen-flash-latest');
     expect(normalize('qwen-vl-max-latest')).toBe('qwen-vl-max-latest');
@@ -141,7 +141,7 @@ describe('tokenLimit', () => {
     });
   });
 
-  describe('Alibaba Qwen', () => {
+  describe('Alibaba VivekMind', () => {
     it('should return 1M for commercial Qwen3 models', () => {
       expect(tokenLimit('qwen3-coder-plus')).toBe(1000000);
       expect(tokenLimit('qwen3-coder-plus-20250601')).toBe(1000000);
@@ -163,7 +163,7 @@ describe('tokenLimit', () => {
       expect(tokenLimit('qwen-flash-latest')).toBe(1000000);
     });
 
-    it('should return 256K for Qwen fallback', () => {
+    it('should return 256K for VivekMind fallback', () => {
       expect(tokenLimit('qwen-plus')).toBe(262144);
       expect(tokenLimit('qwen-turbo')).toBe(262144);
       expect(tokenLimit('qwen2.5')).toBe(262144);
@@ -288,12 +288,12 @@ describe('tokenLimit with output type', () => {
     });
   });
 
-  describe('Qwen output limits', () => {
-    it('should return correct output limits for Qwen models', () => {
+  describe('VivekMind output limits', () => {
+    it('should return correct output limits for VivekMind models', () => {
       expect(tokenLimit('qwen3.5-plus', 'output')).toBe(65536);
       expect(tokenLimit('qwen3.6-plus', 'output')).toBe(65536);
       expect(tokenLimit('coder-model', 'output')).toBe(65536);
-      // Models without specific output limits fall back to Qwen default (32K)
+      // Models without specific output limits fall back to VivekMind default (32K)
       expect(tokenLimit('qwen3-max', 'output')).toBe(32768);
       expect(tokenLimit('qwen3-max-2026-01-23', 'output')).toBe(32768);
     });

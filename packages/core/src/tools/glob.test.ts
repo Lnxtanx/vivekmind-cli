@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -31,7 +32,7 @@ describe('GlobTool', () => {
     getFileFilteringRespectGitIgnore: () => true,
     getFileFilteringOptions: () => ({
       respectGitIgnore: true,
-      respectQwenIgnore: true,
+      respectVivekMindIgnore: true,
     }),
     getTargetDir: () => tempRootDir,
     getWorkspaceContext: () => createMockWorkspaceContext(tempRootDir),
@@ -501,13 +502,13 @@ describe('GlobTool', () => {
       expect(result.llmContent).not.toContain('a.ignored.txt');
     });
 
-    it('should respect .qwenignore files by default', async () => {
+    it('should respect .vivekmindignore files by default', async () => {
       await fs.writeFile(
-        path.join(tempRootDir, '.qwenignore'),
-        '*.qwenignored.txt',
+        path.join(tempRootDir, '.vivekmindignore'),
+        '*.vivekmindignored.txt',
       );
       await fs.writeFile(
-        path.join(tempRootDir, 'a.qwenignored.txt'),
+        path.join(tempRootDir, 'a.vivekmindignored.txt'),
         'ignored content',
       );
       await fs.writeFile(
@@ -515,7 +516,7 @@ describe('GlobTool', () => {
         'not ignored content',
       );
 
-      // Recreate the tool to pick up the new .qwenignore file
+      // Recreate the tool to pick up the new .vivekmindignore file
       globTool = new GlobTool(mockConfig);
 
       const params: GlobToolParams = { pattern: '*.txt' };
@@ -523,7 +524,7 @@ describe('GlobTool', () => {
       const result = await invocation.execute(abortSignal);
 
       expect(result.llmContent).toContain('Found 3 file(s)'); // fileA.txt, FileB.TXT, b.notignored.txt
-      expect(result.llmContent).not.toContain('a.qwenignored.txt');
+      expect(result.llmContent).not.toContain('a.vivekmindignored.txt');
     });
 
     it('should respect .gitignore when searching a subdirectory (path option)', async () => {
@@ -546,15 +547,15 @@ describe('GlobTool', () => {
       expect(result.llmContent).not.toContain('hidden.secret');
     });
 
-    it('should respect .qwenignore when searching a subdirectory (path option)', async () => {
-      await fs.writeFile(path.join(tempRootDir, '.qwenignore'), '*.secret');
+    it('should respect .vivekmindignore when searching a subdirectory (path option)', async () => {
+      await fs.writeFile(path.join(tempRootDir, '.vivekmindignore'), '*.secret');
       await fs.writeFile(path.join(tempRootDir, 'sub', 'visible.txt'), 'ok');
       await fs.writeFile(
         path.join(tempRootDir, 'sub', 'hidden.secret'),
         'should be ignored',
       );
 
-      // Recreate to pick up .qwenignore
+      // Recreate to pick up .vivekmindignore
       const subDirTool = new GlobTool(mockConfig);
       const params: GlobToolParams = { pattern: '*', path: 'sub' };
       const invocation = subDirTool.build(params);

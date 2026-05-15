@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -17,9 +18,9 @@ export * from './permissions/index.js';
 
 // Model configuration
 export {
-  DEFAULT_QWEN_MODEL,
-  DEFAULT_QWEN_FLASH_MODEL,
-  DEFAULT_QWEN_EMBEDDING_MODEL,
+  DEFAULT_VIVEKMIND_MODEL,
+  DEFAULT_VIVEKMIND_FLASH_MODEL,
+  DEFAULT_VIVEKMIND_EMBEDDING_MODEL,
   MAINLINE_CODER_MODEL,
 } from './config/models.js';
 export {
@@ -38,10 +39,14 @@ export {
   type ModelProvidersConfig,
   type ModelSwitchMetadata,
   type OnModelChangeCallback,
-  QWEN_OAUTH_MODELS,
+  VIVEKMIND_OAUTH_MODELS,
+  VISION_MODEL_MAP,
+  AUTH_ENV_MAPPINGS,
+  getVisionCapability,
   resolveModelConfig,
   type ResolvedModelConfig,
   validateModelConfig,
+  type VisionCapability,
 } from './models/index.js';
 
 // Coding Plan constants
@@ -104,7 +109,7 @@ export { buildSkillLlmContent } from './tools/skill-utils.js';
 // Backward-compatible type re-exports for tool classes removed from eager loading.
 // These preserve TypeScript type compatibility for downstream consumers.
 // Note: runtime value imports (e.g. `new EditTool(...)`) must use the direct
-// module path (e.g. `@qwen-code/qwen-code-core/dist/tools/edit.js`) as these
+// module path (e.g. `@vivekmind/core/dist/tools/edit.js`) as these
 // classes are now lazy-loaded and are not exported as values from the package root.
 export type { EditTool, EditToolParams } from './tools/edit.js';
 export type {
@@ -224,7 +229,7 @@ export type {
 // Telemetry
 // ============================================================================
 
-export { QwenLogger } from './telemetry/qwen-logger/qwen-logger.js';
+export { VivekMindLogger } from './telemetry/vivekmind-logger/vivekmind-logger.js';
 export * from './telemetry/index.js';
 export {
   logAuth,
@@ -283,6 +288,7 @@ export * from './utils/generateContentResponseUtilities.js';
 export * from './utils/getFolderStructure.js';
 export * from './utils/gitIgnoreParser.js';
 export * from './utils/gitUtils.js';
+export * from './utils/image-handler.js';
 export * from './utils/ignorePatterns.js';
 export * from './utils/jsonl-utils.js';
 export * from './utils/memoryDiscovery.js';
@@ -326,7 +332,7 @@ export * from './utils/sideQuery.js';
 // OAuth & Authentication
 // ============================================================================
 
-export * from './qwen/qwenOAuth2.js';
+export * from './vivekmind/vivekmindOAuth2.js';
 
 // ============================================================================
 // Message Bus Types

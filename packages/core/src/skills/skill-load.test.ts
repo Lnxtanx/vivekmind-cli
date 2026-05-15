@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -729,8 +729,8 @@ body
 
     it('sets skillRoot to the SKILL.md directory (parity with managed parser)', () => {
       // Regression: extension parser previously omitted `skillRoot`, so
-      // `registerSkillHooks.ts` skipped setting `QWEN_SKILL_ROOT` for
-      // command-type hooks on extension skills — `$QWEN_SKILL_ROOT/...`
+      // `registerSkillHooks.ts` skipped setting `VIVEKMIND_SKILL_ROOT` for
+      // command-type hooks on extension skills — `$VIVEKMIND_SKILL_ROOT/...`
       // references in those hooks broke silently.
       mockParseYaml.mockReturnValueOnce({
         name: 'tsx-helper',

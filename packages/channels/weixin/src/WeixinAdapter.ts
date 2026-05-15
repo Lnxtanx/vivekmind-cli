@@ -1,5 +1,5 @@
 /**
- * WeChat channel adapter for Qwen Code.
+ * WeChat channel adapter for VivekMind.
  * Extends ChannelBase with WeChat iLink Bot API integration.
  */
 
@@ -7,13 +7,13 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { basename, join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { ChannelBase } from '@qwen-code/channel-base';
+import { ChannelBase } from '@vivekmind/channel-base';
 import type {
   ChannelConfig,
   ChannelBaseOptions,
   Envelope,
   AcpBridge,
-} from '@qwen-code/channel-base';
+} from '@vivekmind/channel-base';
 import { loadAccount, DEFAULT_BASE_URL } from './accounts.js';
 import { startPollLoop, getContextToken } from './monitor.js';
 import type { CdnRef, FileCdnRef } from './monitor.js';
@@ -46,7 +46,7 @@ export class WeixinChannel extends ChannelBase {
     const account = loadAccount();
     if (!account) {
       throw new Error(
-        'WeChat account not configured. Run "qwen channel configure-weixin" first.',
+        'WeChat account not configured. Run "vivekmind channel configure-weixin" first.',
       );
     }
     this.token = account.token;

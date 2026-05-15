@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getAutoMemoryRoot } from '@qwen-code/qwen-code-core';
+import { getAutoMemoryRoot } from '@vivekmind/core';
 import { t } from '../../i18n/index.js';
 import type {
   CommandContext,

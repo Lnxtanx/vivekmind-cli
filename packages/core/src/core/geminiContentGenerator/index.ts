@@ -38,12 +38,14 @@ export function createGeminiContentGenerator(
       'x-gemini-api-privileged-user-id': `${installationId}`,
     };
   }
-  const httpOptions = config.baseUrl
-    ? {
-        headers,
-        baseUrl: config.baseUrl,
-      }
-    : { headers };
+  const isDefaultGeminiUrl = 
+    !config.baseUrl || 
+    config.baseUrl.includes('generativelanguage.googleapis.com');
+
+  const httpOptions = {
+    headers,
+    baseUrl: isDefaultGeminiUrl ? undefined : config.baseUrl,
+  };
 
   const geminiContentGenerator = new GeminiContentGenerator(
     {

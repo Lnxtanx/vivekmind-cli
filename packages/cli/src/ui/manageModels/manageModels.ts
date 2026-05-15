@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -9,7 +9,7 @@ import {
   type Config,
   type ProviderModelConfig as ModelConfig,
   type ModelProvidersConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { LoadedSettings } from '../../config/settings.js';
 import { getPersistScopeForModelSelection } from '../../config/modelProvidersScope.js';
 import {

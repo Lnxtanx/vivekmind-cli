@@ -15,8 +15,8 @@ import { DefaultLight } from './default-light.js';
 import { DefaultDark } from './default.js';
 import { ShadesOfPurple } from './shades-of-purple.js';
 import { XCode } from './xcode.js';
-import { QwenLight } from './qwen-light.js';
-import { QwenDark } from './qwen-dark.js';
+import { VivekMindLight } from './qwen-light.js';
+import { VivekMindDark } from './qwen-dark.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
@@ -27,7 +27,7 @@ import { ANSI } from './ansi.js';
 import { ANSILight } from './ansi-light.js';
 import { NoColorTheme } from './no-color.js';
 import process from 'node:process';
-import { createDebugLogger } from '@qwen-code/qwen-code-core';
+import { createDebugLogger } from '@vivekmind/core';
 import {
   detectTerminalTheme,
   detectTerminalThemeAsync,
@@ -41,7 +41,7 @@ export interface ThemeDisplay {
   isCustom?: boolean;
 }
 
-export const DEFAULT_THEME: Theme = QwenDark;
+export const DEFAULT_THEME: Theme = VivekMindDark;
 export const AUTO_THEME_NAME = 'auto';
 
 class ThemeManager {
@@ -60,8 +60,8 @@ class ThemeManager {
       GitHubDark,
       GitHubLight,
       GoogleCode,
-      QwenLight,
-      QwenDark,
+      VivekMindLight,
+      VivekMindDark,
       ShadesOfPurple,
       XCode,
       ANSI,
@@ -120,7 +120,7 @@ class ThemeManager {
    * Sets the active theme.
    * @param themeName The name of the theme to set as active.
    *   If themeName is 'auto', detects the terminal theme and selects
-   *   Qwen Dark or Qwen Light accordingly.
+   *   VivekMind Dark or VivekMind Light accordingly.
    * @returns True if the theme was successfully set, false otherwise.
    */
   setActiveTheme(themeName: string | undefined): boolean {
@@ -147,14 +147,14 @@ class ThemeManager {
 
   /**
    * Detects the terminal's dark/light preference (synchronous) and returns
-   * the corresponding Qwen theme.
+   * the corresponding VivekMind theme.
    * Used by the theme dialog for instant preview. Prefers the cached
    * async-detected value when available so we stay consistent with the
    * OSC 11 probe performed at startup.
    */
   private resolveAutoTheme(): Theme {
     const detected = this.cachedAutoDetection ?? detectTerminalTheme();
-    return detected === 'light' ? QwenLight : QwenDark;
+    return detected === 'light' ? VivekMindLight : VivekMindDark;
   }
 
   /**
@@ -166,7 +166,7 @@ class ThemeManager {
   async resolveAutoThemeAsync(): Promise<void> {
     const detected = await detectTerminalThemeAsync();
     this.cachedAutoDetection = detected;
-    this.activeTheme = detected === 'light' ? QwenLight : QwenDark;
+    this.activeTheme = detected === 'light' ? VivekMindLight : VivekMindDark;
     debugLogger.info(`Auto-detected theme (async): ${this.activeTheme.name}`);
   }
 
@@ -240,12 +240,12 @@ class ThemeManager {
       }),
     );
 
-    // Separate Qwen themes
+    // Separate VivekMind themes
     const qwenThemes = builtInThemes.filter(
-      (theme) => theme.name === QwenLight.name || theme.name === QwenDark.name,
+      (theme) => theme.name === VivekMindLight.name || theme.name === VivekMindDark.name,
     );
     const otherBuiltInThemes = builtInThemes.filter(
-      (theme) => theme.name !== QwenLight.name && theme.name !== QwenDark.name,
+      (theme) => theme.name !== VivekMindLight.name && theme.name !== VivekMindDark.name,
     );
 
     // Sort other themes by type and then name
@@ -274,7 +274,7 @@ class ThemeManager {
       },
     );
 
-    // Combine Qwen themes first, then sorted others
+    // Combine VivekMind themes first, then sorted others
     return [...qwenThemes, ...sortedOtherThemes];
   }
 

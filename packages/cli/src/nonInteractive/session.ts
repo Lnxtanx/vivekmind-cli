@@ -1,14 +1,14 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import type {
   Config,
   ConfigInitializeOptions,
-} from '@qwen-code/qwen-code-core';
-import { createDebugLogger, SendMessageType } from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
+import { createDebugLogger, SendMessageType } from '@vivekmind/core';
 import { StreamJsonInputReader } from './io/StreamJsonInputReader.js';
 import { StreamJsonOutputAdapter } from './io/StreamJsonOutputAdapter.js';
 import { ControlContext } from './control/ControlContext.js';

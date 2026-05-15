@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -1153,13 +1153,13 @@ describe('HookSystem', () => {
       );
 
       await hookSystem.fireNotificationEvent(
-        'Qwen Code is waiting for your input',
+        'VivekMind is waiting for your input',
         NotificationType.IdlePrompt,
         'Waiting for input',
       );
 
       expect(mockHookEventHandler.fireNotificationEvent).toHaveBeenCalledWith(
-        'Qwen Code is waiting for your input',
+        'VivekMind is waiting for your input',
         NotificationType.IdlePrompt,
         'Waiting for input',
         undefined,

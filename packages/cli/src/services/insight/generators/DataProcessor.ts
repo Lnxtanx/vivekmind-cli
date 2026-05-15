@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Code
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 import {
   read as readJsonlFile,
   createDebugLogger,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import pLimit from 'p-limit';
 import type {
   InsightData,
@@ -33,7 +33,7 @@ import {
   getInsightPrompt,
   type Config,
   type ChatRecord,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 const logger = createDebugLogger('DataProcessor');
 
@@ -133,7 +133,7 @@ export class DataProcessor {
           type: 'object',
           additionalProperties: { type: 'number' },
         },
-        Qwen_helpfulness: {
+        VivekMind_helpfulness: {
           type: 'string',
           enum: [
             'unhelpful',
@@ -183,7 +183,7 @@ export class DataProcessor {
         'goal_categories',
         'outcome',
         'user_satisfaction_counts',
-        'Qwen_helpfulness',
+        'VivekMind_helpfulness',
         'session_type',
         'friction_counts',
         'friction_detail',
@@ -510,7 +510,7 @@ export class DataProcessor {
     const schemaImprovements = {
       type: 'object',
       properties: {
-        Qwen_md_additions: {
+        VivekMind_md_additions: {
           type: 'array',
           items: {
             type: 'object',
@@ -549,7 +549,7 @@ export class DataProcessor {
           },
         },
       },
-      required: ['Qwen_md_additions', 'features_to_try', 'usage_patterns'],
+      required: ['VivekMind_md_additions', 'features_to_try', 'usage_patterns'],
     };
 
     // 7. Interaction Style
@@ -754,7 +754,7 @@ ${sessionSummaries}
 FRICTION DETAILS:
 ${frictionDetails}
 
-USER INSTRUCTIONS TO Qwen:
+USER INSTRUCTIONS TO VivekMind:
 None captured`;
   }
 

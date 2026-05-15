@@ -5,8 +5,8 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { handleQwenAuth } from './handler.js';
-import { AuthType } from '@qwen-code/qwen-code-core';
+import { handleVivekMindAuth } from './handler.js';
+import { AuthType } from '@vivekmind/core';
 import type { LoadedSettings } from '../../config/settings.js';
 
 const {
@@ -120,7 +120,7 @@ import {
   runOpenRouterOAuthLogin,
 } from './openrouterOAuth.js';
 
-describe('handleQwenAuth openrouter', () => {
+describe('handleVivekMindAuth openrouter', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(process, 'exit').mockImplementation((() => undefined) as never);
@@ -164,7 +164,7 @@ describe('handleQwenAuth openrouter', () => {
       }),
     );
 
-    await handleQwenAuth('openrouter', { key: 'or-key-123' });
+    await handleVivekMindAuth('openrouter', { key: 'or-key-123' });
 
     expect(mockBackupSettingsFile).toHaveBeenCalledWith('/user.json');
     expect(mockSetValue).toHaveBeenCalledWith(
@@ -241,7 +241,7 @@ describe('handleQwenAuth openrouter', () => {
       }),
     );
 
-    await handleQwenAuth('openrouter', { key: 'or-key-456' });
+    await handleVivekMindAuth('openrouter', { key: 'or-key-456' });
 
     const modelProvidersCall = mockSetValue.mock.calls.find(
       (call) => call[1] === `modelProviders.${AuthType.USE_OPENAI}`,
@@ -276,7 +276,7 @@ describe('handleQwenAuth openrouter', () => {
       authorizationUrl: 'https://openrouter.ai/auth?manual=1',
     });
 
-    await handleQwenAuth('openrouter', {});
+    await handleVivekMindAuth('openrouter', {});
 
     expect(runOpenRouterOAuthLogin).toHaveBeenCalledTimes(1);
     expect(mockSetValue).toHaveBeenCalledWith(
@@ -290,7 +290,7 @@ describe('handleQwenAuth openrouter', () => {
   it('delegates OpenRouter provider updates to the shared configuration helper', async () => {
     vi.mocked(loadSettings).mockReturnValue(createMockSettings({}));
 
-    await handleQwenAuth('openrouter', { key: 'or-key-dynamic' });
+    await handleVivekMindAuth('openrouter', { key: 'or-key-dynamic' });
 
     expect(applyOpenRouterModelsConfiguration).toHaveBeenCalledWith(
       expect.objectContaining({

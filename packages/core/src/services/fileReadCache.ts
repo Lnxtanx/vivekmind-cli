@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -28,7 +28,7 @@ import type { Stats } from 'node:fs';
  * unique (Node returns it from `_BY_HANDLE_FILE_INFORMATION.nFileIndex`,
  * which can collide across volumes and ReFS). Callers that target
  * Windows should consider falling back to a path-based key; the POSIX
- * platforms qwen-code primarily runs on (macOS / Linux) are unaffected.
+ * platforms vivekmind primarily runs on (macOS / Linux) are unaffected.
  *
  * Lifecycle: one instance is created per `Config` via the field
  * initializer, so any code that constructs its own Config — notably

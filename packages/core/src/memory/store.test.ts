@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -42,24 +43,24 @@ describe('auto-memory storage scaffold', () => {
     });
   });
 
-  it('builds stable auto-memory paths under project .qwen directory', () => {
+  it('builds stable auto-memory paths under project .vivekmind directory', () => {
     expect(getAutoMemoryRoot(projectRoot)).toBe(
-      path.join(projectRoot, '.qwen', 'memory'),
+      path.join(projectRoot, '.vivekmind', 'memory'),
     );
     expect(getAutoMemoryIndexPath(projectRoot)).toBe(
-      path.join(projectRoot, '.qwen', 'memory', 'MEMORY.md'),
+      path.join(projectRoot, '.vivekmind', 'memory', 'MEMORY.md'),
     );
     expect(getAutoMemoryMetadataPath(projectRoot)).toBe(
-      path.join(projectRoot, '.qwen', 'meta.json'),
+      path.join(projectRoot, '.vivekmind', 'meta.json'),
     );
     expect(getAutoMemoryExtractCursorPath(projectRoot)).toBe(
-      path.join(projectRoot, '.qwen', 'extract-cursor.json'),
+      path.join(projectRoot, '.vivekmind', 'extract-cursor.json'),
     );
     expect(getAutoMemoryConsolidationLockPath(projectRoot)).toBe(
-      path.join(projectRoot, '.qwen', 'consolidation.lock'),
+      path.join(projectRoot, '.vivekmind', 'consolidation.lock'),
     );
     expect(getAutoMemoryTopicPath(projectRoot, 'feedback')).toBe(
-      path.join(projectRoot, '.qwen', 'memory', 'feedback.md'),
+      path.join(projectRoot, '.vivekmind', 'memory', 'feedback.md'),
     );
   });
 

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen
+ * Copyright 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 

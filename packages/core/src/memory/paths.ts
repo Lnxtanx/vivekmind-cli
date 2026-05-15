@@ -1,13 +1,14 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
-import { QWEN_DIR, sanitizeCwd } from '../utils/paths.js';
+import { VIVEKMIND_DIR, sanitizeCwd } from '../utils/paths.js';
 import type { AutoMemoryType } from './types.js';
 
 export const AUTO_MEMORY_DIRNAME = 'memory';
@@ -81,13 +82,13 @@ function findCanonicalGitRoot(startPath: string): string | null {
 
 /**
  * Returns the base directory for all auto-memory storage.
- * Defaults to `~/.qwen`; overridable via QWEN_CODE_MEMORY_BASE_DIR for tests.
+ * Defaults to `~/.vivekmind`; overridable via VIVEKMIND_CODE_MEMORY_BASE_DIR for tests.
  */
 export function getMemoryBaseDir(): string {
-  if (process.env['QWEN_CODE_MEMORY_BASE_DIR']) {
-    return process.env['QWEN_CODE_MEMORY_BASE_DIR'];
+  if (process.env['VIVEKMIND_CODE_MEMORY_BASE_DIR']) {
+    return process.env['VIVEKMIND_CODE_MEMORY_BASE_DIR'];
   }
-  return path.join(os.homedir(), QWEN_DIR);
+  return path.join(os.homedir(), VIVEKMIND_DIR);
 }
 
 // Memoize by projectRoot — findCanonicalGitRoot() walks the file system (existsSync
@@ -99,8 +100,8 @@ export function getAutoMemoryRoot(projectRoot: string): string {
   if (cached !== undefined) return cached;
 
   let result: string;
-  if (process.env['QWEN_CODE_MEMORY_LOCAL'] === '1') {
-    result = path.join(projectRoot, QWEN_DIR, AUTO_MEMORY_DIRNAME);
+  if (process.env['VIVEKMIND_CODE_MEMORY_LOCAL'] === '1') {
+    result = path.join(projectRoot, VIVEKMIND_DIR, AUTO_MEMORY_DIRNAME);
   } else {
     const canonicalRoot =
       findCanonicalGitRoot(projectRoot) ?? path.resolve(projectRoot);

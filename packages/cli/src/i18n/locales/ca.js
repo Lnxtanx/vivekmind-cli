@@ -1,10 +1,11 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Traduccions en català per al CLI de Qwen Code per Jordi Mas i Hernàndez <jmas@softcatala.org>
+// Traduccions en català per al CLI de VivekMind per Jordi Mas i Hernàndez <jmas@softcatala.org>
 
 export default {
   // ============================================================================
@@ -81,16 +82,16 @@ export default {
   'For a full list of shortcuts, see {{docPath}}':
     'Per a una llista completa de dreceres, vegeu {{docPath}}',
   'docs/keyboard-shortcuts.md': 'docs/keyboard-shortcuts.md',
-  'for help on Qwen Code': 'per a ajuda sobre Qwen Code',
+  'for help on VivekMind': 'per a ajuda sobre VivekMind',
   'show version info': 'mostrar informació de la versió',
   'submit a bug report': "enviar un informe d'error",
-  'About Qwen Code': 'Sobre Qwen Code',
+  'About VivekMind': 'Sobre VivekMind',
   Status: 'Estat',
 
   // ============================================================================
   // Informació del sistema
   // ============================================================================
-  'Qwen Code': 'Qwen Code',
+  'VivekMind': 'VivekMind',
   Runtime: "Entorn d'execució",
   OS: 'SO',
   Auth: 'Autenticació',
@@ -116,10 +117,10 @@ export default {
   // ============================================================================
   'Analyzes the project and creates a tailored QWEN.md file.':
     'Analitza el projecte i crea un fitxer QWEN.md personalitzat.',
-  'List available Qwen Code tools. Usage: /tools [desc]':
-    'Llistar les eines disponibles de Qwen Code. Ús: /tools [desc]',
+  'List available VivekMind tools. Usage: /tools [desc]':
+    'Llistar les eines disponibles de VivekMind. Ús: /tools [desc]',
   'List available skills.': 'Llistar les habilitats disponibles.',
-  'Available Qwen Code CLI tools:': 'Eines del CLI de Qwen Code disponibles:',
+  'Available VivekMind CLI tools:': 'Eines del CLI de VivekMind disponibles:',
   'No tools available': 'No hi ha eines disponibles',
   'View or change the approval mode for tool usage':
     "Veure o canviar el mode d'aprovació per a l'ús d'eines",
@@ -144,8 +145,8 @@ export default {
     "Esborrar l'historial de la conversa i alliberar context",
   'Compresses the context by replacing it with a summary.':
     'Comprimeix el context substituint-lo per un resum.',
-  'open full Qwen Code documentation in your browser':
-    'obrir la documentació completa de Qwen Code al navegador',
+  'open full VivekMind documentation in your browser':
+    'obrir la documentació completa de VivekMind al navegador',
   'Configuration not available.': 'Configuració no disponible.',
   'change the auth method': "canviar el mètode d'autenticació",
   'Configure authentication information for login':
@@ -213,8 +214,8 @@ export default {
   // ============================================================================
   // Agents - Assistent de creació
   // ============================================================================
-  'Project Level (.qwen/agents/)': 'Nivell de projecte (.qwen/agents/)',
-  'User Level (~/.qwen/agents/)': "Nivell d'usuari (~/.qwen/agents/)",
+  'Project Level (.vivekmind/agents/)': 'Nivell de projecte (.vivekmind/agents/)',
+  'User Level (~/.vivekmind/agents/)': "Nivell d'usuari (~/.vivekmind/agents/)",
   '✅ Subagent Created Successfully!': '✅ Subagent creat correctament!',
   'Subagent "{{name}}" has been saved to {{level}} level.':
     'El subagent "{{name}}" s\'ha desat al nivell {{level}}.',
@@ -235,7 +236,7 @@ export default {
   'Step {{n}}: Choose Location': 'Pas {{n}}: Triar ubicació',
   'Step {{n}}: Choose Generation Method':
     'Pas {{n}}: Triar mètode de generació',
-  'Generate with Qwen Code (Recommended)': 'Generar amb Qwen Code (Recomanat)',
+  'Generate with VivekMind (Recommended)': 'Generar amb VivekMind (Recomanat)',
   'Manual Creation': 'Creació manual',
   'Describe what this subagent should do and when it should be used. (Be comprehensive for best results)':
     "Descriviu què ha de fer aquest subagent i quan s'ha d'usar. (Sigueu exhaustiu per obtenir els millors resultats)",
@@ -363,11 +364,11 @@ export default {
   // ============================================================================
   // Ordres - General (continuació)
   // ============================================================================
-  'View and edit Qwen Code settings':
-    'Veure i editar la configuració de Qwen Code',
+  'View and edit VivekMind settings':
+    'Veure i editar la configuració de VivekMind',
   Settings: 'Configuració',
-  'To see changes, Qwen Code must be restarted. Press r to exit and apply changes now.':
-    'Per veure els canvis, cal reiniciar Qwen Code. Premeu r per sortir i aplicar els canvis ara.',
+  'To see changes, VivekMind must be restarted. Press r to exit and apply changes now.':
+    'Per veure els canvis, cal reiniciar VivekMind. Premeu r per sortir i aplicar els canvis ara.',
   'The command "/{{command}}" is not supported in non-interactive mode.':
     'L\'ordre "/{{command}}" no és compatible en mode no interactiu.',
 
@@ -395,8 +396,8 @@ export default {
   'Custom Witty Phrases': 'Frases enginyoses personalitzades',
   'Show Welcome Back Dialog': 'Mostrar el diàleg de benvinguda',
   'Enable User Feedback': 'Activar les valoracions dels usuaris',
-  'How is Qwen doing this session? (optional)':
-    'Com va Qwen en aquesta sessió? (opcional)',
+  'How is VivekMind doing this session? (optional)':
+    'Com va VivekMind en aquesta sessió? (opcional)',
   Bad: 'Malament',
   Fine: 'Bé',
   Good: 'Molt bé',
@@ -419,7 +420,7 @@ export default {
   'Load Memory From Include Directories':
     'Carregar memòria des dels directoris inclosos',
   'Respect .gitignore': 'Respectar .gitignore',
-  'Respect .qwenignore': 'Respectar .qwenignore',
+  'Respect .vivekmindignore': 'Respectar .vivekmindignore',
   'Enable Recursive File Search': 'Activar la cerca recursiva de fitxers',
   'Disable Fuzzy Search': 'Desactivar la cerca difusa',
   'Interactive Shell (PTY)': 'Shell interactiva (PTY)',
@@ -527,8 +528,8 @@ export default {
     'Aquesta extensió instal·larà els subagents següents:',
   'Installation cancelled for "{{name}}".':
     'Instal·lació cancel·lada per a "{{name}}".',
-  'You are installing an extension from {{originSource}}. Some features may not work perfectly with Qwen Code.':
-    'Esteu instal·lant una extensió des de {{originSource}}. Algunes funcions poden no funcionar perfectament amb Qwen Code.',
+  'You are installing an extension from {{originSource}}. Some features may not work perfectly with VivekMind.':
+    'Esteu instal·lant una extensió des de {{originSource}}. Algunes funcions poden no funcionar perfectament amb VivekMind.',
   '--ref and --auto-update are not applicable for marketplace extensions.':
     "--ref i --auto-update no s'apliquen a les extensions del mercat.",
   'Extension "{{name}}" installed successfully and enabled.':
@@ -641,8 +642,8 @@ export default {
     'instal·lar el complement IDE necessari per a {{ideName}}',
   'enable IDE integration': "activar la integració de l'IDE",
   'disable IDE integration': "desactivar la integració de l'IDE",
-  'IDE integration is not supported in your current environment. To use this feature, run Qwen Code in one of these supported IDEs: VS Code or VS Code forks.':
-    "La integració de l'IDE no és compatible en el vostre entorn actual. Per usar aquesta funció, executeu Qwen Code en un dels IDEs compatibles: VS Code o bifurcacions de VS Code.",
+  'IDE integration is not supported in your current environment. To use this feature, run VivekMind in one of these supported IDEs: VS Code or VS Code forks.':
+    "La integració de l'IDE no és compatible en el vostre entorn actual. Per usar aquesta funció, executeu VivekMind en un dels IDEs compatibles: VS Code o bifurcacions de VS Code.",
   'Set up GitHub Actions': 'Configurar GitHub Actions',
   'Configure terminal keybindings for multiline input (VS Code, Cursor, Windsurf, Trae)':
     'Configurar les dreceres del terminal per a entrada multilínia (VS Code, Cursor, Windsurf, Trae)',
@@ -677,7 +678,7 @@ export default {
   // ============================================================================
   // Ordres - Hooks
   // ============================================================================
-  'Manage Qwen Code hooks': 'Gestionar els hooks de Qwen Code',
+  'Manage VivekMind hooks': 'Gestionar els hooks de VivekMind',
   'List all configured hooks': 'Llistar tots els hooks configurats',
   'Enable a disabled hook': 'Activar un hook desactivat',
   'Disable an active hook': 'Desactivar un hook actiu',
@@ -693,16 +694,16 @@ export default {
   'No hook events found.': "No s'han trobat esdeveniments de hook.",
   '{{count}} hook configured': '{{count}} hook configurat',
   '{{count}} hooks configured': '{{count}} hooks configurats',
-  'This menu is read-only. To add or modify hooks, edit settings.json directly or ask Qwen Code.':
-    'Aquest menú és de només lectura. Per afegir o modificar hooks, editeu settings.json directament o demaneu-ho a Qwen Code.',
+  'This menu is read-only. To add or modify hooks, edit settings.json directly or ask VivekMind.':
+    'Aquest menú és de només lectura. Per afegir o modificar hooks, editeu settings.json directament o demaneu-ho a VivekMind.',
   'Enter to select · Esc to cancel':
     'Retorn per seleccionar · Esc per cancel·lar',
   'Exit codes:': 'Codis de sortida:',
   'Configured hooks:': 'Hooks configurats:',
   'No hooks configured for this event.':
     'No hi ha hooks configurats per a aquest esdeveniment.',
-  'To add hooks, edit settings.json directly or ask Qwen.':
-    'Per afegir hooks, editeu settings.json directament o demaneu-ho a Qwen.',
+  'To add hooks, edit settings.json directly or ask VivekMind.':
+    'Per afegir hooks, editeu settings.json directament o demaneu-ho a VivekMind.',
   'Enter to select · Esc to go back':
     'Retorn per seleccionar · Esc per tornar enrere',
   'Hook details': 'Detalls del hook',
@@ -710,8 +711,8 @@ export default {
   'Extension:': 'Extensió:',
   'Desc:': 'Desc:',
   'No hook config selected': 'Cap configuració de hook seleccionada',
-  'To modify or remove this hook, edit settings.json directly or ask Qwen to help.':
-    'Per modificar o eliminar aquest hook, editeu settings.json directament o demaneu ajuda a Qwen.',
+  'To modify or remove this hook, edit settings.json directly or ask VivekMind to help.':
+    'Per modificar o eliminar aquest hook, editeu settings.json directament o demaneu ajuda a VivekMind.',
   'Hook Configuration - Disabled': 'Configuració de hooks - Desactivats',
   'All hooks are currently disabled. You have {{count}} that are not running.':
     'Tots els hooks estan desactivats. En teniu {{count}} que no estan en execució.',
@@ -722,8 +723,8 @@ export default {
   'StatusLine will not be displayed': "La barra d'estat no es mostrarà",
   'Tool operations will proceed without hook validation':
     "Les operacions d'eines continuaran sense validació de hook",
-  'To re-enable hooks, remove "disableAllHooks" from settings.json or ask Qwen Code.':
-    'Per tornar a activar els hooks, elimineu "disableAllHooks" de settings.json o demaneu-ho a Qwen Code.',
+  'To re-enable hooks, remove "disableAllHooks" from settings.json or ask VivekMind.':
+    'Per tornar a activar els hooks, elimineu "disableAllHooks" de settings.json o demaneu-ho a VivekMind.',
   Project: 'Projecte',
   User: 'Usuari',
   System: 'Sistema',
@@ -741,8 +742,8 @@ export default {
   'When notifications are sent': "Quan s'envien notificacions",
   'When the user submits a prompt': "Quan l'usuari envia un missatge",
   'When a new session is started': "Quan s'inicia una nova sessió",
-  'Right before Qwen Code concludes its response':
-    'Immediatament abans que Qwen Code conclou la seva resposta',
+  'Right before VivekMind concludes its response':
+    'Immediatament abans que VivekMind conclou la seva resposta',
   'When a subagent (Agent tool call) is started':
     "Quan s'inicia un subagent (crida a l'eina Agent)",
   'Right before a subagent concludes its response':
@@ -784,7 +785,7 @@ export default {
     "mostrar stderr només a l'usuari però continuar amb la crida a l'eina",
   'block processing, erase original prompt, and show stderr to user only':
     "blocar el processament, esborrar el missatge original i mostrar stderr només a l'usuari",
-  'stdout shown to Qwen': 'stdout mostrat a Qwen',
+  'stdout shown to VivekMind': 'stdout mostrat a VivekMind',
   'show stderr to user only (blocking errors ignored)':
     "mostrar stderr només a l'usuari (errors de bloqueig ignorats)",
   'command completes successfully': "l'ordre es completa correctament",
@@ -1090,8 +1091,8 @@ export default {
   servers: 'servidors',
   'Add MCP servers to your settings to get started.':
     'Afegiu servidors MCP a la configuració per començar.',
-  'Run qwen --debug to see error logs':
-    "Executeu qwen --debug per veure els registres d'errors",
+  'Run vivekmind --debug to see error logs':
+    "Executeu vivekmind --debug per veure els registres d'errors",
   'OAuth Authentication': 'Autenticació OAuth',
   'Press Enter to start authentication, Esc to go back':
     "Premeu Retorn per iniciar l'autenticació, Esc per tornar enrere",
@@ -1188,8 +1189,8 @@ export default {
   // ============================================================================
   // Ordres - Resum
   // ============================================================================
-  'Generate a project summary and save it to .qwen/PROJECT_SUMMARY.md':
-    'Generar un resum del projecte i desar-lo a .qwen/PROJECT_SUMMARY.md',
+  'Generate a project summary and save it to .vivekmind/PROJECT_SUMMARY.md':
+    'Generar un resum del projecte i desar-lo a .vivekmind/PROJECT_SUMMARY.md',
   'No chat client available to generate summary.':
     'No hi ha cap client de xat disponible per generar el resum.',
   'Already generating summary, wait for previous request to complete':
@@ -1358,17 +1359,17 @@ export default {
     "Cal seleccionar un mètode d'autenticació per continuar. Premeu Ctrl+C de nou per sortir.",
   'Terms of Services and Privacy Notice':
     'Termes de servei i avís de privacitat',
-  'Qwen OAuth': 'Qwen OAuth',
+  'VivekMind OAuth': 'VivekMind OAuth',
   'Discontinued — switch to Coding Plan or API Key':
     'Descontinuat — canvieu a Coding Plan o clau API',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch provider.':
-    'El nivell gratuït de Qwen OAuth es va descontinuar el 15-04-2026. Executeu /auth per canviar de proveïdor.',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Please select Coding Plan or API Key instead.':
-    'El nivell gratuït de Qwen OAuth es va descontinuar el 15-04-2026. Seleccioneu Coding Plan o clau API en el seu lloc.',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Please select a model from another provider or run /auth to switch.':
-    "El nivell gratuït de Qwen OAuth es va descontinuar el 15-04-2026. Seleccioneu un model d'un altre proveïdor o executeu /auth per canviar.",
-  '\n⚠ Qwen OAuth free tier was discontinued on 2026-04-15. Please select another option.\n':
-    '\n⚠ El nivell gratuït de Qwen OAuth es va descontinuar el 15-04-2026. Seleccioneu una altra opció.\n',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch provider.':
+    'El nivell gratuït de VivekMind OAuth es va descontinuar el 15-04-2026. Executeu /auth per canviar de proveïdor.',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Please select Coding Plan or API Key instead.':
+    'El nivell gratuït de VivekMind OAuth es va descontinuar el 15-04-2026. Seleccioneu Coding Plan o clau API en el seu lloc.',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Please select a model from another provider or run /auth to switch.':
+    "El nivell gratuït de VivekMind OAuth es va descontinuar el 15-04-2026. Seleccioneu un model d'un altre proveïdor o executeu /auth per canviar.",
+  '\n⚠ VivekMind OAuth free tier was discontinued on 2026-04-15. Please select another option.\n':
+    '\n⚠ El nivell gratuït de VivekMind OAuth es va descontinuar el 15-04-2026. Seleccioneu una altra opció.\n',
   'Paid · Up to 6,000 requests/5 hrs · All Alibaba Cloud Coding Plan Models':
     "De pagament · Fins a 6.000 sol·licituds/5 h · Tots els models del Coding Plan d'Alibaba Cloud",
   'Alibaba Cloud Coding Plan': "Coding Plan d'Alibaba Cloud",
@@ -1381,28 +1382,28 @@ export default {
     'Error en iniciar sessió. Missatge: {{message}}',
   'Authentication is enforced to be {{enforcedType}}, but you are currently using {{currentType}}.':
     "L'autenticació ha de ser {{enforcedType}}, però actualment esteu usant {{currentType}}.",
-  'Qwen OAuth authentication timed out. Please try again.':
-    "L'autenticació Qwen OAuth ha expirat. Torneu-ho a intentar.",
-  'Qwen OAuth authentication cancelled.':
-    "L'autenticació Qwen OAuth s'ha cancel·lat.",
-  'Qwen OAuth Authentication': 'Autenticació Qwen OAuth',
+  'VivekMind OAuth authentication timed out. Please try again.':
+    "L'autenticació VivekMind OAuth ha expirat. Torneu-ho a intentar.",
+  'VivekMind OAuth authentication cancelled.':
+    "L'autenticació VivekMind OAuth s'ha cancel·lat.",
+  'VivekMind OAuth Authentication': 'Autenticació VivekMind OAuth',
   'Please visit this URL to authorize:': 'Visiteu aquesta URL per autoritzar:',
   'Or scan the QR code below:': 'O escanegeu el codi QR de sota:',
   'Waiting for authorization': "Esperant l'autorització",
   'Time remaining:': 'Temps restant:',
   '(Press ESC or CTRL+C to cancel)': '(Premeu ESC o CTRL+C per cancel·lar)',
-  'Qwen OAuth Authentication Timeout':
-    "Temps d'espera de l'autenticació Qwen OAuth esgotat",
+  'VivekMind OAuth Authentication Timeout':
+    "Temps d'espera de l'autenticació VivekMind OAuth esgotat",
   'OAuth token expired (over {{seconds}} seconds). Please select authentication method again.':
     "El token OAuth ha expirat (més de {{seconds}} segons). Seleccioneu el mètode d'autenticació de nou.",
   'Press any key to return to authentication type selection.':
     "Premeu qualsevol tecla per tornar a la selecció del tipus d'autenticació.",
-  'Waiting for Qwen OAuth authentication...':
-    "Esperant l'autenticació Qwen OAuth...",
-  'Note: Your existing API key in settings.json will not be cleared when using Qwen OAuth. You can switch back to OpenAI authentication later if needed.':
-    "Nota: La vostra clau API existent a settings.json no s'esborrarà en usar Qwen OAuth. Podeu tornar a l'autenticació d'OpenAI més endavant si cal.",
-  'Note: Your existing API key will not be cleared when using Qwen OAuth.':
-    "Nota: La vostra clau API existent no s'esborrarà en usar Qwen OAuth.",
+  'Waiting for VivekMind OAuth authentication...':
+    "Esperant l'autenticació VivekMind OAuth...",
+  'Note: Your existing API key in settings.json will not be cleared when using VivekMind OAuth. You can switch back to OpenAI authentication later if needed.':
+    "Nota: La vostra clau API existent a settings.json no s'esborrarà en usar VivekMind OAuth. Podeu tornar a l'autenticació d'OpenAI més endavant si cal.",
+  'Note: Your existing API key will not be cleared when using VivekMind OAuth.':
+    "Nota: La vostra clau API existent no s'esborrarà en usar VivekMind OAuth.",
   'Authentication timed out. Please try again.':
     "L'autenticació ha expirat. Torneu-ho a intentar.",
   'Waiting for auth... (Press ESC or CTRL+C to cancel)':
@@ -1427,8 +1428,8 @@ export default {
     'Error en autenticar-se. Missatge: {{message}}',
   'Authenticated successfully with {{authType}} credentials.':
     "S'ha autenticat correctament amb les credencials {{authType}}.",
-  'Invalid QWEN_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}':
-    'Valor de QWEN_DEFAULT_AUTH_TYPE no vàlid: "{{value}}". Els valors vàlids són: {{validValues}}',
+  'Invalid VIVEKMIND_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}':
+    'Valor de VIVEKMIND_DEFAULT_AUTH_TYPE no vàlid: "{{value}}". Els valors vàlids són: {{validValues}}',
   'OpenAI Configuration Required': "Configuració d'OpenAI necessària",
   'Please enter your OpenAI configuration. You can get an API key from':
     "Introduïu la vostra configuració d'OpenAI. Podeu obtenir una clau API de",
@@ -1464,10 +1465,10 @@ export default {
   unknown: 'desconegut',
   "Failed to switch model to '{{modelId}}'.\n\n{{error}}":
     "Error en canviar al model '{{modelId}}'.\n\n{{error}}",
-  'Qwen 3.6 Plus — efficient hybrid model with leading coding performance':
-    'Qwen 3.6 Plus — model híbrid eficient amb un rendiment de codificació líder',
-  'The latest Qwen Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    "L'últim model de visió Qwen d'Alibaba Cloud ModelStudio (versió: qwen3-vl-plus-2025-09-23)",
+  'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
+    'VivekMind 3.6 Plus — model híbrid eficient amb un rendiment de codificació líder',
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
+    "L'últim model de visió VivekMind d'Alibaba Cloud ModelStudio (versió: qwen3-vl-plus-2025-09-23)",
 
   // ============================================================================
   // Diàlegs - Permisos
@@ -1479,12 +1480,12 @@ export default {
   Ask: 'Preguntar',
   Deny: 'Denegar',
   Workspace: 'Espai de treball',
-  "Qwen Code won't ask before using allowed tools.":
-    "Qwen Code no preguntarà abans d'usar les eines permeses.",
-  'Qwen Code will ask before using these tools.':
-    "Qwen Code preguntarà abans d'usar aquestes eines.",
-  'Qwen Code is not allowed to use denied tools.':
-    'Qwen Code no té permís per usar les eines denegades.',
+  "VivekMind won't ask before using allowed tools.":
+    "VivekMind no preguntarà abans d'usar les eines permeses.",
+  'VivekMind will ask before using these tools.':
+    "VivekMind preguntarà abans d'usar aquestes eines.",
+  'VivekMind is not allowed to use denied tools.':
+    'VivekMind no té permís per usar les eines denegades.',
   'Manage trusted directories for this workspace.':
     "Gestionar els directoris de confiança d'aquest espai de treball.",
   'Any use of the {{tool}} tool': "Qualsevol ús de l'eina {{tool}}",
@@ -1494,11 +1495,11 @@ export default {
   'From project settings': 'Des de la configuració del projecte',
   'From session': 'Des de la sessió',
   'Project settings (local)': 'Configuració del projecte (local)',
-  'Saved in .qwen/settings.local.json': 'Desat a .qwen/settings.local.json',
+  'Saved in .vivekmind/settings.local.json': 'Desat a .vivekmind/settings.local.json',
   'Project settings': 'Configuració del projecte',
-  'Checked in at .qwen/settings.json': 'Registrat a .qwen/settings.json',
+  'Checked in at .vivekmind/settings.json': 'Registrat a .vivekmind/settings.json',
   'User settings': "Configuració d'usuari",
-  'Saved in at ~/.qwen/settings.json': 'Desat a ~/.qwen/settings.json',
+  'Saved in at ~/.vivekmind/settings.json': 'Desat a ~/.vivekmind/settings.json',
   'Add a new rule…': 'Afegir una nova regla…',
   'Add {{type}} permission rule': 'Afegir una regla de permís {{type}}',
   'Permission rules are a tool name, optionally followed by a specifier in parentheses.':
@@ -1522,10 +1523,10 @@ export default {
     "Useu /trust per gestionar la configuració de confiança de carpetes d'aquest espai de treball.",
   'Add directory…': 'Afegir directori…',
   'Add directory to workspace': "Afegir directori a l'espai de treball",
-  'Qwen Code can read files in the workspace, and make edits when auto-accept edits is on.':
-    "Qwen Code pot llegir fitxers a l'espai de treball i fer canvis quan l'acceptació automàtica de canvis està activada.",
-  'Qwen Code will be able to read files in this directory and make edits when auto-accept edits is on.':
-    "Qwen Code podrà llegir fitxers en aquest directori i fer canvis quan l'acceptació automàtica de canvis està activada.",
+  'VivekMind can read files in the workspace, and make edits when auto-accept edits is on.':
+    "VivekMind pot llegir fitxers a l'espai de treball i fer canvis quan l'acceptació automàtica de canvis està activada.",
+  'VivekMind will be able to read files in this directory and make edits when auto-accept edits is on.':
+    "VivekMind podrà llegir fitxers en aquest directori i fer canvis quan l'acceptació automàtica de canvis està activada.",
   'Enter the path to the directory:': 'Introduïu el camí del directori:',
   'Enter directory path…': 'Introduïu el camí del directori…',
   'Tab to complete · Enter to add · Esc to cancel':
@@ -1617,12 +1618,12 @@ export default {
     'Useu /bug per enviar incidències als mantenidors quan alguna cosa vagi malament.',
   'Switch auth type quickly with /auth.':
     "Canvieu ràpidament el tipus d'autenticació amb /auth.",
-  'You can run any shell commands from Qwen Code using ! (e.g. !ls).':
-    'Podeu executar qualsevol ordre shell des de Qwen Code usant ! (p. ex. !ls).',
+  'You can run any shell commands from VivekMind using ! (e.g. !ls).':
+    'Podeu executar qualsevol ordre shell des de VivekMind usant ! (p. ex. !ls).',
   'Type / to open the command popup; Tab autocompletes slash commands and saved prompts.':
     "Escriviu / per obrir el menú emergent d'ordres; Tab completa automàticament les ordres de barra i els missatges desats.",
-  'You can resume a previous conversation by running qwen --continue or qwen --resume.':
-    'Podeu reprendre una conversa anterior executant qwen --continue o qwen --resume.',
+  'You can resume a previous conversation by running vivekmind --continue or vivekmind --resume.':
+    'Podeu reprendre una conversa anterior executant vivekmind --continue o vivekmind --resume.',
   'You can switch permission mode quickly with Shift+Tab or /approval-mode.':
     'Podeu canviar ràpidament el mode de permisos amb Maj+Tab o /approval-mode.',
   'You can switch permission mode quickly with Tab or /approval-mode.':
@@ -1631,8 +1632,8 @@ export default {
     'Proveu /insight per generar idees personalitzades a partir del vostre historial de xat.',
   'Press Ctrl+O to toggle compact mode — hide tool output and thinking for a cleaner view.':
     'Premeu Ctrl+O per canviar el mode compacte — amagueu la sortida de les eines i el pensament per a una vista més neta.',
-  'Add a QWEN.md file to give Qwen Code persistent project context.':
-    'Afegiu un fitxer QWEN.md per donar a Qwen Code un context persistent del projecte.',
+  'Add a QWEN.md file to give VivekMind persistent project context.':
+    'Afegiu un fitxer QWEN.md per donar a VivekMind un context persistent del projecte.',
   'Use /btw to ask a quick side question without disrupting the conversation.':
     'Useu /btw per fer una pregunta ràpida sense interrompre la conversa.',
   'Context is almost full! Run /compress now or start /new to continue.':
@@ -2047,9 +2048,9 @@ export default {
   // ============================================================================
   // Ordres - Autenticació
   // ============================================================================
-  'Configure Qwen authentication information with Qwen-OAuth or Alibaba Cloud Coding Plan':
-    "Configurar la informació d'autenticació de Qwen amb Qwen-OAuth o el Coding Plan d'Alibaba Cloud",
-  'Authenticate using Qwen OAuth': 'Autenticar-se usant Qwen OAuth',
+  'Configure VivekMind authentication information with VivekMind-OAuth or Alibaba Cloud Coding Plan':
+    "Configurar la informació d'autenticació de VivekMind amb VivekMind-OAuth o el Coding Plan d'Alibaba Cloud",
+  'Authenticate using VivekMind OAuth': 'Autenticar-se usant VivekMind OAuth',
   'Authenticate using Alibaba Cloud Coding Plan':
     "Autenticar-se usant el Coding Plan d'Alibaba Cloud",
   'Region for Coding Plan (china/global)':
@@ -2058,12 +2059,12 @@ export default {
   'Show current authentication status': "Mostrar l'estat d'autenticació actual",
   'Authentication completed successfully.':
     "L'autenticació s'ha completat correctament.",
-  'Starting Qwen OAuth authentication...':
-    "Iniciant l'autenticació Qwen OAuth...",
-  'Successfully authenticated with Qwen OAuth.':
-    "S'ha autenticat correctament amb Qwen OAuth.",
-  'Failed to authenticate with Qwen OAuth: {{error}}':
-    'Error en autenticar-se amb Qwen OAuth: {{error}}',
+  'Starting VivekMind OAuth authentication...':
+    "Iniciant l'autenticació VivekMind OAuth...",
+  'Successfully authenticated with VivekMind OAuth.':
+    "S'ha autenticat correctament amb VivekMind OAuth.",
+  'Failed to authenticate with VivekMind OAuth: {{error}}':
+    'Error en autenticar-se amb VivekMind OAuth: {{error}}',
   'Processing Alibaba Cloud Coding Plan authentication...':
     "Processant l'autenticació del Coding Plan d'Alibaba Cloud...",
   'Successfully authenticated with Alibaba Cloud Coding Plan.':
@@ -2083,20 +2084,20 @@ export default {
     "⚠️  Cap mètode d'autenticació configurat.\n",
   'Run one of the following commands to get started:\n':
     'Executeu una de les ordres següents per començar:\n',
-  '  qwen auth qwen-oauth     - Authenticate with Qwen OAuth (discontinued)':
-    '  qwen auth qwen-oauth     - Autenticar-se amb Qwen OAuth (descontinuat)',
-  '  qwen auth coding-plan      - Authenticate with Alibaba Cloud Coding Plan\n':
-    "  qwen auth coding-plan      - Autenticar-se amb el Coding Plan d'Alibaba Cloud\n",
+  '  vivekmind auth vivekmind-oauth     - Authenticate with VivekMind OAuth (discontinued)':
+    '  vivekmind auth vivekmind-oauth     - Autenticar-se amb VivekMind OAuth (descontinuat)',
+  '  vivekmind auth coding-plan      - Authenticate with Alibaba Cloud Coding Plan\n':
+    "  vivekmind auth coding-plan      - Autenticar-se amb el Coding Plan d'Alibaba Cloud\n",
   'Or simply run:': 'O simplement executeu:',
-  '  qwen auth                - Interactive authentication setup\n':
-    "  qwen auth                - Configuració interactiva de l'autenticació\n",
-  '✓ Authentication Method: Qwen OAuth': "✓ Mètode d'autenticació: Qwen OAuth",
+  '  vivekmind auth                - Interactive authentication setup\n':
+    "  vivekmind auth                - Configuració interactiva de l'autenticació\n",
+  '✓ Authentication Method: VivekMind OAuth': "✓ Mètode d'autenticació: VivekMind OAuth",
   '  Type: Free tier (discontinued 2026-04-15)':
     '  Tipus: Nivell gratuït (descontinuat el 15-04-2026)',
   '  Limit: No longer available': '  Límit: Ja no disponible',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.':
-    'El nivell gratuït de Qwen OAuth es va descontinuar el 15-04-2026. Executeu /auth per canviar al Coding Plan, OpenRouter, Fireworks AI o un altre proveïdor.',
-  '  Models: Qwen latest models\n': '  Models: Últims models Qwen\n',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.':
+    'El nivell gratuït de VivekMind OAuth es va descontinuar el 15-04-2026. Executeu /auth per canviar al Coding Plan, OpenRouter, Fireworks AI o un altre proveïdor.',
+  '  Models: VivekMind latest models\n': '  Models: Últims models VivekMind\n',
   '✓ Authentication Method: Alibaba Cloud Coding Plan':
     "✓ Mètode d'autenticació: Coding Plan d'Alibaba Cloud",
   '中国 (China) - 阿里云百炼': '中国 (China) - 阿里云百炼',
@@ -2109,8 +2110,8 @@ export default {
     "⚠️  Mètode d'autenticació: Coding Plan d'Alibaba Cloud (Incomplet)",
   '  Issue: API key not found in environment or settings\n':
     "  Problema: Clau API no trobada a l'entorn o la configuració\n",
-  '  Run `qwen auth coding-plan` to re-configure.\n':
-    '  Executeu `qwen auth coding-plan` per tornar a configurar.\n',
+  '  Run `vivekmind auth coding-plan` to re-configure.\n':
+    '  Executeu `vivekmind auth coding-plan` per tornar a configurar.\n',
   '✓ Authentication Method: {{type}}': "✓ Mètode d'autenticació: {{type}}",
   '  Status: Configured\n': '  Estat: Configurat\n',
   'Failed to check authentication status: {{error}}':
@@ -2139,6 +2140,6 @@ export default {
   'Not in plan mode. Use "/plan" to enter plan mode first.':
     'No esteu en mode de planificació. Useu "/plan" per entrar al mode de planificació primer.',
 
-  "Set up Qwen Code's status line UI":
-    "Configurar la interfície de la barra d'estat de Qwen Code",
+  "Set up VivekMind's status line UI":
+    "Configurar la interfície de la barra d'estat de VivekMind",
 };

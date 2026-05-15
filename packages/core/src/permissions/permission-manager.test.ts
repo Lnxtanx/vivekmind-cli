@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -2018,8 +2019,8 @@ describe('buildHumanReadableRuleLabel', () => {
   });
 
   it('converts Read with absolute path specifier', () => {
-    const label = buildHumanReadableRuleLabel(['Read(//Users/mochi/.qwen/**)']);
-    expect(label).toBe('read files in /Users/mochi/.qwen/');
+    const label = buildHumanReadableRuleLabel(['Read(//Users/mochi/.vivekmind/**)']);
+    expect(label).toBe('read files in /Users/mochi/.vivekmind/');
   });
 
   it('converts Read with relative path specifier', () => {

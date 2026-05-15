@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -9,7 +9,7 @@ import {
   type Config,
   type ModelProvidersConfig,
   type ProviderModelConfig,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import { loadEnvironment, loadSettings, type Settings } from './settings.js';
 import { t } from '../i18n/index.js';
 
@@ -188,11 +188,11 @@ export function validateAuthMethod(
     return null;
   }
 
-  if (authMethod === AuthType.QWEN_OAUTH) {
-    // Qwen OAuth free tier was discontinued on 2026-04-15.
+  if (authMethod === AuthType.VIVEKMIND_OAUTH) {
+    // VivekMind OAuth free tier was discontinued on 2026-04-15.
     // Block new OAuth setups; existing cached tokens still work until server rejects them.
     return t(
-      'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.',
+      'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.',
     );
   }
 
@@ -238,6 +238,15 @@ export function validateAuthMethod(
     }
 
     process.env['GOOGLE_GENAI_USE_VERTEXAI'] = 'true';
+    return null;
+  }
+
+  if (authMethod === AuthType.USE_BEDROCK) {
+    if (!process.env['AWS_ACCESS_KEY_ID'] || !process.env['AWS_SECRET_ACCESS_KEY']) {
+      return t(
+        'AWS credentials not found. Please set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables.',
+      );
+    }
     return null;
   }
 

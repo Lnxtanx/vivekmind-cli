@@ -6,7 +6,7 @@
 
 import type { CommandModule, Argv } from 'yargs';
 import {
-  handleQwenAuth,
+  handleVivekMindAuth,
   handleApiKeyAuth,
   runInteractiveAuth,
   showAuthStatus,
@@ -15,10 +15,10 @@ import { t } from '../i18n/index.js';
 
 // Define subcommands separately
 const qwenOauthCommand = {
-  command: 'qwen-oauth',
-  describe: t('Authenticate using Qwen OAuth'),
+  command: 'vivekmind-oauth',
+  describe: t('Authenticate using VivekMind OAuth'),
   handler: async () => {
-    await handleQwenAuth('qwen-oauth', {});
+    await handleVivekMindAuth('vivekmind-oauth', {});
   },
 };
 
@@ -43,10 +43,10 @@ const codePlanCommand = {
 
     // If region and key are provided, use them directly
     if (region && key) {
-      await handleQwenAuth('coding-plan', { region, key });
+      await handleVivekMindAuth('coding-plan', { region, key });
     } else {
       // Otherwise, prompt interactively
-      await handleQwenAuth('coding-plan', {});
+      await handleVivekMindAuth('coding-plan', {});
     }
   },
 };
@@ -70,7 +70,7 @@ const openRouterCommand = {
     }),
   handler: async (argv: { key?: string }) => {
     const key = argv['key'] as string | undefined;
-    await handleQwenAuth('openrouter', { key });
+    await handleVivekMindAuth('openrouter', { key });
   },
 };
 
@@ -85,7 +85,7 @@ const statusCommand = {
 export const authCommand: CommandModule = {
   command: 'auth',
   describe: t(
-    'Configure Qwen authentication with OpenRouter, Coding Plan, API Key, or Qwen-OAuth',
+    'Configure VivekMind authentication with OpenRouter, Coding Plan, API Key, or VivekMind-OAuth',
   ),
   builder: (yargs: Argv) =>
     yargs

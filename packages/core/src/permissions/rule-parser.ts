@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -451,7 +452,7 @@ const DISPLAY_NAME_TO_VERB: Readonly<Record<string, string>> = {
  * Strip the glob suffix (e.g. `/**`) and the leading `//` from an absolute
  * path specifier so it reads cleanly in a UI label.
  *
- * `//Users/mochi/.qwen/**` → `/Users/mochi/.qwen/`
+ * `//Users/mochi/.vivekmind/**` → `/Users/mochi/.vivekmind/`
  * `/src/**`                → `src/`
  */
 function cleanPathSpecifier(specifier: string): string {
@@ -476,7 +477,7 @@ function cleanPathSpecifier(specifier: string): string {
  * description instead of raw rule syntax.
  *
  * Examples:
- *   `["Read(//Users/mochi/.qwen/**)"]`  → `"read files in /Users/mochi/.qwen/"`
+ *   `["Read(//Users/mochi/.vivekmind/**)"]`  → `"read files in /Users/mochi/.vivekmind/"`
  *   `["Bash(git *)"]`                    → `"run 'git *' commands"`
  *   `["WebFetch(github.com)"]`            → `"fetch from github.com"`
  *   `["Read"]`                            → `"read files"`

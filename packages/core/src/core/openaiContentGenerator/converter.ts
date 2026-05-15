@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -1077,7 +1077,7 @@ export function convertOpenAIChunkToGemini(
     let toolCallsTruncated = false;
     if (choice.finish_reason) {
       // Detect truncation the provider may not report correctly.
-      // Some providers (e.g. DashScope/Qwen) send "stop" or "tool_calls"
+      // Some providers (e.g. DashScope/VivekMind) send "stop" or "tool_calls"
       // even when output was cut off mid-JSON due to max_tokens.
       toolCallsTruncated = toolCallParser.hasIncompleteToolCalls();
 

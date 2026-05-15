@@ -1,13 +1,13 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import type {
   MCPServerConfig,
   MCPServerStatus,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 /**
  * MCP管理步骤定义

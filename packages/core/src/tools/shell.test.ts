@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -60,7 +61,7 @@ describe('ShellTool', () => {
         .fn()
         .mockReturnValue(createMockWorkspaceContext('/test/dir')),
       storage: {
-        getUserSkillsDirs: vi.fn().mockReturnValue(['/test/dir/.qwen/skills']),
+        getUserSkillsDirs: vi.fn().mockReturnValue(['/test/dir/.vivekmind/skills']),
         getProjectTempDir: vi.fn().mockReturnValue('/tmp/qwen-temp'),
         getProjectDir: vi.fn().mockReturnValue('/test/proj'),
       },
@@ -70,7 +71,7 @@ describe('ShellTool', () => {
       getGeminiClient: vi.fn(),
       getGitCoAuthor: vi.fn().mockReturnValue({
         enabled: true,
-        name: 'Qwen-Coder',
+        name: 'VivekMind-Coder',
         email: 'qwen-coder@alibabacloud.com',
       }),
       getShouldUseNodePtyShell: vi.fn().mockReturnValue(false),
@@ -170,7 +171,7 @@ describe('ShellTool', () => {
       expect(() =>
         shellTool.build({
           command: 'ls',
-          directory: '/test/dir/.qwen/skills/my-skill',
+          directory: '/test/dir/.vivekmind/skills/my-skill',
           is_background: false,
         }),
       ).toThrow(
@@ -182,7 +183,7 @@ describe('ShellTool', () => {
       expect(() =>
         shellTool.build({
           command: 'ls',
-          directory: '/test/dir/.qwen/skills',
+          directory: '/test/dir/.vivekmind/skills',
           is_background: false,
         }),
       ).toThrow(
@@ -194,7 +195,7 @@ describe('ShellTool', () => {
       expect(() =>
         shellTool.build({
           command: 'ls',
-          directory: '/test/dir/.qwen/skills/../skills/my-skill',
+          directory: '/test/dir/.vivekmind/skills/../skills/my-skill',
           is_background: false,
         }),
       ).toThrow(
@@ -1273,7 +1274,7 @@ describe('ShellTool', () => {
         // Verify that the command was executed with co-author added
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: Qwen-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1303,7 +1304,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: Qwen-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1333,7 +1334,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: Qwen-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1363,7 +1364,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: Qwen-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1449,7 +1450,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: Qwen-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1463,7 +1464,7 @@ describe('ShellTool', () => {
         // Mock config with disabled co-author
         (mockConfig.getGitCoAuthor as Mock).mockReturnValue({
           enabled: false,
-          name: 'Qwen-Coder',
+          name: 'VivekMind-Coder',
           email: 'qwen-coder@alibabacloud.com',
         });
 
@@ -1551,7 +1552,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: Qwen-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1584,7 +1585,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: Qwen-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),

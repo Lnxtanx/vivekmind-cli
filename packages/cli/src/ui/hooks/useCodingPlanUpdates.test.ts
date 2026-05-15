@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -12,7 +12,7 @@ import {
   getCodingPlanConfig,
   CodingPlanRegion,
   AuthType,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 
 // Get region configs for testing
 const chinaConfig = getCodingPlanConfig(CodingPlanRegion.CHINA);

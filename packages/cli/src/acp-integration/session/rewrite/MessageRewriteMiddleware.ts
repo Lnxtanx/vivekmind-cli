@@ -1,12 +1,12 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import type { SessionUpdate } from '@agentclientprotocol/sdk';
-import type { Config } from '@qwen-code/qwen-code-core';
-import { createDebugLogger } from '@qwen-code/qwen-code-core';
+import type { Config } from '@vivekmind/core';
+import { createDebugLogger } from '@vivekmind/core';
 import type { MessageRewriteConfig } from './types.js';
 import { TurnBuffer } from './TurnBuffer.js';
 import { LlmRewriter } from './LlmRewriter.js';

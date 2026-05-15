@@ -21,7 +21,7 @@ import {
   makeFakeConfig,
   type GeminiClient,
   type SubagentManager,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type { LoadedSettings } from '../config/settings.js';
 import type { InitializationResult } from '../core/initializer.js';
 import { UIStateContext, type UIState } from './contexts/UIStateContext.js';
@@ -124,7 +124,7 @@ import { useTextBuffer } from './components/shared/text-buffer.js';
 import { useLogger } from './hooks/useLogger.js';
 import { useLoadingIndicator } from './hooks/useLoadingIndicator.js';
 import { useTerminalSize } from './hooks/useTerminalSize.js';
-import { ShellExecutionService } from '@qwen-code/qwen-code-core';
+import { ShellExecutionService } from '@vivekmind/core';
 
 describe('AppContainer State Management', () => {
   let mockConfig: Config;
@@ -194,7 +194,7 @@ describe('AppContainer State Management', () => {
       isAuthenticating: false,
       pendingAuthType: undefined,
       externalAuthState: null,
-      qwenAuthState: {
+      vivekmindAuthState: {
         deviceAuth: null,
         authStatus: 'idle',
         authMessage: null,
@@ -1512,7 +1512,7 @@ describe('AppContainer State Management', () => {
         isAuthenticating: true,
         pendingAuthType: undefined,
         externalAuthState: null,
-        qwenAuthState: {
+        vivekmindAuthState: {
           deviceAuth: null,
           authStatus: 'idle',
           authMessage: null,

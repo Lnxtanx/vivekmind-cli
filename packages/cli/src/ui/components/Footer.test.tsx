@@ -22,9 +22,9 @@ const useTerminalSizeMock = vi.mocked(useTerminalSize.useTerminalSize);
 vi.mock('../hooks/useStatusLine.js');
 const useStatusLineMock = vi.mocked(useStatusLineModule.useStatusLine);
 
-vi.mock('@qwen-code/qwen-code-core', async (importOriginal) => {
+vi.mock('@vivekmind/core', async (importOriginal) => {
   const actual =
-    await importOriginal<typeof import('@qwen-code/qwen-code-core')>();
+    await importOriginal<typeof import('@vivekmind/core')>();
   const registry = {
     list: vi.fn(() => []),
     subscribe: vi.fn(() => () => {}),

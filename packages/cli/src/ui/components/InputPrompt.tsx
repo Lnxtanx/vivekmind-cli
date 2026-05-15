@@ -19,7 +19,7 @@ import { useReverseSearchCompletion } from '../hooks/useReverseSearchCompletion.
 import { useCommandCompletion } from '../hooks/useCommandCompletion.js';
 import { useExportCompletion } from '../hooks/useExportCompletion.js';
 import { useFollowupSuggestionsCLI } from '../hooks/useFollowupSuggestions.js';
-import type { Config } from '@qwen-code/qwen-code-core';
+import type { Config } from '@vivekmind/core';
 import type { Key } from '../hooks/useKeypress.js';
 import { keyMatchers, Command } from '../keyMatchers.js';
 import type { CommandContext, SlashCommand } from '../commands/types.js';
@@ -27,7 +27,7 @@ import {
   ApprovalMode,
   Storage,
   createDebugLogger,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import {
   parseInputForHighlighting,
   buildSegmentsForVisualSlice,
@@ -39,7 +39,6 @@ import {
   cleanupOldClipboardImages,
 } from '../utils/clipboardUtils.js';
 import * as path from 'node:path';
-import { SCREEN_READER_USER_PREFIX } from '../textConstants.js';
 import { useShellFocusState } from '../contexts/ShellFocusContext.js';
 import { useUIState } from '../contexts/UIStateContext.js';
 import { useUIActions } from '../contexts/UIActionsContext.js';
@@ -55,21 +54,13 @@ import {
 import { FEEDBACK_DIALOG_KEYS } from '../FeedbackDialog.js';
 import { BaseTextInput } from './BaseTextInput.js';
 import type { RenderLineOptions } from './BaseTextInput.js';
-
-/**
- * Represents an attachment (e.g., pasted image) displayed above the input prompt
- */
-export interface Attachment {
-  id: string; // Unique identifier (timestamp)
-  path: string; // Full file path
-  filename: string; // Filename only (for display)
-}
+import { type Attachment } from '../types.js';
 
 const debugLogger = createDebugLogger('INPUT_PROMPT');
 
 export interface InputPromptProps {
   buffer: TextBuffer;
-  onSubmit: (value: string) => void;
+  onSubmit: (value: string, attachments?: Attachment[]) => void;
   userMessages: readonly string[];
   onClearScreen: () => void;
   config: Config;
@@ -328,18 +319,10 @@ export const InputPrompt: React.FC<InputPromptProps> = ({
         shellHistory.addCommandToHistory(finalValue);
       }
 
-      // Convert attachments to @references and prepend to the message
-      if (attachments.length > 0) {
-        const attachmentRefs = attachments
-          .map((att) => `@${path.relative(config.getTargetDir(), att.path)}`)
-          .join(' ');
-        finalValue = `${attachmentRefs}\n\n${finalValue.trim()}`;
-      }
-
       // Clear the buffer *before* calling onSubmit to prevent potential re-submission
       // if onSubmit triggers a re-render while the buffer still holds the old value.
       buffer.setText('');
-      onSubmit(finalValue);
+      onSubmit(finalValue, attachments);
 
       // Reset history navigation so the next Up-arrow starts from the newest
       // entry rather than advancing from whatever index the user picked.
@@ -432,7 +415,11 @@ export const InputPrompt: React.FC<InputPromptProps> = ({
             // Ignore cleanup errors
           });
 
-          // Add as attachment instead of inserting @reference into text
+          // Insert placeholder into buffer instead of showing above
+          const imageCount = attachments.length + 1;
+          const placeholder = `[Image #${imageCount}]`;
+          buffer.insert(placeholder);
+
           const filename = path.basename(imagePath);
           const newAttachment: Attachment = {
             id: String(Date.now()),
@@ -1254,14 +1241,24 @@ export const InputPrompt: React.FC<InputPromptProps> = ({
           charCount = segEnd;
         }
 
-        const color =
-          seg.type === 'command' || seg.type === 'file'
-            ? theme.text.accent
-            : theme.text.primary;
+        let displayContent: React.ReactNode = display;
+        let color = theme.text.primary;
+        let bold = false;
+
+        if (seg.type === 'command') {
+          color = theme.text.accent;
+        } else if (seg.type === 'file') {
+          color = theme.text.accent;
+          bold = true;
+          displayContent = `[${display}]`;
+        } else if (seg.type === 'image') {
+          color = theme.status.warning;
+          displayContent = `${display} [image — not supported]`;
+        }
 
         renderedLine.push(
-          <Text key={`token-${segIdx}`} color={color}>
-            {display}
+          <Text key={`token-${segIdx}`} color={color} bold={bold}>
+            {displayContent}
           </Text>,
         );
       });
@@ -1351,16 +1348,12 @@ export const InputPrompt: React.FC<InputPromptProps> = ({
     !shellModeActive && approvalMode === ApprovalMode.YOLO;
 
   let statusColor: string | undefined;
-  let statusText = '';
   if (shellModeActive) {
     statusColor = theme.ui.symbol;
-    statusText = t('Shell mode');
   } else if (showYoloStyling) {
     statusColor = theme.status.errorDim;
-    statusText = t('YOLO mode');
   } else if (showAutoAcceptStyling) {
     statusColor = theme.status.warningDim;
-    statusText = t('Accepting edits');
   }
 
   const borderColor =
@@ -1369,47 +1362,27 @@ export const InputPrompt: React.FC<InputPromptProps> = ({
       : theme.border.default;
 
   const prefixNode = (
-    <Text
-      color={statusColor ?? theme.text.accent}
-      aria-label={statusText || undefined}
-    >
+    <Box>
       {shellModeActive ? (
-        reverseSearchActive ? (
-          <Text color={theme.text.link} aria-label={SCREEN_READER_USER_PREFIX}>
-            (r:){' '}
-          </Text>
-        ) : (
-          '!'
-        )
+        <Text color={statusColor ?? theme.text.accent}>
+          {reverseSearchActive ? `(r:) ` : `! `}
+        </Text>
       ) : commandSearchActive ? (
         <Text color={theme.text.accent}>(r:) </Text>
       ) : showYoloStyling ? (
-        '*'
+        <Text color={statusColor ?? theme.text.accent}>* </Text>
       ) : (
-        '>'
-      )}{' '}
-    </Text>
+        <Box>
+          <Text color="#E53E3E" bold>vivekmind</Text>
+          <Text color="white">{'> '}</Text>
+        </Box>
+      )}
+    </Box>
   );
 
   return (
     <>
-      {attachments.length > 0 && (
-        <Box marginLeft={2} marginBottom={0}>
-          <Text color={theme.text.secondary}>{t('Attachments: ')}</Text>
-          {attachments.map((att, idx) => (
-            <Text
-              key={att.id}
-              color={
-                isAttachmentMode && idx === selectedAttachmentIndex
-                  ? theme.status.success
-                  : theme.text.secondary
-              }
-            >
-              [{att.filename}]{idx < attachments.length - 1 ? ' ' : ''}
-            </Text>
-          ))}
-        </Box>
-      )}
+      {/* Attachments are now rendered inline in the prompt input */}
       <BaseTextInput
         buffer={buffer}
         onSubmit={handleSubmitAndClear}

@@ -11,7 +11,7 @@ import type {
   GitService,
   Logger,
   SessionListItem,
-} from '@qwen-code/qwen-code-core';
+} from '@vivekmind/core';
 import type {
   HistoryItemWithoutId,
   HistoryItem,
