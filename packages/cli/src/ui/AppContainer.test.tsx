@@ -194,7 +194,7 @@ describe('AppContainer State Management', () => {
       isAuthenticating: false,
       pendingAuthType: undefined,
       externalAuthState: null,
-      qwenAuthState: {
+      vivekmindAuthState: {
         deviceAuth: null,
         authStatus: 'idle',
         authMessage: null,
@@ -1512,7 +1512,7 @@ describe('AppContainer State Management', () => {
         isAuthenticating: true,
         pendingAuthType: undefined,
         externalAuthState: null,
-        qwenAuthState: {
+        vivekmindAuthState: {
           deviceAuth: null,
           authStatus: 'idle',
           authMessage: null,

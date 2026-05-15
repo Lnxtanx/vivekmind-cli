@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -22,7 +22,7 @@ import {
   type Mock,
 } from 'vitest';
 import { Config, type ConfigParameters } from '../../config/config.js';
-import { DEFAULT_QWEN_MODEL } from '../../config/models.js';
+import { DEFAULT_VIVEKMIND_MODEL } from '../../config/models.js';
 import {
   createContentGenerator,
   createContentGeneratorConfig,
@@ -54,7 +54,7 @@ vi.mock('../../core/geminiChat.js');
 vi.mock('../../core/contentGenerator.js', async (importOriginal) => {
   const actual =
     await importOriginal<typeof import('../../core/contentGenerator.js')>();
-  const { DEFAULT_QWEN_MODEL } = await import('../../config/models.js');
+  const { DEFAULT_VIVEKMIND_MODEL } = await import('../../config/models.js');
   return {
     ...actual,
     createContentGenerator: vi.fn().mockResolvedValue({
@@ -65,12 +65,12 @@ vi.mock('../../core/contentGenerator.js', async (importOriginal) => {
       useSummarizedThinking: vi.fn().mockReturnValue(false),
     }),
     createContentGeneratorConfig: vi.fn().mockReturnValue({
-      model: DEFAULT_QWEN_MODEL,
+      model: DEFAULT_VIVEKMIND_MODEL,
       authType: actual.AuthType.USE_GEMINI,
     }),
     resolveContentGeneratorConfigWithSources: vi.fn().mockReturnValue({
       config: {
-        model: DEFAULT_QWEN_MODEL,
+        model: DEFAULT_VIVEKMIND_MODEL,
         authType: actual.AuthType.USE_GEMINI,
         apiKey: 'test-api-key',
       },
@@ -133,7 +133,7 @@ async function createMockConfig(
   toolRegistryMocks = {},
 ): Promise<{ config: Config; toolRegistry: ToolRegistry }> {
   const configParams: ConfigParameters = {
-    model: DEFAULT_QWEN_MODEL,
+    model: DEFAULT_VIVEKMIND_MODEL,
     targetDir: '.',
     debugMode: false,
     cwd: process.cwd(),
@@ -162,7 +162,7 @@ async function createMockConfig(
 
   // Mock getContentGeneratorConfig to return a valid config
   vi.spyOn(config, 'getContentGeneratorConfig').mockReturnValue({
-    model: DEFAULT_QWEN_MODEL,
+    model: DEFAULT_VIVEKMIND_MODEL,
     authType: AuthType.USE_GEMINI,
   });
 
@@ -263,12 +263,12 @@ describe('subagent.ts', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any);
       vi.mocked(createContentGeneratorConfig).mockReturnValue({
-        model: DEFAULT_QWEN_MODEL,
+        model: DEFAULT_VIVEKMIND_MODEL,
         authType: undefined,
       });
       vi.mocked(resolveContentGeneratorConfigWithSources).mockReturnValue({
         config: {
-          model: DEFAULT_QWEN_MODEL,
+          model: DEFAULT_VIVEKMIND_MODEL,
           authType: AuthType.USE_GEMINI,
           apiKey: 'test-api-key',
         },

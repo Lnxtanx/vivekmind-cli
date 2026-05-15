@@ -64,10 +64,10 @@ export function parseAndFormatApiError(
   authType?: AuthType,
 ): string {
   if (isStructuredError(error)) {
-    // Qwen OAuth quota errors have their own user-friendly message; don't wrap them
+    // VivekMind OAuth quota errors have their own user-friendly message; don't wrap them
     if (
-      error.message.startsWith('Qwen OAuth quota exceeded:') ||
-      error.message.startsWith('Qwen OAuth free tier has been discontinued')
+      error.message.startsWith('VivekMind OAuth quota exceeded:') ||
+      error.message.startsWith('VivekMind OAuth free tier has been discontinued')
     ) {
       return error.message;
     }

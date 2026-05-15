@@ -17,7 +17,7 @@ npm install @vivekmind/channel-plugin-example
 
 ### 2. Link it as a VivekMind extension
 
-The package ships a `qwen-extension.json` manifest, so it works as an extension out of the box:
+The package ships a `vivekmind-extension.json` manifest, so it works as an extension out of the box:
 
 ```bash
 vivekmind extensions link ./node_modules/@vivekmind/channel-plugin-example
@@ -92,7 +92,7 @@ See `src/MockPluginChannel.ts` for a working example. The key points:
 1. Extend `ChannelBase` and implement `connect()`, `sendMessage()`, `disconnect()`
 2. Build an `Envelope` from incoming platform messages and call `this.handleInbound(envelope)`
 3. Export a `plugin` object conforming to `ChannelPlugin`
-4. Add a `qwen-extension.json` manifest
+4. Add a `vivekmind-extension.json` manifest
 
 ### Features you get for free
 

@@ -84,13 +84,13 @@ describe('telemetry/config helpers', () => {
         useCollector: false,
       };
       const env = {
-        QWEN_TELEMETRY_ENABLED: '1',
-        QWEN_TELEMETRY_TARGET: 'gcp',
-        QWEN_TELEMETRY_OTLP_ENDPOINT: 'http://env:4317',
-        QWEN_TELEMETRY_OTLP_PROTOCOL: 'http',
-        QWEN_TELEMETRY_LOG_PROMPTS: 'true',
-        QWEN_TELEMETRY_OUTFILE: 'env.log',
-        QWEN_TELEMETRY_USE_COLLECTOR: 'true',
+        VIVEKMIND_TELEMETRY_ENABLED: '1',
+        VIVEKMIND_TELEMETRY_TARGET: 'gcp',
+        VIVEKMIND_TELEMETRY_OTLP_ENDPOINT: 'http://env:4317',
+        VIVEKMIND_TELEMETRY_OTLP_PROTOCOL: 'http',
+        VIVEKMIND_TELEMETRY_LOG_PROMPTS: 'true',
+        VIVEKMIND_TELEMETRY_OUTFILE: 'env.log',
+        VIVEKMIND_TELEMETRY_USE_COLLECTOR: 'true',
       } as Record<string, string>;
       const argv = {
         telemetry: false,
@@ -144,7 +144,7 @@ describe('telemetry/config helpers', () => {
     });
 
     it('throws on unknown protocol values', async () => {
-      const env = { QWEN_TELEMETRY_OTLP_PROTOCOL: 'unknown' } as Record<
+      const env = { VIVEKMIND_TELEMETRY_OTLP_PROTOCOL: 'unknown' } as Record<
         string,
         string
       >;
@@ -154,7 +154,7 @@ describe('telemetry/config helpers', () => {
     });
 
     it('throws on unknown target values', async () => {
-      const env = { QWEN_TELEMETRY_TARGET: 'unknown' } as Record<
+      const env = { VIVEKMIND_TELEMETRY_TARGET: 'unknown' } as Record<
         string,
         string
       >;
@@ -175,9 +175,9 @@ describe('telemetry/config helpers', () => {
       expect(resolved.otlpMetricsEndpoint).toBeUndefined();
     });
 
-    it('QWEN_ env vars take precedence over OTEL_ vars for per-signal endpoints', async () => {
+    it('VIVEKMIND_ env vars take precedence over OTEL_ vars for per-signal endpoints', async () => {
       const env = {
-        QWEN_TELEMETRY_OTLP_TRACES_ENDPOINT:
+        VIVEKMIND_TELEMETRY_OTLP_TRACES_ENDPOINT:
           'http://qwen-traces:4318/v1/traces',
         OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: 'http://otel-traces:4318/v1/traces',
       } as Record<string, string>;

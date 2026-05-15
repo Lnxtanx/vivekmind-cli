@@ -567,7 +567,7 @@ describe('FileCommandLoader', () => {
           'project.toml': 'prompt = "Project command"',
         },
         [extensionDir]: {
-          'qwen-extension.json': JSON.stringify({
+          'vivekmind-extension.json': JSON.stringify({
             name: 'test-ext',
             version: '1.0.0',
           }),
@@ -614,7 +614,7 @@ describe('FileCommandLoader', () => {
 
       mock({
         [extensionDir]: {
-          'qwen-extension.json': JSON.stringify({
+          'vivekmind-extension.json': JSON.stringify({
             name: 'test-ext',
             version: '1.0.0',
           }),
@@ -714,7 +714,7 @@ describe('FileCommandLoader', () => {
 
       mock({
         [extensionDir1]: {
-          'qwen-extension.json': JSON.stringify({
+          'vivekmind-extension.json': JSON.stringify({
             name: 'active-ext',
             version: '1.0.0',
           }),
@@ -723,7 +723,7 @@ describe('FileCommandLoader', () => {
           },
         },
         [extensionDir2]: {
-          'qwen-extension.json': JSON.stringify({
+          'vivekmind-extension.json': JSON.stringify({
             name: 'inactive-ext',
             version: '1.0.0',
           }),
@@ -769,7 +769,7 @@ describe('FileCommandLoader', () => {
 
       mock({
         [extensionDir]: {
-          'qwen-extension.json': JSON.stringify({
+          'vivekmind-extension.json': JSON.stringify({
             name: 'no-commands',
             version: '1.0.0',
           }),
@@ -800,7 +800,7 @@ describe('FileCommandLoader', () => {
 
       mock({
         [extensionDir]: {
-          'qwen-extension.json': JSON.stringify({
+          'vivekmind-extension.json': JSON.stringify({
             name: 'a',
             version: '1.0.0',
           }),

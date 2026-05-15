@@ -1,7 +1,7 @@
 /**
  * Lightweight startup performance profiler.
  *
- * Activated by setting QWEN_CODE_PROFILE_STARTUP=1. When enabled, collects
+ * Activated by setting VIVEKMIND_CODE_PROFILE_STARTUP=1. When enabled, collects
  * high-resolution timestamps at key phases of CLI startup and writes a JSON
  * report to ~/.vivekmind/startup-perf/ on finalization.
  *
@@ -51,7 +51,7 @@ export function initStartupProfiler(): void {
   // Reset any prior state so the function is idempotent.
   resetStartupProfiler();
 
-  if (process.env['QWEN_CODE_PROFILE_STARTUP'] !== '1') {
+  if (process.env['VIVEKMIND_CODE_PROFILE_STARTUP'] !== '1') {
     return;
   }
   // Skip profiling in the outer (pre-sandbox) process — the child will

@@ -7,12 +7,13 @@
 import { useRef } from 'react';
 import { Box, Text } from 'ink';
 import { t } from '../../i18n/index.js';
+import type { QueuedMessage } from '../hooks/useMessageQueue.js';
 
 const MAX_DISPLAYED_QUEUED_MESSAGES = 3;
 const NUM_TIMES_QUEUE_HINT_SHOWN = 3;
 
 export interface QueuedMessageDisplayProps {
-  messageQueue: string[];
+  messageQueue: QueuedMessage[];
 }
 
 export const QueuedMessageDisplay = ({
@@ -42,7 +43,7 @@ export const QueuedMessageDisplay = ({
       {messageQueue
         .slice(0, MAX_DISPLAYED_QUEUED_MESSAGES)
         .map((message, index) => {
-          const preview = message.replace(/\s+/g, ' ');
+          const preview = message.text.replace(/\s+/g, ' ');
 
           return (
             <Box key={index} paddingLeft={2} width="100%">

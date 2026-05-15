@@ -64,7 +64,7 @@ describe('showAuthStatus', () => {
       expect.stringContaining('vivekmind auth openrouter'),
     );
     expect(writeStdoutLine).toHaveBeenCalledWith(
-      expect.stringContaining('vivekmind auth qwen-oauth'),
+      expect.stringContaining('vivekmind auth vivekmind-oauth'),
     );
     expect(writeStdoutLine).toHaveBeenCalledWith(
       expect.stringContaining('vivekmind auth coding-plan'),
@@ -72,12 +72,12 @@ describe('showAuthStatus', () => {
     expect(process.exit).toHaveBeenCalledWith(0);
   });
 
-  it('should show Qwen OAuth status when configured', async () => {
+  it('should show VivekMind OAuth status when configured', async () => {
     vi.mocked(loadSettings).mockReturnValue(
       createMockSettings({
         security: {
           auth: {
-            selectedType: AuthType.QWEN_OAUTH,
+            selectedType: AuthType.VIVEKMIND_OAUTH,
           },
         },
       }),
@@ -86,7 +86,7 @@ describe('showAuthStatus', () => {
     await showAuthStatus();
 
     expect(writeStdoutLine).toHaveBeenCalledWith(
-      expect.stringContaining('Qwen OAuth'),
+      expect.stringContaining('VivekMind OAuth'),
     );
     expect(writeStdoutLine).toHaveBeenCalledWith(
       expect.stringContaining('Free tier (discontinued 2026-04-15)'),

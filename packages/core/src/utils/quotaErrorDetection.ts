@@ -100,7 +100,7 @@ export function isGenericQuotaExceededError(error: unknown): boolean {
 }
 
 export function isQwenQuotaExceededError(error: unknown): boolean {
-  // Match the specific Qwen free-tier quota error to distinguish it from
+  // Match the specific VivekMind free-tier quota error to distinguish it from
   // temporary throttling (429 due to concurrency) or paid account quota limits.
   if (typeof error !== 'object' || error === null) {
     return false;

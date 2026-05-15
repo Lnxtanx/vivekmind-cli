@@ -11,7 +11,7 @@ import * as dotenv from 'dotenv';
 import process from 'node:process';
 import {
   FatalConfigError,
-  QWEN_DIR,
+  VIVEKMIND_DIR,
   getErrorMessage,
   Storage,
   createDebugLogger,
@@ -65,83 +65,15 @@ export const USER_SETTINGS_DIR = path.dirname(USER_SETTINGS_PATH);
 export const DEFAULT_EXCLUDED_ENV_VARS = ['DEBUG', 'DEBUG_MODE'];
 
 // Settings version to track migration state
-export const SETTINGS_VERSION = 3;
+export const SETTINGS_VERSION = 4;
 export const SETTINGS_VERSION_KEY = '$version';
 
-/**
- * Migrate legacy tool permission settings (tools.core / tools.allowed / tools.exclude)
- * to the new permissions.allow / permissions.ask / permissions.deny format.
- *
- * Conversion rules:
- *   tools.allowed  → permissions.allow (bypass confirmation)
- *   tools.exclude  → permissions.deny  (block tools)
- *   tools.core     → permissions.allow (only listed tools enabled)
- *                    + permissions.deny with a wildcard deny-all if needed
- *
- * Returns the updated settings object, or null if no migration is needed.
- */
-export function migrateLegacyPermissions(
-  settings: Record<string, unknown>,
-): Record<string, unknown> | null {
-  const tools = settings['tools'] as Record<string, unknown> | undefined;
-  if (!tools) return null;
-
-  const hasLegacy =
-    Array.isArray(tools['core']) ||
-    Array.isArray(tools['allowed']) ||
-    Array.isArray(tools['exclude']);
-
-  if (!hasLegacy) return null;
-
-  const result = structuredClone(settings) as Record<string, unknown>;
-  const resultTools = result['tools'] as Record<string, unknown>;
-  const permissions = (result['permissions'] as Record<string, unknown>) ?? {};
-  result['permissions'] = permissions;
-
-  const mergeInto = (key: string, items: string[]) => {
-    const existing = Array.isArray(permissions[key])
-      ? (permissions[key] as string[])
-      : [];
-    const merged = Array.from(new Set([...existing, ...items]));
-    permissions[key] = merged;
-  };
-
-  // tools.allowed → permissions.allow
-  if (Array.isArray(resultTools['allowed'])) {
-    mergeInto('allow', resultTools['allowed'] as string[]);
-    delete resultTools['allowed'];
-  }
-
-  // tools.exclude → permissions.deny
-  if (Array.isArray(resultTools['exclude'])) {
-    mergeInto('deny', resultTools['exclude'] as string[]);
-    delete resultTools['exclude'];
-  }
-
-  // tools.core → permissions.allow (explicit enables)
-  // IMPORTANT: tools.core has whitelist semantics: "only these tools can run".
-  // To preserve this, we also add deny rules for all tools NOT in the list.
-  // A wildcard deny-all followed by specific allows achieves this because
-  // allow rules take precedence over the catch-all deny in the evaluation order:
-  //   deny = [everything not listed], allow = [listed tools]
-  // However, since our priority is deny > allow, we cannot use a blanket deny.
-  // Instead we just migrate to allow (auto-approve) and let the coreTools
-  // semantics continue to work through the Config.getCoreTools() path until
-  // the old API is fully removed.
-  if (Array.isArray(resultTools['core'])) {
-    mergeInto('allow', resultTools['core'] as string[]);
-    delete resultTools['core'];
-  }
-
-  return result;
-}
-
 export function getSystemSettingsPath(): string {
-  if (process.env['QWEN_CODE_SYSTEM_SETTINGS_PATH']) {
-    return process.env['QWEN_CODE_SYSTEM_SETTINGS_PATH'];
+  if (process.env['VIVEKMIND_CODE_SYSTEM_SETTINGS_PATH']) {
+    return process.env['VIVEKMIND_CODE_SYSTEM_SETTINGS_PATH'];
   }
   if (platform() === 'darwin') {
-    return '/Library/Application Support/QwenCode/settings.json';
+    return '/Library/Application Support/VivekMind/settings.json';
   } else if (platform() === 'win32') {
     return 'C:\\ProgramData\\vivekmind\\settings.json';
   } else {
@@ -150,8 +82,8 @@ export function getSystemSettingsPath(): string {
 }
 
 export function getSystemDefaultsPath(): string {
-  if (process.env['QWEN_CODE_SYSTEM_DEFAULTS_PATH']) {
-    return process.env['QWEN_CODE_SYSTEM_DEFAULTS_PATH'];
+  if (process.env['VIVEKMIND_CODE_SYSTEM_DEFAULTS_PATH']) {
+    return process.env['VIVEKMIND_CODE_SYSTEM_DEFAULTS_PATH'];
   }
   return path.join(
     path.dirname(getSystemSettingsPath()),
@@ -495,7 +427,7 @@ function findEnvFile(settings: Settings, startDir: string): string | null {
   // Pre-compute user-level .env paths for fast comparison
   const userLevelPaths = new Set([
     path.normalize(path.join(homeDir, '.env')),
-    path.normalize(path.join(homeDir, QWEN_DIR, '.env')),
+    path.normalize(path.join(homeDir, VIVEKMIND_DIR, '.env')),
   ]);
 
   // Determine if we can use this .env file based on trust settings
@@ -504,8 +436,8 @@ function findEnvFile(settings: Settings, startDir: string): string | null {
 
   let currentDir = path.resolve(startDir);
   while (true) {
-    // Prefer gemini-specific .env under QWEN_DIR
-    const geminiEnvPath = path.join(currentDir, QWEN_DIR, '.env');
+    // Prefer gemini-specific .env under VIVEKMIND_DIR
+    const geminiEnvPath = path.join(currentDir, VIVEKMIND_DIR, '.env');
     if (fs.existsSync(geminiEnvPath) && canUseEnvFile(geminiEnvPath)) {
       return geminiEnvPath;
     }
@@ -518,7 +450,7 @@ function findEnvFile(settings: Settings, startDir: string): string | null {
     const parentDir = path.dirname(currentDir);
     if (parentDir === currentDir || !parentDir) {
       // At home directory - check fallback .env files
-      const homeGeminiEnvPath = path.join(homeDir, QWEN_DIR, '.env');
+      const homeGeminiEnvPath = path.join(homeDir, VIVEKMIND_DIR, '.env');
       if (fs.existsSync(homeGeminiEnvPath)) {
         return homeGeminiEnvPath;
       }
@@ -580,7 +512,7 @@ export function loadEnvironment(settings: Settings): void {
 
       const excludedVars =
         settings?.advanced?.excludedEnvVars || DEFAULT_EXCLUDED_ENV_VARS;
-      const isProjectEnvFile = !envFilePath.includes(QWEN_DIR);
+      const isProjectEnvFile = !envFilePath.includes(VIVEKMIND_DIR);
 
       for (const key in parsedEnv) {
         if (Object.hasOwn(parsedEnv, key)) {

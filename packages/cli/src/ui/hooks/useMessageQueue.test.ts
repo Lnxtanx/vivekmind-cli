@@ -6,7 +6,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useMessageQueue } from './useMessageQueue.js';
+import { useMessageQueue, type QueuedMessage } from './useMessageQueue.js';
 
 describe('useMessageQueue', () => {
   beforeEach(() => {
@@ -34,8 +34,8 @@ describe('useMessageQueue', () => {
     });
 
     expect(result.current.messageQueue).toEqual([
-      'Test message 1',
-      'Test message 2',
+      { text: 'Test message 1', attachments: undefined },
+      { text: 'Test message 2', attachments: undefined },
     ]);
   });
 
@@ -50,8 +50,8 @@ describe('useMessageQueue', () => {
     });
 
     expect(result.current.messageQueue).toEqual([
-      'Valid message',
-      'Another valid message',
+      { text: 'Valid message', attachments: undefined },
+      { text: 'Another valid message', attachments: undefined },
     ]);
   });
 
@@ -62,7 +62,9 @@ describe('useMessageQueue', () => {
       result.current.addMessage('Test message');
     });
 
-    expect(result.current.messageQueue).toEqual(['Test message']);
+    expect(result.current.messageQueue).toEqual([
+      { text: 'Test message', attachments: undefined },
+    ]);
 
     act(() => {
       result.current.clearQueue();
@@ -133,9 +135,6 @@ describe('useMessageQueue', () => {
     });
 
     it('joins mixed slash commands and prompts in original order', () => {
-      // Edit-restore intentionally collapses segment boundaries: the user is
-      // recovering input into the buffer to edit before resubmitting, so
-      // typing order matters more than slash-vs-prompt routing boundaries.
       const { result } = renderHook(() => useMessageQueue());
 
       act(() => {
@@ -158,7 +157,7 @@ describe('useMessageQueue', () => {
     it('returns an empty array when the queue is empty', () => {
       const { result } = renderHook(() => useMessageQueue());
 
-      let drained: string[] = [];
+      let drained: QueuedMessage[] = [];
       act(() => {
         drained = result.current.drainQueue();
       });
@@ -175,13 +174,19 @@ describe('useMessageQueue', () => {
         result.current.addMessage('three');
       });
 
-      let drained: string[] = [];
+      let drained: QueuedMessage[] = [];
       act(() => {
         drained = result.current.drainQueue();
       });
 
-      expect(drained).toEqual(['one', 'two', 'three']);
-      expect(result.current.messageQueue).toEqual(['/model']);
+      expect(drained).toEqual([
+        { text: 'one', attachments: undefined },
+        { text: 'two', attachments: undefined },
+        { text: 'three', attachments: undefined },
+      ]);
+      expect(result.current.messageQueue).toEqual([
+        { text: '/model', attachments: undefined },
+      ]);
     });
 
     it('returns an empty array when the queue contains only slash commands', () => {
@@ -192,13 +197,16 @@ describe('useMessageQueue', () => {
         result.current.addMessage('/help');
       });
 
-      let drained: string[] = [];
+      let drained: QueuedMessage[] = [];
       act(() => {
         drained = result.current.drainQueue();
       });
 
       expect(drained).toEqual([]);
-      expect(result.current.messageQueue).toEqual(['/model', '/help']);
+      expect(result.current.messageQueue).toEqual([
+        { text: '/model', attachments: undefined },
+        { text: '/help', attachments: undefined },
+      ]);
     });
 
     it('drains the whole queue when it contains no slash commands', () => {
@@ -210,12 +218,16 @@ describe('useMessageQueue', () => {
         result.current.addMessage('c');
       });
 
-      let drained: string[] = [];
+      let drained: QueuedMessage[] = [];
       act(() => {
         drained = result.current.drainQueue();
       });
 
-      expect(drained).toEqual(['a', 'b', 'c']);
+      expect(drained).toEqual([
+        { text: 'a', attachments: undefined },
+        { text: 'b', attachments: undefined },
+        { text: 'c', attachments: undefined },
+      ]);
       expect(result.current.messageQueue).toEqual([]);
     });
   });
@@ -224,7 +236,7 @@ describe('useMessageQueue', () => {
     it('returns null when the queue is empty', () => {
       const { result } = renderHook(() => useMessageQueue());
 
-      let segment: string | null = null;
+      let segment: QueuedMessage | null = null;
       act(() => {
         segment = result.current.popNextSegment();
       });
@@ -239,12 +251,14 @@ describe('useMessageQueue', () => {
         result.current.addMessage('/help');
       });
 
-      let segment: string | null = null;
+      let segment: QueuedMessage | null = null;
       act(() => {
         segment = result.current.popNextSegment();
       });
-      expect(segment).toBe('/model');
-      expect(result.current.messageQueue).toEqual(['/help']);
+      expect(segment).toEqual({ text: '/model', attachments: undefined });
+      expect(result.current.messageQueue).toEqual([
+        { text: '/help', attachments: undefined },
+      ]);
     });
 
     it('drains the queue one item at a time across repeated calls', () => {
@@ -256,7 +270,7 @@ describe('useMessageQueue', () => {
         result.current.addMessage('/help');
       });
 
-      const segments: Array<string | null> = [];
+      const segments: Array<QueuedMessage | null> = [];
       act(() => {
         segments.push(result.current.popNextSegment());
       });
@@ -270,8 +284,28 @@ describe('useMessageQueue', () => {
         segments.push(result.current.popNextSegment());
       });
 
-      expect(segments).toEqual(['/model', '/theme', '/help', null]);
+      expect(segments).toEqual([
+        { text: '/model', attachments: undefined },
+        { text: '/theme', attachments: undefined },
+        { text: '/help', attachments: undefined },
+        null,
+      ]);
       expect(result.current.messageQueue).toEqual([]);
+    });
+
+    it('should include attachments when provided', () => {
+      const { result } = renderHook(() => useMessageQueue());
+      const attachments = [
+        { id: '1', path: 'test.ts', filename: 'test.ts' },
+      ];
+
+      act(() => {
+        result.current.addMessage('test', attachments);
+      });
+
+      expect(result.current.messageQueue).toEqual([
+        { text: 'test', attachments },
+      ]);
     });
   });
 });

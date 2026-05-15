@@ -43,26 +43,26 @@ describe('Storage – additional helpers', () => {
 });
 
 describe('Storage – getRuntimeBaseDir / setRuntimeBaseDir', () => {
-  const originalEnv = process.env['QWEN_RUNTIME_DIR'];
+  const originalEnv = process.env['VIVEKMIND_RUNTIME_DIR'];
 
   beforeEach(() => {
     // Reset state before each test
     Storage.setRuntimeBaseDir(null);
-    delete process.env['QWEN_RUNTIME_DIR'];
+    delete process.env['VIVEKMIND_RUNTIME_DIR'];
   });
 
   afterEach(() => {
     // Restore original env
     Storage.setRuntimeBaseDir(null);
     if (originalEnv !== undefined) {
-      process.env['QWEN_RUNTIME_DIR'] = originalEnv;
+      process.env['VIVEKMIND_RUNTIME_DIR'] = originalEnv;
     } else {
-      delete process.env['QWEN_RUNTIME_DIR'];
+      delete process.env['VIVEKMIND_RUNTIME_DIR'];
     }
   });
 
-  it('defaults to getGlobalQwenDir() when nothing is configured', () => {
-    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalQwenDir());
+  it('defaults to getGlobalVivekMindDir() when nothing is configured', () => {
+    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalVivekMindDir());
   });
 
   it('uses setRuntimeBaseDir value when set with absolute path', () => {
@@ -71,11 +71,11 @@ describe('Storage – getRuntimeBaseDir / setRuntimeBaseDir', () => {
     expect(Storage.getRuntimeBaseDir()).toBe(runtimeDir);
   });
 
-  it('env var QWEN_RUNTIME_DIR takes priority over setRuntimeBaseDir', () => {
+  it('env var VIVEKMIND_RUNTIME_DIR takes priority over setRuntimeBaseDir', () => {
     const settingsDir = path.resolve('from-settings');
     const envDir = path.resolve('from-env');
     Storage.setRuntimeBaseDir(settingsDir);
-    process.env['QWEN_RUNTIME_DIR'] = envDir;
+    process.env['VIVEKMIND_RUNTIME_DIR'] = envDir;
     expect(Storage.getRuntimeBaseDir()).toBe(envDir);
   });
 
@@ -91,8 +91,8 @@ describe('Storage – getRuntimeBaseDir / setRuntimeBaseDir', () => {
     expect(Storage.getRuntimeBaseDir()).toBe(expected);
   });
 
-  it('expands tilde (~) in QWEN_RUNTIME_DIR env var', () => {
-    process.env['QWEN_RUNTIME_DIR'] = '~/env-runtime';
+  it('expands tilde (~) in VIVEKMIND_RUNTIME_DIR env var', () => {
+    process.env['VIVEKMIND_RUNTIME_DIR'] = '~/env-runtime';
     const expected = path.join(os.homedir(), 'env-runtime');
     expect(Storage.getRuntimeBaseDir()).toBe(expected);
   });
@@ -125,8 +125,8 @@ describe('Storage – getRuntimeBaseDir / setRuntimeBaseDir', () => {
     expect(Storage.getRuntimeBaseDir()).toBe(expected);
   });
 
-  it('resolves relative paths in QWEN_RUNTIME_DIR env var', () => {
-    process.env['QWEN_RUNTIME_DIR'] = 'relative/env-path';
+  it('resolves relative paths in VIVEKMIND_RUNTIME_DIR env var', () => {
+    process.env['VIVEKMIND_RUNTIME_DIR'] = 'relative/env-path';
     const expected = path.resolve('relative/env-path');
     expect(Storage.getRuntimeBaseDir()).toBe(expected);
   });
@@ -137,19 +137,19 @@ describe('Storage – getRuntimeBaseDir / setRuntimeBaseDir', () => {
     expect(Storage.getRuntimeBaseDir()).toBe(customDir);
 
     Storage.setRuntimeBaseDir(null);
-    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalQwenDir());
+    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalVivekMindDir());
   });
 
   it('resets to default when setRuntimeBaseDir is called with undefined', () => {
     Storage.setRuntimeBaseDir(path.resolve('custom'));
     Storage.setRuntimeBaseDir(undefined);
-    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalQwenDir());
+    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalVivekMindDir());
   });
 
   it('resets to default when setRuntimeBaseDir is called with empty string', () => {
     Storage.setRuntimeBaseDir(path.resolve('custom'));
     Storage.setRuntimeBaseDir('');
-    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalQwenDir());
+    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalVivekMindDir());
   });
 
   it('handles bare tilde (~) as home directory', () => {
@@ -159,19 +159,19 @@ describe('Storage – getRuntimeBaseDir / setRuntimeBaseDir', () => {
 });
 
 describe('Storage – runtime path methods use getRuntimeBaseDir', () => {
-  const originalEnv = process.env['QWEN_RUNTIME_DIR'];
+  const originalEnv = process.env['VIVEKMIND_RUNTIME_DIR'];
 
   beforeEach(() => {
     Storage.setRuntimeBaseDir(null);
-    delete process.env['QWEN_RUNTIME_DIR'];
+    delete process.env['VIVEKMIND_RUNTIME_DIR'];
   });
 
   afterEach(() => {
     Storage.setRuntimeBaseDir(null);
     if (originalEnv !== undefined) {
-      process.env['QWEN_RUNTIME_DIR'] = originalEnv;
+      process.env['VIVEKMIND_RUNTIME_DIR'] = originalEnv;
     } else {
-      delete process.env['QWEN_RUNTIME_DIR'];
+      delete process.env['VIVEKMIND_RUNTIME_DIR'];
     }
   });
 
@@ -242,20 +242,20 @@ describe('Storage – runtime path methods use getRuntimeBaseDir', () => {
 });
 
 describe('Storage – config paths remain at ~/.vivekmind regardless of runtime dir', () => {
-  const originalEnv = process.env['QWEN_RUNTIME_DIR'];
-  const globalQwenDir = Storage.getGlobalQwenDir();
+  const originalEnv = process.env['VIVEKMIND_RUNTIME_DIR'];
+  const globalQwenDir = Storage.getGlobalVivekMindDir();
 
   beforeEach(() => {
     Storage.setRuntimeBaseDir(path.resolve('custom-runtime'));
-    process.env['QWEN_RUNTIME_DIR'] = path.resolve('env-runtime');
+    process.env['VIVEKMIND_RUNTIME_DIR'] = path.resolve('env-runtime');
   });
 
   afterEach(() => {
     Storage.setRuntimeBaseDir(null);
     if (originalEnv !== undefined) {
-      process.env['QWEN_RUNTIME_DIR'] = originalEnv;
+      process.env['VIVEKMIND_RUNTIME_DIR'] = originalEnv;
     } else {
-      delete process.env['QWEN_RUNTIME_DIR'];
+      delete process.env['VIVEKMIND_RUNTIME_DIR'];
     }
   });
 
@@ -315,19 +315,19 @@ describe('Storage – config paths remain at ~/.vivekmind regardless of runtime 
 });
 
 describe('Storage – runtime base dir async context isolation', () => {
-  const originalEnv = process.env['QWEN_RUNTIME_DIR'];
+  const originalEnv = process.env['VIVEKMIND_RUNTIME_DIR'];
 
   beforeEach(() => {
     Storage.setRuntimeBaseDir(null);
-    delete process.env['QWEN_RUNTIME_DIR'];
+    delete process.env['VIVEKMIND_RUNTIME_DIR'];
   });
 
   afterEach(() => {
     Storage.setRuntimeBaseDir(null);
     if (originalEnv !== undefined) {
-      process.env['QWEN_RUNTIME_DIR'] = originalEnv;
+      process.env['VIVEKMIND_RUNTIME_DIR'] = originalEnv;
     } else {
-      delete process.env['QWEN_RUNTIME_DIR'];
+      delete process.env['VIVEKMIND_RUNTIME_DIR'];
     }
   });
 

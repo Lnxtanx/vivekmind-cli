@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -208,7 +208,7 @@ describe('registerSkillHooks', () => {
             hooks: [
               {
                 type: HookType.Command,
-                command: 'echo $QWEN_SKILL_ROOT',
+                command: 'echo $VIVEKMIND_SKILL_ROOT',
               },
             ],
           },

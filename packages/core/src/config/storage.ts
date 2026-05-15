@@ -11,7 +11,7 @@ import * as fs from 'node:fs';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { getProjectHash, sanitizeCwd } from '../utils/paths.js';
 
-export const QWEN_DIR = '.vivekmind';
+export const VIVEKMIND_DIR = '.vivekmind';
 export const GOOGLE_ACCOUNTS_FILENAME = 'google_accounts.json';
 export const OAUTH_FILE = 'oauth_creds.json';
 export const SKILL_PROVIDER_CONFIG_DIRS = ['.vivekmind', '.agents'];
@@ -28,7 +28,7 @@ export class Storage {
 
   /**
    * Custom runtime output base directory set via settings.
-   * When null, falls back to getGlobalQwenDir().
+   * When null, falls back to getGlobalVivekMindDir().
    */
   private static runtimeBaseDir: string | null = null;
   private static readonly runtimeBaseDirContext = new AsyncLocalStorage<
@@ -71,7 +71,7 @@ export class Storage {
   /**
    * Sets the custom runtime output base directory.
    * Handles tilde (~) expansion and resolves relative paths to absolute.
-   * Pass null/undefined/empty string to reset to default (getGlobalQwenDir()).
+   * Pass null/undefined/empty string to reset to default (getGlobalVivekMindDir()).
    * @param dir - The directory path, or null/undefined to reset
    * @param cwd - Base directory for resolving relative paths (defaults to process.cwd()).
    *              Pass the project root so that relative values like ".vivekmind" resolve
@@ -98,57 +98,57 @@ export class Storage {
    * Returns the base directory for all runtime output (temp files, debug logs,
    * session data, todos, insights, etc.).
    *
-   * Priority: QWEN_RUNTIME_DIR env var > setRuntimeBaseDir() value > getGlobalQwenDir()
+   * Priority: VIVEKMIND_RUNTIME_DIR env var > setRuntimeBaseDir() value > getGlobalVivekMindDir()
    * @returns Absolute path to the runtime output base directory
    */
   static getRuntimeBaseDir(): string {
-    const envDir = process.env['QWEN_RUNTIME_DIR'];
+    const envDir = process.env['VIVEKMIND_RUNTIME_DIR'];
     if (envDir) {
       return (
-        Storage.resolveRuntimeBaseDir(envDir) ?? Storage.getGlobalQwenDir()
+        Storage.resolveRuntimeBaseDir(envDir) ?? Storage.getGlobalVivekMindDir()
       );
     }
 
     const contextualDir = Storage.runtimeBaseDirContext.getStore();
     if (contextualDir !== undefined) {
-      return contextualDir ?? Storage.getGlobalQwenDir();
+      return contextualDir ?? Storage.getGlobalVivekMindDir();
     }
     if (Storage.runtimeBaseDir) {
       return Storage.runtimeBaseDir;
     }
-    return Storage.getGlobalQwenDir();
+    return Storage.getGlobalVivekMindDir();
   }
 
-  static getGlobalQwenDir(): string {
+  static getGlobalVivekMindDir(): string {
     const homeDir = os.homedir();
     if (!homeDir) {
       return path.join(os.tmpdir(), '.vivekmind');
     }
-    return path.join(homeDir, QWEN_DIR);
+    return path.join(homeDir, VIVEKMIND_DIR);
   }
 
   static getMcpOAuthTokensPath(): string {
-    return path.join(Storage.getGlobalQwenDir(), 'mcp-oauth-tokens.json');
+    return path.join(Storage.getGlobalVivekMindDir(), 'mcp-oauth-tokens.json');
   }
 
   static getGlobalSettingsPath(): string {
-    return path.join(Storage.getGlobalQwenDir(), 'settings.json');
+    return path.join(Storage.getGlobalVivekMindDir(), 'settings.json');
   }
 
   static getInstallationIdPath(): string {
-    return path.join(Storage.getGlobalQwenDir(), 'installation_id');
+    return path.join(Storage.getGlobalVivekMindDir(), 'installation_id');
   }
 
   static getGoogleAccountsPath(): string {
-    return path.join(Storage.getGlobalQwenDir(), GOOGLE_ACCOUNTS_FILENAME);
+    return path.join(Storage.getGlobalVivekMindDir(), GOOGLE_ACCOUNTS_FILENAME);
   }
 
   static getUserCommandsDir(): string {
-    return path.join(Storage.getGlobalQwenDir(), 'commands');
+    return path.join(Storage.getGlobalVivekMindDir(), 'commands');
   }
 
   static getGlobalMemoryFilePath(): string {
-    return path.join(Storage.getGlobalQwenDir(), 'memory.md');
+    return path.join(Storage.getGlobalVivekMindDir(), 'memory.md');
   }
 
   static getGlobalTempDir(): string {
@@ -168,7 +168,7 @@ export class Storage {
   }
 
   static getPlansDir(): string {
-    return path.join(Storage.getGlobalQwenDir(), PLANS_DIR_NAME);
+    return path.join(Storage.getGlobalVivekMindDir(), PLANS_DIR_NAME);
   }
 
   static getPlanFilePath(sessionId: string): string {
@@ -176,15 +176,15 @@ export class Storage {
   }
 
   static getGlobalBinDir(): string {
-    return path.join(Storage.getGlobalQwenDir(), BIN_DIR_NAME);
+    return path.join(Storage.getGlobalVivekMindDir(), BIN_DIR_NAME);
   }
 
   static getGlobalArenaDir(): string {
-    return path.join(Storage.getGlobalQwenDir(), ARENA_DIR_NAME);
+    return path.join(Storage.getGlobalVivekMindDir(), ARENA_DIR_NAME);
   }
 
-  getQwenDir(): string {
-    return path.join(this.targetDir, QWEN_DIR);
+  getVivekMindDir(): string {
+    return path.join(this.targetDir, VIVEKMIND_DIR);
   }
 
   getProjectDir(): string {
@@ -208,7 +208,7 @@ export class Storage {
   }
 
   static getOAuthCredsPath(): string {
-    return path.join(Storage.getGlobalQwenDir(), OAUTH_FILE);
+    return path.join(Storage.getGlobalVivekMindDir(), OAUTH_FILE);
   }
 
   getProjectRoot(): string {
@@ -223,11 +223,11 @@ export class Storage {
   }
 
   getWorkspaceSettingsPath(): string {
-    return path.join(this.getQwenDir(), 'settings.json');
+    return path.join(this.getVivekMindDir(), 'settings.json');
   }
 
   getProjectCommandsDir(): string {
-    return path.join(this.getQwenDir(), 'commands');
+    return path.join(this.getVivekMindDir(), 'commands');
   }
 
   getProjectTempCheckpointsDir(): string {
@@ -235,11 +235,11 @@ export class Storage {
   }
 
   getExtensionsDir(): string {
-    return path.join(this.getQwenDir(), 'extensions');
+    return path.join(this.getVivekMindDir(), 'extensions');
   }
 
   getExtensionsConfigPath(): string {
-    return path.join(this.getExtensionsDir(), 'qwen-extension.json');
+    return path.join(this.getExtensionsDir(), 'vivekmind-extension.json');
   }
 
   getUserSkillsDirs(): string[] {
@@ -255,7 +255,7 @@ export class Storage {
    * project-level extensions which live in <project>/.vivekmind/extensions/.
    */
   static getUserExtensionsDir(): string {
-    return path.join(Storage.getGlobalQwenDir(), 'extensions');
+    return path.join(Storage.getGlobalVivekMindDir(), 'extensions');
   }
 
   getHistoryFilePath(): string {

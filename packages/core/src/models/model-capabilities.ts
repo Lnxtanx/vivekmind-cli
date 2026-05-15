@@ -30,7 +30,7 @@ const GEMINI_VISION: VisionCapability = {
   supportedImageTypes: ['png', 'jpeg', 'webp', 'gif', 'bmp'],
 };
 
-const QWEN_VISION: VisionCapability = {
+const VIVEKMIND_VISION: VisionCapability = {
   supportsVision: true,
   maxImageSizeBytes: 10 * MB,
   supportedImageTypes: ['png', 'jpeg', 'webp', 'gif', 'bmp'],
@@ -64,11 +64,11 @@ export const VISION_MODEL_MAP: Record<string, VisionCapability> = {
   'gemini-1.5-pro': GEMINI_VISION,
   'gemini-1.5-flash': GEMINI_VISION,
 
-  'qwen3.5-plus': QWEN_VISION,
-  'qwen3.6-plus': QWEN_VISION,
-  'coder-model': QWEN_VISION,
-  'qwen-vl-': QWEN_VISION,
-  'qwen3-vl-': QWEN_VISION,
+  'qwen3.5-plus': VIVEKMIND_VISION,
+  'qwen3.6-plus': VIVEKMIND_VISION,
+  'coder-model': VIVEKMIND_VISION,
+  'qwen-vl-': VIVEKMIND_VISION,
+  'qwen3-vl-': VIVEKMIND_VISION,
 
   'glm-4.5v': {
     supportsVision: true,

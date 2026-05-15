@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -157,7 +157,7 @@ export function HookDetailStep({
           </Box>
           <Box marginTop={1}>
             <Text color={theme.text.secondary}>
-              {t('To add hooks, edit settings.json directly or ask Qwen.')}
+              {t('To add hooks, edit settings.json directly or ask VivekMind.')}
             </Text>
           </Box>
           <Box marginTop={1}>

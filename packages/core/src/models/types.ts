@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -100,6 +100,7 @@ export interface AvailableModel {
   modalities?: InputModalities;
   baseUrl?: string;
   envKey?: string;
+  apiKey?: string;
 
   /** Whether this is a runtime model (not from modelProviders) */
   isRuntimeModel?: boolean;

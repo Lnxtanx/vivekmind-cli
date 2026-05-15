@@ -19,6 +19,13 @@ import { type ReactNode } from 'react';
 
 export type { ThoughtSummary };
 
+export interface Attachment {
+  id: string;
+  path: string;
+  filename: string;
+}
+
+
 export enum AuthState {
   // Attemtping to authenticate or re-authenticate
   Unauthenticated = 'unauthenticated',

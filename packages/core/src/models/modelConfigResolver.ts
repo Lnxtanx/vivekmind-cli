@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -20,7 +20,7 @@
 
 import { AuthType } from '../core/contentGenerator.js';
 import type { ContentGeneratorConfig } from '../core/contentGenerator.js';
-import { DEFAULT_QWEN_MODEL } from '../config/models.js';
+import { DEFAULT_VIVEKMIND_MODEL } from '../config/models.js';
 import {
   resolveField,
   resolveOptionalField,
@@ -38,7 +38,7 @@ import {
 import {
   AUTH_ENV_MAPPINGS,
   DEFAULT_MODELS,
-  QWEN_OAUTH_ALLOWED_MODELS,
+  VIVEKMIND_OAUTH_ALLOWED_MODELS,
   MODEL_GENERATION_CONFIG_FIELDS,
 } from './constants.js';
 import type { ModelConfig as ModelProviderConfig } from './types.js';
@@ -106,7 +106,7 @@ export interface ModelConfigResolutionResult {
 }
 
 /**
- * Applies QWEN_CODE_API_TIMEOUT_MS env override if modelProvider has not set a timeout.
+ * Applies VIVEKMIND_API_TIMEOUT_MS env override if modelProvider has not set a timeout.
  * Precedence: modelProvider > env > settings > default
  * Mutates generationConfig and sources in-place.
  */
@@ -118,7 +118,7 @@ function applyTimeoutEnvOverride(
 ): void {
   if (modelProvider?.generationConfig?.timeout !== undefined) return;
 
-  const raw = env['QWEN_CODE_API_TIMEOUT_MS'];
+  const raw = env['VIVEKMIND_API_TIMEOUT_MS'] || env['VIVEKMIND_CODE_API_TIMEOUT_MS'];
   if (raw === undefined) return;
 
   const parsed = Number(raw);
@@ -126,7 +126,7 @@ function applyTimeoutEnvOverride(
     generationConfig.timeout = Math.floor(parsed);
     sources['timeout'] = {
       kind: 'env',
-      envKey: 'QWEN_CODE_API_TIMEOUT_MS',
+      envKey: env['VIVEKMIND_API_TIMEOUT_MS'] ? 'VIVEKMIND_API_TIMEOUT_MS' : 'VIVEKMIND_CODE_API_TIMEOUT_MS',
     };
   }
 }
@@ -149,8 +149,8 @@ export function resolveModelConfig(
   const warnings: string[] = [];
   const sources: ConfigSources = {};
 
-  // Special handling for Qwen OAuth
-  if (authType === AuthType.QWEN_OAUTH) {
+  // Special handling for VivekMind OAuth
+  if (authType === AuthType.VIVEKMIND_OAUTH) {
     return resolveQwenOAuthConfig(input, warnings);
   }
 
@@ -195,7 +195,14 @@ export function resolveModelConfig(
   // ---- API Key ----
   const apiKeyLayers: Array<ConfigLayer<string>> = [];
 
-  // For modelProvider, read from the specified envKey
+  // 1. Highest priority: API key stored explicitly in settings.json
+  if (settings?.apiKey) {
+    apiKeyLayers.push(
+      layer(settings.apiKey, settingsSource('security.auth.apiKey')),
+    );
+  }
+
+  // 2. Next: API key from modelProvider's specific envKey (handles both standard and generated names)
   if (authType && modelProvider?.envKey) {
     const apiKeyFromEnv = env[modelProvider.envKey];
     if (apiKeyFromEnv) {
@@ -208,16 +215,15 @@ export function resolveModelConfig(
       );
     }
   }
+
+  // 3. Next: CLI argument
   if (cli?.apiKey) {
     apiKeyLayers.push(layer(cli.apiKey, cliSource('--openaiApiKey')));
   }
+
+  // 4. Finally: Fallback to standard environment variables for the provider
   for (const envKey of envMapping.apiKey) {
     apiKeyLayers.push(envLayer(env, envKey));
-  }
-  if (settings?.apiKey) {
-    apiKeyLayers.push(
-      layer(settings.apiKey, settingsSource('security.auth.apiKey')),
-    );
   }
 
   const apiKeyResult = resolveOptionalField(apiKeyLayers);
@@ -272,7 +278,7 @@ export function resolveModelConfig(
     sources,
   );
 
-  // ---- Env override: QWEN_CODE_API_TIMEOUT_MS ----
+  // ---- Env override: VIVEKMIND_CODE_API_TIMEOUT_MS ----
   applyTimeoutEnvOverride(env, generationConfig, sources, modelProvider);
 
   // Build final config
@@ -298,8 +304,8 @@ export function resolveModelConfig(
 }
 
 /**
- * Special resolver for Qwen OAuth authentication.
- * Qwen OAuth has fixed model options and uses dynamic tokens.
+ * Special resolver for VivekMind OAuth authentication.
+ * VivekMind OAuth has fixed model options and uses dynamic tokens.
  */
 function resolveQwenOAuthConfig(
   input: ModelConfigSourcesInput,
@@ -308,8 +314,8 @@ function resolveQwenOAuthConfig(
   const { cli, settings, proxy, modelProvider } = input;
   const sources: ConfigSources = {};
 
-  // Qwen OAuth only allows specific models
-  const allowedModels = new Set<string>(QWEN_OAUTH_ALLOWED_MODELS);
+  // VivekMind OAuth only allows specific models
+  const allowedModels = new Set<string>(VIVEKMIND_OAUTH_ALLOWED_MODELS);
 
   // Determine requested model
   const requestedModel = cli?.model || settings?.model;
@@ -329,15 +335,15 @@ function resolveQwenOAuthConfig(
         ? ` Note: vision-model has been removed since coder-model now supports vision capabilities.`
         : '';
       warnings.push(
-        `Warning: Unsupported Qwen OAuth model '${requestedModel}', falling back to '${DEFAULT_QWEN_MODEL}'.${extraMessage}`,
+        `Warning: Unsupported VivekMind OAuth model '${requestedModel}', falling back to '${DEFAULT_VIVEKMIND_MODEL}'.${extraMessage}`,
       );
     }
-    resolvedModel = DEFAULT_QWEN_MODEL;
-    modelSource = defaultSource(`fallback to '${DEFAULT_QWEN_MODEL}'`);
+    resolvedModel = DEFAULT_VIVEKMIND_MODEL;
+    modelSource = defaultSource(`fallback to '${DEFAULT_VIVEKMIND_MODEL}'`);
   }
 
   sources['model'] = modelSource;
-  sources['apiKey'] = computedSource('Qwen OAuth dynamic token');
+  sources['apiKey'] = computedSource('VivekMind OAuth dynamic token');
   sources['authType'] = computedSource('provided by caller');
 
   if (proxy) {
@@ -348,18 +354,18 @@ function resolveQwenOAuthConfig(
   const generationConfig = resolveGenerationConfig(
     settings?.generationConfig,
     modelProvider?.generationConfig,
-    AuthType.QWEN_OAUTH,
+    AuthType.VIVEKMIND_OAUTH,
     resolvedModel,
     sources,
   );
 
-  // ---- Env override: QWEN_CODE_API_TIMEOUT_MS ----
+  // ---- Env override: VIVEKMIND_CODE_API_TIMEOUT_MS ----
   applyTimeoutEnvOverride(input.env, generationConfig, sources, modelProvider);
 
   const config: ContentGeneratorConfig = {
-    authType: AuthType.QWEN_OAUTH,
+    authType: AuthType.VIVEKMIND_OAUTH,
     model: resolvedModel,
-    apiKey: 'QWEN_OAUTH_DYNAMIC_TOKEN',
+    apiKey: 'VIVEKMIND_OAUTH_DYNAMIC_TOKEN',
     proxy,
     ...generationConfig,
   };

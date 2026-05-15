@@ -6,7 +6,7 @@
 
 import type { Content, GenerateContentConfig, Part } from '@google/genai';
 import type { Config } from '../config/config.js';
-import { DEFAULT_QWEN_MODEL } from '../config/models.js';
+import { DEFAULT_VIVEKMIND_MODEL } from '../config/models.js';
 import { SchemaValidator } from './schemaValidator.js';
 
 export interface SideQueryOptions<TResponse> {
@@ -40,7 +40,7 @@ export async function runSideQuery<TResponse>(
     contents: options.contents,
     schema: options.schema,
     abortSignal: options.abortSignal,
-    model: options.model ?? config.getModel() ?? DEFAULT_QWEN_MODEL,
+    model: options.model ?? config.getModel() ?? DEFAULT_VIVEKMIND_MODEL,
     systemInstruction: options.systemInstruction,
     promptId: options.promptId ?? buildDefaultPromptId(options.purpose),
     config: options.config,

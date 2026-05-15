@@ -30,4 +30,4 @@ npm run typecheck
 npm test
 ```
 
-Keep provider names, model names, and upstream attribution accurate. References to Qwen models or Qwen OAuth should not be renamed as part of product-branding cleanup.
+Keep provider names, model names, and upstream attribution accurate. References to VivekMind models or VivekMind OAuth should not be renamed as part of product-branding cleanup.

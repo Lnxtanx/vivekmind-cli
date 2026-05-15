@@ -1,0 +1,19 @@
+/**
+ * @license
+ * Copyright 2025 Google LLC
+ * Modifications Copyright (C) 2026 VivekMind
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export interface VivekMindIgnoreFilter {
+    isIgnored(filePath: string): boolean;
+    getPatterns(): string[];
+}
+export declare class VivekMindIgnoreParser implements VivekMindIgnoreFilter {
+    private projectRoot;
+    private patterns;
+    private ig;
+    constructor(projectRoot: string);
+    private loadPatterns;
+    isIgnored(filePath: string): boolean;
+    getPatterns(): string[];
+}

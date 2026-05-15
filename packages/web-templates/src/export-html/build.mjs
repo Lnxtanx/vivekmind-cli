@@ -65,7 +65,7 @@ const htmlOutput = htmlTemplate
 
 const templateModule = `/**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  *
  * This HTML template is code-generated; do not edit manually.

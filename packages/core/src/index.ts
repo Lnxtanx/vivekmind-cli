@@ -18,9 +18,9 @@ export * from './permissions/index.js';
 
 // Model configuration
 export {
-  DEFAULT_QWEN_MODEL,
-  DEFAULT_QWEN_FLASH_MODEL,
-  DEFAULT_QWEN_EMBEDDING_MODEL,
+  DEFAULT_VIVEKMIND_MODEL,
+  DEFAULT_VIVEKMIND_FLASH_MODEL,
+  DEFAULT_VIVEKMIND_EMBEDDING_MODEL,
   MAINLINE_CODER_MODEL,
 } from './config/models.js';
 export {
@@ -39,8 +39,9 @@ export {
   type ModelProvidersConfig,
   type ModelSwitchMetadata,
   type OnModelChangeCallback,
-  QWEN_OAUTH_MODELS,
+  VIVEKMIND_OAUTH_MODELS,
   VISION_MODEL_MAP,
+  AUTH_ENV_MAPPINGS,
   getVisionCapability,
   resolveModelConfig,
   type ResolvedModelConfig,
@@ -228,7 +229,7 @@ export type {
 // Telemetry
 // ============================================================================
 
-export { QwenLogger } from './telemetry/qwen-logger/qwen-logger.js';
+export { VivekMindLogger } from './telemetry/vivekmind-logger/vivekmind-logger.js';
 export * from './telemetry/index.js';
 export {
   logAuth,
@@ -331,7 +332,7 @@ export * from './utils/sideQuery.js';
 // OAuth & Authentication
 // ============================================================================
 
-export * from './qwen/qwenOAuth2.js';
+export * from './vivekmind/vivekmindOAuth2.js';
 
 // ============================================================================
 // Message Bus Types

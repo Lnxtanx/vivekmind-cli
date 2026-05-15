@@ -220,7 +220,7 @@ export function ImpressiveWorkflows({
         {primarySuccess && Object.keys(primarySuccess).length > 0 && (
           <HorizontalBarChart
             data={primarySuccess}
-            title="What Helped Most (Qwen's Capabilities)"
+            title="What Helped Most (VivekMind's Capabilities)"
             color="#3b82f6"
             allowedKeys={[
               'fast_accurate_search',
@@ -484,12 +484,12 @@ export function FrictionPoints({
   );
 }
 
-// Qwen.md Additions Section Component
-function QwenMdAdditionsSection({
+// VivekMind.md Additions Section Component
+function VivekMindMdAdditionsSection({
   additions,
 }: {
   additions: NonNullable<
-    NonNullable<QualitativeData['improvements']>['Qwen_md_additions']
+    NonNullable<QualitativeData['improvements']>['VivekMind_md_additions']
   >;
 }) {
   const [checkedState, setCheckedState] = useState(
@@ -522,9 +522,9 @@ function QwenMdAdditionsSection({
 
   return (
     <div className="vivekmind-md-section">
-      <h3>Suggested QWEN.md Additions</h3>
+      <h3>Suggested VIVEKMIND.md Additions</h3>
       <p className="text-xs text-slate-500 mb-3">
-        Just copy this into VivekMind to add it to your QWEN.md.
+        Just copy this into VivekMind to add it to your VIVEKMIND.md.
       </p>
 
       <div className="vivekmind-md-actions" style={{ marginBottom: '12px' }}>
@@ -575,10 +575,10 @@ export function Improvements({
         Existing VivekMind Features to Try
       </h2>
 
-      {/* QWEN.md Additions */}
-      {Array.isArray(improvements.Qwen_md_additions) &&
-        improvements.Qwen_md_additions.length > 0 && (
-          <QwenMdAdditionsSection additions={improvements.Qwen_md_additions} />
+      {/* VIVEKMIND.md Additions */}
+      {Array.isArray(improvements.VivekMind_md_additions) &&
+        improvements.VivekMind_md_additions.length > 0 && (
+          <VivekMindMdAdditionsSection additions={improvements.VivekMind_md_additions} />
         )}
 
       <p className="text-xs text-slate-500 mb-3">

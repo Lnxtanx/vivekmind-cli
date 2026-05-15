@@ -12,4 +12,4 @@ export * from './hybrid-token-storage.js';
 
 export const DEFAULT_SERVICE_NAME = 'vivekmind-oauth';
 export const FORCE_ENCRYPTED_FILE_ENV_VAR =
-  'QWEN_CODE_FORCE_ENCRYPTED_FILE_STORAGE';
+  'VIVEKMIND_CODE_FORCE_ENCRYPTED_FILE_STORAGE';

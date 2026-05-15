@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -44,7 +44,7 @@ export function getHookExitCodes(eventName: string): HookExitCode[] {
       { code: 'Other', description: t('show stderr to user only') },
     ],
     [HookEventName.UserPromptSubmit]: [
-      { code: 0, description: t('stdout shown to Qwen') },
+      { code: 0, description: t('stdout shown to VivekMind') },
       {
         code: 2,
         description: t(
@@ -54,7 +54,7 @@ export function getHookExitCodes(eventName: string): HookExitCode[] {
       { code: 'Other', description: t('show stderr to user only') },
     ],
     [HookEventName.SessionStart]: [
-      { code: 0, description: t('stdout shown to Qwen') },
+      { code: 0, description: t('stdout shown to VivekMind') },
       {
         code: 'Other',
         description: t('show stderr to user only (blocking errors ignored)'),

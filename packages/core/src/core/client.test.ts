@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -32,7 +32,7 @@ import {
   type ChatCompressionInfo,
 } from './turn.js';
 import { getCoreSystemPrompt, getCustomSystemPrompt } from './prompts.js';
-import { DEFAULT_QWEN_FLASH_MODEL } from '../config/models.js';
+import { DEFAULT_VIVEKMIND_FLASH_MODEL } from '../config/models.js';
 import { FileDiscoveryService } from '../services/fileDiscoveryService.js';
 import { promptIdContext } from '../utils/promptIdContext.js';
 import { setSimulate429 } from '../utils/testUtils.js';
@@ -141,7 +141,7 @@ vi.mock('../telemetry/index.js', async (importOriginal) => {
     ...actual,
     uiTelemetryService: mockUiTelemetryService,
     // We keep the real implementations of logChatCompression, etc.
-    // but we can spy on QwenLogger if needed
+    // but we can spy on VivekMindLogger if needed
   };
 });
 vi.mock('../ide/ideContext.js');
@@ -2954,12 +2954,12 @@ Other open files:
         contents,
         generationConfig,
         abortSignal,
-        DEFAULT_QWEN_FLASH_MODEL,
+        DEFAULT_VIVEKMIND_FLASH_MODEL,
       );
 
       expect(mockContentGenerator.generateContent).toHaveBeenCalledWith(
         expect.objectContaining({
-          model: DEFAULT_QWEN_FLASH_MODEL,
+          model: DEFAULT_VIVEKMIND_FLASH_MODEL,
           config: expect.objectContaining({
             abortSignal,
             systemInstruction: getCoreSystemPrompt(''),
@@ -2982,7 +2982,7 @@ Other open files:
         contents,
         {},
         new AbortController().signal,
-        DEFAULT_QWEN_FLASH_MODEL,
+        DEFAULT_VIVEKMIND_FLASH_MODEL,
       );
 
       expect(mockContentGenerator.generateContent).not.toHaveBeenCalledWith({
@@ -2992,7 +2992,7 @@ Other open files:
       });
       expect(mockContentGenerator.generateContent).toHaveBeenCalledWith(
         {
-          model: DEFAULT_QWEN_FLASH_MODEL,
+          model: DEFAULT_VIVEKMIND_FLASH_MODEL,
           config: expect.any(Object),
           contents,
         },
@@ -3009,13 +3009,13 @@ Other open files:
           contents,
           {},
           abortSignal,
-          DEFAULT_QWEN_FLASH_MODEL,
+          DEFAULT_VIVEKMIND_FLASH_MODEL,
         );
       });
 
       expect(mockContentGenerator.generateContent).toHaveBeenCalledWith(
         expect.objectContaining({
-          model: DEFAULT_QWEN_FLASH_MODEL,
+          model: DEFAULT_VIVEKMIND_FLASH_MODEL,
           contents,
         }),
         'btw-prompt-id',
@@ -3035,14 +3035,14 @@ Other open files:
           contents,
           {},
           abortSignal,
-          DEFAULT_QWEN_FLASH_MODEL,
+          DEFAULT_VIVEKMIND_FLASH_MODEL,
           'override-prompt-id',
         );
       });
 
       expect(mockContentGenerator.generateContent).toHaveBeenCalledWith(
         expect.objectContaining({
-          model: DEFAULT_QWEN_FLASH_MODEL,
+          model: DEFAULT_VIVEKMIND_FLASH_MODEL,
           contents,
         }),
         'override-prompt-id',
@@ -3067,7 +3067,7 @@ Other open files:
         contents,
         {},
         abortSignal,
-        DEFAULT_QWEN_FLASH_MODEL,
+        DEFAULT_VIVEKMIND_FLASH_MODEL,
       );
 
       expect(getCustomSystemPrompt).toHaveBeenCalledWith(
@@ -3098,7 +3098,7 @@ Other open files:
         contents,
         {},
         abortSignal,
-        DEFAULT_QWEN_FLASH_MODEL,
+        DEFAULT_VIVEKMIND_FLASH_MODEL,
       );
 
       expect(getCoreSystemPrompt).toHaveBeenCalledWith(
@@ -3129,7 +3129,7 @@ Other open files:
         contents,
         {},
         abortSignal,
-        DEFAULT_QWEN_FLASH_MODEL,
+        DEFAULT_VIVEKMIND_FLASH_MODEL,
       );
 
       expect(getCustomSystemPrompt).toHaveBeenCalledWith(

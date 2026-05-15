@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -325,7 +325,7 @@ class MonitorToolInvocation extends BaseToolInvocation<
         detached: true,
         env: {
           ...process.env,
-          QWEN_CODE: '1',
+          VIVEKMIND_CODE: '1',
           TERM: 'dumb', // no color codes for streaming
           PAGER: 'cat',
         },

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -98,7 +98,7 @@ describe('MemoryManager', () => {
 
     beforeEach(async () => {
       vi.resetAllMocks();
-      process.env['QWEN_CODE_MEMORY_LOCAL'] = '1';
+      process.env['VIVEKMIND_CODE_MEMORY_LOCAL'] = '1';
       clearAutoMemoryRootCache();
       tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mgr-extract-'));
       projectRoot = path.join(tempDir, 'project');
@@ -107,7 +107,7 @@ describe('MemoryManager', () => {
     });
 
     afterEach(async () => {
-      delete process.env['QWEN_CODE_MEMORY_LOCAL'];
+      delete process.env['VIVEKMIND_CODE_MEMORY_LOCAL'];
       clearAutoMemoryRootCache();
       await fs.rm(tempDir, { recursive: true, force: true });
     });
@@ -268,7 +268,7 @@ describe('MemoryManager', () => {
 
     beforeEach(async () => {
       vi.resetAllMocks();
-      process.env['QWEN_CODE_MEMORY_LOCAL'] = '1';
+      process.env['VIVEKMIND_CODE_MEMORY_LOCAL'] = '1';
       clearAutoMemoryRootCache();
       tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mgr-dream-'));
       projectRoot = path.join(tempDir, 'project');
@@ -285,7 +285,7 @@ describe('MemoryManager', () => {
     });
 
     afterEach(async () => {
-      delete process.env['QWEN_CODE_MEMORY_LOCAL'];
+      delete process.env['VIVEKMIND_CODE_MEMORY_LOCAL'];
       clearAutoMemoryRootCache();
       await fs.rm(tempDir, { recursive: true, force: true });
     });

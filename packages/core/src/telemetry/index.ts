@@ -7,7 +7,7 @@
 export enum TelemetryTarget {
   GCP = 'gcp',
   LOCAL = 'local',
-  QWEN = 'qwen',
+  VIVEKMIND = 'vivekmind',
 }
 
 const DEFAULT_TELEMETRY_TARGET = TelemetryTarget.LOCAL;
@@ -134,5 +134,5 @@ export {
   ApiRequestPhase,
   FileOperation,
 } from './metrics.js';
-export { QwenLogger } from './qwen-logger/qwen-logger.js';
+export { VivekMindLogger } from './vivekmind-logger/vivekmind-logger.js';
 export { sanitizeHookName } from './sanitize.js';

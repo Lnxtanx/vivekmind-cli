@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -1359,7 +1359,7 @@ export class Session implements SessionContext {
       selectedAuthType,
       parsed.modelId,
       selectedAuthType !== previousAuthType &&
-        selectedAuthType === AuthType.QWEN_OAUTH
+        selectedAuthType === AuthType.VIVEKMIND_OAUTH
         ? { requireCachedCredentials: true }
         : undefined,
     );
@@ -1426,11 +1426,11 @@ export class Session implements SessionContext {
 
     // Bounded-concurrency runner: matches core's `runConcurrently`
     // behaviour (`coreToolScheduler.ts:1506`), capped by
-    // `QWEN_CODE_MAX_TOOL_CONCURRENCY` (default 10). Results are returned
+    // `VIVEKMIND_CODE_MAX_TOOL_CONCURRENCY` (default 10). Results are returned
     // in input order regardless of resolution order.
     const runBounded = async (calls: FunctionCall[]): Promise<Part[][]> => {
       const parsed = parseInt(
-        process.env['QWEN_CODE_MAX_TOOL_CONCURRENCY'] || '',
+        process.env['VIVEKMIND_CODE_MAX_TOOL_CONCURRENCY'] || '',
         10,
       );
       const maxConcurrency =

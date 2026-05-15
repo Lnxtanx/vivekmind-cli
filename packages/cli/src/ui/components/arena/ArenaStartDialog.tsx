@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -36,7 +36,7 @@ export function ArenaStartDialog({
 
     return selectableModels.map((model) => {
       const token = `${model.authType}:${model.id}`;
-      const isQwenOauth = model.authType === AuthType.QWEN_OAUTH;
+      const isQwenOauth = model.authType === AuthType.VIVEKMIND_OAUTH;
       return {
         key: token,
         value: token,
@@ -113,7 +113,7 @@ export function ArenaStartDialog({
         <Box marginTop={1} flexDirection="column">
           {hasDisabledQwenOauth && (
             <Text color={theme.status.warning}>
-              {t('Note: qwen-oauth models are not supported in Arena.')}
+              {t('Note: vivekmind-oauth models are not supported in Arena.')}
             </Text>
           )}
           {needsMoreModels && (

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,7 @@ import { homedir } from 'node:os';
 import picomatch from 'picomatch';
 import { parse as parseYaml } from './yaml-parser.js';
 import { normalizeContent } from './textUtils.js';
-import { QWEN_DIR } from './paths.js';
+import { VIVEKMIND_DIR } from './paths.js';
 import { createDebugLogger } from './debugLogger.js';
 import { resolveProjectRelativePath } from './projectPath.js';
 
@@ -322,7 +322,7 @@ export async function loadRules(
   const allRules: RuleFile[] = [];
 
   // 1. Global rules: ~/.vivekmind/rules/
-  const globalRulesDir = path.join(homedir(), QWEN_DIR, 'rules');
+  const globalRulesDir = path.join(homedir(), VIVEKMIND_DIR, 'rules');
   const globalRules = await loadRulesFromDir(globalRulesDir, excludes);
   allRules.push(...globalRules);
   logger.debug(`Loaded ${globalRules.length} global rule(s)`);
@@ -330,7 +330,7 @@ export async function loadRules(
   // 2. Project-level rules: <projectRoot>/.vivekmind/rules/  (trusted only)
   //    Skip if it resolves to the same directory as global rules.
   if (folderTrust) {
-    const projectRulesDir = path.join(projectRoot, QWEN_DIR, 'rules');
+    const projectRulesDir = path.join(projectRoot, VIVEKMIND_DIR, 'rules');
     if (path.resolve(projectRulesDir) !== path.resolve(globalRulesDir)) {
       const projectRules = await loadRulesFromDir(projectRulesDir, excludes);
       allRules.push(...projectRules);

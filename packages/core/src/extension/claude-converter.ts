@@ -188,7 +188,7 @@ export function convertClaudeAgentConfig(
     qwenAgent['model'] = claudeAgent.model;
   }
 
-  // Map Claude permission mode aliases to Qwen ApprovalMode values.
+  // Map Claude permission mode aliases to VivekMind ApprovalMode values.
   // Note: Claude's `dontAsk` denies any tool call that would prompt the user,
   // making it restrictive. We map it to `default` (which also requires approval)
   // rather than `auto-edit` (which auto-approves), preserving the restrictive
@@ -221,7 +221,7 @@ export function convertClaudeAgentConfig(
 }
 
 /**
- * Converts all agent files in a directory from Claude format to Qwen format.
+ * Converts all agent files in a directory from Claude format to VivekMind format.
  * Parses the YAML frontmatter, converts the configuration, and writes back.
  * @param agentsDir Directory containing agent markdown files
  */
@@ -268,7 +268,7 @@ async function convertAgentFiles(agentsDir: string): Promise<void> {
         systemPrompt: body.trim(),
       };
 
-      // Convert to Qwen format
+      // Convert to VivekMind format
       const qwenAgent = convertClaudeAgentConfig(claudeAgent);
 
       // Build new frontmatter (excluding systemPrompt as it goes in body)
@@ -301,7 +301,7 @@ ${systemPrompt}
 /**
  * Converts a Claude plugin config to VivekMind format.
  * @param claudeConfig Claude plugin configuration
- * @returns Qwen ExtensionConfig
+ * @returns VivekMind ExtensionConfig
  */
 export function convertClaudeToQwenConfig(
   claudeConfig: ClaudePluginConfig,
@@ -357,7 +357,7 @@ export function convertClaudeToQwenConfig(
 /**
  * Converts a complete Claude plugin package to VivekMind format.
  * Creates a new temporary directory with:
- * 1. Converted qwen-extension.json
+ * 1. Converted vivekmind-extension.json
  * 2. Commands, skills, and agents collected to respective folders
  * 3. MCP servers resolved from JSON files if needed
  * 4. All other files preserved
@@ -518,15 +518,15 @@ export async function convertClaudePluginPackage(
       }
     }
 
-    // Step 9: Convert collected agent files from Claude format to Qwen format
+    // Step 9: Convert collected agent files from Claude format to VivekMind format
     const agentsDestDir = path.join(tmpDir, 'agents');
     await convertAgentFiles(agentsDestDir);
 
-    // Step 10: Convert to Qwen format config
+    // Step 10: Convert to VivekMind format config
     const qwenConfig = convertClaudeToQwenConfig(mergedConfig);
 
-    // Step 11: Write qwen-extension.json
-    const qwenConfigPath = path.join(tmpDir, 'qwen-extension.json');
+    // Step 11: Write vivekmind-extension.json
+    const qwenConfigPath = path.join(tmpDir, 'vivekmind-extension.json');
     fs.writeFileSync(
       qwenConfigPath,
       JSON.stringify(qwenConfig, null, 2),

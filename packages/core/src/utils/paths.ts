@@ -12,7 +12,7 @@ import * as crypto from 'node:crypto';
 import type { Config } from '../config/config.js';
 import { isNodeError } from './errors.js';
 
-export const QWEN_DIR = '.vivekmind';
+export const VIVEKMIND_DIR = '.vivekmind';
 export const GOOGLE_ACCOUNTS_FILENAME = 'google_accounts.json';
 
 /**

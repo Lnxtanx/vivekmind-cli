@@ -7,6 +7,9 @@ export { GroqOpenAICompatibleProvider } from './groq.js';
 export { TogetherOpenAICompatibleProvider } from './together.js';
 export { XAIOpenAICompatibleProvider } from './xai.js';
 export { MistralOpenAICompatibleProvider } from './mistral.js';
+export { AzureOpenAICompatibleProvider } from './azure.js';
+export { CohereOpenAICompatibleProvider } from './cohere.js';
+export { HuggingFaceOpenAICompatibleProvider } from './huggingface.js';
 export { DefaultOpenAICompatibleProvider } from './default.js';
 export type {
   OpenAICompatibleProvider,

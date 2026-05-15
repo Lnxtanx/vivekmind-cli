@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -373,7 +373,7 @@ export class AnthropicContentGenerator implements ContentGenerator {
         : userMaxTokens;
     } else {
       // No explicit user config — check env var, then use capped default.
-      const envVal = process.env['QWEN_CODE_MAX_OUTPUT_TOKENS'];
+      const envVal = process.env['VIVEKMIND_CODE_MAX_OUTPUT_TOKENS'];
       const envMaxTokens = envVal ? parseInt(envVal, 10) : NaN;
       if (!isNaN(envMaxTokens) && envMaxTokens > 0) {
         maxTokens = isKnownModel

@@ -57,12 +57,12 @@ export async function resolveTelemetrySettings(options: {
 
   const enabled =
     argv.telemetry ??
-    parseBooleanEnvFlag(env['QWEN_TELEMETRY_ENABLED']) ??
+    parseBooleanEnvFlag(env['VIVEKMIND_TELEMETRY_ENABLED']) ??
     settings.enabled;
 
   const rawTarget =
     (argv.telemetryTarget as string | TelemetryTarget | undefined) ??
-    env['QWEN_TELEMETRY_TARGET'] ??
+    env['VIVEKMIND_TELEMETRY_TARGET'] ??
     (settings.target as string | TelemetryTarget | undefined);
   const target = parseTelemetryTargetValue(rawTarget);
   if (rawTarget !== undefined && target === undefined) {
@@ -75,13 +75,13 @@ export async function resolveTelemetrySettings(options: {
 
   const otlpEndpoint =
     argv.telemetryOtlpEndpoint ??
-    env['QWEN_TELEMETRY_OTLP_ENDPOINT'] ??
+    env['VIVEKMIND_TELEMETRY_OTLP_ENDPOINT'] ??
     env['OTEL_EXPORTER_OTLP_ENDPOINT'] ??
     settings.otlpEndpoint;
 
   const rawProtocol =
     (argv.telemetryOtlpProtocol as string | undefined) ??
-    env['QWEN_TELEMETRY_OTLP_PROTOCOL'] ??
+    env['VIVEKMIND_TELEMETRY_OTLP_PROTOCOL'] ??
     settings.otlpProtocol;
   const otlpProtocol = (['grpc', 'http'] as const).find(
     (p) => p === rawProtocol,
@@ -96,30 +96,30 @@ export async function resolveTelemetrySettings(options: {
 
   const logPrompts =
     argv.telemetryLogPrompts ??
-    parseBooleanEnvFlag(env['QWEN_TELEMETRY_LOG_PROMPTS']) ??
+    parseBooleanEnvFlag(env['VIVEKMIND_TELEMETRY_LOG_PROMPTS']) ??
     settings.logPrompts;
 
   const outfile =
-    argv.telemetryOutfile ?? env['QWEN_TELEMETRY_OUTFILE'] ?? settings.outfile;
+    argv.telemetryOutfile ?? env['VIVEKMIND_TELEMETRY_OUTFILE'] ?? settings.outfile;
 
   const useCollector =
-    parseBooleanEnvFlag(env['QWEN_TELEMETRY_USE_COLLECTOR']) ??
+    parseBooleanEnvFlag(env['VIVEKMIND_TELEMETRY_USE_COLLECTOR']) ??
     settings.useCollector;
 
   // Per-signal endpoint overrides (HTTP only).
-  // Priority: QWEN_ env var > standard OTEL_ env var > settings.json
+  // Priority: VIVEKMIND_ env var > standard OTEL_ env var > settings.json
   const otlpTracesEndpoint =
-    env['QWEN_TELEMETRY_OTLP_TRACES_ENDPOINT'] ??
+    env['VIVEKMIND_TELEMETRY_OTLP_TRACES_ENDPOINT'] ??
     env['OTEL_EXPORTER_OTLP_TRACES_ENDPOINT'] ??
     settings.otlpTracesEndpoint;
 
   const otlpLogsEndpoint =
-    env['QWEN_TELEMETRY_OTLP_LOGS_ENDPOINT'] ??
+    env['VIVEKMIND_TELEMETRY_OTLP_LOGS_ENDPOINT'] ??
     env['OTEL_EXPORTER_OTLP_LOGS_ENDPOINT'] ??
     settings.otlpLogsEndpoint;
 
   const otlpMetricsEndpoint =
-    env['QWEN_TELEMETRY_OTLP_METRICS_ENDPOINT'] ??
+    env['VIVEKMIND_TELEMETRY_OTLP_METRICS_ENDPOINT'] ??
     env['OTEL_EXPORTER_OTLP_METRICS_ENDPOINT'] ??
     settings.otlpMetricsEndpoint;
 

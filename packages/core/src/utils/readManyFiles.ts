@@ -71,7 +71,7 @@ export interface ReadManyFilesResult {
   error?: string;
 }
 
-const DEFAULT_OUTPUT_HEADER = '\n--- Content from referenced files ---';
+const DEFAULT_OUTPUT_HEADER = '\n--- Content from referenced files ---\n';
 const DEFAULT_OUTPUT_TERMINATOR = '\n--- End of content ---';
 
 /**
@@ -98,76 +98,82 @@ export async function readManyFiles(
   const contentParts: Part[] = [];
   const files: FileReadInfo[] = [];
 
+  const addContentPart = (part: Part) => {
+    if (contentParts.length === 0) {
+      contentParts.push({ text: DEFAULT_OUTPUT_HEADER });
+    }
+    contentParts.push(part);
+  };
+
   try {
-    const projectRoot = config.getProjectRoot();
+    for (const pattern of inputPatterns) {
+      if (options.signal?.aborted) {
+        break;
+      }
 
-    for (const rawPattern of inputPatterns) {
-      const normalizedPattern = rawPattern.replace(/\\/g, '/');
-      const fullPath = path.resolve(projectRoot, normalizedPattern);
-      const stats = fs.existsSync(fullPath) ? fs.statSync(fullPath) : null;
+      const absolutePath = path.isAbsolute(pattern)
+        ? pattern
+        : path.resolve(config.getTargetDir(), pattern);
 
-      if (stats?.isDirectory()) {
-        const { contentParts: dirParts, info } = await readDirectory(
-          config,
-          fullPath,
-        );
-        contentParts.push(...dirParts);
-        files.push(info);
+      if (seenFiles.has(absolutePath)) {
         continue;
       }
 
-      if (stats?.isFile() && !seenFiles.has(fullPath)) {
-        seenFiles.add(fullPath);
-        const readResult = await readFileContent(config, fullPath);
-        if (readResult) {
-          contentParts.push(...readResult.contentParts);
-          files.push(readResult.info);
+      try {
+        const stats = await fs.promises.stat(absolutePath);
+
+        if (stats.isDirectory()) {
+          const folderStructure = await getFolderStructure(absolutePath, {
+            maxItems: 40, // Increased from default 20 to give more context for explicit directory reads
+          });
+
+          const directoryText = `Directory structure for ${pattern}:\n${folderStructure}`;
+          addContentPart({ text: `\n--- Directory: ${pattern} ---\n` });
+          addContentPart({ text: directoryText });
+          addContentPart({ text: `\n--- End Directory ---\n` });
+
+          files.push({
+            filePath: absolutePath,
+            content: directoryText,
+            isDirectory: true,
+          });
+          seenFiles.add(absolutePath);
+        } else {
+          const result = await readFileContent(config, absolutePath);
+          if (result) {
+            result.contentParts.forEach(addContentPart);
+            files.push(result.info);
+            seenFiles.add(absolutePath);
+          }
         }
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        const errorText = `Failed to access ${pattern}: ${errorMessage}`;
+        addContentPart({ text: `\n--- File: ${pattern} ---\n` });
+        addContentPart({ text: errorText });
+        addContentPart({ text: `\n--- End File ---\n` });
+
+        files.push({
+          filePath: absolutePath,
+          content: errorText,
+          isDirectory: false,
+          error: errorMessage,
+        });
       }
     }
+
+    if (contentParts.length > 0) {
+      contentParts.push({ text: DEFAULT_OUTPUT_TERMINATOR });
+    }
+
+    return { contentParts, files };
   } catch (error) {
-    const errorMessage = `Error during file search: ${getErrorMessage(error)}`;
     return {
-      contentParts: [errorMessage],
+      contentParts: [],
       files: [],
-      error: errorMessage,
+      error: getErrorMessage(error),
     };
   }
-
-  if (contentParts.length > 0) {
-    contentParts.unshift({ text: DEFAULT_OUTPUT_HEADER });
-    contentParts.push({ text: DEFAULT_OUTPUT_TERMINATOR });
-  } else {
-    contentParts.push({
-      text: 'No files matching the criteria were found or all were skipped.',
-    });
-  }
-
-  return { contentParts: contentParts as PartListUnion, files };
-}
-
-async function readDirectory(
-  config: Config,
-  directoryPath: string,
-): Promise<{ contentParts: Part[]; info: FileReadInfo }> {
-  const structure = await getFolderStructure(directoryPath, {
-    fileService: config.getFileService(),
-    fileFilteringOptions: config.getFileFilteringOptions(),
-  });
-
-  const contentParts: Part[] = [
-    { text: `\nContent from ${directoryPath}:\n` },
-    { text: structure },
-  ];
-
-  return {
-    contentParts,
-    info: {
-      filePath: directoryPath,
-      content: structure,
-      isDirectory: true,
-    },
-  };
 }
 
 async function readFileContent(
@@ -176,8 +182,6 @@ async function readFileContent(
 ): Promise<{ contentParts: Part[]; info: FileReadInfo } | null> {
   try {
     const fileReadResult = await processSingleFileContent(filePath, config);
-
-    const prefixText: Part = { text: `\nContent from ${filePath}:\n` };
 
     // Surface any error produced by processSingleFileContent instead of
     // silently skipping the file. This preserves actionable guidance
@@ -189,7 +193,11 @@ async function readFileContent(
           ? fileReadResult.llmContent
           : `Failed to read ${filePath}: ${fileReadResult.error}`;
       return {
-        contentParts: [prefixText, { text: errorText }],
+        contentParts: [
+          { text: `\n--- File: ${filePath} ---\n` },
+          { text: errorText },
+          { text: `\n--- End File ---\n` },
+        ],
         info: {
           filePath,
           content: errorText,
@@ -208,7 +216,14 @@ async function readFileContent(
       } else {
         fileContentForLlm = fileReadResult.llmContent;
       }
-      const contentParts: Part[] = [prefixText, { text: fileContentForLlm }];
+
+      const prefixText: Part = { text: `\n--- File: ${filePath} ---\n` };
+      const suffixText: Part = { text: `\n--- End File ---\n` };
+      const contentParts: Part[] = [
+        prefixText,
+        { text: fileContentForLlm },
+        suffixText,
+      ];
       return {
         contentParts,
         info: {
@@ -219,17 +234,33 @@ async function readFileContent(
       };
     }
 
-    // For binary files (images, PDFs), add prefix text before the inlineData/fileData part
-    const contentParts: Part[] = [prefixText, fileReadResult.llmContent];
+    if (fileReadResult.llmContent && typeof fileReadResult.llmContent === 'object') {
+      // It's a Part (image/PDF)
+      return {
+        contentParts: [fileReadResult.llmContent as Part],
+        info: {
+          filePath,
+          content: [fileReadResult.llmContent as Part],
+          isDirectory: false,
+        },
+      };
+    }
+
+    return null;
+  } catch (error) {
+    const errorText = `Error reading ${filePath}: ${getErrorMessage(error)}`;
     return {
-      contentParts,
+      contentParts: [
+        { text: `\n--- File: ${filePath} ---\n` },
+        { text: errorText },
+        { text: `\n--- End File ---\n` },
+      ],
       info: {
         filePath,
-        content: fileReadResult.llmContent,
+        content: errorText,
         isDirectory: false,
+        error: getErrorMessage(error),
       },
     };
-  } catch {
-    return null;
   }
 }

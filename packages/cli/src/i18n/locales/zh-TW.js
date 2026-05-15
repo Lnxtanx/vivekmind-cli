@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen team
+ * Copyright 2025 VivekMind team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -336,7 +336,7 @@ export default {
   'Custom Witty Phrases': '自定義詼諧短語',
   'Show Welcome Back Dialog': '顯示歡迎回來對話框',
   'Enable User Feedback': '啓用用戶反饋',
-  'How is Qwen doing this session? (optional)': 'Qwen 這次表現如何？（可選）',
+  'How is VivekMind doing this session? (optional)': 'VivekMind 這次表現如何？（可選）',
   Bad: '不滿意',
   Fine: '還行',
   Good: '滿意',
@@ -608,16 +608,16 @@ export default {
   'Exit codes:': '退出碼：',
   'Configured hooks:': '已配置的 Hook：',
   'No hooks configured for this event.': '此事件未配置 Hook。',
-  'To add hooks, edit settings.json directly or ask Qwen.':
-    '要添加 Hook，請直接編輯 settings.json 或詢問 Qwen。',
+  'To add hooks, edit settings.json directly or ask VivekMind.':
+    '要添加 Hook，請直接編輯 settings.json 或詢問 VivekMind。',
   'Enter to select · Esc to go back': 'Enter 選擇 · Esc 返回',
   'Hook details': 'Hook 詳情',
   'Event:': '事件：',
   'Extension:': '擴展：',
   'Desc:': '描述：',
   'No hook config selected': '未選擇 Hook 配置',
-  'To modify or remove this hook, edit settings.json directly or ask Qwen to help.':
-    '要修改或刪除此 Hook，請直接編輯 settings.json 或詢問 Qwen。',
+  'To modify or remove this hook, edit settings.json directly or ask VivekMind to help.':
+    '要修改或刪除此 Hook，請直接編輯 settings.json 或詢問 VivekMind。',
   'Hook Configuration - Disabled': 'Hook 配置 - 已禁用',
   'All hooks are currently disabled. You have {{count}} that are not running.':
     '所有 Hook 當前已禁用。您有 {{count}} 未運行。',
@@ -686,7 +686,7 @@ export default {
     '僅向用戶顯示 stderr 但繼續工具調用',
   'block processing, erase original prompt, and show stderr to user only':
     '阻止處理，擦除原始提示，僅向用戶顯示 stderr',
-  'stdout shown to Qwen': '向 Qwen 顯示 stdout',
+  'stdout shown to VivekMind': '向 VivekMind 顯示 stdout',
   'show stderr to user only (blocking errors ignored)':
     '僅向用戶顯示 stderr（忽略阻塞錯誤）',
   'command completes successfully': '命令成功完成',
@@ -1125,17 +1125,17 @@ export default {
   'You must select an auth method to proceed. Press Ctrl+C again to exit.':
     '您必須選擇認證方法才能繼續。再次按 Ctrl+C 退出',
   'Terms of Services and Privacy Notice': '服務條款和隱私聲明',
-  'Qwen OAuth': 'Qwen OAuth (免費)',
+  'VivekMind OAuth': 'VivekMind OAuth (免費)',
   'Discontinued — switch to Coding Plan or API Key':
     '已停用 — 請切換到 Coding Plan 或 API Key',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch provider.':
-    'Qwen OAuth 免費額度已於 2026-04-15 停用。請運行 /auth 切換服務商。',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Please select Coding Plan or API Key instead.':
-    'Qwen OAuth 免費額度已於 2026-04-15 停用。請選擇 Coding Plan 或 API Key。',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Please select a model from another provider or run /auth to switch.':
-    'Qwen OAuth免費層已於2026-04-15停止服務。請選擇其他提供商的模型或運行 /auth 切換。',
-  '\n⚠ Qwen OAuth free tier was discontinued on 2026-04-15. Please select another option.\n':
-    '\n⚠ Qwen OAuth 免費額度已於 2026-04-15 停用。請選擇其他選項。\n',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch provider.':
+    'VivekMind OAuth 免費額度已於 2026-04-15 停用。請運行 /auth 切換服務商。',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Please select Coding Plan or API Key instead.':
+    'VivekMind OAuth 免費額度已於 2026-04-15 停用。請選擇 Coding Plan 或 API Key。',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Please select a model from another provider or run /auth to switch.':
+    'VivekMind OAuth免費層已於2026-04-15停止服務。請選擇其他提供商的模型或運行 /auth 切換。',
+  '\n⚠ VivekMind OAuth free tier was discontinued on 2026-04-15. Please select another option.\n':
+    '\n⚠ VivekMind OAuth 免費額度已於 2026-04-15 停用。請選擇其他選項。\n',
   'Paid · Up to 6,000 requests/5 hrs · All Alibaba Cloud Coding Plan Models':
     '付費 · 每 5 小時最多 6,000 次請求 · 支持阿里雲百鍊 Coding Plan 全部模型',
   'Alibaba Cloud Coding Plan': '阿里雲百鍊 Coding Plan',
@@ -1149,25 +1149,25 @@ export default {
   'Failed to login. Message: {{message}}': '登錄失敗。消息：{{message}}',
   'Authentication is enforced to be {{enforcedType}}, but you are currently using {{currentType}}.':
     '認證方式被強制設置爲 {{enforcedType}}，但您當前使用的是 {{currentType}}',
-  'Qwen OAuth authentication timed out. Please try again.':
-    'Qwen OAuth 認證超時。請重試',
-  'Qwen OAuth authentication cancelled.': 'Qwen OAuth 認證已取消',
-  'Qwen OAuth Authentication': 'Qwen OAuth 認證',
+  'VivekMind OAuth authentication timed out. Please try again.':
+    'VivekMind OAuth 認證超時。請重試',
+  'VivekMind OAuth authentication cancelled.': 'VivekMind OAuth 認證已取消',
+  'VivekMind OAuth Authentication': 'VivekMind OAuth 認證',
   'Please visit this URL to authorize:': '請訪問此 URL 進行授權：',
   'Or scan the QR code below:': '或掃描下方的二維碼：',
   'Waiting for authorization': '等待授權中',
   'Time remaining:': '剩餘時間：',
   '(Press ESC or CTRL+C to cancel)': '（按 ESC 或 CTRL+C 取消）',
-  'Qwen OAuth Authentication Timeout': 'Qwen OAuth 認證超時',
+  'VivekMind OAuth Authentication Timeout': 'VivekMind OAuth 認證超時',
   'OAuth token expired (over {{seconds}} seconds). Please select authentication method again.':
     'OAuth 令牌已過期（超過 {{seconds}} 秒）。請重新選擇認證方法',
   'Press any key to return to authentication type selection.':
     '按任意鍵返回認證類型選擇',
-  'Waiting for Qwen OAuth authentication...': '正在等待 Qwen OAuth 認證...',
-  'Note: Your existing API key in settings.json will not be cleared when using Qwen OAuth. You can switch back to OpenAI authentication later if needed.':
-    '注意：使用 Qwen OAuth 時，settings.json 中現有的 API 密鑰不會被清除。如果需要，您可以稍後切換回 OpenAI 認證。',
-  'Note: Your existing API key will not be cleared when using Qwen OAuth.':
-    '注意：使用 Qwen OAuth 時，現有的 API 密鑰不會被清除。',
+  'Waiting for VivekMind OAuth authentication...': '正在等待 VivekMind OAuth 認證...',
+  'Note: Your existing API key in settings.json will not be cleared when using VivekMind OAuth. You can switch back to OpenAI authentication later if needed.':
+    '注意：使用 VivekMind OAuth 時，settings.json 中現有的 API 密鑰不會被清除。如果需要，您可以稍後切換回 OpenAI 認證。',
+  'Note: Your existing API key will not be cleared when using VivekMind OAuth.':
+    '注意：使用 VivekMind OAuth 時，現有的 API 密鑰不會被清除。',
   'Authentication timed out. Please try again.': '認證超時。請重試。',
   'Waiting for auth... (Press ESC or CTRL+C to cancel)':
     '正在等待認證...（按 ESC 或 CTRL+C 取消）',
@@ -1189,8 +1189,8 @@ export default {
   'Failed to authenticate. Message: {{message}}': '認證失敗。消息：{{message}}',
   'Authenticated successfully with {{authType}} credentials.':
     '使用 {{authType}} 憑據成功認證。',
-  'Invalid QWEN_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}':
-    '無效的 QWEN_DEFAULT_AUTH_TYPE 值："{{value}}"。有效值爲：{{validValues}}',
+  'Invalid VIVEKMIND_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}':
+    '無效的 VIVEKMIND_DEFAULT_AUTH_TYPE 值："{{value}}"。有效值爲：{{validValues}}',
   'OpenAI Configuration Required': '需要配置 OpenAI',
   'Please enter your OpenAI configuration. You can get an API key from':
     '請輸入您的 OpenAI 配置。您可以從以下地址獲取 API 密鑰：',
@@ -1221,10 +1221,10 @@ export default {
   unknown: '未知',
   "Failed to switch model to '{{modelId}}'.\n\n{{error}}":
     "無法切換到模型 '{{modelId}}'.\n\n{{error}}",
-  'Qwen 3.6 Plus — efficient hybrid model with leading coding performance':
-    'Qwen 3.6 Plus — 高效混合架構，編程性能業界領先',
-  'The latest Qwen Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    '來自阿里雲 ModelStudio 的最新 Qwen Vision 模型（版本：qwen3-vl-plus-2025-09-23）',
+  'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
+    'VivekMind 3.6 Plus — 高效混合架構，編程性能業界領先',
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
+    '來自阿里雲 ModelStudio 的最新 VivekMind Vision 模型（版本：qwen3-vl-plus-2025-09-23）',
   'Manage folder trust settings': '管理文件夾信任設置',
   'Manage permission rules': '管理權限規則',
   Allow: '允許',
@@ -1594,19 +1594,19 @@ export default {
     '↑/↓: 導航 | Space/Enter: 切換 | Esc: 取消',
   '↑/↓: Navigate | Enter: Select | Esc: Cancel':
     '↑/↓: 導航 | Enter: 選擇 | Esc: 取消',
-  'Configure Qwen authentication information with Qwen-OAuth or Alibaba Cloud Coding Plan':
-    '使用 Qwen OAuth 或阿里雲百鍊 Coding Plan 配置 Qwen 認證信息',
-  'Authenticate using Qwen OAuth': '使用 Qwen OAuth 進行認證',
+  'Configure VivekMind authentication information with VivekMind-OAuth or Alibaba Cloud Coding Plan':
+    '使用 VivekMind OAuth 或阿里雲百鍊 Coding Plan 配置 VivekMind 認證信息',
+  'Authenticate using VivekMind OAuth': '使用 VivekMind OAuth 進行認證',
   'Authenticate using Alibaba Cloud Coding Plan':
     '使用阿里雲百鍊 Coding Plan 進行認證',
   'Region for Coding Plan (china/global)': 'Coding Plan 區域 (china/global)',
   'API key for Coding Plan': 'Coding Plan 的 API 密鑰',
   'Show current authentication status': '顯示當前認證狀態',
   'Authentication completed successfully.': '認證完成。',
-  'Starting Qwen OAuth authentication...': '正在啓動 Qwen OAuth 認證...',
-  'Successfully authenticated with Qwen OAuth.': '已成功通過 Qwen OAuth 認證。',
-  'Failed to authenticate with Qwen OAuth: {{error}}':
-    'Qwen OAuth 認證失敗：{{error}}',
+  'Starting VivekMind OAuth authentication...': '正在啓動 VivekMind OAuth 認證...',
+  'Successfully authenticated with VivekMind OAuth.': '已成功通過 VivekMind OAuth 認證。',
+  'Failed to authenticate with VivekMind OAuth: {{error}}':
+    'VivekMind OAuth 認證失敗：{{error}}',
   'Processing Alibaba Cloud Coding Plan authentication...':
     '正在處理阿里雲百鍊 Coding Plan 認證...',
   'Successfully authenticated with Alibaba Cloud Coding Plan.':
@@ -1624,20 +1624,20 @@ export default {
   '⚠️  No authentication method configured.\n': '⚠️  未配置認證方式。\n',
   'Run one of the following commands to get started:\n':
     '運行以下命令之一開始配置：\n',
-  '  vivekmind auth qwen-oauth     - Authenticate with Qwen OAuth (discontinued)':
-    '  vivekmind auth qwen-oauth     - 使用 Qwen OAuth 登錄（已停用）',
+  '  vivekmind auth vivekmind-oauth     - Authenticate with VivekMind OAuth (discontinued)':
+    '  vivekmind auth vivekmind-oauth     - 使用 VivekMind OAuth 登錄（已停用）',
   '  vivekmind auth coding-plan      - Authenticate with Alibaba Cloud Coding Plan\n':
     '  vivekmind auth coding-plan      - 使用阿里雲百鍊 Coding Plan 認證\n',
   'Or simply run:': '或者直接運行：',
   '  vivekmind auth                - Interactive authentication setup\n':
     '  vivekmind auth                - 交互式認證配置\n',
-  '✓ Authentication Method: Qwen OAuth': '✓ 認證方式：Qwen OAuth',
+  '✓ Authentication Method: VivekMind OAuth': '✓ 認證方式：VivekMind OAuth',
   '  Type: Free tier (discontinued 2026-04-15)':
     '  類型：免費額度（2026-04-15 已停用）',
   '  Limit: No longer available': '  限額：已不可用',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.':
-    'Qwen OAuth 免費額度已於 2026-04-15 停用。請運行 /auth 切換到 Coding Plan、OpenRouter、Fireworks AI 或其他服務商。',
-  '  Models: Qwen latest models\n': '  模型：Qwen 最新模型\n',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.':
+    'VivekMind OAuth 免費額度已於 2026-04-15 停用。請運行 /auth 切換到 Coding Plan、OpenRouter、Fireworks AI 或其他服務商。',
+  '  Models: VivekMind latest models\n': '  模型：VivekMind 最新模型\n',
   '✓ Authentication Method: Alibaba Cloud Coding Plan':
     '✓ 認證方式：阿里雲百鍊 Coding Plan',
   '中国 (China) - 阿里云百炼': '中國 (China) - 阿里雲百鍊',

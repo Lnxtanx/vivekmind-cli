@@ -6,7 +6,7 @@ This folder contains the different provider implementations for VivekMind's Open
 
 - `types.ts` - Type definitions and interfaces for providers
 - `default.ts` - Default provider for standard OpenAI-compatible APIs
-- `dashscope.ts` - DashScope (Qwen) specific provider implementation
+- `dashscope.ts` - DashScope (VivekMind) specific provider implementation
 - `deepseek.ts` - DeepSeek provider with content flattening and reasoning effort
 - `openrouter.ts` - OpenRouter specific headers and configurations
 - `modelscope.ts` - ModelScope provider implementation
@@ -25,7 +25,7 @@ The `DefaultOpenAICompatibleProvider` is the fallback provider for standard Open
 
 ### DashScope Provider
 
-The `DashScopeOpenAICompatibleProvider` handles DashScope (Qwen) specific features like cache control and metadata.
+The `DashScopeOpenAICompatibleProvider` handles DashScope (VivekMind) specific features like cache control and metadata.
 
 ### DeepSeek Provider
 

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen team
+ * Copyright 2025 VivekMind team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -38,7 +38,7 @@ vi.mock('../i18n/index.js', () => ({
 // Mock @vivekmind/core
 vi.mock('@vivekmind/core', () => ({
   Storage: {
-    getGlobalQwenDir: vi.fn(() => '/mock/home/.vivekmind'),
+    getGlobalVivekMindDir: vi.fn(() => '/mock/home/.vivekmind'),
   },
 }));
 

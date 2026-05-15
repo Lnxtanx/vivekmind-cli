@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -795,7 +795,7 @@ export class GeminiClient {
     }
 
     // Prevent context updates from being sent while a tool call is
-    // waiting for a response. The Qwen API requires that a functionResponse
+    // waiting for a response. The VivekMind API requires that a functionResponse
     // part from the user immediately follows a functionCall part from the model
     // in the conversation history . The IDE context is not discarded; it will
     // be included in the next regular message sent to the model.

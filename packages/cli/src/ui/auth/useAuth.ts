@@ -29,7 +29,7 @@ export interface OpenAICredentials {
   baseUrl?: string;
   model?: string;
 }
-import { useQwenAuth } from '../hooks/useQwenAuth.js';
+import { useVivekMindAuth } from '../hooks/useVivekMindAuth.js';
 import { AuthState, MessageType } from '../types.js';
 import type { HistoryItem } from '../types.js';
 import { t } from '../../i18n/index.js';
@@ -47,13 +47,41 @@ import {
 } from '../../commands/auth/openrouterOAuth.js';
 
 /**
- * Generate a Qwen-managed env key from protocol and base URL.
- * Format: QWEN_CUSTOM_API_KEY_${PROTOCOL}_${NORMALIZED_BASE_URL}
+ * Generate a managed env key from protocol and base URL.
+ * Falls back to standard provider names if possible.
  */
 export function generateCustomApiKeyEnvKey(
   protocol: string,
-  baseUrl: string,
+  _baseUrl: string,
 ): string {
+  // Mapping of protocols to their standard API key environment variables
+  const protocolToStandardKey: Record<string, string> = {
+    [AuthType.USE_OPENAI]: 'OPENAI_API_KEY',
+    [AuthType.USE_ANTHROPIC]: 'ANTHROPIC_API_KEY',
+    [AuthType.USE_GEMINI]: 'GEMINI_API_KEY',
+    [AuthType.USE_AZURE_OPENAI]: 'AZURE_OPENAI_API_KEY',
+    [AuthType.USE_DEEPSEEK]: 'DEEPSEEK_API_KEY',
+    [AuthType.USE_MISTRAL]: 'MISTRAL_API_KEY',
+    [AuthType.USE_GROQ]: 'GROQ_API_KEY',
+    [AuthType.USE_TOGETHER]: 'TOGETHER_API_KEY',
+    [AuthType.USE_OPENROUTER]: 'OPENROUTER_API_KEY',
+    [AuthType.USE_XAI]: 'XAI_API_KEY',
+    [AuthType.USE_DASHSCOPE]: 'DASHSCOPE_API_KEY',
+    [AuthType.USE_COHERE]: 'COHERE_API_KEY',
+    [AuthType.USE_PERPLEXITY]: 'PERPLEXITY_API_KEY',
+    [AuthType.USE_FIREWORKS]: 'FIREWORKS_API_KEY',
+    [AuthType.USE_SILICONFLOW]: 'SILICONFLOW_API_KEY',
+    [AuthType.USE_HF]: 'HF_TOKEN',
+    [AuthType.USE_NOVITA]: 'NOVITA_API_KEY',
+    [AuthType.USE_WATSONX]: 'WATSONX_APIKEY',
+  };
+
+  const standardKey = protocolToStandardKey[protocol];
+  if (standardKey) {
+    return standardKey;
+  }
+
+  // Fallback for unknown protocols or custom setups
   const normalize = (value: string) =>
     value
       .trim()
@@ -62,7 +90,7 @@ export function generateCustomApiKeyEnvKey(
       .replace(/_+/g, '_')
       .replace(/^_+|_+$/g, '');
 
-  return `QWEN_CUSTOM_API_KEY_${normalize(protocol)}_${normalize(baseUrl)}`;
+  return `VIVEKMIND_CUSTOM_API_KEY_${normalize(protocol)}_${normalize(_baseUrl)}`;
 }
 
 /**
@@ -87,7 +115,7 @@ export function maskApiKey(apiKey: string): string {
   return `${head}...${tail}`;
 }
 
-export type { QwenAuthState } from '../hooks/useQwenAuth.js';
+export type { VivekMindAuthState } from '../hooks/useVivekMindAuth.js';
 
 export const useAuthCommand = (
   settings: LoadedSettings,
@@ -116,7 +144,7 @@ export const useAuthCommand = (
   const [openRouterAuthAbortController, setOpenRouterAuthAbortController] =
     useState<AbortController | null>(null);
 
-  const { qwenAuthState, cancelQwenAuth } = useQwenAuth(
+  const { vivekmindAuthState, cancelVivekMindAuth } = useVivekMindAuth(
     pendingAuthType,
     isAuthenticating,
   );
@@ -179,9 +207,9 @@ export const useAuthCommand = (
           );
         }
 
-        // Only update credentials if not switching to QWEN_OAUTH,
-        // so that OpenAI credentials are preserved when switching to QWEN_OAUTH.
-        if (authType !== AuthType.QWEN_OAUTH && credentials) {
+        // Only update credentials if not switching to VIVEKMIND_OAUTH,
+        // so that OpenAI credentials are preserved when switching to VIVEKMIND_OAUTH.
+        if (authType !== AuthType.VIVEKMIND_OAUTH && credentials) {
           if (credentials?.apiKey != null) {
             settings.setValue(
               authTypeScope,
@@ -327,9 +355,10 @@ export const useAuthCommand = (
   }, []);
 
   const cancelAuthentication = useCallback(() => {
-    if (isAuthenticating && pendingAuthType === AuthType.QWEN_OAUTH) {
-      cancelQwenAuth();
+    if (isAuthenticating && pendingAuthType === AuthType.VIVEKMIND_OAUTH) {
+      cancelVivekMindAuth();
     }
+
 
     if (isAuthenticating && pendingAuthType === AuthType.USE_OPENAI) {
       openRouterAuthAbortController?.abort();
@@ -350,7 +379,7 @@ export const useAuthCommand = (
   }, [
     isAuthenticating,
     pendingAuthType,
-    cancelQwenAuth,
+    cancelVivekMindAuth,
     config,
     openRouterAuthAbortController,
   ]);
@@ -735,10 +764,7 @@ export const useAuthCommand = (
    */
   const handleCustomApiKeySubmit = useCallback(
     async (
-      protocol:
-        | AuthType.USE_OPENAI
-        | AuthType.USE_ANTHROPIC
-        | AuthType.USE_GEMINI,
+      protocol: AuthType,
       baseUrl: string,
       apiKey: string,
       modelIdsInput: string,
@@ -760,17 +786,68 @@ export const useAuthCommand = (
         const trimmedBaseUrl = baseUrl.trim();
         const modelIds = normalizeCustomModelIds(modelIdsInput);
 
+        // Providers that have SDK-provided default base URLs
+        const nativeProviders = [
+          AuthType.USE_GEMINI,
+          AuthType.USE_VERTEX_AI,
+          AuthType.USE_ANTHROPIC_VERTEX_AI,
+          AuthType.USE_ANTHROPIC,
+          AuthType.USE_BEDROCK,
+        ];
+
         if (!trimmedApiKey) {
           throw new Error(t('API key cannot be empty.'));
         }
-        if (!trimmedBaseUrl) {
+
+        const isNative = nativeProviders.includes(protocol);
+        if (!trimmedBaseUrl && !isNative) {
           throw new Error(t('Base URL cannot be empty.'));
         }
-        if (!/^https?:\/\//i.test(trimmedBaseUrl)) {
+        if (trimmedBaseUrl && !/^https?:\/\//i.test(trimmedBaseUrl)) {
           throw new Error(t('Base URL must start with http:// or https://.'));
         }
         if (modelIds.length === 0) {
           throw new Error(t('Model IDs cannot be empty.'));
+        }
+
+        // --- API Key Validation ---
+        if (apiKey !== 'local-provider') {
+          try {
+            if (protocol === AuthType.USE_GEMINI) {
+              const testUrl = `https://generativelanguage.googleapis.com/v1beta/models?key=${trimmedApiKey}`;
+              const res = await fetch(testUrl);
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            } else if (protocol === AuthType.USE_ANTHROPIC) {
+              const res = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: {
+                  'x-api-key': trimmedApiKey,
+                  'anthropic-version': '2023-06-01',
+                  'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                  model: 'claude-3-haiku-20240307',
+                  max_tokens: 1,
+                  messages: [{ role: 'user', content: 'hi' }],
+                }),
+              });
+              if (res.status === 401 || res.status === 403) throw new Error('Invalid API Key');
+            } else if (
+              protocol === AuthType.USE_VERTEX_AI ||
+              protocol === AuthType.USE_ANTHROPIC_VERTEX_AI ||
+              protocol === AuthType.USE_BEDROCK
+            ) {
+              // Skip validation for providers that use cloud credentials/ADC
+            } else if (trimmedBaseUrl) {
+              // OpenAI-compatible validation
+              const res = await fetch(`${trimmedBaseUrl}/models`, {
+                headers: { Authorization: `Bearer ${trimmedApiKey}` },
+              });
+              if (res.status === 401 || res.status === 403) throw new Error('Invalid API Key');
+            }
+          } catch (e) {
+            throw new Error(t('API key verification failed. Please check your key and try again. ({{error}})', { error: (e as Error).message }));
+          }
         }
 
         const generatedEnvKey = generateCustomApiKeyEnvKey(
@@ -908,24 +985,42 @@ export const useAuthCommand = (
     * or broken authentication cycles.
     */
   useEffect(() => {
-    const defaultAuthType = process.env['QWEN_DEFAULT_AUTH_TYPE'];
+    const defaultAuthType = process.env['VIVEKMIND_DEFAULT_AUTH_TYPE'];
     if (
       defaultAuthType &&
       ![
-        AuthType.QWEN_OAUTH,
+        AuthType.VIVEKMIND_OAUTH,
         AuthType.USE_OPENAI,
         AuthType.USE_ANTHROPIC,
         AuthType.USE_GEMINI,
         AuthType.USE_VERTEX_AI,
+        AuthType.USE_BEDROCK,
+        AuthType.USE_AZURE_OPENAI,
+        AuthType.USE_MISTRAL,
+        AuthType.USE_DEEPSEEK,
+        AuthType.USE_GROQ,
+        AuthType.USE_TOGETHER,
+        AuthType.USE_OPENROUTER,
+        AuthType.USE_XAI,
+        AuthType.USE_DASHSCOPE,
+        AuthType.USE_OLLAMA,
+        AuthType.USE_LM_STUDIO,
+        AuthType.USE_COHERE,
+        AuthType.USE_PERPLEXITY,
+        AuthType.USE_FIREWORKS,
+        AuthType.USE_SILICONFLOW,
+        AuthType.USE_HF,
+        AuthType.USE_NOVITA,
+        AuthType.USE_WATSONX,
       ].includes(defaultAuthType as AuthType)
     ) {
       onAuthError(
         t(
-          'Invalid QWEN_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}',
+          'Invalid VIVEKMIND_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}',
           {
             value: defaultAuthType,
             validValues: [
-              AuthType.QWEN_OAUTH,
+              AuthType.VIVEKMIND_OAUTH,
               AuthType.USE_OPENAI,
               AuthType.USE_ANTHROPIC,
               AuthType.USE_GEMINI,
@@ -937,6 +1032,192 @@ export const useAuthCommand = (
     }
   }, [onAuthError]);
 
+  /**
+   * Handle AWS Bedrock credentials submission.
+   */
+  const handleBedrockCredentialsSubmit = useCallback(
+    async (
+      accessKeyId: string,
+      secretAccessKey: string,
+      region: string,
+      modelIdsInput: string,
+    ) => {
+      try {
+        setIsAuthenticating(true);
+        setAuthError(null);
+
+        const trimmedAccessKeyId = accessKeyId.trim();
+        const trimmedSecretAccessKey = secretAccessKey.trim();
+        const trimmedRegion = region.trim() || 'us-east-1';
+        const modelIds = normalizeCustomModelIds(modelIdsInput);
+
+        if (!trimmedAccessKeyId || !trimmedSecretAccessKey) {
+          throw new Error(t('AWS Access Key ID and Secret Access Key are required.'));
+        }
+
+        const persistScope = getPersistScopeForModelSelection(settings);
+        const settingsFile = settings.forScope(persistScope);
+        backupSettingsFile(settingsFile.path);
+
+        // Persist AWS credentials to env
+        settings.setValue(persistScope, 'env.AWS_ACCESS_KEY_ID', trimmedAccessKeyId);
+        settings.setValue(persistScope, 'env.AWS_SECRET_ACCESS_KEY', trimmedSecretAccessKey);
+        settings.setValue(persistScope, 'env.AWS_REGION', trimmedRegion);
+
+        // Sync to process.env
+        process.env['AWS_ACCESS_KEY_ID'] = trimmedAccessKeyId;
+        process.env['AWS_SECRET_ACCESS_KEY'] = trimmedSecretAccessKey;
+        process.env['AWS_REGION'] = trimmedRegion;
+
+        // Build model configs
+        const newConfigs: ProviderModelConfig[] = modelIds.map((modelId) => ({
+          id: modelId,
+          name: modelId,
+        }));
+
+        // Merge with existing Bedrock configs
+        const existingConfigs =
+          (
+            settings.merged.modelProviders as ModelProvidersConfig | undefined
+          )?.[AuthType.USE_BEDROCK] || [];
+
+        const updatedConfigs = [...newConfigs, ...existingConfigs.filter(e => !modelIds.includes(e.id))];
+
+        // Persist
+        settings.setValue(
+          persistScope,
+          `modelProviders.${AuthType.USE_BEDROCK}`,
+          updatedConfigs,
+        );
+        settings.setValue(persistScope, 'security.auth.selectedType', AuthType.USE_BEDROCK);
+        settings.setValue(persistScope, 'model.name', modelIds[0]);
+
+        // Hot-reload
+        const updatedModelProviders: ModelProvidersConfig = {
+          ...(settings.merged.modelProviders as
+            | ModelProvidersConfig
+            | undefined),
+          [AuthType.USE_BEDROCK]: updatedConfigs,
+        };
+        config.reloadModelProvidersConfig(updatedModelProviders);
+        await config.refreshAuth(AuthType.USE_BEDROCK);
+
+        setAuthError(null);
+        setAuthState(AuthState.Authenticated);
+        setPendingAuthType(undefined);
+        setIsAuthDialogOpen(false);
+        setIsAuthenticating(false);
+        onAuthChange?.();
+
+        addItem(
+          {
+            type: MessageType.INFO,
+            text: t('AWS Bedrock credentials configured successfully.'),
+          },
+          Date.now(),
+        );
+
+        const authEvent = new AuthEvent(AuthType.USE_BEDROCK, 'manual', 'success');
+        logAuth(config, authEvent);
+      } catch (error) {
+        handleAuthFailure(error);
+      }
+    },
+    [settings, config, handleAuthFailure, addItem, onAuthChange],
+  );
+
+  /**
+   * Handle Google Vertex AI credentials submission.
+   */
+  const handleVertexCredentialsSubmit = useCallback(
+    async (
+      protocol: AuthType,
+      projectId: string,
+      location: string,
+      modelIdsInput: string,
+    ) => {
+      try {
+        setIsAuthenticating(true);
+        setAuthError(null);
+
+        const trimmedProjectId = projectId.trim();
+        const trimmedLocation = location.trim() || 'us-central1';
+        const modelIds = normalizeCustomModelIds(modelIdsInput);
+
+        if (!trimmedProjectId) {
+          throw new Error(t('Google Cloud Project ID is required.'));
+        }
+
+        const persistScope = getPersistScopeForModelSelection(settings);
+        const settingsFile = settings.forScope(persistScope);
+        backupSettingsFile(settingsFile.path);
+
+        // Persist Vertex credentials to env
+        // Using standard naming convention: GOOGLE_PROJECT_ID, GOOGLE_LOCATION
+        settings.setValue(persistScope, 'env.GOOGLE_CLOUD_PROJECT', trimmedProjectId);
+        settings.setValue(persistScope, 'env.GOOGLE_CLOUD_LOCATION', trimmedLocation);
+
+        // Sync to process.env
+        process.env['GOOGLE_CLOUD_PROJECT'] = trimmedProjectId;
+        process.env['GOOGLE_CLOUD_LOCATION'] = trimmedLocation;
+
+        // Build model configs
+        const newConfigs: ProviderModelConfig[] = modelIds.map((modelId) => ({
+          id: modelId,
+          name: modelId,
+        }));
+
+        // Merge with existing configs
+        const existingConfigs =
+          (
+            settings.merged.modelProviders as ModelProvidersConfig | undefined
+          )?.[protocol] || [];
+
+        const updatedConfigs = [...newConfigs, ...existingConfigs.filter(e => !modelIds.includes(e.id))];
+
+        // Persist
+        settings.setValue(
+          persistScope,
+          `modelProviders.${protocol}`,
+          updatedConfigs,
+        );
+        settings.setValue(persistScope, 'security.auth.selectedType', protocol);
+        settings.setValue(persistScope, 'model.name', modelIds[0]);
+
+        // Hot-reload
+        const updatedModelProviders: ModelProvidersConfig = {
+          ...(settings.merged.modelProviders as
+            | ModelProvidersConfig
+            | undefined),
+          [protocol]: updatedConfigs,
+        };
+        config.reloadModelProvidersConfig(updatedModelProviders);
+        await config.refreshAuth(protocol);
+
+        setAuthError(null);
+        setAuthState(AuthState.Authenticated);
+        setPendingAuthType(undefined);
+        setIsAuthDialogOpen(false);
+        setIsAuthenticating(false);
+        onAuthChange?.();
+
+        addItem(
+          {
+            type: MessageType.INFO,
+            text: t('Google Vertex AI credentials configured successfully.'),
+          },
+          Date.now(),
+        );
+
+        const authEvent = new AuthEvent(protocol, 'manual', 'success');
+        logAuth(config, authEvent);
+      } catch (error) {
+        handleAuthFailure(error);
+      }
+    },
+    [settings, config, handleAuthFailure, addItem, onAuthChange],
+  );
+
   return {
     authState,
     setAuthState,
@@ -945,13 +1226,16 @@ export const useAuthCommand = (
     isAuthDialogOpen,
     isAuthenticating,
     pendingAuthType,
+    setPendingAuthType,
     externalAuthState,
-    qwenAuthState,
+    vivekmindAuthState,
     handleAuthSelect,
     handleCodingPlanSubmit,
     handleAlibabaStandardSubmit,
     handleOpenRouterSubmit,
     handleCustomApiKeySubmit,
+    handleBedrockCredentialsSubmit,
+    handleVertexCredentialsSubmit,
     openAuthDialog,
     cancelAuthentication,
   };

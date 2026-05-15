@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -105,7 +105,7 @@ describe('defaultModalities', () => {
     });
   });
 
-  describe('Qwen', () => {
+  describe('VivekMind', () => {
     it('returns image + video for qwen-vl-max', () => {
       const m = defaultModalities('qwen-vl-max');
       expect(m.image).toBe(true);

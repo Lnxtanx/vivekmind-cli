@@ -117,7 +117,7 @@ function renderDelta(current, baseline) {
   );
 }
 
-if (process.env.QWEN_FLICKER_VERBOSE) {
+if (process.env.VIVEKMIND_FLICKER_VERBOSE) {
   stdout.write('patterns:\n');
   for (const p of PATTERNS) {
     stdout.write(`  ${p.name.padEnd(18)} = ${p.description}\n`);

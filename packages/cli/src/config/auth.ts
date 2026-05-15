@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -188,11 +188,11 @@ export function validateAuthMethod(
     return null;
   }
 
-  if (authMethod === AuthType.QWEN_OAUTH) {
-    // Qwen OAuth free tier was discontinued on 2026-04-15.
+  if (authMethod === AuthType.VIVEKMIND_OAUTH) {
+    // VivekMind OAuth free tier was discontinued on 2026-04-15.
     // Block new OAuth setups; existing cached tokens still work until server rejects them.
     return t(
-      'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.',
+      'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.',
     );
   }
 

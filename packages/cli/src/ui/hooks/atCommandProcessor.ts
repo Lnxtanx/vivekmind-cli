@@ -15,10 +15,11 @@ import {
   unescapePath,
   readManyFiles,
 } from '@vivekmind/core';
-import type {
-  HistoryItemToolGroup,
-  HistoryItemWithoutId,
-  IndividualToolCallDisplay,
+import {
+  type HistoryItemToolGroup,
+  type HistoryItemWithoutId,
+  type IndividualToolCallDisplay,
+  type Attachment,
 } from '../types.js';
 import { ToolCallStatus } from '../types.js';
 
@@ -29,6 +30,7 @@ interface HandleAtCommandParams {
   messageId: number;
   signal: AbortSignal;
   addItem?: (item: HistoryItemWithoutId, baseTimestamp: number) => number;
+  attachments?: Attachment[];
 }
 
 interface HandleAtCommandResult {
@@ -39,7 +41,7 @@ interface HandleAtCommandResult {
 }
 
 interface AtCommandPart {
-  type: 'text' | 'atPath';
+  type: 'text' | 'atPath' | 'imagePlaceholder';
   content: string;
 }
 
@@ -54,7 +56,7 @@ function parseAllAtCommands(query: string): AtCommandPart[] {
   while (currentIndex < query.length) {
     let atIndex = -1;
     let nextSearchIndex = currentIndex;
-    // Find next unescaped '@'
+    // Find next unescaped '@' or '[Image #'
     while (nextSearchIndex < query.length) {
       if (
         query[nextSearchIndex] === '@' &&
@@ -63,18 +65,22 @@ function parseAllAtCommands(query: string): AtCommandPart[] {
         atIndex = nextSearchIndex;
         break;
       }
+      if (query.substring(nextSearchIndex, nextSearchIndex + 8) === '[Image #') {
+        atIndex = nextSearchIndex;
+        break;
+      }
       nextSearchIndex++;
     }
 
     if (atIndex === -1) {
-      // No more @
+      // No more commands
       if (currentIndex < query.length) {
         parts.push({ type: 'text', content: query.substring(currentIndex) });
       }
       break;
     }
 
-    // Add text before @
+    // Add text before command
     if (atIndex > currentIndex) {
       parts.push({
         type: 'text',
@@ -82,34 +88,44 @@ function parseAllAtCommands(query: string): AtCommandPart[] {
       });
     }
 
-    // Parse @path
-    let pathEndIndex = atIndex + 1;
-    let inEscape = false;
-    while (pathEndIndex < query.length) {
-      const char = query[pathEndIndex];
-      if (inEscape) {
-        inEscape = false;
-      } else if (char === '\\') {
-        inEscape = true;
-      } else if (/[,\s;!?()[\]{}]/.test(char)) {
-        // Path ends at first whitespace or punctuation not escaped
-        break;
-      } else if (char === '.') {
-        // For . we need to be more careful - only terminate if followed by whitespace or end of string
-        // This allows file extensions like .txt, .js but terminates at sentence endings like "file.txt. Next sentence"
-        const nextChar =
-          pathEndIndex + 1 < query.length ? query[pathEndIndex + 1] : '';
-        if (nextChar === '' || /\s/.test(nextChar)) {
+    if (query[atIndex] === '@') {
+      // Parse @path
+      let pathEndIndex = atIndex + 1;
+      let inEscape = false;
+      while (pathEndIndex < query.length) {
+        const char = query[pathEndIndex];
+        if (inEscape) {
+          inEscape = false;
+        } else if (char === '\\') {
+          inEscape = true;
+        } else if (/[,\s;!?()[\]{}]/.test(char)) {
           break;
+        } else if (char === '.') {
+          const nextChar =
+            pathEndIndex + 1 < query.length ? query[pathEndIndex + 1] : '';
+          if (nextChar === '' || /\s/.test(nextChar)) {
+            break;
+          }
         }
+        pathEndIndex++;
       }
-      pathEndIndex++;
+      const rawAtPath = query.substring(atIndex, pathEndIndex);
+      const atPath = unescapePath(rawAtPath);
+      parts.push({ type: 'atPath', content: atPath });
+      currentIndex = pathEndIndex;
+    } else {
+      // Parse [Image #N]
+      const closingBracketIndex = query.indexOf(']', atIndex);
+      if (closingBracketIndex !== -1) {
+        const placeholder = query.substring(atIndex, closingBracketIndex + 1);
+        parts.push({ type: 'imagePlaceholder', content: placeholder });
+        currentIndex = closingBracketIndex + 1;
+      } else {
+        // Fallback for malformed placeholder
+        parts.push({ type: 'text', content: '[' });
+        currentIndex = atIndex + 1;
+      }
     }
-    const rawAtPath = query.substring(atIndex, pathEndIndex);
-    // unescapePath expects the @ symbol to be present, and will handle it.
-    const atPath = unescapePath(rawAtPath);
-    parts.push({ type: 'atPath', content: atPath });
-    currentIndex = pathEndIndex;
   }
   // Filter out empty text parts that might result from consecutive @paths or leading/trailing spaces
   return parts.filter(
@@ -133,10 +149,11 @@ export async function handleAtCommand({
   messageId: userMessageTimestamp,
   signal,
   addItem,
+  attachments,
 }: HandleAtCommandParams): Promise<HandleAtCommandResult> {
   const commandParts = parseAllAtCommands(query);
   const atPathCommandParts = commandParts.filter(
-    (part) => part.type === 'atPath',
+    (part) => part.type === 'atPath' || part.type === 'imagePlaceholder',
   );
 
   const addToolGroup = (result: HandleAtCommandResult): void => {
@@ -169,6 +186,18 @@ export async function handleAtCommand({
   };
 
   for (const atPathPart of atPathCommandParts) {
+    if (atPathPart.type === 'imagePlaceholder') {
+      const match = atPathPart.content.match(/\[Image #(\d+)\]/);
+      const index = match ? parseInt(match[1]!) - 1 : -1;
+      const attachmentsToUse = attachments || [];
+      const attachment = attachmentsToUse[index];
+      const filename = attachment ? attachment.filename : 'unknown';
+
+      onDebugMessage(`Image placeholder detected: ${atPathPart.content} (${filename})`);
+      atPathToResolvedSpecMap.set(atPathPart.content, filename);
+      continue;
+    }
+
     const originalAtPath = atPathPart.content; // e.g., "@file.txt" or "@"
 
     if (originalAtPath === '@') {
@@ -203,25 +232,25 @@ export async function handleAtCommand({
       respectFileIgnore.respectGitIgnore &&
       fileDiscovery.shouldIgnoreFile(pathName, {
         respectGitIgnore: true,
-        respectQwenIgnore: false,
+        respectVivekMindIgnore: false,
       });
-    const qwenIgnored =
-      respectFileIgnore.respectQwenIgnore &&
+    const vivekMindIgnored =
+      respectFileIgnore.respectVivekMindIgnore &&
       fileDiscovery.shouldIgnoreFile(pathName, {
         respectGitIgnore: false,
-        respectQwenIgnore: true,
+        respectVivekMindIgnore: true,
       });
 
-    if (gitIgnored || qwenIgnored) {
+    if (gitIgnored || vivekMindIgnored) {
       const reason =
-        gitIgnored && qwenIgnored ? 'both' : gitIgnored ? 'git' : 'qwen';
+        gitIgnored && vivekMindIgnored ? 'both' : gitIgnored ? 'git' : 'vivekmind';
       ignoredByReason[reason].push(pathName);
       const reasonText =
         reason === 'both'
           ? 'ignored by both git and qwen'
           : reason === 'git'
             ? 'git-ignored'
-            : 'qwen-ignored';
+            : 'vivekmind-ignored';
       onDebugMessage(`Path ${pathName} is ${reasonText} and will be skipped.`);
       continue;
     }
@@ -270,6 +299,9 @@ export async function handleAtCommand({
     const part = commandParts[i];
     if (part.type === 'text') {
       initialQueryText += part.content;
+    } else if (part.type === 'imagePlaceholder') {
+      const resolvedSpec = atPathToResolvedSpecMap.get(part.content);
+      initialQueryText += ` 📎 ${resolvedSpec || 'image'} [image — not supported] `;
     } else {
       // type === 'atPath'
       const resolvedSpec = atPathToResolvedSpecMap.get(part.content);
@@ -278,12 +310,12 @@ export async function handleAtCommand({
         initialQueryText.length > 0 &&
         !initialQueryText.endsWith(' ')
       ) {
-        // Add space if previous part was text and didn't end with space, or if previous was @path
+        // Add space if previous part was text and didn't end with space, or if previous was @path/image
         const prevPart = commandParts[i - 1];
         if (
           prevPart.type === 'text' ||
-          (prevPart.type === 'atPath' &&
-            atPathToResolvedSpecMap.has(prevPart.content))
+          prevPart.type === 'atPath' ||
+          prevPart.type === 'imagePlaceholder'
         ) {
           initialQueryText += ' ';
         }
@@ -310,7 +342,7 @@ export async function handleAtCommand({
   // Inform user about ignored paths
   const totalIgnored =
     ignoredByReason['git'].length +
-    ignoredByReason['qwen'].length +
+    ignoredByReason['vivekmind'].length +
     ignoredByReason['both'].length;
 
   if (totalIgnored > 0) {
@@ -318,8 +350,8 @@ export async function handleAtCommand({
     if (ignoredByReason['git'].length) {
       messages.push(`Git-ignored: ${ignoredByReason['git'].join(', ')}`);
     }
-    if (ignoredByReason['qwen'].length) {
-      messages.push(`Qwen-ignored: ${ignoredByReason['qwen'].join(', ')}`);
+    if (ignoredByReason['vivekmind'].length) {
+      messages.push(`VivekMind-ignored: ${ignoredByReason['vivekmind'].join(', ')}`);
     }
     if (ignoredByReason['both'].length) {
       messages.push(`Ignored by both: ${ignoredByReason['both'].join(', ')}`);

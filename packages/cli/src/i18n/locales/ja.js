@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -405,8 +405,8 @@ export default {
   'Configured hooks:': '設定済みのフック：',
   'No hooks configured for this event.':
     'このイベントにはフックが設定されていません。',
-  'To add hooks, edit settings.json directly or ask Qwen.':
-    'フックを追加するには、settings.json を直接編集するか、Qwen に尋ねてください。',
+  'To add hooks, edit settings.json directly or ask VivekMind.':
+    'フックを追加するには、settings.json を直接編集するか、VivekMind に尋ねてください。',
   'Enter to select · Esc to go back': 'Enter で選択 · Esc で戻る',
   // Hooks - Config Detail Step
   'Hook details': 'フック詳細',
@@ -414,8 +414,8 @@ export default {
   'Extension:': '拡張機能：',
   'Desc:': '説明：',
   'No hook config selected': 'フック設定が選択されていません',
-  'To modify or remove this hook, edit settings.json directly or ask Qwen to help.':
-    'このフックを変更または削除するには、settings.json を直接編集するか、Qwen に尋ねてください。',
+  'To modify or remove this hook, edit settings.json directly or ask VivekMind to help.':
+    'このフックを変更または削除するには、settings.json を直接編集するか、VivekMind に尋ねてください。',
   // Hooks - Disabled Step
   'Hook Configuration - Disabled': 'フック設定 - 無効',
   'All hooks are currently disabled. You have {{count}} that are not running.':
@@ -493,7 +493,7 @@ export default {
     'stderr をユーザーのみに表示し、ツール呼び出しを続ける',
   'block processing, erase original prompt, and show stderr to user only':
     '処理をブロックし、元のプロンプトを消去し、stderr をユーザーのみに表示',
-  'stdout shown to Qwen': 'stdout をモデルに表示',
+  'stdout shown to VivekMind': 'stdout をモデルに表示',
   'show stderr to user only (blocking errors ignored)':
     'stderr をユーザーのみに表示（ブロッキングエラーは無視）',
   'command completes successfully': 'コマンドが正常に完了',
@@ -1010,17 +1010,17 @@ export default {
   'You must select an auth method to proceed. Press Ctrl+C again to exit.':
     '続行するには認証方法を選択してください。Ctrl+C をもう一度押すと終了します',
   'Terms of Services and Privacy Notice': '利用規約とプライバシー通知',
-  'Qwen OAuth': 'Qwen OAuth',
+  'VivekMind OAuth': 'VivekMind OAuth',
   'Discontinued — switch to Coding Plan or API Key':
     '終了 — Coding Plan または API Key に切り替えてください',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch provider.':
-    'Qwen OAuth 無料枠は 2026-04-15 に終了しました。/auth を実行してプロバイダーを切り替えてください。',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Please select Coding Plan or API Key instead.':
-    'Qwen OAuth 無料枠は 2026-04-15 に終了しました。Coding Plan または API Key を選択してください。',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Please select a model from another provider or run /auth to switch.':
-    'Qwen OAuth無料プランは2026-04-15に終了しました。他のプロバイダーのモデルを選択するか、/authを実行して切り替えてください。',
-  '\n⚠ Qwen OAuth free tier was discontinued on 2026-04-15. Please select another option.\n':
-    '\n⚠ Qwen OAuth 無料枠は 2026-04-15 に終了しました。他のオプションを選択してください。\n',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch provider.':
+    'VivekMind OAuth 無料枠は 2026-04-15 に終了しました。/auth を実行してプロバイダーを切り替えてください。',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Please select Coding Plan or API Key instead.':
+    'VivekMind OAuth 無料枠は 2026-04-15 に終了しました。Coding Plan または API Key を選択してください。',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Please select a model from another provider or run /auth to switch.':
+    'VivekMind OAuth無料プランは2026-04-15に終了しました。他のプロバイダーのモデルを選択するか、/authを実行して切り替えてください。',
+  '\n⚠ VivekMind OAuth free tier was discontinued on 2026-04-15. Please select another option.\n':
+    '\n⚠ VivekMind OAuth 無料枠は 2026-04-15 に終了しました。他のオプションを選択してください。\n',
   'Paid \u00B7 Up to 6,000 requests/5 hrs \u00B7 All Alibaba Cloud Coding Plan Models':
     '有料 \u00B7 5時間最大6,000リクエスト \u00B7 すべての Alibaba Cloud Coding Plan モデル',
   'Alibaba Cloud Coding Plan': 'Alibaba Cloud Coding Plan',
@@ -1035,27 +1035,27 @@ export default {
     'ログインに失敗しました。メッセージ: {{message}}',
   'Authentication is enforced to be {{enforcedType}}, but you are currently using {{currentType}}.':
     '認証は {{enforcedType}} に強制されていますが、現在 {{currentType}} を使用しています',
-  'Qwen OAuth authentication timed out. Please try again.':
-    'Qwen OAuth認証がタイムアウトしました。再度お試しください',
-  'Qwen OAuth authentication cancelled.':
-    'Qwen OAuth認証がキャンセルされました',
-  'Qwen OAuth Authentication': 'Qwen OAuth認証',
+  'VivekMind OAuth authentication timed out. Please try again.':
+    'VivekMind OAuth認証がタイムアウトしました。再度お試しください',
+  'VivekMind OAuth authentication cancelled.':
+    'VivekMind OAuth認証がキャンセルされました',
+  'VivekMind OAuth Authentication': 'VivekMind OAuth認証',
   'Please visit this URL to authorize:':
     '認証するには以下のURLにアクセスしてください:',
   'Or scan the QR code below:': 'または以下のQRコードをスキャン:',
   'Waiting for authorization': '認証を待っています',
   'Time remaining:': '残り時間:',
   '(Press ESC or CTRL+C to cancel)': '(ESC または CTRL+C でキャンセル)',
-  'Qwen OAuth Authentication Timeout': 'Qwen OAuth認証タイムアウト',
+  'VivekMind OAuth Authentication Timeout': 'VivekMind OAuth認証タイムアウト',
   'OAuth token expired (over {{seconds}} seconds). Please select authentication method again.':
     'OAuthトークンが期限切れです({{seconds}}秒以上)。認証方法を再度選択してください',
   'Press any key to return to authentication type selection.':
     '認証タイプ選択に戻るには任意のキーを押してください',
-  'Waiting for Qwen OAuth authentication...': 'Qwen OAuth認証を待っています...',
-  'Note: Your existing API key in settings.json will not be cleared when using Qwen OAuth. You can switch back to OpenAI authentication later if needed.':
-    '注: Qwen OAuthを使用しても、settings.json内の既存のAPIキーはクリアされません。必要に応じて後でOpenAI認証に切り替えることができます',
-  'Note: Your existing API key will not be cleared when using Qwen OAuth.':
-    '注: Qwen OAuthを使用しても、既存のAPIキーはクリアされません。',
+  'Waiting for VivekMind OAuth authentication...': 'VivekMind OAuth認証を待っています...',
+  'Note: Your existing API key in settings.json will not be cleared when using VivekMind OAuth. You can switch back to OpenAI authentication later if needed.':
+    '注: VivekMind OAuthを使用しても、settings.json内の既存のAPIキーはクリアされません。必要に応じて後でOpenAI認証に切り替えることができます',
+  'Note: Your existing API key will not be cleared when using VivekMind OAuth.':
+    '注: VivekMind OAuthを使用しても、既存のAPIキーはクリアされません。',
   'Authentication timed out. Please try again.':
     '認証がタイムアウトしました。再度お試しください',
   'Waiting for auth... (Press ESC or CTRL+C to cancel)':
@@ -1064,8 +1064,8 @@ export default {
     '認証に失敗しました。メッセージ: {{message}}',
   'Authenticated successfully with {{authType}} credentials.':
     '{{authType}} 認証情報で正常に認証されました',
-  'Invalid QWEN_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}':
-    '無効な QWEN_DEFAULT_AUTH_TYPE 値: "{{value}}"。有効な値: {{validValues}}',
+  'Invalid VIVEKMIND_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}':
+    '無効な VIVEKMIND_DEFAULT_AUTH_TYPE 値: "{{value}}"。有効な値: {{validValues}}',
   'OpenAI Configuration Required': 'OpenAI設定が必要です',
   'Please enter your OpenAI configuration. You can get an API key from':
     'OpenAI設定を入力してください。APIキーは以下から取得できます',
@@ -1088,10 +1088,10 @@ export default {
   'not set': '未設定',
   none: 'なし',
   unknown: '不明',
-  'Qwen 3.6 Plus — efficient hybrid model with leading coding performance':
-    'Qwen 3.6 Plus — 効率的なハイブリッドモデル、業界トップクラスのコーディング性能',
-  'The latest Qwen Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    'Alibaba Cloud ModelStudioの最新Qwen Visionモデル(バージョン: qwen3-vl-plus-2025-09-23)',
+  'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
+    'VivekMind 3.6 Plus — 効率的なハイブリッドモデル、業界トップクラスのコーディング性能',
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
+    'Alibaba Cloud ModelStudioの最新VivekMind Visionモデル(バージョン: qwen3-vl-plus-2025-09-23)',
   // Dialogs - Permissions
   'Manage folder trust settings': 'フォルダ信頼設定を管理',
   'Manage permission rules': '権限ルールを管理',
@@ -1466,9 +1466,9 @@ export default {
   // ============================================================================
   // Commands - Auth
   // ============================================================================
-  'Configure Qwen authentication information with Qwen-OAuth or Alibaba Cloud Coding Plan':
-    'Qwen-OAuth または Alibaba Cloud Coding Plan で Qwen 認証情報を設定する',
-  'Authenticate using Qwen OAuth': 'Qwen OAuth で認証する',
+  'Configure VivekMind authentication information with VivekMind-OAuth or Alibaba Cloud Coding Plan':
+    'VivekMind-OAuth または Alibaba Cloud Coding Plan で VivekMind 認証情報を設定する',
+  'Authenticate using VivekMind OAuth': 'VivekMind OAuth で認証する',
   'Authenticate using Alibaba Cloud Coding Plan':
     'Alibaba Cloud Coding Plan で認証する',
   'Region for Coding Plan (china/global)':
@@ -1476,11 +1476,11 @@ export default {
   'API key for Coding Plan': 'Coding Plan の API キー',
   'Show current authentication status': '現在の認証ステータスを表示',
   'Authentication completed successfully.': '認証が正常に完了しました。',
-  'Starting Qwen OAuth authentication...': 'Qwen OAuth 認証を開始しています...',
-  'Successfully authenticated with Qwen OAuth.':
-    'Qwen OAuth での認証に成功しました。',
-  'Failed to authenticate with Qwen OAuth: {{error}}':
-    'Qwen OAuth での認証に失敗しました: {{error}}',
+  'Starting VivekMind OAuth authentication...': 'VivekMind OAuth 認証を開始しています...',
+  'Successfully authenticated with VivekMind OAuth.':
+    'VivekMind OAuth での認証に成功しました。',
+  'Failed to authenticate with VivekMind OAuth: {{error}}':
+    'VivekMind OAuth での認証に失敗しました: {{error}}',
   'Processing Alibaba Cloud Coding Plan authentication...':
     'Alibaba Cloud Coding Plan 認証を処理しています...',
   'Successfully authenticated with Alibaba Cloud Coding Plan.':
@@ -1500,20 +1500,20 @@ export default {
     '⚠️  認証方法が設定されていません。\n',
   'Run one of the following commands to get started:\n':
     '以下のコマンドのいずれかを実行して開始してください:\n',
-  '  vivekmind auth qwen-oauth     - Authenticate with Qwen OAuth (discontinued)':
-    '  vivekmind auth qwen-oauth     - Qwen OAuth で認証（終了）',
+  '  vivekmind auth vivekmind-oauth     - Authenticate with VivekMind OAuth (discontinued)':
+    '  vivekmind auth vivekmind-oauth     - VivekMind OAuth で認証（終了）',
   '  vivekmind auth coding-plan      - Authenticate with Alibaba Cloud Coding Plan\n':
     '  vivekmind auth coding-plan      - Alibaba Cloud Coding Plan で認証\n',
   'Or simply run:': 'または以下を実行:',
   '  vivekmind auth                - Interactive authentication setup\n':
     '  vivekmind auth                - インタラクティブ認証セットアップ\n',
-  '✓ Authentication Method: Qwen OAuth': '✓ 認証方法: Qwen OAuth',
+  '✓ Authentication Method: VivekMind OAuth': '✓ 認証方法: VivekMind OAuth',
   '  Type: Free tier (discontinued 2026-04-15)':
     '  タイプ: 無料枠（2026-04-15 終了）',
   '  Limit: No longer available': '  制限: 利用不可',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.':
-    'Qwen OAuth 無料枠は 2026-04-15 に終了しました。/auth を実行して Coding Plan、OpenRouter、Fireworks AI、または他のプロバイダーに切り替えてください。',
-  '  Models: Qwen latest models\n': '  モデル: Qwen 最新モデル\n',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.':
+    'VivekMind OAuth 無料枠は 2026-04-15 に終了しました。/auth を実行して Coding Plan、OpenRouter、Fireworks AI、または他のプロバイダーに切り替えてください。',
+  '  Models: VivekMind latest models\n': '  モデル: VivekMind 最新モデル\n',
   '✓ Authentication Method: Alibaba Cloud Coding Plan':
     '✓ 認証方法: Alibaba Cloud Coding Plan',
   '中国 (China) - 阿里云百炼': '中国 (China) - 阿里云百炼',

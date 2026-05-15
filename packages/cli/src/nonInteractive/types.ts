@@ -143,7 +143,7 @@ export interface CLISystemMessage {
   model?: string;
   permission_mode?: string;
   slash_commands?: string[];
-  qwen_code_version?: string;
+  vivekmind_version?: string;
   output_style?: string;
   agents?: string[];
   skills?: string[];

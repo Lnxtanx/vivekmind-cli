@@ -6,29 +6,36 @@
 
 import { useCallback, useRef, useState } from 'react';
 import { isSlashCommand } from '../utils/commandUtils.js';
+import { type Attachment } from '../types.js';
+
+export interface QueuedMessage {
+  text: string;
+  attachments?: Attachment[];
+}
 
 export interface UseMessageQueueReturn {
-  messageQueue: string[];
-  addMessage: (message: string) => void;
+  messageQueue: QueuedMessage[];
+  addMessage: (message: string, attachments?: Attachment[]) => void;
   clearQueue: () => void;
   getQueuedMessagesText: () => string;
   /** Drain the entire queue joined with `\n\n`. For Ctrl+C / ESC / Up edit-restore. */
   popAllMessages: () => string | null;
   /** Drain plain-text prompts; leave slash commands queued. Safe from non-React callbacks. */
-  drainQueue: () => string[];
+  drainQueue: () => QueuedMessage[];
   /** Pop the first item from the queue. */
-  popNextSegment: () => string | null;
+  popNextSegment: () => QueuedMessage | null;
 }
 
 export function useMessageQueue(): UseMessageQueueReturn {
-  const [messageQueue, setMessageQueue] = useState<string[]>([]);
+  const [messageQueue, setMessageQueue] = useState<QueuedMessage[]>([]);
   // Synchronous mirror so non-React callbacks see the latest queue.
-  const queueRef = useRef<string[]>([]);
+  const queueRef = useRef<QueuedMessage[]>([]);
 
-  const addMessage = useCallback((message: string) => {
+  const addMessage = useCallback((message: string, attachments?: Attachment[]) => {
     const trimmedMessage = message.trim();
     if (trimmedMessage.length > 0) {
-      queueRef.current = [...queueRef.current, trimmedMessage];
+      const newItem: QueuedMessage = { text: trimmedMessage, attachments };
+      queueRef.current = [...queueRef.current, newItem];
       setMessageQueue(queueRef.current);
     }
   }, []);
@@ -40,7 +47,7 @@ export function useMessageQueue(): UseMessageQueueReturn {
 
   const getQueuedMessagesText = useCallback(() => {
     if (messageQueue.length === 0) return '';
-    return messageQueue.join('\n\n');
+    return messageQueue.map((m) => m.text).join('\n\n');
   }, [messageQueue]);
 
   const popAllMessages = useCallback((): string | null => {
@@ -48,26 +55,26 @@ export function useMessageQueue(): UseMessageQueueReturn {
     if (current.length === 0) return null;
     queueRef.current = [];
     setMessageQueue([]);
-    return current.join('\n\n');
+    return current.map((m) => m.text).join('\n\n');
   }, []);
 
-  const drainQueue = useCallback((): string[] => {
+  const drainQueue = useCallback((): QueuedMessage[] => {
     const current = queueRef.current;
     if (current.length === 0) return [];
-    const drained = current.filter((message) => !isSlashCommand(message));
+    const drained = current.filter((m) => !isSlashCommand(m.text));
     if (drained.length === 0) return [];
-    const rest = current.filter((message) => isSlashCommand(message));
+    const rest = current.filter((m) => isSlashCommand(m.text));
     queueRef.current = rest;
     setMessageQueue(rest);
     return drained;
   }, []);
 
-  const popNextSegment = useCallback((): string | null => {
+  const popNextSegment = useCallback((): QueuedMessage | null => {
     const current = queueRef.current;
     if (current.length === 0) return null;
     const [head, ...rest] = current;
-    queueRef.current = rest;
-    setMessageQueue(rest);
+    queueRef.current = rest || [];
+    setMessageQueue(queueRef.current);
     return head;
   }, []);
 

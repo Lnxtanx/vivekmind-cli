@@ -298,8 +298,8 @@ describe('retryWithBackoff', () => {
     });
   });
 
-  describe('Qwen OAuth 429 error handling', () => {
-    it('should retry for Qwen OAuth 429 errors that are throttling-related', async () => {
+  describe('VivekMind OAuth 429 error handling', () => {
+    it('should retry for VivekMind OAuth 429 errors that are throttling-related', async () => {
       const errorWith429: HttpError = new Error('Rate limit exceeded');
       errorWith429.status = 429;
 
@@ -312,7 +312,7 @@ describe('retryWithBackoff', () => {
         maxAttempts: 5,
         initialDelayMs: 100,
         maxDelayMs: 1000,
-        authType: AuthType.QWEN_OAUTH,
+        authType: AuthType.VIVEKMIND_OAUTH,
       });
 
       // Fast-forward time for delays
@@ -324,7 +324,7 @@ describe('retryWithBackoff', () => {
       expect(fn).toHaveBeenCalledTimes(2);
     });
 
-    it('should throw immediately for Qwen OAuth with insufficient_quota message', async () => {
+    it('should throw immediately for VivekMind OAuth with insufficient_quota message', async () => {
       const errorWithInsufficientQuota = Object.assign(
         new Error('Free allocated quota exceeded.'),
         { status: 429, code: 'insufficient_quota' },
@@ -336,18 +336,18 @@ describe('retryWithBackoff', () => {
         maxAttempts: 5,
         initialDelayMs: 1000,
         maxDelayMs: 5000,
-        authType: AuthType.QWEN_OAUTH,
+        authType: AuthType.VIVEKMIND_OAUTH,
       });
 
       await expect(promise).rejects.toThrow(
-        /Qwen OAuth free tier has been discontinued/,
+        /VivekMind OAuth free tier has been discontinued/,
       );
 
       // Should be called only once (no retries)
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
-    it('should throw immediately for Qwen OAuth with free allocated quota exceeded message', async () => {
+    it('should throw immediately for VivekMind OAuth with free allocated quota exceeded message', async () => {
       const errorWithQuotaExceeded = Object.assign(
         new Error('Free allocated quota exceeded.'),
         { status: 429, code: 'insufficient_quota' },
@@ -359,18 +359,18 @@ describe('retryWithBackoff', () => {
         maxAttempts: 5,
         initialDelayMs: 1000,
         maxDelayMs: 5000,
-        authType: AuthType.QWEN_OAUTH,
+        authType: AuthType.VIVEKMIND_OAUTH,
       });
 
       await expect(promise).rejects.toThrow(
-        /Qwen OAuth free tier has been discontinued/,
+        /VivekMind OAuth free tier has been discontinued/,
       );
 
       // Should be called only once (no retries)
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
-    it('should retry for Qwen OAuth with throttling message', async () => {
+    it('should retry for VivekMind OAuth with throttling message', async () => {
       const throttlingError: HttpError = new Error(
         'requests throttling triggered',
       );
@@ -386,7 +386,7 @@ describe('retryWithBackoff', () => {
         maxAttempts: 5,
         initialDelayMs: 100,
         maxDelayMs: 1000,
-        authType: AuthType.QWEN_OAUTH,
+        authType: AuthType.VIVEKMIND_OAUTH,
       });
 
       // Fast-forward time for delays
@@ -398,7 +398,7 @@ describe('retryWithBackoff', () => {
       expect(fn).toHaveBeenCalledTimes(3);
     });
 
-    it('should retry for Qwen OAuth with throttling error', async () => {
+    it('should retry for VivekMind OAuth with throttling error', async () => {
       const throttlingError: HttpError = new Error('throttling');
       throttlingError.status = 429;
 
@@ -411,7 +411,7 @@ describe('retryWithBackoff', () => {
         maxAttempts: 5,
         initialDelayMs: 100,
         maxDelayMs: 1000,
-        authType: AuthType.QWEN_OAUTH,
+        authType: AuthType.VIVEKMIND_OAUTH,
       });
 
       // Fast-forward time for delays
@@ -423,7 +423,7 @@ describe('retryWithBackoff', () => {
       expect(fn).toHaveBeenCalledTimes(2);
     });
 
-    it('should throw immediately for Qwen OAuth with quota message', async () => {
+    it('should throw immediately for VivekMind OAuth with quota message', async () => {
       const errorWithQuota = Object.assign(
         new Error('Free allocated quota exceeded.'),
         { status: 429, code: 'insufficient_quota' },
@@ -435,18 +435,18 @@ describe('retryWithBackoff', () => {
         maxAttempts: 5,
         initialDelayMs: 1000,
         maxDelayMs: 5000,
-        authType: AuthType.QWEN_OAUTH,
+        authType: AuthType.VIVEKMIND_OAUTH,
       });
 
       await expect(promise).rejects.toThrow(
-        /Qwen OAuth free tier has been discontinued/,
+        /VivekMind OAuth free tier has been discontinued/,
       );
 
       // Should be called only once (no retries)
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
-    it('should retry normal errors for Qwen OAuth (not quota-related)', async () => {
+    it('should retry normal errors for VivekMind OAuth (not quota-related)', async () => {
       const normalError: HttpError = new Error('Network error');
       normalError.status = 500;
 
@@ -460,7 +460,7 @@ describe('retryWithBackoff', () => {
         maxAttempts: 5,
         initialDelayMs: 100,
         maxDelayMs: 1000,
-        authType: AuthType.QWEN_OAUTH,
+        authType: AuthType.VIVEKMIND_OAUTH,
       });
 
       // Fast-forward time for delays
@@ -506,20 +506,20 @@ describe('isUnattendedMode', () => {
 
   beforeEach(() => {
     process.env = { ...originalEnv };
-    delete process.env['QWEN_CODE_UNATTENDED_RETRY'];
+    delete process.env['VIVEKMIND_CODE_UNATTENDED_RETRY'];
   });
 
   afterAll(() => {
     process.env = originalEnv;
   });
 
-  it('should return true when QWEN_CODE_UNATTENDED_RETRY=1', () => {
-    process.env['QWEN_CODE_UNATTENDED_RETRY'] = '1';
+  it('should return true when VIVEKMIND_CODE_UNATTENDED_RETRY=1', () => {
+    process.env['VIVEKMIND_CODE_UNATTENDED_RETRY'] = '1';
     expect(isUnattendedMode()).toBe(true);
   });
 
-  it('should return true when QWEN_CODE_UNATTENDED_RETRY=true', () => {
-    process.env['QWEN_CODE_UNATTENDED_RETRY'] = 'true';
+  it('should return true when VIVEKMIND_CODE_UNATTENDED_RETRY=true', () => {
+    process.env['VIVEKMIND_CODE_UNATTENDED_RETRY'] = 'true';
     expect(isUnattendedMode()).toBe(true);
   });
 
@@ -533,21 +533,21 @@ describe('isUnattendedMode', () => {
   });
 
   it('should return false for non-matching values', () => {
-    process.env['QWEN_CODE_UNATTENDED_RETRY'] = '0';
+    process.env['VIVEKMIND_CODE_UNATTENDED_RETRY'] = '0';
     expect(isUnattendedMode()).toBe(false);
-    process.env['QWEN_CODE_UNATTENDED_RETRY'] = 'false';
+    process.env['VIVEKMIND_CODE_UNATTENDED_RETRY'] = 'false';
     expect(isUnattendedMode()).toBe(false);
-    process.env['QWEN_CODE_UNATTENDED_RETRY'] = '';
+    process.env['VIVEKMIND_CODE_UNATTENDED_RETRY'] = '';
     expect(isUnattendedMode()).toBe(false);
   });
 
   it('should use strict matching consistent with parseBooleanEnvFlag', () => {
     // Only 'true' and '1' are accepted — matches project convention
-    process.env['QWEN_CODE_UNATTENDED_RETRY'] = 'TRUE';
+    process.env['VIVEKMIND_CODE_UNATTENDED_RETRY'] = 'TRUE';
     expect(isUnattendedMode()).toBe(false); // strict: not 'true'
-    process.env['QWEN_CODE_UNATTENDED_RETRY'] = ' 1 ';
+    process.env['VIVEKMIND_CODE_UNATTENDED_RETRY'] = ' 1 ';
     expect(isUnattendedMode()).toBe(false); // strict: not '1'
-    process.env['QWEN_CODE_UNATTENDED_RETRY'] = 'yes';
+    process.env['VIVEKMIND_CODE_UNATTENDED_RETRY'] = 'yes';
     expect(isUnattendedMode()).toBe(false);
   });
 });

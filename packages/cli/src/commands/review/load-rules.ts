@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -63,7 +63,7 @@ function loadCombined(baseRef: string): {
   const sections: string[] = [];
   const loaded: string[] = [];
 
-  // 1. Qwen-native rules.
+  // 1. VivekMind-native rules.
   const qwenRules = showFile(baseRef, '.vivekmind/review-rules.md');
   if (qwenRules) {
     sections.push(`### From .vivekmind/review-rules.md\n\n${qwenRules.trim()}`);

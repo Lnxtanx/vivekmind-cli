@@ -99,7 +99,7 @@ export const BEDROCK_PRICING: Record<string, BedrockModelPricing> = {
   'deepseek.v3.2': { inputPer1K: 0.00014, outputPer1K: 0.00028 },
   'deepseek.r1-v1:0': { inputPer1K: 0.00055, outputPer1K: 0.00219 },
 
-  // Qwen
+  // VivekMind
   'qwen.qwen3-coder-next': { inputPer1K: 0.0003, outputPer1K: 0.001 },
   'qwen.qwen3-next-80b-a3b': { inputPer1K: 0.0005, outputPer1K: 0.0015 },
   'qwen.qwen3-32b-v1:0': { inputPer1K: 0.00015, outputPer1K: 0.00045 },

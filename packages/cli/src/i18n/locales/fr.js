@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -403,8 +403,8 @@ export default {
   'Custom Witty Phrases': 'Phrases personnalisées spirituelles',
   'Show Welcome Back Dialog': 'Afficher le dialogue de bienvenue',
   'Enable User Feedback': 'Activer les retours utilisateur',
-  'How is Qwen doing this session? (optional)':
-    'Comment se passe cette session avec Qwen ? (facultatif)',
+  'How is VivekMind doing this session? (optional)':
+    'Comment se passe cette session avec VivekMind ? (facultatif)',
   Bad: 'Mauvais',
   Fine: 'Correct',
   Good: 'Bien',
@@ -711,8 +711,8 @@ export default {
   'Configured hooks:': 'Hooks configurés :',
   'No hooks configured for this event.':
     'Aucun hook configuré pour cet événement.',
-  'To add hooks, edit settings.json directly or ask Qwen.':
-    'Pour ajouter des hooks, éditez settings.json directement ou demandez à Qwen.',
+  'To add hooks, edit settings.json directly or ask VivekMind.':
+    'Pour ajouter des hooks, éditez settings.json directement ou demandez à VivekMind.',
   'Enter to select · Esc to go back':
     'Entrée pour sélectionner · Échap pour revenir',
   'Hook details': 'Détails du hook',
@@ -720,8 +720,8 @@ export default {
   'Extension:': 'Extension :',
   'Desc:': 'Description :',
   'No hook config selected': 'Aucune configuration de hook sélectionnée',
-  'To modify or remove this hook, edit settings.json directly or ask Qwen to help.':
-    'Pour modifier ou supprimer ce hook, éditez settings.json directement ou demandez à Qwen.',
+  'To modify or remove this hook, edit settings.json directly or ask VivekMind to help.':
+    'Pour modifier ou supprimer ce hook, éditez settings.json directement ou demandez à VivekMind.',
   'Hook Configuration - Disabled': 'Configuration du hook - Désactivé',
   'All hooks are currently disabled. You have {{count}} that are not running.':
     "Tous les hooks sont actuellement désactivés. Vous en avez {{count}} qui ne s'exécutent pas.",
@@ -793,7 +793,7 @@ export default {
     "afficher stderr à l'utilisateur uniquement mais continuer l'appel d'outil",
   'block processing, erase original prompt, and show stderr to user only':
     "bloquer le traitement, effacer l'invite originale et afficher stderr à l'utilisateur uniquement",
-  'stdout shown to Qwen': 'stdout affiché à Qwen',
+  'stdout shown to VivekMind': 'stdout affiché à VivekMind',
   'show stderr to user only (blocking errors ignored)':
     "afficher stderr à l'utilisateur uniquement (erreurs bloquantes ignorées)",
   'command completes successfully': 'la commande se termine avec succès',
@@ -1331,17 +1331,17 @@ export default {
     "Vous devez sélectionner une méthode d'authentification pour continuer. Appuyez à nouveau sur Ctrl+C pour quitter.",
   'Terms of Services and Privacy Notice':
     "Conditions d'utilisation et avis de confidentialité",
-  'Qwen OAuth': 'Qwen OAuth',
+  'VivekMind OAuth': 'VivekMind OAuth',
   'Discontinued — switch to Coding Plan or API Key':
     'Abandonné — passez à Coding Plan ou API Key',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch provider.':
-    'Le niveau gratuit Qwen OAuth a été abandonné le 2026-04-15. Exécutez /auth pour changer de fournisseur.',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Please select Coding Plan or API Key instead.':
-    'Le niveau gratuit Qwen OAuth a été abandonné le 2026-04-15. Veuillez sélectionner Coding Plan ou API Key.',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Please select a model from another provider or run /auth to switch.':
-    "Le niveau gratuit de Qwen OAuth a été abandonné le 2026-04-15. Veuillez sélectionner un modèle d'un autre fournisseur ou exécuter /auth pour changer.",
-  '\n⚠ Qwen OAuth free tier was discontinued on 2026-04-15. Please select another option.\n':
-    '\n⚠ Le niveau gratuit Qwen OAuth a été abandonné le 2026-04-15. Veuillez sélectionner une autre option.\n',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch provider.':
+    'Le niveau gratuit VivekMind OAuth a été abandonné le 2026-04-15. Exécutez /auth pour changer de fournisseur.',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Please select Coding Plan or API Key instead.':
+    'Le niveau gratuit VivekMind OAuth a été abandonné le 2026-04-15. Veuillez sélectionner Coding Plan ou API Key.',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Please select a model from another provider or run /auth to switch.':
+    "Le niveau gratuit de VivekMind OAuth a été abandonné le 2026-04-15. Veuillez sélectionner un modèle d'un autre fournisseur ou exécuter /auth pour changer.",
+  '\n⚠ VivekMind OAuth free tier was discontinued on 2026-04-15. Please select another option.\n':
+    '\n⚠ Le niveau gratuit VivekMind OAuth a été abandonné le 2026-04-15. Veuillez sélectionner une autre option.\n',
   'Paid \u00B7 Up to 6,000 requests/5 hrs \u00B7 All Alibaba Cloud Coding Plan Models':
     "Payant · Jusqu'à 6 000 requêtes/5h · Tous les modèles Alibaba Cloud Coding Plan",
   'Alibaba Cloud Coding Plan': 'Plan de codage Alibaba Cloud',
@@ -1356,11 +1356,11 @@ export default {
     'Échec de la connexion. Message : {{message}}',
   'Authentication is enforced to be {{enforcedType}}, but you are currently using {{currentType}}.':
     "L'authentification est imposée à {{enforcedType}}, mais vous utilisez actuellement {{currentType}}.",
-  'Qwen OAuth authentication timed out. Please try again.':
-    "L'authentification Qwen OAuth a expiré. Veuillez réessayer.",
-  'Qwen OAuth authentication cancelled.':
-    'Authentification Qwen OAuth annulée.',
-  'Qwen OAuth Authentication': 'Authentification Qwen OAuth',
+  'VivekMind OAuth authentication timed out. Please try again.':
+    "L'authentification VivekMind OAuth a expiré. Veuillez réessayer.",
+  'VivekMind OAuth authentication cancelled.':
+    'Authentification VivekMind OAuth annulée.',
+  'VivekMind OAuth Authentication': 'Authentification VivekMind OAuth',
   'Please visit this URL to authorize:':
     'Veuillez visiter cette URL pour autoriser :',
   'Or scan the QR code below:': 'Ou scannez le QR code ci-dessous :',
@@ -1368,17 +1368,17 @@ export default {
   'Time remaining:': 'Temps restant :',
   '(Press ESC or CTRL+C to cancel)':
     '(Appuyez sur ÉCHAP ou CTRL+C pour annuler)',
-  'Qwen OAuth Authentication Timeout': "Délai d'authentification Qwen OAuth",
+  'VivekMind OAuth Authentication Timeout': "Délai d'authentification VivekMind OAuth",
   'OAuth token expired (over {{seconds}} seconds). Please select authentication method again.':
     "Token OAuth expiré (plus de {{seconds}} secondes). Veuillez sélectionner à nouveau la méthode d'authentification.",
   'Press any key to return to authentication type selection.':
     "Appuyez sur n'importe quelle touche pour revenir à la sélection du type d'authentification.",
-  'Waiting for Qwen OAuth authentication...':
-    "En attente de l'authentification Qwen OAuth...",
-  'Note: Your existing API key in settings.json will not be cleared when using Qwen OAuth. You can switch back to OpenAI authentication later if needed.':
-    "Remarque : Votre clé API existante dans settings.json ne sera pas effacée lors de l'utilisation de Qwen OAuth. Vous pouvez revenir à l'authentification OpenAI plus tard si nécessaire.",
-  'Note: Your existing API key will not be cleared when using Qwen OAuth.':
-    "Remarque : Votre clé API existante ne sera pas effacée lors de l'utilisation de Qwen OAuth.",
+  'Waiting for VivekMind OAuth authentication...':
+    "En attente de l'authentification VivekMind OAuth...",
+  'Note: Your existing API key in settings.json will not be cleared when using VivekMind OAuth. You can switch back to OpenAI authentication later if needed.':
+    "Remarque : Votre clé API existante dans settings.json ne sera pas effacée lors de l'utilisation de VivekMind OAuth. Vous pouvez revenir à l'authentification OpenAI plus tard si nécessaire.",
+  'Note: Your existing API key will not be cleared when using VivekMind OAuth.':
+    "Remarque : Votre clé API existante ne sera pas effacée lors de l'utilisation de VivekMind OAuth.",
   'Authentication timed out. Please try again.':
     "L'authentification a expiré. Veuillez réessayer.",
   'Waiting for auth... (Press ESC or CTRL+C to cancel)':
@@ -1403,8 +1403,8 @@ export default {
     "Échec de l'authentification. Message : {{message}}",
   'Authenticated successfully with {{authType}} credentials.':
     'Authentification réussie avec les identifiants {{authType}}.',
-  'Invalid QWEN_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}':
-    'Valeur QWEN_DEFAULT_AUTH_TYPE invalide : "{{value}}". Valeurs valides : {{validValues}}',
+  'Invalid VIVEKMIND_DEFAULT_AUTH_TYPE value: "{{value}}". Valid values are: {{validValues}}':
+    'Valeur VIVEKMIND_DEFAULT_AUTH_TYPE invalide : "{{value}}". Valeurs valides : {{validValues}}',
   'OpenAI Configuration Required': 'Configuration OpenAI requise',
   'Please enter your OpenAI configuration. You can get an API key from':
     'Veuillez entrer votre configuration OpenAI. Vous pouvez obtenir une clé API depuis',
@@ -1440,10 +1440,10 @@ export default {
   unknown: 'inconnu',
   "Failed to switch model to '{{modelId}}'.\n\n{{error}}":
     "Échec du changement de modèle vers '{{modelId}}'.\n\n{{error}}",
-  'Qwen 3.6 Plus — efficient hybrid model with leading coding performance':
-    'Qwen 3.6 Plus — modèle hybride efficace avec des performances de codage de pointe',
-  'The latest Qwen Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    "Le dernier modèle Qwen Vision d'Alibaba Cloud ModelStudio (version : qwen3-vl-plus-2025-09-23)",
+  'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
+    'VivekMind 3.6 Plus — modèle hybride efficace avec des performances de codage de pointe',
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
+    "Le dernier modèle VivekMind Vision d'Alibaba Cloud ModelStudio (version : qwen3-vl-plus-2025-09-23)",
 
   // ============================================================================
   // Boîtes de dialogue - Permissions
@@ -2004,9 +2004,9 @@ export default {
   // ============================================================================
   // Commandes - Auth
   // ============================================================================
-  'Configure Qwen authentication information with Qwen-OAuth or Alibaba Cloud Coding Plan':
-    "Configurer les informations d'authentification Qwen avec Qwen-OAuth ou Alibaba Cloud Coding Plan",
-  'Authenticate using Qwen OAuth': 'Authentifier avec Qwen OAuth',
+  'Configure VivekMind authentication information with VivekMind-OAuth or Alibaba Cloud Coding Plan':
+    "Configurer les informations d'authentification VivekMind avec VivekMind-OAuth ou Alibaba Cloud Coding Plan",
+  'Authenticate using VivekMind OAuth': 'Authentifier avec VivekMind OAuth',
   'Authenticate using Alibaba Cloud Coding Plan':
     'Authentifier avec Alibaba Cloud Coding Plan',
   'Region for Coding Plan (china/global)':
@@ -2016,12 +2016,12 @@ export default {
     "Afficher le statut d'authentification actuel",
   'Authentication completed successfully.':
     'Authentification terminée avec succès.',
-  'Starting Qwen OAuth authentication...':
-    "Démarrage de l'authentification Qwen OAuth...",
-  'Successfully authenticated with Qwen OAuth.':
-    'Authentification réussie avec Qwen OAuth.',
-  'Failed to authenticate with Qwen OAuth: {{error}}':
-    "Échec de l'authentification avec Qwen OAuth : {{error}}",
+  'Starting VivekMind OAuth authentication...':
+    "Démarrage de l'authentification VivekMind OAuth...",
+  'Successfully authenticated with VivekMind OAuth.':
+    'Authentification réussie avec VivekMind OAuth.',
+  'Failed to authenticate with VivekMind OAuth: {{error}}':
+    "Échec de l'authentification avec VivekMind OAuth : {{error}}",
   'Processing Alibaba Cloud Coding Plan authentication...':
     "Traitement de l'authentification Alibaba Cloud Coding Plan...",
   'Successfully authenticated with Alibaba Cloud Coding Plan.':
@@ -2041,21 +2041,21 @@ export default {
     "⚠️  Aucune méthode d'authentification configurée.\n",
   'Run one of the following commands to get started:\n':
     "Exécutez l'une des commandes suivantes pour commencer :\n",
-  '  vivekmind auth qwen-oauth     - Authenticate with Qwen OAuth (discontinued)':
-    '  vivekmind auth qwen-oauth     - Authentification avec Qwen OAuth (abandonné)',
+  '  vivekmind auth vivekmind-oauth     - Authenticate with VivekMind OAuth (discontinued)':
+    '  vivekmind auth vivekmind-oauth     - Authentification avec VivekMind OAuth (abandonné)',
   '  vivekmind auth coding-plan      - Authenticate with Alibaba Cloud Coding Plan\n':
     '  vivekmind auth coding-plan      - Authentifier avec Alibaba Cloud Coding Plan\n',
   'Or simply run:': 'Ou simplement exécutez :',
   '  vivekmind auth                - Interactive authentication setup\n':
     "  vivekmind auth                - Configuration d'authentification interactive\n",
-  '✓ Authentication Method: Qwen OAuth':
-    "✓ Méthode d'authentification : Qwen OAuth",
+  '✓ Authentication Method: VivekMind OAuth':
+    "✓ Méthode d'authentification : VivekMind OAuth",
   '  Type: Free tier (discontinued 2026-04-15)':
     '  Type : Niveau gratuit (abandonné 2026-04-15)',
   '  Limit: No longer available': '  Limite : Plus disponible',
-  'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.':
-    'Le niveau gratuit Qwen OAuth a été abandonné le 2026-04-15. Exécutez /auth pour passer à Coding Plan, OpenRouter, Fireworks AI ou un autre fournisseur.',
-  '  Models: Qwen latest models\n': '  Modèles : Derniers modèles Qwen\n',
+  'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan, OpenRouter, Fireworks AI, or another provider.':
+    'Le niveau gratuit VivekMind OAuth a été abandonné le 2026-04-15. Exécutez /auth pour passer à Coding Plan, OpenRouter, Fireworks AI ou un autre fournisseur.',
+  '  Models: VivekMind latest models\n': '  Modèles : Derniers modèles VivekMind\n',
   '✓ Authentication Method: Alibaba Cloud Coding Plan':
     "✓ Méthode d'authentification : Alibaba Cloud Coding Plan",
   '中国 (China) - 阿里云百炼': '中国 (Chine) - 阿里云百炼',

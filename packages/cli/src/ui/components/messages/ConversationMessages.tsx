@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -96,6 +96,10 @@ const PrefixedTextMessage: React.FC<PrefixedTextMessageProps> = ({
 }) => {
   const prefixWidth = getPrefixWidth(prefix);
 
+  // Regex to match @file.txt or [Image #N]
+  const badgeRegex = /(@[^\s,;!?()[\]{}]+|\[Image #\d+\])/g;
+  const segments = text.split(badgeRegex);
+
   return (
     <Box
       flexDirection="row"
@@ -108,9 +112,24 @@ const PrefixedTextMessage: React.FC<PrefixedTextMessageProps> = ({
           {prefix}
         </Text>
       </Box>
-      <Box flexGrow={1}>
-        <Text wrap="wrap" color={textColor}>
-          {text}
+      <Box flexGrow={1} flexDirection="row" flexWrap="wrap">
+        <Text color={textColor}>
+          {segments.map((seg, i) => {
+            if (seg.startsWith('@')) {
+              return (
+                <Text key={i} color={theme.text.accent} bold>
+                  [{seg}]
+                </Text>
+              );
+            } else if (seg.startsWith('[Image #')) {
+              return (
+                <Text key={i} color={theme.status.warning}>
+                  {seg} [image — not supported]
+                </Text>
+              );
+            }
+            return <Text key={i}>{seg}</Text>;
+          })}
         </Text>
       </Box>
     </Box>

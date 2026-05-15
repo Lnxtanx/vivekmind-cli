@@ -74,12 +74,12 @@ const MOCK_DATA: InsightData = {
         {
           title: 'Efficient PR Creation Process',
           description:
-            "You've mastered the PR creation workflow, successfully creating pull requests using existing templates multiple times. You know how to leverage Qwen to format PRs properly in English and complete this task efficiently, often in single responses with multiple coordinated tool calls.",
+            "You've mastered the PR creation workflow, successfully creating pull requests using existing templates multiple times. You know how to leverage VivekMind to format PRs properly in English and complete this task efficiently, often in single responses with multiple coordinated tool calls.",
         },
         {
           title: 'Systematic Debugging and Refactoring',
           description:
-            "You effectively use Qwen for debugging failing tests, successfully identifying issues like missing KeypressProvider context and ink mock setup problems. You also completed clean refactoring tasks like migrating openFileInBrowser to use the 'open' package, with all checks passing on the first attempt.",
+            "You effectively use VivekMind for debugging failing tests, successfully identifying issues like missing KeypressProvider context and ink mock setup problems. You also completed clean refactoring tasks like migrating openFileInBrowser to use the 'open' package, with all checks passing on the first attempt.",
         },
       ],
     },
@@ -166,7 +166,7 @@ const MOCK_DATA: InsightData = {
         {
           category: 'Buggy Code and Incomplete Solutions',
           description:
-            "You encountered buggy code generation in 5 instances where Qwen's initial implementations were incorrect, forcing you to spend additional time iterating on fixes before achieving working solutions.",
+            "You encountered buggy code generation in 5 instances where VivekMind's initial implementations were incorrect, forcing you to spend additional time iterating on fixes before achieving working solutions.",
           examples: [
             'Test creation required multiple iterations to fix incorrect vi.mocked() usage patterns and fs module mocking approaches before tests finally passed',
             "ESC cancellation feature initially created AbortController but didn't pass signal to command actions, requiring a follow-up fix to properly implement Promise.race in compressCommand",
@@ -175,7 +175,7 @@ const MOCK_DATA: InsightData = {
         {
           category: 'Tool and Skill Reliability Issues',
           description:
-            "You experienced situations where Qwen's tools or skills failed to execute properly, forcing manual workarounds and excessive exploration that extended task completion time.",
+            "You experienced situations where VivekMind's tools or skills failed to execute properly, forcing manual workarounds and excessive exploration that extended task completion time.",
           examples: [
             'The code-reviewer subagent skill failed to execute, forcing you to manually review a large PR with 416 files instead of leveraging the automated review capability',
             'PR creation initially generated empty content instead of reading and applying the template file, requiring you to complain and request a fix before getting proper output',
@@ -185,31 +185,31 @@ const MOCK_DATA: InsightData = {
     },
     memorableMoment: {
       headline:
-        "User paused mid-work to verify Qwen's corporate identity—\"Are you Alibaba's model or Zhipu's GLM?\"",
+        "User paused mid-work to verify VivekMind's corporate identity—\"Are you Alibaba's model or Zhipu's GLM?\"",
       detail:
-        "During what appears to be routine development work, a user stopped everything to ask Qwen to confirm its corporate origins. Qwen correctly identified itself as Alibaba's model, not Zhipu's GLM. A rare moment of AI identity verification in the wild.",
+        "During what appears to be routine development work, a user stopped everything to ask VivekMind to confirm its corporate origins. VivekMind correctly identified itself as Alibaba's model, not Zhipu's GLM. A rare moment of AI identity verification in the wild.",
     },
     improvements: {
-      Qwen_md_additions: [
+      VivekMind_md_additions: [
         {
           addition:
             '## Code Review Standards\n- Always check for test coverage when reviewing new features\n- Flag missing error handling in async functions\n- Prefer focused PRs over large multi-file changes',
           why: 'Code review friction showed issues with subagent failures and excessive exploration on large PRs',
           prompt_scaffold:
-            'Create new ## Code Review Standards section in QWEN.md',
+            'Create new ## Code Review Standards section in VIVEKMIND.md',
         },
         {
           addition:
             '## Testing Conventions\n- Use vi.mock() for module mocks before vi.mocked() for function mocking\n- Always wrap components with required providers (e.g., KeypressProvider) in tests\n- Run tests after modifying related files to catch issues early',
           why: 'Multiple test sessions had buggy mock implementation issues that required iterative fixes',
           prompt_scaffold:
-            'Create new ## Testing Conventions section in QWEN.md',
+            'Create new ## Testing Conventions section in VIVEKMIND.md',
         },
         {
           addition:
             '## PR Workflow\n- Always read and apply PR template before creating PR content\n- Use English as default language for PR descriptions unless specified otherwise',
           why: 'One session created empty PR initially, another required English specification - both are repetitive clarifications',
-          prompt_scaffold: 'Create new ## PR Workflow section in QWEN.md',
+          prompt_scaffold: 'Create new ## PR Workflow section in VIVEKMIND.md',
         },
       ],
       features_to_try: [
@@ -239,7 +239,7 @@ const MOCK_DATA: InsightData = {
         },
         {
           feature: 'Headless Mode',
-          one_liner: 'Run Qwen non-interactively for batch operations',
+          one_liner: 'Run VivekMind non-interactively for batch operations',
           why_for_you:
             'With 166 run_shell_command calls and repetitive tasks like PR creation, you could automate routine workflows',
           example_code:
@@ -251,7 +251,7 @@ const MOCK_DATA: InsightData = {
           why_for_you:
             'Your grep_search (53) and file exploration could be more efficient with dedicated agents for codebase understanding',
           example_code:
-            'Ask Qwen: "Use an agent to explore the test infrastructure and identify all test utilities available"',
+            'Ask VivekMind: "Use an agent to explore the test infrastructure and identify all test utilities available"',
         },
       ],
       usage_patterns: [
@@ -287,7 +287,7 @@ const MOCK_DATA: InsightData = {
           suggestion:
             'Add testing conventions to QWEN.md to avoid iterative mock fixes',
           detail:
-            '5 buggy_code friction points mostly came from test mock implementation issues. Documenting your testing patterns in QWEN.md would help Qwen generate correct tests on the first attempt.',
+            '5 buggy_code friction points mostly came from test mock implementation issues. Documenting your testing patterns in QWEN.md would help VivekMind generate correct tests on the first attempt.',
           copyable_prompt:
             "Add to QWEN.md: 'When generating tests, use vi.mock() before vi.mocked() and always include required providers'",
         },
@@ -295,7 +295,7 @@ const MOCK_DATA: InsightData = {
     },
     interactionStyle: {
       narrative:
-        'Your interaction pattern shows **high-frequency, low-intensity engagement** with VivekMind. With 314 sessions over just 68 days (averaging 4-5 sessions daily) and 58% of analyzed sessions being "warmup_minimal," you treat Qwen as a readily-available assistant you check in with frequently but often don\'t have specific tasks ready. You say "hi" or "nihao" and wait to see what happens, suggesting you keep Qwen accessible as a background tool rather than planning extensive work sessions.\n\nWhen you do have actual work, you\'re **iterative and feedback-driven rather than specification-heavy**. Examples: when creating PRs, you accepted an initial implementation that created empty content, then reported the issue for Qwen to fix; when implementing ESC cancellation support, you tested the code, discovered the signal wasn\'t being passed through, and reported the specific bug for correction; when requesting tests for DataProcessor, you worked through multiple rounds of fixing mock implementation issues. You don\'t provide exhaustive upfront requirements—you point Qwen at a problem, see what it produces, and course-correct.\n\n**You trust Qwen to explore autonomously but intervene when things go wrong.** Your tool usage (209 read_file calls, 166 shell commands, 98 edits) shows you let Qwen investigate and modify freely. The friction data reveals low rejection rates (0 user_rejected_action, 0 excessive_changes) and zero misunderstood requests, indicating you give Qwen space to work. However, 5 instances of buggy code required your feedback to fix, and you clearly communicate specific issues when they arise ("abort() was called but execution didn\'t stop"). You\'re a collaborative debugger who provides precise problem descriptions rather than vague complaints.',
+        'Your interaction pattern shows **high-frequency, low-intensity engagement** with VivekMind. With 314 sessions over just 68 days (averaging 4-5 sessions daily) and 58% of analyzed sessions being "warmup_minimal," you treat VivekMind as a readily-available assistant you check in with frequently but often don\'t have specific tasks ready. You say "hi" or "nihao" and wait to see what happens, suggesting you keep VivekMind accessible as a background tool rather than planning extensive work sessions.\n\nWhen you do have actual work, you\'re **iterative and feedback-driven rather than specification-heavy**. Examples: when creating PRs, you accepted an initial implementation that created empty content, then reported the issue for VivekMind to fix; when implementing ESC cancellation support, you tested the code, discovered the signal wasn\'t being passed through, and reported the specific bug for correction; when requesting tests for DataProcessor, you worked through multiple rounds of fixing mock implementation issues. You don\'t provide exhaustive upfront requirements—you point VivekMind at a problem, see what it produces, and course-correct.\n\n**You trust VivekMind to explore autonomously but intervene when things go wrong.** Your tool usage (209 read_file calls, 166 shell commands, 98 edits) shows you let VivekMind investigate and modify freely. The friction data reveals low rejection rates (0 user_rejected_action, 0 excessive_changes) and zero misunderstood requests, indicating you give VivekMind space to work. However, 5 instances of buggy code required your feedback to fix, and you clearly communicate specific issues when they arise ("abort() was called but execution didn\'t stop"). You\'re a collaborative debugger who provides precise problem descriptions rather than vague complaints.',
       key_pattern:
         'You use VivekMind as a high-frequency, low-commitment tool with iterative feedback loops—many brief check-ins with "hi" or minimal interaction, and when real work happens, you prefer to test implementations and report specific issues for correction rather than providing comprehensive upfront specifications.',
     },
@@ -303,7 +303,7 @@ const MOCK_DATA: InsightData = {
       whats_working:
         'You take a direct, task-oriented approach—submitting clear requests for PR creation, test generation, and refactoring work. Your test generation sessions were particularly effective, producing comprehensive test suites that passed after iteration, and your debugging work successfully identified root causes like missing context providers.',
       whats_hindering:
-        "On Qwen's side: some implementations needed follow-up fixes (missing signal passing in abort handling, initial empty PR content), and buggy code generation required multiple iterations—especially around mocking patterns. The code-reviewer skill also failed during a large PR review. On your side: many sessions were empty or just greetings without actual requests, and some friction around iterative debugging could be smoothed with more upfront context about testing frameworks and patterns you prefer.",
+        "On VivekMind's side: some implementations needed follow-up fixes (missing signal passing in abort handling, initial empty PR content), and buggy code generation required multiple iterations—especially around mocking patterns. The code-reviewer skill also failed during a large PR review. On your side: many sessions were empty or just greetings without actual requests, and some friction around iterative debugging could be smoothed with more upfront context about testing frameworks and patterns you prefer.",
       quick_wins:
         'Try using subagents more deliberately for complex tasks like code reviews (you only called skills 4 times)—they can handle multi-step analysis autonomously. When generating tests, specify your preferred mocking patterns upfront to reduce iteration cycles.',
       ambitious_workflows:

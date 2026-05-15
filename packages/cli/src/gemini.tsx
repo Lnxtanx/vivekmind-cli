@@ -10,7 +10,7 @@ import {
   isDebugLoggingDegraded,
   isBareMode,
   logUserPrompt,
-  QWEN_CODE_SIMPLE_ENV_VAR,
+  VIVEKMIND_CODE_SIMPLE_ENV_VAR,
   Storage,
   SessionService,
   type Config,
@@ -123,7 +123,7 @@ function getNodeMemoryArgs(isDebugMode: boolean): string[] {
     );
   }
 
-  if (process.env['QWEN_CODE_NO_RELAUNCH']) {
+  if (process.env['VIVEKMIND_CODE_NO_RELAUNCH']) {
     return [];
   }
 
@@ -358,14 +358,14 @@ export async function main() {
   setupUnhandledRejectionHandler();
 
   if (process.argv.includes('--bare')) {
-    process.env[QWEN_CODE_SIMPLE_ENV_VAR] = '1';
+    process.env[VIVEKMIND_CODE_SIMPLE_ENV_VAR] = '1';
   }
 
   let argv = await parseArguments();
   profileCheckpoint('after_parse_arguments');
 
   if (isBareMode(argv.bare)) {
-    process.env[QWEN_CODE_SIMPLE_ENV_VAR] = '1';
+    process.env[VIVEKMIND_CODE_SIMPLE_ENV_VAR] = '1';
   }
 
   const settings = isBareMode(argv.bare)
@@ -670,9 +670,9 @@ export async function main() {
         ...getSettingsWarnings(settings),
         ...config.getWarnings(),
         ...(config.getModelsConfig().getCurrentAuthType() ===
-        AuthType.QWEN_OAUTH
+        AuthType.VIVEKMIND_OAUTH
           ? [
-              'Qwen OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan or another provider.',
+              'VivekMind OAuth free tier was discontinued on 2026-04-15. Run /auth to switch to Coding Plan or another provider.',
             ]
           : []),
       ]),

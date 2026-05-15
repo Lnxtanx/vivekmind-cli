@@ -252,7 +252,7 @@ export class BedrockContentGenerator implements ContentGenerator {
         ? Math.min(userMaxTokens, modelLimit)
         : userMaxTokens;
     } else {
-      const envVal = process.env['QWEN_CODE_MAX_OUTPUT_TOKENS'];
+      const envVal = process.env['VIVEKMIND_CODE_MAX_OUTPUT_TOKENS'];
       const envMaxTokens = envVal ? parseInt(envVal, 10) : NaN;
       if (!isNaN(envMaxTokens) && envMaxTokens > 0) {
         maxTokens = isKnownModel

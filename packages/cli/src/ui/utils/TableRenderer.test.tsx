@@ -342,11 +342,11 @@ describe('<TableRenderer />', () => {
   it('renders markdown links as readable plain text in cells', () => {
     const output = renderTable(
       ['Name', 'Link'],
-      [['Doc', '[Qwen](https://example.com/path)']],
+      [['Doc', '[VivekMind](https://example.com/path)']],
       60,
     );
-    expect(output).toContain('Qwen');
-    expect(output).not.toContain('[Qwen](');
+    expect(output).toContain('VivekMind');
+    expect(output).not.toContain('[VivekMind](');
   });
 
   it('renders inline code and bold text readably in the same cell', () => {

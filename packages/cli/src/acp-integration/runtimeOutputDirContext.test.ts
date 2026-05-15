@@ -7,12 +7,12 @@ import { runWithAcpRuntimeOutputDir } from './runtimeOutputDirContext.js';
 describe('runWithAcpRuntimeOutputDir', () => {
   beforeEach(() => {
     Storage.setRuntimeBaseDir(null);
-    delete process.env['QWEN_RUNTIME_DIR'];
+    delete process.env['VIVEKMIND_RUNTIME_DIR'];
   });
 
   afterEach(() => {
     Storage.setRuntimeBaseDir(null);
-    delete process.env['QWEN_RUNTIME_DIR'];
+    delete process.env['VIVEKMIND_RUNTIME_DIR'];
   });
 
   it('uses the merged runtimeOutputDir relative to cwd within the async context', async () => {
@@ -29,6 +29,6 @@ describe('runWithAcpRuntimeOutputDir', () => {
       expect(Storage.getRuntimeBaseDir()).toBe(path.join(cwd, '.vivekmind-runtime'));
     });
 
-    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalQwenDir());
+    expect(Storage.getRuntimeBaseDir()).toBe(Storage.getGlobalVivekMindDir());
   });
 });

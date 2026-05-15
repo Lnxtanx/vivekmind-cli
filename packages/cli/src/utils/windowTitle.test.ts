@@ -19,7 +19,7 @@ describe('computeWindowTitle', () => {
     process.env = originalEnv;
   });
 
-  it('should use default Qwen title when CLI_TITLE is not set', () => {
+  it('should use default VivekMind title when CLI_TITLE is not set', () => {
     const result = computeWindowTitle('my-project');
     expect(result).toBe('VivekMind - my-project');
   });

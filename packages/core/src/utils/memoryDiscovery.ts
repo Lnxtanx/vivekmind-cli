@@ -12,7 +12,7 @@ import { homedir } from 'node:os';
 import { getAllGeminiMdFilenames } from '../memory/const.js';
 import type { FileDiscoveryService } from '../services/fileDiscoveryService.js';
 import { processImports } from './memoryImportProcessor.js';
-import { QWEN_DIR } from './paths.js';
+import { VIVEKMIND_DIR } from './paths.js';
 import { createDebugLogger } from './debugLogger.js';
 import { loadRules, type RuleFile } from './rulesDiscovery.js';
 
@@ -133,7 +133,7 @@ async function getGeminiMdFilePathsInternalForEachDir(
     const resolvedHome = path.resolve(userHomePath);
     const globalMemoryPath = path.join(
       resolvedHome,
-      QWEN_DIR,
+      VIVEKMIND_DIR,
       geminiMdFilename,
     );
 
@@ -201,7 +201,7 @@ async function getGeminiMdFilePathsInternalForEachDir(
         : path.dirname(resolvedHome);
 
       while (currentDir && currentDir !== path.dirname(currentDir)) {
-        if (currentDir === path.join(resolvedHome, QWEN_DIR)) {
+        if (currentDir === path.join(resolvedHome, VIVEKMIND_DIR)) {
           break;
         }
 

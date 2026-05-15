@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -12,7 +12,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import {
   getAllGeminiMdFilenames,
-  QWEN_DIR,
+  VIVEKMIND_DIR,
   getAutoMemoryRoot,
   getAutoMemoryProjectStateDir,
 } from '@vivekmind/core';
@@ -125,7 +125,7 @@ export function MemoryDialog({ onClose }: MemoryDialogProps) {
     () =>
       path.join(
         os.homedir(),
-        QWEN_DIR,
+        VIVEKMIND_DIR,
         getAllGeminiMdFilenames()[0] ?? 'QWEN.md',
       ),
     [],
@@ -215,7 +215,7 @@ export function MemoryDialog({ onClose }: MemoryDialogProps) {
           );
         case 'global':
           return resolvePreferredMemoryFile(
-            path.join(os.homedir(), QWEN_DIR),
+            path.join(os.homedir(), VIVEKMIND_DIR),
             getAllGeminiMdFilenames()[0] ?? 'QWEN.md',
           );
         case 'managed':

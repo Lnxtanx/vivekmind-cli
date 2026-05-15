@@ -65,7 +65,7 @@ export function normalize(model: string): string {
   // - dates (e.g., -20250219), -v1, version numbers, 'latest', 'preview' etc.
   s = s.replace(/-preview/g, '');
   // Special handling for model names that include date/version as part of the model identifier
-  // - Qwen models: qwen-plus-latest, qwen-flash-latest, qwen-vl-max-latest
+  // - VivekMind models: qwen-plus-latest, qwen-flash-latest, qwen-vl-max-latest
   // - Kimi models: kimi-k2-0905, kimi-k2-0711, etc. (keep date for version distinction)
   if (
     !s.match(/^qwen-(?:plus|flash|vl-max)-latest$/) &&
@@ -99,26 +99,35 @@ const PATTERNS: Array<[RegExp, TokenCount]> = [
   // Google Gemini
   // -------------------
   [/^gemini-3/, LIMITS['1m']], // Gemini 3.x (Pro, Flash, 3.1, etc.): 1M
-  [/^gemini-/, LIMITS['1m']], // Gemini fallback (1.5, 2.x): 1M
+  [/^gemini-2\.5/, LIMITS['1m']], // Gemini 2.5: 1M
+  [/^gemini-/, LIMITS['1m']], // Gemini fallback: 1M
 
   // -------------------
   // OpenAI
   // -------------------
+  [/^gpt-5\.2/, LIMITS['400k']], // GPT-5.2: 400K
   [/^gpt-5/, LIMITS['272k']], // GPT-5.x: 272K input (400K total - 128K output)
-  [/^gpt-/, LIMITS['128k']], // GPT fallback (4o, 4.1, etc.): 128K
+  [/^gpt-4\.1/, LIMITS['1m']], // GPT-4.1: 1M
+  [/^gpt-/, LIMITS['128k']], // GPT fallback (4o, etc.): 128K
   [/^o\d/, LIMITS['200k']], // o-series (o3, o4-mini, etc.): 200K
 
   // -------------------
   // Anthropic Claude
   // -------------------
-  [/^claude-/, LIMITS['200k']], // All Claude models: 200K
+  [/^claude-opus-4-7/, LIMITS['1m']], // Claude 4.7 Opus: 1M
+  [/^claude-sonnet-4-6/, LIMITS['1m']], // Claude 4.6 Sonnet: 1M
+  [/^claude-/, LIMITS['200k']], // All other Claude models: 200K
 
   // -------------------
-  // Alibaba / Qwen
+  // Amazon Nova (Bedrock)
+  // -------------------
+  [/^nova-/, LIMITS['1m']], // Amazon Nova: 1M
+
+  // -------------------
+  // Alibaba / VivekMind
   // -------------------
   // Commercial API models (1,000,000 context)
-  [/^qwen3-coder-plus/, LIMITS['1m']],
-  [/^qwen3-coder-flash/, LIMITS['1m']],
+  [/^qwen3-coder/, LIMITS['1m']],
   [/^qwen3\.\d/, LIMITS['1m']],
   [/^qwen-plus-latest$/, LIMITS['1m']],
   [/^qwen-flash-latest$/, LIMITS['1m']],
@@ -127,12 +136,13 @@ const PATTERNS: Array<[RegExp, TokenCount]> = [
   [/^qwen3-max/, LIMITS['256k']],
   // Open-source Qwen3 variants: 256K native
   [/^qwen3-coder-/, LIMITS['256k']],
-  // Qwen fallback (VL, turbo, plus, 2.5, etc.): 128K
+  // VivekMind fallback (VL, turbo, plus, 2.5, etc.): 128K
   [/^qwen/, LIMITS['256k']],
 
   // -------------------
   // DeepSeek
   // -------------------
+  [/^v3\.2/, LIMITS['128k']], // DeepSeek V3.2 (Bedrock normalization)
   [/^deepseek-v4/, LIMITS['1m']], // DeepSeek V4 (flash, pro): 1M
   [/^deepseek/, LIMITS['128k']],
 
@@ -156,6 +166,7 @@ const PATTERNS: Array<[RegExp, TokenCount]> = [
   // -------------------
   // Mistral AI
   // -------------------
+  [/^devstral/, LIMITS['128k']], // Devstral: 128K
   [/^codestral/, LIMITS['256k']], // Codestral: 256K
   [/^mistral-large/, LIMITS['128k']], // Mistral Large: 128K
   [/^mistral-small/, LIMITS['32k']], // Mistral Small: 32K
@@ -182,6 +193,11 @@ const PATTERNS: Array<[RegExp, TokenCount]> = [
   [/^command-r/, LIMITS['128k']], // Command R+/R: 128K
 
   // -------------------
+  // NVIDIA Nemotron
+  // -------------------
+  [/^nemotron-/, LIMITS['128k']],
+
+  // -------------------
   // Meta Llama (via Groq, Together, Fireworks, etc.)
   // -------------------
   [/^llama-3/, LIMITS['128k']], // Llama 3.x: 128K
@@ -201,24 +217,30 @@ const PATTERNS: Array<[RegExp, TokenCount]> = [
 const OUTPUT_PATTERNS: Array<[RegExp, TokenCount]> = [
   // Google Gemini
   [/^gemini-3/, LIMITS['64k']], // Gemini 3.x: 64K
+  [/^gemini-2\.5/, LIMITS['16k']], // Gemini 2.5: 16K
   [/^gemini-/, LIMITS['8k']], // Gemini fallback: 8K
 
   // OpenAI
+  [/^gpt-5\.2/, LIMITS['128k']], // GPT-5.2: 128K
   [/^gpt-5/, LIMITS['128k']], // GPT-5.x: 128K
+  [/^gpt-4\.1/, LIMITS['128k']], // GPT-4.1: 128K
   [/^gpt-/, LIMITS['16k']], // GPT fallback: 16K
   [/^o\d/, LIMITS['128k']], // o-series: 128K
 
   // Anthropic Claude
-  [/^claude-opus-4-6/, LIMITS['128k']], // Opus 4.6: 128K
+  [/^claude-opus-4-7/, LIMITS['128k']], // Opus 4.7: 128K
   [/^claude-sonnet-4-6/, LIMITS['64k']], // Sonnet 4.6: 64K
+  [/^claude-opus-4-6/, LIMITS['128k']], // Opus 4.6: 128K
   [/^claude-/, LIMITS['64k']], // Claude fallback: 64K
 
-  // Alibaba / Qwen
+  // Alibaba / VivekMind
+  [/^qwen3-coder/, LIMITS['64k']],
   [/^qwen3\.\d/, LIMITS['64k']],
   [/^coder-model$/, LIMITS['64k']],
-  [/^qwen/, LIMITS['32k']], // Qwen fallback (VL, turbo, plus, etc.): 8K
+  [/^qwen/, LIMITS['32k']], // VivekMind fallback (VL, turbo, plus, etc.): 8K
 
   // DeepSeek
+  [/^v3\.2/, LIMITS['8k']],
   [/^deepseek-v4/, LIMITS['384k']], // DeepSeek V4 (flash, pro): 384K
   [/^deepseek-reasoner/, LIMITS['64k']],
   [/^deepseek-r1/, LIMITS['64k']],

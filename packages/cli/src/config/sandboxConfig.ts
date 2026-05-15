@@ -38,7 +38,7 @@ function getSandboxCommand(
 
   // note environment variable takes precedence over argument (from command line or settings)
   const environmentConfiguredSandbox =
-    process.env['QWEN_SANDBOX']?.toLowerCase().trim() ?? '';
+    process.env['VIVEKMIND_SANDBOX']?.toLowerCase().trim() ?? '';
   sandbox =
     environmentConfiguredSandbox?.length > 0
       ? environmentConfiguredSandbox
@@ -63,7 +63,7 @@ function getSandboxCommand(
       return sandbox;
     }
     throw new FatalSandboxError(
-      `Missing sandbox command '${sandbox}' (from QWEN_SANDBOX)`,
+      `Missing sandbox command '${sandbox}' (from VIVEKMIND_SANDBOX)`,
     );
   }
 
@@ -80,8 +80,8 @@ function getSandboxCommand(
   // throw an error if user requested sandbox but no command was found
   if (sandbox === true) {
     throw new FatalSandboxError(
-      'QWEN_SANDBOX is true but failed to determine command for sandbox; ' +
-        'install docker or podman or specify command in QWEN_SANDBOX',
+      'VIVEKMIND_SANDBOX is true but failed to determine command for sandbox; ' +
+        'install docker or podman or specify command in VIVEKMIND_SANDBOX',
     );
   }
 
@@ -98,7 +98,7 @@ export async function loadSandboxConfig(
   const packageJson = await getPackageJson();
   const image =
     argv.sandboxImage ??
-    process.env['QWEN_SANDBOX_IMAGE'] ??
+    process.env['VIVEKMIND_SANDBOX_IMAGE'] ??
     settings.tools?.sandboxImage ??
     packageJson?.config?.sandboxImageUri;
 

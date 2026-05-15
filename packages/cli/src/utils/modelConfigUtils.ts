@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -19,12 +19,30 @@ import type { Settings } from '../config/settings.js';
  * Mirrors the model-var mappings in core's AUTH_ENV_MAPPINGS.
  */
 const AUTH_ENV_MODEL_VARS: Record<AuthType, string[]> = {
-  [AuthType.USE_OPENAI]: ['OPENAI_MODEL', 'QWEN_MODEL'],
+  [AuthType.USE_OPENAI]: ['OPENAI_MODEL', 'VIVEKMIND_MODEL'],
   [AuthType.USE_GEMINI]: ['GEMINI_MODEL'],
   [AuthType.USE_VERTEX_AI]: ['GOOGLE_MODEL'],
   [AuthType.USE_ANTHROPIC]: ['ANTHROPIC_MODEL'],
-  [AuthType.QWEN_OAUTH]: [],
+  [AuthType.VIVEKMIND_OAUTH]: [],
   [AuthType.USE_BEDROCK]: ['BEDROCK_MODEL'],
+  [AuthType.USE_AZURE_OPENAI]: ['AZURE_OPENAI_MODEL'],
+  [AuthType.USE_ANTHROPIC_VERTEX_AI]: ['ANTHROPIC_MODEL'],
+  [AuthType.USE_MISTRAL]: ['MISTRAL_MODEL'],
+  [AuthType.USE_DEEPSEEK]: ['DEEPSEEK_MODEL'],
+  [AuthType.USE_GROQ]: ['GROQ_MODEL'],
+  [AuthType.USE_TOGETHER]: ['TOGETHER_MODEL'],
+  [AuthType.USE_OPENROUTER]: ['OPENROUTER_MODEL'],
+  [AuthType.USE_XAI]: ['XAI_MODEL'],
+  [AuthType.USE_DASHSCOPE]: ['DASHSCOPE_MODEL'],
+  [AuthType.USE_OLLAMA]: ['OLLAMA_MODEL'],
+  [AuthType.USE_LM_STUDIO]: ['LM_STUDIO_MODEL'],
+  [AuthType.USE_COHERE]: ['COHERE_MODEL'],
+  [AuthType.USE_PERPLEXITY]: ['PERPLEXITY_MODEL'],
+  [AuthType.USE_FIREWORKS]: ['FIREWORKS_MODEL'],
+  [AuthType.USE_SILICONFLOW]: ['SILICONFLOW_MODEL'],
+  [AuthType.USE_HF]: ['HF_MODEL'],
+  [AuthType.USE_NOVITA]: ['NOVITA_MODEL'],
+  [AuthType.USE_WATSONX]: ['WATSONX_MODEL'],
 };
 
 export interface CliGenerationConfigInputs {
@@ -59,8 +77,8 @@ export interface ResolvedCliGenerationConfig {
 }
 
 export function getAuthTypeFromEnv(): AuthType | undefined {
-  if (process.env['QWEN_OAUTH']) {
-    return AuthType.QWEN_OAUTH;
+  if (process.env['VIVEKMIND_OAUTH']) {
+    return AuthType.VIVEKMIND_OAUTH;
   }
 
   if (
@@ -105,7 +123,7 @@ export function getAuthTypeFromEnv(): AuthType | undefined {
  * - argv.model > settings.model.name > auth-specific env model vars
  *
  * Env var mapping by auth type (mirrors core's AUTH_ENV_MAPPINGS):
- * - USE_OPENAI: OPENAI_MODEL, QWEN_MODEL
+ * - USE_OPENAI: OPENAI_MODEL, VIVEKMIND_MODEL
  * - USE_GEMINI: GEMINI_MODEL
  * - USE_VERTEX_AI: GOOGLE_MODEL
  * - USE_ANTHROPIC: ANTHROPIC_MODEL

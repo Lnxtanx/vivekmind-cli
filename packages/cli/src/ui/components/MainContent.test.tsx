@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -76,7 +76,7 @@ const createUIState = (overrides: Partial<UIState> = {}): UIState =>
     isAuthDialogOpen: false,
     pendingAuthType: undefined,
     externalAuthState: null,
-    qwenAuthState: {} as UIState['qwenAuthState'],
+    vivekmindAuthState: {} as UIState['vivekmindAuthState'],
     editorError: null,
     isEditorDialogOpen: false,
     debugMessage: '',

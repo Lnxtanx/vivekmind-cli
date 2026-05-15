@@ -65,7 +65,11 @@ export function DescriptiveRadioButtonSelect<T>({
       itemGap={itemGap}
       renderItem={(item, { titleColor }) => (
         <Box flexDirection="column" key={item.key}>
-          <Text color={titleColor}>{item.title}</Text>
+          {typeof item.title === 'string' ? (
+            <Text color={titleColor}>{item.title}</Text>
+          ) : (
+            item.title
+          )}
           {typeof item.description === 'string' ? (
             <Text color={theme.text.secondary}>{item.description}</Text>
           ) : (

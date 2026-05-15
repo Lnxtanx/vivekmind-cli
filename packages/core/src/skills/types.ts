@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,7 +68,7 @@ export interface SkillConfig {
 
   /**
    * Absolute path to the skill root directory (directory containing SKILL.md).
-   * Used to set QWEN_SKILL_ROOT environment variable for skill hooks.
+   * Used to set VIVEKMIND_SKILL_ROOT environment variable for skill hooks.
    */
   skillRoot?: string;
 

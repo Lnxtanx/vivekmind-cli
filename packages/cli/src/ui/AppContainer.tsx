@@ -91,6 +91,7 @@ import { useVimMode } from './contexts/VimModeContext.js';
 import { CompactModeProvider } from './contexts/CompactModeContext.js';
 import { useTerminalSize } from './hooks/useTerminalSize.js';
 import { calculatePromptWidths } from './components/InputPrompt.js';
+import { type Attachment } from './types.js';
 import { useStdin, useStdout } from 'ink';
 import ansiEscapes from 'ansi-escapes';
 import * as fs from 'node:fs';
@@ -99,7 +100,7 @@ import { computeWindowTitle } from '../utils/windowTitle.js';
 import { clearScreen } from '../utils/stdioHelpers.js';
 import { useTextBuffer } from './components/shared/text-buffer.js';
 import { useLogger } from './hooks/useLogger.js';
-import { useGeminiStream } from './hooks/useGeminiStream.js';
+import { useGeminiStream, SendMessageType } from './hooks/useGeminiStream.js';
 import { useVim } from './hooks/vim.js';
 import { isBtwCommand, isSlashCommand } from './utils/commandUtils.js';
 import { type LoadedSettings, SettingScope } from '../config/settings.js';
@@ -116,11 +117,11 @@ import { useIdeTrustListener } from './hooks/useIdeTrustListener.js';
 import { type IdeIntegrationNudgeResult } from './IdeIntegrationNudge.js';
 import { type CommandMigrationNudgeResult } from './CommandFormatMigrationNudge.js';
 import { useCommandMigration } from './hooks/useCommandMigration.js';
+import { useMessageQueue, type QueuedMessage } from './hooks/useMessageQueue.js';
 import { migrateTomlCommands } from '../services/command-migration-tool.js';
 import { type UpdateObject } from './utils/updateCheck.js';
 import { setUpdateHandler } from '../utils/handleAutoUpdate.js';
 import { registerCleanup, runExitCleanup } from '../utils/cleanup.js';
-import { useMessageQueue } from './hooks/useMessageQueue.js';
 import { useAutoAcceptIndicator } from './hooks/useAutoAcceptIndicator.js';
 import { useSessionStats } from './contexts/SessionContext.js';
 import { useGitBranchName } from './hooks/useGitBranchName.js';
@@ -572,13 +573,16 @@ export const AppContainer = (props: AppContainerProps) => {
     isAuthDialogOpen,
     isAuthenticating,
     pendingAuthType,
+    setPendingAuthType,
     externalAuthState,
-    qwenAuthState,
+    vivekmindAuthState,
     handleAuthSelect,
     handleCodingPlanSubmit,
     handleAlibabaStandardSubmit,
     handleOpenRouterSubmit,
     handleCustomApiKeySubmit,
+    handleBedrockCredentialsSubmit,
+    handleVertexCredentialsSubmit,
     openAuthDialog,
     cancelAuthentication,
   } = useAuthCommand(settings, config, historyManager.addItem, refreshStatic);
@@ -810,7 +814,7 @@ export const AppContainer = (props: AppContainerProps) => {
     historyManager.addItem(
       {
         type: MessageType.INFO,
-        text: 'Refreshing hierarchical memory (QWEN.md or other context files)...',
+        text: 'Refreshing hierarchical memory (VIVEKMIND.md or other context files)...',
       },
       Date.now(),
     );
@@ -866,7 +870,7 @@ export const AppContainer = (props: AppContainerProps) => {
   }, [config, historyManager, settings.merged]);
 
   const cancelHandlerRef = useRef<() => void>(() => {});
-  const midTurnDrainRef = useRef<(() => string[]) | null>(null);
+  const midTurnDrainRef = useRef<(() => QueuedMessage[]) | null>(null);
 
   const {
     streamingState,
@@ -1107,7 +1111,7 @@ export const AppContainer = (props: AppContainerProps) => {
 
   // Callback for handling final submit (must be after addMessage from useMessageQueue)
   const handleFinalSubmit = useCallback(
-    (submittedValue: string) => {
+    async (submittedValue: string, attachments?: Attachment[]) => {
       // Route to active in-process agent if viewing a sub-agent tab.
       if (agentViewState.activeView !== 'main') {
         const agent = agentViewState.agents.get(agentViewState.activeView);
@@ -1116,11 +1120,18 @@ export const AppContainer = (props: AppContainerProps) => {
           return;
         }
       }
+
       if (
         streamingState === StreamingState.Responding &&
         isBtwCommand(submittedValue)
       ) {
-        void submitQuery(submittedValue);
+        void submitQuery(
+          submittedValue,
+          SendMessageType.UserQuery,
+          undefined,
+          undefined,
+          attachments,
+        );
         return;
       }
 
@@ -2276,12 +2287,39 @@ export const AppContainer = (props: AppContainerProps) => {
 
     // Two-phase: batch plain prompts as one turn, else pop next slash command.
     const plainPrompts = drainQueue();
-    const submission =
-      plainPrompts.length > 0 ? plainPrompts.join('\n\n') : popNextSegment();
-    if (submission === null) return;
+    if (plainPrompts.length > 0) {
+      const submissionText = plainPrompts.map((p) => p.text).join('\n\n');
+      const allAttachments = plainPrompts.flatMap((p) => p.attachments || []);
+
+      queueDrainingRef.current = true;
+      Promise.resolve(
+        submitQuery(
+          submissionText,
+          SendMessageType.UserQuery,
+          undefined,
+          undefined,
+          allAttachments,
+        ),
+      ).finally(() => {
+        queueDrainingRef.current = false;
+        setQueueDrainNonce((n) => n + 1);
+      });
+      return;
+    }
+
+    const nextSegment = popNextSegment();
+    if (nextSegment === null) return;
 
     queueDrainingRef.current = true;
-    Promise.resolve(submitQuery(submission)).finally(() => {
+    Promise.resolve(
+      submitQuery(
+        nextSegment.text,
+        SendMessageType.UserQuery,
+        undefined,
+        undefined,
+        nextSegment.attachments,
+      ),
+    ).finally(() => {
       queueDrainingRef.current = false;
       setQueueDrainNonce((n) => n + 1);
     });
@@ -2310,8 +2348,8 @@ export const AppContainer = (props: AppContainerProps) => {
       isAuthDialogOpen,
       pendingAuthType,
       externalAuthState,
-      // Qwen OAuth state
-      qwenAuthState,
+      // VivekMind OAuth state
+      vivekmindAuthState,
       editorError,
       isEditorDialogOpen,
       debugMessage,
@@ -2431,8 +2469,8 @@ export const AppContainer = (props: AppContainerProps) => {
       isAuthDialogOpen,
       pendingAuthType,
       externalAuthState,
-      // Qwen OAuth state
-      qwenAuthState,
+      // VivekMind OAuth state
+      vivekmindAuthState,
       editorError,
       isEditorDialogOpen,
       debugMessage,
@@ -2556,12 +2594,15 @@ export const AppContainer = (props: AppContainerProps) => {
       handleApprovalModeSelect,
       handleAuthSelect,
       setAuthState,
+      setPendingAuthType,
       onAuthError,
       cancelAuthentication,
       handleCodingPlanSubmit,
       handleAlibabaStandardSubmit,
       handleOpenRouterSubmit,
       handleCustomApiKeySubmit,
+      handleBedrockCredentialsSubmit,
+      handleVertexCredentialsSubmit,
       handleEditorSelect,
       exitEditorDialog,
       closeSettingsDialog,
@@ -2630,12 +2671,15 @@ export const AppContainer = (props: AppContainerProps) => {
       handleApprovalModeSelect,
       handleAuthSelect,
       setAuthState,
+      setPendingAuthType,
       onAuthError,
       cancelAuthentication,
       handleCodingPlanSubmit,
       handleAlibabaStandardSubmit,
       handleOpenRouterSubmit,
       handleCustomApiKeySubmit,
+      handleBedrockCredentialsSubmit,
+      handleVertexCredentialsSubmit,
       handleEditorSelect,
       exitEditorDialog,
       closeSettingsDialog,

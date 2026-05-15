@@ -15,7 +15,7 @@ import {
 } from './microcompact.js';
 
 function clearEnv() {
-  delete process.env['QWEN_MC_KEEP_RECENT'];
+  delete process.env['VIVEKMIND_MC_KEEP_RECENT'];
 }
 
 function makeToolCall(name: string): Content {

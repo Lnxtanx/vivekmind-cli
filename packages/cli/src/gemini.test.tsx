@@ -117,12 +117,12 @@ describe('gemini.tsx main function', () => {
 
   beforeEach(() => {
     // Store and clear sandbox-related env variables to ensure a consistent test environment
-    originalEnvGeminiSandbox = process.env['QWEN_SANDBOX'];
+    originalEnvGeminiSandbox = process.env['VIVEKMIND_SANDBOX'];
     originalEnvSandbox = process.env['SANDBOX'];
-    originalEnvQwenCodeSimple = process.env['QWEN_CODE_SIMPLE'];
-    delete process.env['QWEN_SANDBOX'];
+    originalEnvQwenCodeSimple = process.env['VIVEKMIND_CODE_SIMPLE'];
+    delete process.env['VIVEKMIND_SANDBOX'];
     delete process.env['SANDBOX'];
-    delete process.env['QWEN_CODE_SIMPLE'];
+    delete process.env['VIVEKMIND_CODE_SIMPLE'];
 
     initialUnhandledRejectionListeners =
       process.listeners('unhandledRejection');
@@ -131,9 +131,9 @@ describe('gemini.tsx main function', () => {
   afterEach(() => {
     // Restore original env variables
     if (originalEnvGeminiSandbox !== undefined) {
-      process.env['QWEN_SANDBOX'] = originalEnvGeminiSandbox;
+      process.env['VIVEKMIND_SANDBOX'] = originalEnvGeminiSandbox;
     } else {
-      delete process.env['QWEN_SANDBOX'];
+      delete process.env['VIVEKMIND_SANDBOX'];
     }
     if (originalEnvSandbox !== undefined) {
       process.env['SANDBOX'] = originalEnvSandbox;
@@ -141,9 +141,9 @@ describe('gemini.tsx main function', () => {
       delete process.env['SANDBOX'];
     }
     if (originalEnvQwenCodeSimple !== undefined) {
-      process.env['QWEN_CODE_SIMPLE'] = originalEnvQwenCodeSimple;
+      process.env['VIVEKMIND_CODE_SIMPLE'] = originalEnvQwenCodeSimple;
     } else {
-      delete process.env['QWEN_CODE_SIMPLE'];
+      delete process.env['VIVEKMIND_CODE_SIMPLE'];
     }
 
     const currentListeners = process.listeners('unhandledRejection');
@@ -498,8 +498,8 @@ describe('gemini.tsx main function kitty protocol', () => {
 
   beforeEach(() => {
     // Set no relaunch in tests since process spawning causing issues in tests
-    originalEnvNoRelaunch = process.env['QWEN_CODE_NO_RELAUNCH'];
-    process.env['QWEN_CODE_NO_RELAUNCH'] = 'true';
+    originalEnvNoRelaunch = process.env['VIVEKMIND_CODE_NO_RELAUNCH'];
+    process.env['VIVEKMIND_CODE_NO_RELAUNCH'] = 'true';
     initialSigintListeners = process.listeners(
       'SIGINT',
     ) as NodeJS.SignalsListener[];
@@ -538,9 +538,9 @@ describe('gemini.tsx main function kitty protocol', () => {
 
     // Restore original env variables
     if (originalEnvNoRelaunch !== undefined) {
-      process.env['QWEN_CODE_NO_RELAUNCH'] = originalEnvNoRelaunch;
+      process.env['VIVEKMIND_CODE_NO_RELAUNCH'] = originalEnvNoRelaunch;
     } else {
-      delete process.env['QWEN_CODE_NO_RELAUNCH'];
+      delete process.env['VIVEKMIND_CODE_NO_RELAUNCH'];
     }
     vi.restoreAllMocks();
   });

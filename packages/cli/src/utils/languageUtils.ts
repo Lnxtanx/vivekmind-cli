@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen team
+ * Copyright 2025 VivekMind team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -65,7 +65,7 @@ export function resolveOutputLanguage(
  */
 function getOutputLanguageFilePath(): string {
   return path.join(
-    Storage.getGlobalQwenDir(),
+    Storage.getGlobalVivekMindDir(),
     LLM_OUTPUT_LANGUAGE_RULE_FILENAME,
   );
 }

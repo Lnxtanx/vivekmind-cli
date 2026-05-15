@@ -31,7 +31,7 @@ export interface GeminiExtensionConfig {
 /**
  * Converts a Gemini extension config to VivekMind format.
  * @param extensionDir Path to the Gemini extension directory
- * @returns Qwen ExtensionConfig
+ * @returns VivekMind ExtensionConfig
  */
 export function convertGeminiToQwenConfig(
   extensionDir: string,
@@ -61,7 +61,7 @@ export function convertGeminiToQwenConfig(
 /**
  * Converts a complete Gemini extension package to VivekMind format.
  * Creates a new temporary directory with:
- * 1. Converted qwen-extension.json
+ * 1. Converted vivekmind-extension.json
  * 2. Commands converted from TOML to MD
  * 3. All other files/folders preserved
  *
@@ -86,8 +86,8 @@ export async function convertGeminiExtensionPackage(
       await convertCommandsDirectory(commandsDir);
     }
 
-    // Step 3: Create qwen-extension.json with converted config
-    const qwenConfigPath = path.join(tmpDir, 'qwen-extension.json');
+    // Step 3: Create vivekmind-extension.json with converted config
+    const qwenConfigPath = path.join(tmpDir, 'vivekmind-extension.json');
     fs.writeFileSync(
       qwenConfigPath,
       JSON.stringify(geminiConfig, null, 2),
@@ -230,6 +230,6 @@ export function isGeminiExtensionConfig(extensionDir: string) {
     }
   }
 
-  // If it has Gemini-specific fields but not Qwen-specific fields, likely Gemini
+  // If it has Gemini-specific fields but not VivekMind-specific fields, likely Gemini
   return true;
 }

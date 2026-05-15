@@ -29,7 +29,7 @@ const debugLogger = createDebugLogger('RIPGREP');
  * pathologically long session can't grow without limit.
  *
  * `dirIsDir`: searchPath → boolean (is the path itself a directory?)
- * `qwenIgnore`: dir → string | null (cached `.vivekmindignore` path or null)
+ * `vivekMindIgnore`: dir → string | null (cached `.vivekmindignore` path or null)
  *
  * **Known staleness window:** a `.vivekmindignore` created mid-session, or a
  * searchPath whose type flips (dir→file or vice versa), will not be
@@ -37,7 +37,7 @@ const debugLogger = createDebugLogger('RIPGREP');
  * rarely add ignore files mid-session; a process restart resets the cache.
  */
 const dirIsDirCache = new Map<string, boolean>();
-const qwenIgnoreCache = new Map<string, string | null>();
+const vivekMindIgnoreCache = new Map<string, string | null>();
 const RIPGREP_CACHE_MAX = 256;
 function trimCache<K, V>(m: Map<K, V>): void {
   if (m.size <= RIPGREP_CACHE_MAX) return;
@@ -50,7 +50,7 @@ function trimCache<K, V>(m: Map<K, V>): void {
  */
 export function _resetRipGrepCachesForTest(): void {
   dirIsDirCache.clear();
-  qwenIgnoreCache.clear();
+  vivekMindIgnoreCache.clear();
 }
 
 /**
@@ -281,7 +281,7 @@ class GrepToolInvocation extends BaseToolInvocation<
       rgArgs.push('--no-ignore-vcs');
     }
 
-    if (filteringOptions.respectQwenIgnore) {
+    if (filteringOptions.respectVivekMindIgnore) {
       // Load .vivekmindignore from each workspace directory, not just the primary one
       const seenIgnoreFiles = new Set<string>();
       for (const searchPath of paths) {
@@ -296,16 +296,16 @@ class GrepToolInvocation extends BaseToolInvocation<
           trimCache(dirIsDirCache);
         }
         const dir = isDir ? searchPath : path.dirname(searchPath);
-        let qwenIgnorePath = qwenIgnoreCache.get(dir);
-        if (qwenIgnorePath === undefined) {
+        let vivekMindIgnorePath = vivekMindIgnoreCache.get(dir);
+        if (vivekMindIgnorePath === undefined) {
           const candidate = path.join(dir, '.vivekmindignore');
-          qwenIgnorePath = fs.existsSync(candidate) ? candidate : null;
-          qwenIgnoreCache.set(dir, qwenIgnorePath);
-          trimCache(qwenIgnoreCache);
+          vivekMindIgnorePath = fs.existsSync(candidate) ? candidate : null;
+          vivekMindIgnoreCache.set(dir, vivekMindIgnorePath);
+          trimCache(vivekMindIgnoreCache);
         }
-        if (qwenIgnorePath && !seenIgnoreFiles.has(qwenIgnorePath)) {
-          rgArgs.push('--ignore-file', qwenIgnorePath);
-          seenIgnoreFiles.add(qwenIgnorePath);
+        if (vivekMindIgnorePath && !seenIgnoreFiles.has(vivekMindIgnorePath)) {
+          rgArgs.push('--ignore-file', vivekMindIgnorePath);
+          seenIgnoreFiles.add(vivekMindIgnorePath);
         }
       }
     }
@@ -333,9 +333,9 @@ class GrepToolInvocation extends BaseToolInvocation<
       respectGitIgnore:
         options?.respectGitIgnore ??
         DEFAULT_FILE_FILTERING_OPTIONS.respectGitIgnore,
-      respectQwenIgnore:
-        options?.respectQwenIgnore ??
-        DEFAULT_FILE_FILTERING_OPTIONS.respectQwenIgnore,
+      respectVivekMindIgnore:
+        options?.respectVivekMindIgnore ??
+        DEFAULT_FILE_FILTERING_OPTIONS.respectVivekMindIgnore,
     };
   }
 

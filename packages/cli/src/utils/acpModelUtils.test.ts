@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen Team
+ * Copyright 2025 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -14,8 +14,8 @@ import {
 
 describe('acpModelUtils', () => {
   it('formats modelId(authType)', () => {
-    expect(formatAcpModelId('qwen3', AuthType.QWEN_OAUTH)).toBe(
-      `qwen3(${AuthType.QWEN_OAUTH})`,
+    expect(formatAcpModelId('qwen3', AuthType.VIVEKMIND_OAUTH)).toBe(
+      `qwen3(${AuthType.VIVEKMIND_OAUTH})`,
     );
   });
 

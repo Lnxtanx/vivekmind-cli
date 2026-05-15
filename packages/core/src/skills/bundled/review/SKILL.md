@@ -470,7 +470,7 @@ First, determine the repository owner/repo. For **same-repo** reviews, run `gh r
 
 Use the **pre-autofix HEAD commit SHA** captured in Step 1. If not captured, fall back to `gh pr view {pr_number} --json headRefOid --jq '.headRefOid'`.
 
-**Run pre-submission checks**: the bundled `vivekmind review presubmit` subcommand performs self-PR detection, CI / build status classification, and existing-Qwen-comment classification in one pass — three deterministic gh-API queries collapsed into a single JSON report. Read the report to drive the rest of Step 9.
+**Run pre-submission checks**: the bundled `vivekmind review presubmit` subcommand performs self-PR detection, CI / build status classification, and existing-VivekMind-comment classification in one pass — three deterministic gh-API queries collapsed into a single JSON report. Read the report to drive the rest of Step 9.
 
 Optionally write the `(path, line)` anchors of the comments you're about to post so existing-comment Overlap can be detected:
 
@@ -524,7 +524,7 @@ Read `.vivekmind/tmp/qwen-review-{target}-presubmit.json`. Schema:
 
 - **Self-PR**: GitHub rejects both `APPROVE` and `REQUEST_CHANGES` on your own PR (HTTP 422); `COMMENT` is the only accepted event. The Critical/Suggestion findings still appear as inline `comments` regardless, so substantive feedback is preserved.
 - **CI failure / pending**: the LLM review reads code statically and cannot see runtime test failures. Approving on red CI is misleading; pending CI means the verdict is premature.
-- **Overlap with existing comments**: posting on the same `(path, line)` as an existing Qwen comment produces visual duplicates. Stale-commit and replied-to comments are skipped silently — they're false-positive overlap from line-based matching.
+- **Overlap with existing comments**: posting on the same `(path, line)` as an existing VivekMind comment produces visual duplicates. Stale-commit and replied-to comments are skipped silently — they're false-positive overlap from line-based matching.
 
 ⚠️ **Findings that can be mapped to a diff line → go in `comments` array (with `line` field). Findings that CANNOT be mapped to a specific diff line → go in `body` field.** Every entry in the `comments` array MUST have a valid `line` number. Do NOT put a comment in the `comments` array without a `line` — it creates an orphaned comment with no code reference.
 

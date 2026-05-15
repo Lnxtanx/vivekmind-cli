@@ -9,18 +9,18 @@
 
 # Re-execute with bash if running with sh or other shells
 # This block must use POSIX-compliant syntax ([ not [[) since it runs before we know bash is available
-if [ -z "${BASH_VERSION}" ] && [ -z "${__QWEN_INSTALL_REEXEC:-}" ]; then
+if [ -z "${BASH_VERSION}" ] && [ -z "${__VIVEKMIND_INSTALL_REEXEC:-}" ]; then
     # Check if we're in a git hook environment
     case "${0}" in
-        *.git/hooks/*) export __QWEN_IN_GIT_HOOK=1 ;;
+        *.git/hooks/*) export __VIVEKMIND_IN_GIT_HOOK=1 ;;
     esac
     if [ -n "${GIT_DIR:-}" ]; then
-        export __QWEN_IN_GIT_HOOK=1
+        export __VIVEKMIND_IN_GIT_HOOK=1
     fi
 
     # Try to find bash
     if command -v bash >/dev/null 2>&1; then
-        export __QWEN_INSTALL_REEXEC=1
+        export __VIVEKMIND_INSTALL_REEXEC=1
         # Re-exec with bash, preserving all arguments
         exec bash -- "${0}" "$@"
     else
@@ -443,9 +443,9 @@ install_qwen_code() {
     fi
 
     if command_exists vivekmind; then
-        local QWEN_VERSION
-        QWEN_VERSION=$(vivekmind --version 2>/dev/null || echo "unknown")
-        log_success "VivekMind is already installed: ${QWEN_VERSION}"
+        local VIVEKMIND_VERSION
+        VIVEKMIND_VERSION=$(vivekmind --version 2>/dev/null || echo "unknown")
+        log_success "VivekMind is already installed: ${VIVEKMIND_VERSION}"
         log_info "Upgrading to the latest version..."
     fi
 
@@ -482,15 +482,15 @@ install_qwen_code() {
 # Create source.json
 # ============================================
 create_source_json() {
-    local QWEN_DIR="${HOME}/.vivekmind"
+    local VIVEKMIND_DIR="${HOME}/.vivekmind"
 
-    mkdir -p "${QWEN_DIR}"
+    mkdir -p "${VIVEKMIND_DIR}"
 
     # Escape special characters in SOURCE for JSON
     local ESCAPED_SOURCE
     ESCAPED_SOURCE=$(printf '%s' "${SOURCE}" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
-    cat > "${QWEN_DIR}/source.json" <<EOF
+    cat > "${VIVEKMIND_DIR}/source.json" <<EOF
 {
   "source": "${ESCAPED_SOURCE}"
 }

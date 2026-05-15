@@ -1,10 +1,10 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const QWEN_CODE_SIMPLE_ENV_VAR = 'QWEN_CODE_SIMPLE';
+export const VIVEKMIND_CODE_SIMPLE_ENV_VAR = 'VIVEKMIND_CODE_SIMPLE';
 
 function isTruthy(value: string | undefined): boolean {
   if (!value) {
@@ -15,5 +15,5 @@ function isTruthy(value: string | undefined): boolean {
 }
 
 export function isBareMode(cliFlag?: boolean): boolean {
-  return cliFlag === true || isTruthy(process.env[QWEN_CODE_SIMPLE_ENV_VAR]);
+  return cliFlag === true || isTruthy(process.env[VIVEKMIND_CODE_SIMPLE_ENV_VAR]);
 }

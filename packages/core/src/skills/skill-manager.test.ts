@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * Modifications Copyright (C) 2026 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1713,7 +1713,7 @@ hooks:
     - matcher: "Bash"
       hooks:
         - type: command
-          command: 'echo $QWEN_SKILL_ROOT'
+          command: 'echo $VIVEKMIND_SKILL_ROOT'
 ---
 Skill content`;
 

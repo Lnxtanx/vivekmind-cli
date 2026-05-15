@@ -6,7 +6,7 @@
 
 import { render } from 'ink-testing-library';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { Header, AuthDisplayType } from './Header.js';
+import { Header } from './Header.js';
 import * as useTerminalSize from '../hooks/useTerminalSize.js';
 
 vi.mock('../hooks/useTerminalSize.js');
@@ -14,7 +14,7 @@ const useTerminalSizeMock = vi.mocked(useTerminalSize.useTerminalSize);
 
 const defaultProps = {
   version: '1.0.0',
-  authDisplayType: AuthDisplayType.QWEN_OAUTH,
+  authDisplayType: 'API Key',
   model: 'qwen-coder-plus',
   workingDirectory: '/home/user/projects/test',
 };
@@ -54,7 +54,7 @@ describe('<Header />', () => {
 
   it('displays auth type and model', () => {
     const { lastFrame } = render(<Header {...defaultProps} />);
-    expect(lastFrame()).toContain('Qwen OAuth');
+    expect(lastFrame()).toContain('VivekMind OAuth');
     expect(lastFrame()).toContain('qwen-coder-plus');
   });
 
@@ -62,7 +62,7 @@ describe('<Header />', () => {
     const { lastFrame } = render(
       <Header
         {...defaultProps}
-        authDisplayType={AuthDisplayType.CODING_PLAN}
+        authDisplayType="Coding Plan"
       />,
     );
     expect(lastFrame()).toContain('Coding Plan');
@@ -70,7 +70,7 @@ describe('<Header />', () => {
 
   it('displays API Key auth type', () => {
     const { lastFrame } = render(
-      <Header {...defaultProps} authDisplayType={AuthDisplayType.API_KEY} />,
+      <Header {...defaultProps} authDisplayType="API Key" />,
     );
     expect(lastFrame()).toContain('API Key');
   });
@@ -87,10 +87,10 @@ describe('<Header />', () => {
     expect(lastFrame()).toContain('/home/user/projects/test');
   });
 
-  it('renders with border around info panel', () => {
+  it('renders without border around info panel', () => {
     const { lastFrame } = render(<Header {...defaultProps} />);
-    expect(lastFrame()).toContain('┌');
-    expect(lastFrame()).toContain('┐');
+    expect(lastFrame()).not.toContain('┌');
+    expect(lastFrame()).not.toContain('┐');
   });
 
   it('renders plain text when NO_COLOR disables gradient colors', () => {

@@ -15,7 +15,7 @@ import { setGeminiMdFilename as mockSetGeminiMdFilename } from '../memory/const.
 import {
   DEFAULT_TELEMETRY_TARGET,
   DEFAULT_OTLP_ENDPOINT,
-  QwenLogger,
+  VivekMindLogger,
   isTelemetrySdkInitialized,
   shutdownTelemetry,
 } from '../telemetry/index.js';
@@ -153,7 +153,7 @@ vi.mock('../memory/const.js', () => ({
   getCurrentGeminiMdFilename: vi.fn(() => 'QWEN.md'), // Mock the original filename
   getAllGeminiMdFilenames: vi.fn(() => ['QWEN.md', 'AGENTS.md']),
   DEFAULT_CONTEXT_FILENAME: 'QWEN.md',
-  QWEN_CONFIG_DIR: '.vivekmind',
+  VIVEKMIND_CONFIG_DIR: '.vivekmind',
 }));
 vi.mock('../tools/memory-config', () => ({
   setGeminiMdFilename: vi.fn(),
@@ -161,8 +161,8 @@ vi.mock('../tools/memory-config', () => ({
   getAllGeminiMdFilenames: vi.fn(() => ['QWEN.md', 'AGENTS.md']),
   DEFAULT_CONTEXT_FILENAME: 'QWEN.md',
   AGENT_CONTEXT_FILENAME: 'AGENTS.md',
-  QWEN_CONFIG_DIR: '.vivekmind',
-  MEMORY_SECTION_HEADER: '## Qwen Added Memories',
+  VIVEKMIND_CONFIG_DIR: '.vivekmind',
+  MEMORY_SECTION_HEADER: '## VivekMind Added Memories',
 }));
 
 vi.mock('../core/contentGenerator.js');
@@ -291,7 +291,7 @@ describe('Server Config (config.ts)', () => {
     // Reset mocks if necessary
     vi.clearAllMocks();
     vi.mocked(isTelemetrySdkInitialized).mockReturnValue(false);
-    vi.spyOn(QwenLogger.prototype, 'logStartSessionEvent').mockImplementation(
+    vi.spyOn(VivekMindLogger.prototype, 'logStartSessionEvent').mockImplementation(
       async () => undefined,
     );
 
@@ -565,14 +565,14 @@ describe('Server Config (config.ts)', () => {
     });
   });
 
-  describe('model switching optimization (QWEN_OAUTH)', () => {
-    it('should switch qwen-oauth model in-place without refreshing auth when safe', async () => {
+  describe('model switching optimization (VIVEKMIND_OAUTH)', () => {
+    it('should switch vivekmind-oauth model in-place without refreshing auth when safe', async () => {
       const config = new Config(baseParams);
 
       const mockContentConfig: ContentGeneratorConfig = {
-        authType: AuthType.QWEN_OAUTH,
+        authType: AuthType.VIVEKMIND_OAUTH,
         model: 'coder-model',
-        apiKey: 'QWEN_OAUTH_DYNAMIC_TOKEN',
+        apiKey: 'VIVEKMIND_OAUTH_DYNAMIC_TOKEN',
         baseUrl: DEFAULT_DASHSCOPE_BASE_URL,
         timeout: 60000,
         maxRetries: 3,
@@ -595,13 +595,13 @@ describe('Server Config (config.ts)', () => {
         embedContent: vi.fn(),
       } as unknown as ContentGenerator);
 
-      // Establish initial qwen-oauth content generator config/content generator.
-      await config.refreshAuth(AuthType.QWEN_OAUTH);
+      // Establish initial vivekmind-oauth content generator config/content generator.
+      await config.refreshAuth(AuthType.VIVEKMIND_OAUTH);
 
       // Spy after initial refresh to ensure model switch does not re-trigger refreshAuth.
       const refreshSpy = vi.spyOn(config, 'refreshAuth');
 
-      await config.switchModel(AuthType.QWEN_OAUTH, 'coder-model');
+      await config.switchModel(AuthType.VIVEKMIND_OAUTH, 'coder-model');
 
       expect(config.getModel()).toBe('coder-model');
       expect(refreshSpy).not.toHaveBeenCalled();
@@ -616,9 +616,9 @@ describe('Server Config (config.ts)', () => {
       const config = new Config(baseParams);
 
       const mockContentConfig: ContentGeneratorConfig = {
-        authType: AuthType.QWEN_OAUTH,
+        authType: AuthType.VIVEKMIND_OAUTH,
         model: 'coder-model',
-        apiKey: 'QWEN_OAUTH_DYNAMIC_TOKEN',
+        apiKey: 'VIVEKMIND_OAUTH_DYNAMIC_TOKEN',
         baseUrl: DEFAULT_DASHSCOPE_BASE_URL,
         timeout: 60000,
         maxRetries: 3,
@@ -641,18 +641,18 @@ describe('Server Config (config.ts)', () => {
         embedContent: vi.fn(),
       } as unknown as ContentGenerator);
 
-      await config.refreshAuth(AuthType.QWEN_OAUTH);
+      await config.refreshAuth(AuthType.VIVEKMIND_OAUTH);
 
-      await config.switchModel(AuthType.QWEN_OAUTH, 'coder-model');
+      await config.switchModel(AuthType.VIVEKMIND_OAUTH, 'coder-model');
     });
 
     it('should notify model change listeners after switchModel', async () => {
       const config = new Config(baseParams);
 
       const mockContentConfig: ContentGeneratorConfig = {
-        authType: AuthType.QWEN_OAUTH,
+        authType: AuthType.VIVEKMIND_OAUTH,
         model: 'coder-model',
-        apiKey: 'QWEN_OAUTH_DYNAMIC_TOKEN',
+        apiKey: 'VIVEKMIND_OAUTH_DYNAMIC_TOKEN',
         baseUrl: DEFAULT_DASHSCOPE_BASE_URL,
         timeout: 60000,
         maxRetries: 3,
@@ -675,12 +675,12 @@ describe('Server Config (config.ts)', () => {
         embedContent: vi.fn(),
       } as unknown as ContentGenerator);
 
-      await config.refreshAuth(AuthType.QWEN_OAUTH);
+      await config.refreshAuth(AuthType.VIVEKMIND_OAUTH);
 
       const listener = vi.fn();
       const unsubscribe = config.onModelChange(listener);
 
-      await config.switchModel(AuthType.QWEN_OAUTH, 'coder-model');
+      await config.switchModel(AuthType.VIVEKMIND_OAUTH, 'coder-model');
 
       expect(listener).toHaveBeenCalledWith('coder-model');
 
@@ -1027,7 +1027,7 @@ describe('Server Config (config.ts)', () => {
       });
       await config.initialize();
 
-      expect(QwenLogger.prototype.logStartSessionEvent).toHaveBeenCalledOnce();
+      expect(VivekMindLogger.prototype.logStartSessionEvent).toHaveBeenCalledOnce();
     });
   });
 
@@ -1885,7 +1885,7 @@ describe('Model Switching and Config Updates', () => {
     // Initialize with first model
     const initialConfig: ContentGeneratorConfig = {
       ['model']: 'qwen3-coder-plus',
-      ['authType']: AuthType.QWEN_OAUTH,
+      ['authType']: AuthType.VIVEKMIND_OAUTH,
       ['apiKey']: 'test-key',
       ['contextWindowSize']: 1_000_000,
       ['samplingParams']: { temperature: 0.7 },
@@ -1900,7 +1900,7 @@ describe('Model Switching and Config Updates', () => {
       },
     });
 
-    await config.refreshAuth(AuthType.QWEN_OAUTH);
+    await config.refreshAuth(AuthType.VIVEKMIND_OAUTH);
 
     // Verify initial config
     const contentGenConfig = config.getContentGeneratorConfig();
@@ -1910,7 +1910,7 @@ describe('Model Switching and Config Updates', () => {
     // Switch to a different model with different token limits
     const newConfig: ContentGeneratorConfig = {
       ['model']: 'qwen-max',
-      ['authType']: AuthType.QWEN_OAUTH,
+      ['authType']: AuthType.VIVEKMIND_OAUTH,
       ['apiKey']: 'test-key',
       ['contextWindowSize']: 128_000,
       ['samplingParams']: { temperature: 0.8 },
@@ -1935,7 +1935,7 @@ describe('Model Switching and Config Updates', () => {
           requiresRefresh: boolean,
         ) => Promise<void>;
       }
-    ).handleModelChange(AuthType.QWEN_OAUTH, false);
+    ).handleModelChange(AuthType.VIVEKMIND_OAUTH, false);
 
     // Verify all fields are updated
     const updatedConfig = config.getContentGeneratorConfig();
@@ -1954,13 +1954,13 @@ describe('Model Switching and Config Updates', () => {
     expect(sources['enableCacheControl']?.kind).toBe('settings');
   });
 
-  it('should trigger full refresh when switching to non-qwen-oauth provider', async () => {
+  it('should trigger full refresh when switching to non-vivekmind-oauth provider', async () => {
     const config = new Config(baseParams);
 
-    // Initialize with qwen-oauth
+    // Initialize with vivekmind-oauth
     const initialConfig: ContentGeneratorConfig = {
       ['model']: 'qwen3-coder-plus',
-      ['authType']: AuthType.QWEN_OAUTH,
+      ['authType']: AuthType.VIVEKMIND_OAUTH,
       ['apiKey']: 'test-key',
       ['contextWindowSize']: 1_000_000,
     };
@@ -1970,7 +1970,7 @@ describe('Model Switching and Config Updates', () => {
       sources: {},
     });
 
-    await config.refreshAuth(AuthType.QWEN_OAUTH);
+    await config.refreshAuth(AuthType.VIVEKMIND_OAUTH);
 
     // Switch to different auth type (should trigger full refresh)
     const newConfig: ContentGeneratorConfig = {
@@ -2012,7 +2012,7 @@ describe('Model Switching and Config Updates', () => {
     // Initialize with config that has undefined token limits
     const initialConfig: ContentGeneratorConfig = {
       ['model']: 'qwen3-coder-plus',
-      ['authType']: AuthType.QWEN_OAUTH,
+      ['authType']: AuthType.VIVEKMIND_OAUTH,
       ['apiKey']: 'test-key',
       ['contextWindowSize']: undefined,
     };
@@ -2022,12 +2022,12 @@ describe('Model Switching and Config Updates', () => {
       sources: {},
     });
 
-    await config.refreshAuth(AuthType.QWEN_OAUTH);
+    await config.refreshAuth(AuthType.VIVEKMIND_OAUTH);
 
     // Switch to model with defined limits
     const newConfig: ContentGeneratorConfig = {
       ['model']: 'qwen-max',
-      ['authType']: AuthType.QWEN_OAUTH,
+      ['authType']: AuthType.VIVEKMIND_OAUTH,
       ['apiKey']: 'test-key',
       ['contextWindowSize']: 128_000,
     };
@@ -2044,7 +2044,7 @@ describe('Model Switching and Config Updates', () => {
           requiresRefresh: boolean,
         ) => Promise<void>;
       }
-    ).handleModelChange(AuthType.QWEN_OAUTH, false);
+    ).handleModelChange(AuthType.VIVEKMIND_OAUTH, false);
 
     // Verify limits are now defined
     const updatedConfig = config.getContentGeneratorConfig();

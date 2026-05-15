@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -64,7 +64,7 @@ vi.mock('@vivekmind/core', async (importOriginal) => {
   return {
     ...actual,
     Storage: {
-      getGlobalQwenDir: vi.fn().mockReturnValue('/mock/.vivekmind'),
+      getGlobalVivekMindDir: vi.fn().mockReturnValue('/mock/.vivekmind'),
       getGlobalSettingsPath: vi
         .fn()
         .mockReturnValue('/mock/.vivekmind/settings.json'),

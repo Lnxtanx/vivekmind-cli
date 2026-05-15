@@ -11,10 +11,10 @@
  * when only the filename configuration is needed.
  */
 
-export const QWEN_CONFIG_DIR = '.vivekmind';
+export const VIVEKMIND_CONFIG_DIR = '.vivekmind';
 export const DEFAULT_CONTEXT_FILENAME = 'QWEN.md';
 export const AGENT_CONTEXT_FILENAME = 'AGENTS.md';
-export const MEMORY_SECTION_HEADER = '## Qwen Added Memories';
+export const MEMORY_SECTION_HEADER = '## VivekMind Added Memories';
 
 // This variable will hold the currently configured filename for context files.
 // It defaults to include both QWEN.md and AGENTS.md but can be overridden by setGeminiMdFilename.

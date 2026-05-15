@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen
+ * Copyright 2025 VivekMind
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -79,10 +79,10 @@ describe('modelCommand', () => {
     });
   });
 
-  it('should return dialog action for QWEN_OAUTH auth type', async () => {
+  it('should return dialog action for VIVEKMIND_OAUTH auth type', async () => {
     const mockConfig = createMockConfig({
       model: 'test-model',
-      authType: AuthType.QWEN_OAUTH,
+      authType: AuthType.VIVEKMIND_OAUTH,
     });
     mockContext.services.config = mockConfig as Config;
 
@@ -148,7 +148,7 @@ describe('modelCommand', () => {
           config: {
             getContentGeneratorConfig: vi.fn().mockReturnValue({
               model: 'qwen-max',
-              authType: AuthType.QWEN_OAUTH,
+              authType: AuthType.VIVEKMIND_OAUTH,
             }),
             getModel: vi.fn().mockReturnValue('qwen-max'),
           },
@@ -173,7 +173,7 @@ describe('modelCommand', () => {
           config: {
             getContentGeneratorConfig: vi.fn().mockReturnValue({
               model: 'qwen-max',
-              authType: AuthType.QWEN_OAUTH,
+              authType: AuthType.VIVEKMIND_OAUTH,
             }),
             getModel: vi.fn().mockReturnValue('qwen-max'),
           },

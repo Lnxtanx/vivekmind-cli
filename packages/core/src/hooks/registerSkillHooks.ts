@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2026 Qwen Team
+ * Copyright 2026 VivekMind Team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -108,12 +108,12 @@ function prepareHookConfig(
   skillRoot?: string,
 ): CommandHookConfig | HttpHookConfig {
   if (hook.type === 'command' && skillRoot) {
-    // Add QWEN_SKILL_ROOT to environment variables
+    // Add VIVEKMIND_SKILL_ROOT to environment variables
     return {
       ...hook,
       env: {
         ...hook.env,
-        QWEN_SKILL_ROOT: skillRoot,
+        VIVEKMIND_SKILL_ROOT: skillRoot,
       },
     };
   }

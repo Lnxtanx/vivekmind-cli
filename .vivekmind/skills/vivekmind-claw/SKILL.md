@@ -48,7 +48,7 @@ vivekmind auth coding-plan --region china --key $BAILIAN_CODING_PLAN_API_KEY
 ```
 
 **If the environment variable does not exist**, interrupt and prompt the user to
-authenticate via `qwen-oauth` or `coding-plan`:
+authenticate via `vivekmind-oauth` or `coding-plan`:
 
 ```bash
 vivekmind auth
@@ -192,7 +192,7 @@ Full reference: `docs/users/configuration/settings.md`.
 
 ### Authentication
 
-Supports Alibaba Cloud Coding Plan, OpenAI-compatible API keys, and Qwen OAuth
+Supports Alibaba Cloud Coding Plan, OpenAI-compatible API keys, and VivekMind OAuth
 (free tier discontinued 2026-04-15).
 
 Full reference: `docs/users/configuration/auth.md`.

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2025 Qwen team
+ * Copyright 2025 VivekMind team
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -55,7 +55,7 @@ const getLocalePath = (
 
 // Language detection
 export function detectSystemLanguage(): SupportedLanguage {
-  const envLang = process.env['QWEN_CODE_LANG'] || process.env['LANG'];
+  const envLang = process.env['VIVEKMIND_CODE_LANG'] || process.env['LANG'];
   if (envLang) {
     // Normalize POSIX locales (e.g. zh_TW.UTF-8 → zh-tw) before matching
     const normalized = envLang.replace(/_/g, '-').toLowerCase();

@@ -14,7 +14,7 @@ import {
   DEFAULT_CONTEXT_FILENAME,
 } from '../memory/const.js';
 import { FileDiscoveryService } from '../services/fileDiscoveryService.js';
-import { QWEN_DIR } from './paths.js';
+import { VIVEKMIND_DIR } from './paths.js';
 
 vi.mock('os', async (importOriginal) => {
   const actualOs = await importOriginal<typeof os>();
@@ -103,7 +103,7 @@ describe('loadServerHierarchicalMemory', () => {
         'Src directory memory',
       ); // Untrusted
 
-      const filepath = path.join(homedir, QWEN_DIR, DEFAULT_CONTEXT_FILENAME);
+      const filepath = path.join(homedir, VIVEKMIND_DIR, DEFAULT_CONTEXT_FILENAME);
       await createTestFile(filepath, 'default context content'); // In user home dir (outside untrusted space).
       const { fileCount, memoryContent } = await loadServerHierarchicalMemory(
         cwd,
@@ -138,7 +138,7 @@ describe('loadServerHierarchicalMemory', () => {
 
   it('should skip implicit global, project, and rule discovery in explicit-only mode', async () => {
     await createTestFile(
-      path.join(homedir, QWEN_DIR, DEFAULT_CONTEXT_FILENAME),
+      path.join(homedir, VIVEKMIND_DIR, DEFAULT_CONTEXT_FILENAME),
       'global context',
     );
     await createTestFile(
@@ -150,7 +150,7 @@ describe('loadServerHierarchicalMemory', () => {
       'cwd context',
     );
     await createTestFile(
-      path.join(projectRoot, QWEN_DIR, 'rules', 'baseline.md'),
+      path.join(projectRoot, VIVEKMIND_DIR, 'rules', 'baseline.md'),
       'project rule',
     );
 
@@ -181,7 +181,7 @@ describe('loadServerHierarchicalMemory', () => {
       'explicit context',
     );
     await createTestFile(
-      path.join(homedir, QWEN_DIR, DEFAULT_CONTEXT_FILENAME),
+      path.join(homedir, VIVEKMIND_DIR, DEFAULT_CONTEXT_FILENAME),
       'global context',
     );
     await createTestFile(
@@ -189,7 +189,7 @@ describe('loadServerHierarchicalMemory', () => {
       'project context',
     );
     await createTestFile(
-      path.join(projectRoot, QWEN_DIR, 'rules', 'baseline.md'),
+      path.join(projectRoot, VIVEKMIND_DIR, 'rules', 'baseline.md'),
       'project rule',
     );
 
@@ -215,7 +215,7 @@ describe('loadServerHierarchicalMemory', () => {
 
   it('should load only the global context file if present and others are not (default filename)', async () => {
     const defaultContextFile = await createTestFile(
-      path.join(homedir, QWEN_DIR, DEFAULT_CONTEXT_FILENAME),
+      path.join(homedir, VIVEKMIND_DIR, DEFAULT_CONTEXT_FILENAME),
       'default context content',
     );
 
@@ -241,7 +241,7 @@ describe('loadServerHierarchicalMemory', () => {
     setGeminiMdFilename(customFilename);
 
     const customContextFile = await createTestFile(
-      path.join(homedir, QWEN_DIR, customFilename),
+      path.join(homedir, VIVEKMIND_DIR, customFilename),
       'custom context content',
     );
 
@@ -377,7 +377,7 @@ describe('loadServerHierarchicalMemory', () => {
 
   it('should load and correctly order global and upward context files', async () => {
     const defaultContextFile = await createTestFile(
-      path.join(homedir, QWEN_DIR, DEFAULT_CONTEXT_FILENAME),
+      path.join(homedir, VIVEKMIND_DIR, DEFAULT_CONTEXT_FILENAME),
       'default context content',
     );
     const rootGeminiFile = await createTestFile(

@@ -114,9 +114,9 @@ REM Create source.json only if --source or -s was explicitly provided
 if not "!SOURCE!"=="unknown" (
     echo INFO: Creating source.json in %USERPROFILE%\.vivekmind...
 
-    set "QWEN_DIR=%USERPROFILE%\.vivekmind"
-    if not exist "!QWEN_DIR!" (
-        mkdir "!QWEN_DIR!"
+    set "VIVEKMIND_DIR=%USERPROFILE%\.vivekmind"
+    if not exist "!VIVEKMIND_DIR!" (
+        mkdir "!VIVEKMIND_DIR!"
     )
 
     REM Create the source.json file with the installation source
@@ -124,7 +124,7 @@ if not "!SOURCE!"=="unknown" (
     echo {
     echo   "source": "!SOURCE!"
     echo }
-    ) > "!QWEN_DIR!\source.json"
+    ) > "!VIVEKMIND_DIR!\source.json"
 
     echo SUCCESS: Installation source saved to %USERPROFILE%\.vivekmind\source.json
 )
