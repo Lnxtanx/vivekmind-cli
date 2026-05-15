@@ -299,8 +299,14 @@ async function startAll(proxy?: string): Promise<void> {
 
   if (Object.keys(channelsConfig).length === 0) {
     writeStderrLine(
-      'Error: No channels configured in settings.json. Add entries under "channels".',
+      'Error: No channels configured in settings.json.',
     );
+    writeStderrLine('');
+    writeStderrLine('To set up a channel, use one of:');
+    writeStderrLine('  vivekmind channel configure-telegram    Set up a Telegram bot');
+    writeStderrLine('  vivekmind channel configure-weixin      Set up a WeChat account');
+    writeStderrLine('');
+    writeStderrLine('Or manually add a channel under "channels" in settings.json.');
     process.exit(1);
   }
 
