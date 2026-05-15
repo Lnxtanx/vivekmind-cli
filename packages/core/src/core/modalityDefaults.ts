@@ -38,6 +38,16 @@ const MODALITY_PATTERNS: Array<[RegExp, InputModalities]> = [
   [/^claude-/, { image: true, pdf: true }],
 
   // -------------------
+  // Amazon Bedrock — Nova models (image + video)
+  // Bedrock model IDs: amazon.nova-pro-v1, amazon.nova-lite-v1, amazon.nova-micro-v1
+  // After normalize(): nova-pro-v1, nova-lite-v1, nova-micro-v1
+  // -------------------
+  [/^nova-pro/, { image: true, video: true }],
+  [/^nova-lite/, { image: true, video: true }],
+  [/^nova-micro/, { image: true }],
+  [/^nova-canvass/, { image: true, video: true }],
+
+  // -------------------
   // Alibaba / VivekMind
   // -------------------
   // Qwen3.5-Plus, Qwen3.6-Plus: image + video support
