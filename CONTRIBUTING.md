@@ -1,6 +1,6 @@
 # Contributing to VivekMind
 
-Thank you for contributing to VivekMind. This project is a fork of VivekMind and remains licensed under Apache-2.0.
+Thank you for contributing to VivekMind. This project is a fork of [Qwen Code](https://github.com/QwenLM/qwen-code) and remains licensed under Apache-2.0.
 
 ## Legal Requirements
 
@@ -30,4 +30,4 @@ npm run typecheck
 npm test
 ```
 
-Keep provider names, model names, and upstream attribution accurate. References to VivekMind models or VivekMind OAuth should not be renamed as part of product-branding cleanup.
+Keep provider names, model names, and upstream attribution accurate. References to Qwen models or Qwen OAuth should not be renamed as part of product-branding cleanup.
