@@ -7,6 +7,7 @@ import {
   pairingApproveCommand,
 } from './channel/pairing.js';
 import { configureWeixinCommand } from './channel/configure.js';
+import { configureTelegramCommand } from './channel/configure-telegram.js';
 
 const pairingCommand: CommandModule = {
   command: 'pairing',
@@ -22,7 +23,7 @@ const pairingCommand: CommandModule = {
 
 export const channelCommand: CommandModule = {
   command: 'channel',
-  describe: 'Manage messaging channels (Telegram, Discord, etc.)',
+  describe: 'Manage messaging channels (Telegram, WeChat, DingTalk, etc.)',
   builder: (yargs: Argv) =>
     yargs
       .command(startCommand)
@@ -30,6 +31,7 @@ export const channelCommand: CommandModule = {
       .command(statusCommand)
       .command(pairingCommand)
       .command(configureWeixinCommand)
+      .command(configureTelegramCommand)
       .demandCommand(1, 'You need at least one command before continuing.')
       .version(false),
   handler: () => {},
