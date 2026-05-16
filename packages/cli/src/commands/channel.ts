@@ -8,6 +8,8 @@ import {
 } from './channel/pairing.js';
 import { configureWeixinCommand } from './channel/configure.js';
 import { configureTelegramCommand } from './channel/configure-telegram.js';
+import { linkCommand } from './channel/link.js';
+import { unlinkCommand } from './channel/unlink.js';
 
 const pairingCommand: CommandModule = {
   command: 'pairing',
@@ -16,6 +18,18 @@ const pairingCommand: CommandModule = {
     yargs
       .command(pairingListCommand)
       .command(pairingApproveCommand)
+      .demandCommand(1, 'You need at least one command before continuing.')
+      .version(false),
+  handler: () => {},
+};
+
+const handoffCommand: CommandModule = {
+  command: 'handoff',
+  describe: 'Manage session handoff between terminal and messaging channels',
+  builder: (yargs: Argv) =>
+    yargs
+      .command(linkCommand)
+      .command(unlinkCommand)
       .demandCommand(1, 'You need at least one command before continuing.')
       .version(false),
   handler: () => {},
@@ -30,6 +44,7 @@ export const channelCommand: CommandModule = {
       .command(stopCommand)
       .command(statusCommand)
       .command(pairingCommand)
+      .command(handoffCommand)
       .command(configureWeixinCommand)
       .command(configureTelegramCommand)
       .demandCommand(1, 'You need at least one command before continuing.')

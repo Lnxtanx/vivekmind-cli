@@ -6,10 +6,13 @@ export type SessionScope = 'user' | 'thread' | 'single';
 export type ChannelType = string;
 export type GroupPolicy = 'disabled' | 'allowlist' | 'open';
 export type DispatchMode = 'collect' | 'steer' | 'followup';
+export type ApprovalPolicy = 'ask' | 'yolo' | 'auto_edit';
 
 export interface GroupConfig {
   requireMention?: boolean; // default: true
   dispatchMode?: DispatchMode;
+  /** If true, only group admins can interact with the bot. Default: false */
+  adminOnly?: boolean;
 }
 
 export interface BlockStreamingChunkConfig {
@@ -48,6 +51,24 @@ export interface ChannelConfig {
   blockStreamingChunk?: BlockStreamingChunkConfig;
   /** Idle coalescing for block streaming. */
   blockStreamingCoalesce?: BlockStreamingCoalesceConfig;
+
+  /**
+   * Per-channel approval mode:
+   * - 'ask' prompts user for each tool call that requires permission
+   * - 'yolo' auto-approves all tool calls (no approval UI)
+   * - 'auto_edit' auto-approves read-only/edit/info tools, asks for others
+   * Default: 'ask'
+   */
+  approvalPolicy?: ApprovalPolicy;
+
+  /** Tools that are always auto-approved (bypass the approval UI). Default: read-only tools */
+  autoApproveTools?: string[];
+
+  /** Tools that always require approval even in auto_edit mode */
+  alwaysAskTools?: string[];
+
+  /** Approval timeout in seconds. Default: 60 */
+  approvalTimeoutSec?: number;
 }
 
 export interface Attachment {
