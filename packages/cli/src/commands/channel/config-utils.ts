@@ -1,6 +1,22 @@
-import type { ChannelConfig } from '@vivekmind/channel-base';
+import type { ApprovalPolicy, ChannelConfig } from '@vivekmind/channel-base';
 import * as path from 'node:path';
 import { getPlugin, supportedTypes } from './channel-registry.js';
+
+const VALID_APPROVAL_POLICIES: ApprovalPolicy[] = [
+  'interactive',
+  'auto-approve',
+  'ask-always',
+];
+
+function parseApprovalPolicy(value: unknown): ApprovalPolicy | undefined {
+  if (!value) return undefined;
+  if (VALID_APPROVAL_POLICIES.includes(value as ApprovalPolicy)) {
+    return value as ApprovalPolicy;
+  }
+  throw new Error(
+    `Invalid approvalPolicy "${value}". Must be one of: ${VALID_APPROVAL_POLICIES.join(', ')}`,
+  );
+}
 
 export function resolveEnvVars(value: string): string {
   if (value.startsWith('$')) {
@@ -75,6 +91,8 @@ export async function parseChannelConfig(
       (rawConfig['sessionScope'] as ChannelConfig['sessionScope']) || 'user',
     cwd: (rawConfig['cwd'] as string) || process.cwd(),
     approvalMode: rawConfig['approvalMode'] as string | undefined,
+    approvalPolicy: parseApprovalPolicy(rawConfig['approvalPolicy']),
+    autoApproveTools: (rawConfig['autoApproveTools'] as string[]) || [],
     instructions: rawConfig['instructions'] as string | undefined,
     model: rawConfig['model'] as string | undefined,
     groupPolicy:
