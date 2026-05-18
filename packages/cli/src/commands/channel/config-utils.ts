@@ -80,5 +80,11 @@ export async function parseChannelConfig(
     groupPolicy:
       (rawConfig['groupPolicy'] as ChannelConfig['groupPolicy']) || 'disabled',
     groups: (rawConfig['groups'] as ChannelConfig['groups']) || {},
+    approvalPolicy:
+      (rawConfig['approvalPolicy'] as ChannelConfig['approvalPolicy']) ||
+      'ask',
+    autoApproveTools: (rawConfig['autoApproveTools'] as string[]) || [],
+    alwaysAskTools: (rawConfig['alwaysAskTools'] as string[]) || [],
+    approvalTimeoutSec: (rawConfig['approvalTimeoutSec'] as number) || 60,
   };
 }

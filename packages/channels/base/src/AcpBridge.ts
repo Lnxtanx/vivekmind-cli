@@ -41,6 +41,14 @@ export class AcpBridge extends EventEmitter {
   private options: AcpBridgeOptions;
   private _availableCommands: AvailableCommand[] = [];
 
+  /**
+   * Optional permission handler. When set, the bridge calls this handler
+   * to resolve permission requests instead of auto-approving.
+   */
+  private permissionHandler?:
+    | ((params: RequestPermissionRequest) => Promise<RequestPermissionResponse>)
+    | undefined;
+
   constructor(options: AcpBridgeOptions) {
     super();
     this.options = options;
@@ -48,6 +56,20 @@ export class AcpBridge extends EventEmitter {
 
   get availableCommands(): AvailableCommand[] {
     return this._availableCommands;
+  }
+
+  /**
+   * Set a custom permission handler that will be called for every
+   * requestPermission callback from the ACP agent.
+   */
+  setPermissionHandler(
+    handler:
+      | ((
+          params: RequestPermissionRequest,
+        ) => Promise<RequestPermissionResponse>)
+      | undefined,
+  ): void {
+    this.permissionHandler = handler;
   }
 
   async start(): Promise<void> {
@@ -104,8 +126,14 @@ export class AcpBridge extends EventEmitter {
         requestPermission: async (
           params: RequestPermissionRequest,
         ): Promise<RequestPermissionResponse> => {
-          // Auto-approve for now; Phase 5 will add interactive approval
-          const options = Array.isArray(params.options) ? params.options : [];
+          // If a custom permission handler is registered, delegate to it
+          if (this.permissionHandler) {
+            return this.permissionHandler(params);
+          }
+          // Otherwise fall back to auto-approve
+          const options = Array.isArray(params.options)
+            ? params.options
+            : [];
           const optionId =
             options.find((o) => o.optionId === 'proceed_once')?.optionId ||
             options[0]?.optionId ||

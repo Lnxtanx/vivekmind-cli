@@ -1,4 +1,6 @@
-import { existsSync, readFileSync, writeFileSync, unlinkSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { homedir } from 'node:os';
 import type { SessionScope, SessionTarget } from './types.js';
 import type { AcpBridge } from './AcpBridge.js';
 
@@ -131,6 +133,172 @@ export class SessionRouter {
     this.toTarget.delete(sessionId);
     this.toCwd.delete(sessionId);
     return sessionId;
+  }
+
+  /**
+   * Register an external session (e.g. from a terminal handoff) that the
+   * channel can pick up. The session is stored under the given routing key
+   * so that the next message from the matching chat reuses it.
+   */
+  registerExternalSession(
+    key: string,
+    sessionId: string,
+    target: SessionTarget,
+    cwd: string,
+  ): void {
+    this.toSession.set(key, sessionId);
+    this.toTarget.set(sessionId, target);
+    this.toCwd.set(sessionId, cwd);
+    this.persist();
+  }
+
+  /**
+   * Remove a specific routing key mapping.
+   * Returns the session ID if found, otherwise null.
+   */
+  unregisterSession(key: string): string | null {
+    return this.deleteByKey(key);
+  }
+
+  /**
+   * Get the current session ID for a given chat.
+   */
+  getSessionForChat(
+    channelName: string,
+    senderId: string,
+    chatId: string,
+  ): string | undefined {
+    const key = this.routingKey(channelName, senderId, chatId);
+    return this.toSession.get(key);
+  }
+
+  /** List all current session mappings. */
+  listSessions(): Array<{ key: string; sessionId: string; target: SessionTarget }> {
+    return this.getAll();
+  }
+
+  /**
+   * Check for a pending terminal-to-channel handoff file.
+   * If found, validates the chatId matches and returns the handoff data.
+   * The caller should consume the handoff by calling `consumeHandoff()`.
+   */
+  checkHandoff(
+    channelName: string,
+    chatId: string,
+  ): { found: boolean; chatId?: string; timestamp?: string } | null {
+    const handoffDir = join(homedir(), '.vivekmind', 'channels');
+    const filePath = join(handoffDir, `handoff-${channelName}-${chatId}.json`);
+
+    try {
+      if (!existsSync(filePath)) {
+        return { found: false };
+      }
+      const data = JSON.parse(readFileSync(filePath, 'utf-8')) as {
+        chatId?: string;
+        timestamp: string;
+      };
+      if (data.chatId && data.chatId !== String(chatId)) {
+        return { found: false };
+      }
+      return { found: true, chatId: data.chatId ?? String(chatId), timestamp: data.timestamp };
+    } catch {
+      return { found: false };
+    }
+  }
+
+  /**
+   * Consume (read and delete) a pending handoff file.
+   * Returns the handoff data if found and valid, or null otherwise.
+   */
+  consumeHandoff(
+    channelName: string,
+    chatId: string,
+  ): { timestamp: string; chatId?: string } | null {
+    const handoffDir = join(homedir(), '.vivekmind', 'channels');
+    const filePath = join(handoffDir, `handoff-${channelName}-${chatId}.json`);
+
+    try {
+      if (!existsSync(filePath)) {
+        return null;
+      }
+      const data = JSON.parse(readFileSync(filePath, 'utf-8')) as {
+        chatId?: string;
+        timestamp: string;
+      };
+      if (data.chatId && data.chatId !== String(chatId)) {
+        return null;
+      }
+      // Delete the handoff file after consuming it
+      unlinkSync(filePath);
+      return data;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Write a handoff marker file. Used by the terminal-side `link` command.
+   * This is a static helper so it can be used without a SessionRouter instance.
+   */
+  static writeHandoff(
+    channelName: string,
+    chatId: string,
+    data: { timestamp: string; channelId?: string },
+  ): void {
+    const handoffDir = join(homedir(), '.vivekmind', 'channels');
+    try {
+      mkdirSync(handoffDir, { recursive: true });
+    } catch {
+      // best-effort
+    }
+    const filePath = join(handoffDir, `handoff-${channelName}-${chatId}.json`);
+    try {
+      writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+    } catch {
+      // best-effort — don't break anything for handoff failure
+    }
+  }
+
+  /**
+   * Remove a handoff marker file. Used by the terminal-side `unlink` command.
+   * Returns true if the file was found and removed, false otherwise.
+   */
+  static removeHandoff(channelName: string, chatId: string): boolean {
+    const handoffDir = join(homedir(), '.vivekmind', 'channels');
+    const filePath = join(handoffDir, `handoff-${channelName}-${chatId}.json`);
+    try {
+      if (!existsSync(filePath)) {
+        return false;
+      }
+      unlinkSync(filePath);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Check if any handoff file exists for a given channel (without specifying chatId).
+   * Returns an array of chat IDs with pending handoffs.
+   */
+  static listHandoffs(channelName: string): string[] {
+    const handoffDir = join(homedir(), '.vivekmind', 'channels');
+    try {
+      if (!existsSync(handoffDir)) return [];
+      const files = readdirSync(handoffDir) as string[];
+      const prefix = `handoff-${channelName}-`;
+      const chatIds: string[] = [];
+      for (const file of files) {
+        if (file.startsWith(prefix) && file.endsWith('.json')) {
+          // Extract chatId from filename: handoff-<channelName>-<chatId>.json
+          const chatId = file.slice(prefix.length, -'.json'.length);
+          chatIds.push(chatId);
+        }
+      }
+      return chatIds;
+    } catch {
+      return [];
+    }
   }
 
   /** Get all session entries for crash recovery. */

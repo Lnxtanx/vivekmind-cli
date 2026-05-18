@@ -116,6 +116,44 @@ async function configureTelegramInteractive(): Promise<void> {
       ? allowedUsersRaw.split(',').map((s) => s.trim()).filter(Boolean)
       : [];
 
+    // Approval policy
+    writeStdoutLine('');
+    writeStdoutLine('--- Tool Approval Settings ---');
+    const approvalPolicyRaw = await question(
+      rl,
+      'Tool approval mode? (ask/yolo) [ask]: ',
+    );
+    const approvalPolicy = approvalPolicyRaw.toLowerCase() === 'yolo' ? 'yolo' : 'ask';
+
+    let autoApproveTools: string[] = [];
+    let alwaysAskTools: string[] = [];
+
+    if (approvalPolicy === 'ask') {
+      const autoApproveReadOnly = await question(
+        rl,
+        'Auto-approve read-only tools (read_file, glob, grep_search, list_directory, web_fetch)? (Y/n): ',
+      );
+      if (!autoApproveReadOnly || autoApproveReadOnly.toLowerCase() === 'y') {
+        autoApproveTools = ['read_file', 'glob', 'grep_search', 'list_directory', 'web_fetch'];
+      }
+
+      const alwaysAskRaw = await question(
+        rl,
+        'Tools that always require approval (comma-separated, press Enter for default: shell, edit, write_file): ',
+      );
+      alwaysAskTools = alwaysAskRaw
+        ? alwaysAskRaw.split(',').map((s) => s.trim()).filter(Boolean)
+        : ['shell', 'edit', 'write_file'];
+    }
+
+    const approvalTimeoutRaw = await question(
+      rl,
+      'Approval timeout in seconds (press Enter for 60): ',
+    );
+    const approvalTimeoutSec = approvalTimeoutRaw
+      ? parseInt(approvalTimeoutRaw, 10)
+      : 60;
+
     // Save
     const settings = loadSettings(process.cwd());
     const existingChannels = (settings.merged.channels || {}) as Record<
@@ -144,6 +182,21 @@ async function configureTelegramInteractive(): Promise<void> {
     if (allowedUsers.length > 0) {
       channelConfig['allowedUsers'] = allowedUsers;
       channelConfig['senderPolicy'] = 'allowlist';
+    }
+
+    // Approval settings (only save if non-default)
+    if (approvalPolicy === 'yolo') {
+      channelConfig['approvalPolicy'] = 'yolo';
+    } else if (autoApproveTools.length > 0 || alwaysAskTools.length > 0) {
+      if (autoApproveTools.length > 0) {
+        channelConfig['autoApproveTools'] = autoApproveTools;
+      }
+      if (alwaysAskTools.length > 0) {
+        channelConfig['alwaysAskTools'] = alwaysAskTools;
+      }
+    }
+    if (approvalTimeoutSec !== 60) {
+      channelConfig['approvalTimeoutSec'] = approvalTimeoutSec;
     }
 
     existingChannels[name] = channelConfig;
