@@ -37,6 +37,10 @@ export interface ChannelConfig {
   sessionScope: SessionScope;
   cwd: string;
   approvalMode?: string;
+  /** How tool permissions are handled: 'interactive' (ask user), 'auto-approve', 'ask-always'. Default: 'interactive'. */
+  approvalPolicy?: ApprovalPolicy;
+  /** Tool names/patterns to auto-approve (used with 'interactive' mode). */
+  autoApproveTools?: string[];
   instructions?: string;
   model?: string;
   groupPolicy: GroupPolicy; // default: "disabled"
@@ -112,6 +116,52 @@ export interface SessionTarget {
   chatId: string;
   threadId?: string;
 }
+
+/**
+ * Information about a tool permission request, sent from the agent
+ * via ACP protocol to the channel for user approval.
+ */
+export interface ToolApprovalInfo {
+  /** The ACP session ID. */
+  sessionId: string;
+  /** Unique ID for this tool call. */
+  toolCallId: string;
+  /** Tool category: 'edit', 'exec', 'mcp', 'info', 'plan', 'ask_user_question'. */
+  kind: string;
+  /** Human-readable description of the tool action. */
+  title: string;
+  /** Status of the tool call (usually 'pending'). */
+  status: string;
+  /** Raw input arguments for the tool. */
+  rawInput?: Record<string, unknown>;
+  /** Available permission options with labels (from the agent). */
+  options: Array<{ optionId: string; name: string; kind: string }>;
+  /** Structured content for display (diffs, text, etc.). */
+  content?: Array<{
+    type: string;
+    path?: string;
+    oldText?: string;
+    newText?: string;
+    content?: { type: string; text?: string };
+  }>;
+  /** File locations affected by the tool. */
+  locations?: string[];
+}
+
+/**
+ * Result of a user's tool approval decision.
+ */
+export interface ToolApprovalResult {
+  /** The chosen option ID (e.g., 'proceed_once', 'cancel'). */
+  optionId: string;
+  /** Whether the request was cancelled (user dismissed). */
+  cancelled?: boolean;
+  /** Any user-provided answers (for ask_user_question type). */
+  answers?: Record<string, string>;
+}
+
+/** Approval mode for a channel: how tool permissions are handled. */
+export type ApprovalPolicy = 'interactive' | 'auto-approve' | 'ask-always';
 
 /**
  * A channel plugin registers a channel type and provides a factory

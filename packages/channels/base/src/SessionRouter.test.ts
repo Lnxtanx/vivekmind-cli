@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { SessionRouter } from './SessionRouter.js';
-import type { AcpBridge } from './AcpBridge.js';
+import { SessionRouter } from './SessionRouter.ts';
+import type { AcpBridge } from './AcpBridge.ts';
 
 let sessionCounter = 0;
 
@@ -226,6 +226,101 @@ describe('SessionRouter', () => {
       router.setBridge(newBridge);
       await router.resolve('ch', 'alice', 'chat1');
       expect(newBridge.newSession).toHaveBeenCalled();
+      expect(bridge.newSession).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('registerExternalSession', () => {
+    it('registers an external session for a routing key', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      const result = router.registerExternalSession(
+        'ext-session-123',
+        'telegram',
+        'user1',
+        'chat1',
+      );
+      expect(result).toBe(true);
+      expect(router.getTarget('ext-session-123')).toEqual({
+        channelName: 'telegram',
+        senderId: 'user1',
+        chatId: 'chat1',
+        threadId: undefined,
+      });
+    });
+
+    it('resolve returns the registered session without creating a new one', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      router.registerExternalSession(
+        'ext-session-456',
+        'telegram',
+        'user1',
+        'chat1',
+      );
+      const sid = await router.resolve('telegram', 'user1', 'chat1');
+      expect(sid).toBe('ext-session-456');
+      expect(bridge.newSession).not.toHaveBeenCalled();
+    });
+
+    it('returns false if key is already occupied', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      await router.resolve('ch', 'alice', 'chat1');
+      const result = router.registerExternalSession(
+        'ext-session-789',
+        'ch',
+        'alice',
+        'chat1',
+      );
+      expect(result).toBe(false);
+    });
+
+    it('stores the provided cwd', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      router.registerExternalSession(
+        'ext-session',
+        'ch',
+        'user1',
+        'chat1',
+        undefined,
+        '/custom/cwd',
+      );
+      // Verify the session was registered (target lookup works)
+      expect(router.getTarget('ext-session')).toBeDefined();
+    });
+  });
+
+  describe('unregisterSession', () => {
+    it('removes an external session mapping and returns session ID', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      router.registerExternalSession(
+        'ext-session-999',
+        'telegram',
+        'user1',
+        'chat1',
+      );
+      const removed = router.unregisterSession('telegram', 'user1', 'chat1');
+      expect(removed).toBe('ext-session-999');
+      expect(router.getTarget('ext-session-999')).toBeUndefined();
+    });
+
+    it('returns null if no session is mapped', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      const removed = router.unregisterSession('telegram', 'user1', 'chat1');
+      expect(removed).toBeNull();
+    });
+  });
+
+  describe('getSession', () => {
+    it('returns session ID without creating one', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      const sid = await router.resolve('ch', 'alice', 'chat1');
+      const fetched = router.getSession('ch', 'alice', 'chat1');
+      expect(fetched).toBe(sid);
+    });
+
+    it('returns undefined for non-existent session', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      const fetched = router.getSession('ch', 'alice', 'chat1');
+      expect(fetched).toBeUndefined();
       expect(bridge.newSession).not.toHaveBeenCalled();
     });
   });

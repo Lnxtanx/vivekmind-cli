@@ -126,6 +126,69 @@ export class SessionRouter {
     return removedIds;
   }
 
+  /**
+   * Register an external session (e.g., created by the terminal) for a
+   * specific routing key. This enables session handoff between terminal
+   * and Telegram — the same session can be used from both interfaces.
+   *
+   * @param sessionId The ACP session ID to register
+   * @param channelName The channel name (e.g., "telegram")
+   * @param senderId The sender/user ID
+   * @param chatId The chat ID to map this session to
+   * @param threadId Optional thread ID
+   * @param cwd Working directory for the session
+   * @returns true if registration succeeded, false if key already occupied
+   */
+  registerExternalSession(
+    sessionId: string,
+    channelName: string,
+    senderId: string,
+    chatId: string,
+    threadId?: string,
+    cwd?: string,
+  ): boolean {
+    const key = this.routingKey(channelName, senderId, chatId, threadId);
+    if (this.toSession.has(key)) {
+      return false; // Key already occupied by another session
+    }
+    const sessionCwd = cwd || this.defaultCwd;
+    this.toSession.set(key, sessionId);
+    this.toTarget.set(sessionId, { channelName, senderId, chatId, threadId });
+    this.toCwd.set(sessionId, sessionCwd);
+    this.persist();
+    return true;
+  }
+
+  /**
+   * Unregister (detach) an external session from a specific routing key.
+   * This is the inverse of registerExternalSession — it removes the mapping
+   * but does NOT destroy the session itself (it remains active on the terminal).
+   *
+   * @returns The session ID that was detached, or null if no mapping existed
+   */
+  unregisterSession(
+    channelName: string,
+    senderId: string,
+    chatId: string,
+  ): string | null {
+    const key = this.routingKey(channelName, senderId, chatId);
+    return this.deleteByKey(key) || null;
+  }
+
+  /**
+   * Get the session ID mapped to a specific routing key, without creating one.
+   * Unlike resolve(), this does NOT create a new session if none exists.
+   */
+  getSession(
+    channelName: string,
+    senderId: string,
+    chatId: string,
+    threadId?: string,
+  ): string | undefined {
+    const key = this.routingKey(channelName, senderId, chatId, threadId);
+    return this.toSession.get(key);
+  }
+
   private deleteByKey(key: string): string | null {
     const sessionId = this.toSession.get(key);
     if (!sessionId) return null;

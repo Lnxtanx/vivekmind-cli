@@ -3,6 +3,7 @@ export type {
   AcpBridgeOptions,
   AvailableCommand,
   ToolCallEvent,
+  PermissionHandler,
 } from './AcpBridge.js';
 export { BlockStreamer } from './BlockStreamer.js';
 export type { BlockStreamerOptions } from './BlockStreamer.js';
@@ -20,6 +21,7 @@ export type {
   Attachment,
   BlockStreamingChunkConfig,
   BlockStreamingCoalesceConfig,
+  ApprovalPolicy,
   ChannelConfig,
   ChannelPlugin,
   ChannelType,
@@ -30,4 +32,6 @@ export type {
   SenderPolicy,
   SessionScope,
   SessionTarget,
+  ToolApprovalInfo,
+  ToolApprovalResult,
 } from './types.js';
