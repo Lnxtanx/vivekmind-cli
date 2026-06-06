@@ -48,6 +48,7 @@ const MODALITY_PATTERNS: Array<[RegExp, InputModalities]> = [
   [/^nova-canvass/, { image: true, video: true }],
 
   // -------------------
+
   // Alibaba / VivekMind
   // -------------------
   // Qwen3.5-Plus, Qwen3.6-Plus: image + video support

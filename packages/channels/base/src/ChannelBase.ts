@@ -1,10 +1,18 @@
-import type { ChannelConfig, DispatchMode, Envelope } from './types.js';
+import type {
+  ChannelConfig,
+  DispatchMode,
+  Envelope,
+} from './types.js';
 import { BlockStreamer } from './BlockStreamer.js';
 import { GroupGate } from './GroupGate.js';
 import { SenderGate } from './SenderGate.js';
 import { PairingStore } from './PairingStore.js';
 import { SessionRouter } from './SessionRouter.js';
 import type { AcpBridge, ToolCallEvent, PendingPermissionRequest } from './AcpBridge.js';
+import type {
+  RequestPermissionRequest,
+  RequestPermissionResponse,
+} from '@agentclientprotocol/sdk';
 
 export interface ChannelBaseOptions {
   router?: SessionRouter;
@@ -23,7 +31,8 @@ export abstract class ChannelBase {
   protected name: string;
   /** Resolved proxy URL, available to subclasses for adapter-specific clients. */
   protected proxy?: string;
-  private instructedSessions: Set<string> = new Set();
+  /** Session IDs that have already received channel instructions. */
+  protected instructedSessions: Set<string> = new Set();
   private commands: Map<string, CommandHandler> = new Map();
   /** Per-session promise chain to serialize prompt + send (followup mode). */
   private sessionQueues: Map<string, Promise<void>> = new Map();
@@ -86,6 +95,35 @@ export abstract class ChannelBase {
         }
       });
     }
+
+    // Set up the permission handler on the bridge so that permission
+    // requests are routed through the channel for interactive approval.
+    bridge.setPermissionHandler(
+      async (
+        params: RequestPermissionRequest,
+      ): Promise<RequestPermissionResponse> => {
+        // Find the chat target for this session (best-effort)
+        const target = this.router.getTarget(params.sessionId);
+        if (!target) {
+          // No target — auto-approve (shouldn't happen in normal flow)
+          return {
+            outcome: { outcome: 'selected', optionId: 'proceed_once' },
+          };
+        }
+        return this.onToolCallApproval(
+          target.chatId,
+          {
+            sessionId: params.sessionId,
+            toolCallId: params.toolCall.toolCallId,
+            kind: params.toolCall.kind || '',
+            title: params.toolCall.title || '',
+            status: 'pending_request',
+            rawInput: params.toolCall.rawInput as Record<string, unknown> | undefined,
+          },
+          params,
+        );
+      },
+    );
   }
 
   abstract connect(): Promise<void>;
@@ -124,6 +162,22 @@ export abstract class ChannelBase {
     const emoji = statusEmoji[event.status] || '🔧';
     const msg = `${emoji} ${event.kind}: ${event.title}`;
     this.sendMessage(chatId, msg).catch(() => {});
+  }
+
+  /**
+   * Called when the ACP agent requests permission for a tool call.
+   * Subclasses can override to show interactive approval UI (e.g. Telegram inline keyboard).
+   * Default implementation auto-approves — this ensures non-interactive channels are not broken.
+   */
+  protected async onToolCallApproval(
+    _chatId: string,
+    _event: ToolCallEvent,
+    _params: RequestPermissionRequest,
+  ): Promise<RequestPermissionResponse> {
+    // Default: auto-approve all permission requests
+    return {
+      outcome: { outcome: 'selected', optionId: 'proceed_once' },
+    };
   }
 
   /**
@@ -274,12 +328,12 @@ export abstract class ChannelBase {
         // Load the session to verify it exists
         await this.bridge.loadSession(sessionId, this.config.cwd);
         this.router.registerExternalSession(
+          sessionId,
           this.name,
           envelope.senderId,
           envelope.chatId,
-          sessionId,
-          this.config.cwd,
           envelope.threadId,
+          this.config.cwd,
         );
         await this.sendMessage(
           envelope.chatId,
@@ -405,6 +459,18 @@ export abstract class ChannelBase {
     let promptText = envelope.text;
     if (envelope.referencedText) {
       promptText = `[Replying to: "${envelope.referencedText}"]\n\n${promptText}`;
+    }
+
+    // Check for a terminal-to-channel handoff and inject context note
+    const handoff = this.router.consumeHandoff(this.name, envelope.chatId);
+    if (handoff) {
+      const handoffTopic = (handoff as Record<string, unknown>)['topic'] as
+        | string
+        | undefined;
+      const handoffNote = handoffTopic
+        ? `[Session Handoff: User started this conversation in the terminal. Previous context may be limited. The user's last terminal prompt was about: ${handoffTopic}]`
+        : `[Session Handoff: User started this conversation in the terminal. Previous context may be limited.]`;
+      promptText = `${handoffNote}\n\n${promptText}`;
     }
 
     // Resolve attachments: extract image for bridge, append file paths to text

@@ -52,6 +52,11 @@ export class GroupGate {
       return { allowed: false, reason: 'mention_required' };
     }
 
+    // Note: adminOnly mode is enforced at the adapter level (e.g., TelegramChannel)
+    // because it requires platform-specific API calls (e.g., getChatAdministrators).
+    // GroupGate does not handle adminOnly — adapters that support it should override
+    // handleInbound and check before calling super.handleInbound().
+
     return { allowed: true };
   }
 }

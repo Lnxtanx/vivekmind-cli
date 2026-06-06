@@ -38,6 +38,7 @@ import type { ContentGeneratorConfig, InputModalities } from '../contentGenerato
 
 const debugLogger = createDebugLogger('BEDROCK_CONVERTER');
 
+
 export interface ConvertedConverseRequest {
   messages: BedrockMessage[];
   system?: SystemContentBlock[];
@@ -49,6 +50,7 @@ export class BedrockContentConverter {
   private schemaCompliance: ContentGeneratorConfig['schemaCompliance'];
   private modalities: InputModalities;
 
+
   constructor(
     model: string,
     schemaCompliance: ContentGeneratorConfig['schemaCompliance'] = 'auto',
@@ -59,6 +61,7 @@ export class BedrockContentConverter {
     debugLogger.info(
       `Modalities for ${model}: ${JSON.stringify(this.modalities)}`,
     );
+
   }
 
   /**

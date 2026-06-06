@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { EventEmitter } from 'node:events';
 import { AcpBridge } from './AcpBridge.js';
 import type { PendingPermissionRequest } from './AcpBridge.js';
 import type { RequestPermissionResponse } from '@agentclientprotocol/sdk';
@@ -66,6 +67,43 @@ describe('AcpBridge', () => {
     it('sets mode to allow', () => {
       bridge.setDefaultApprovalMode('allow');
       expect((bridge as any).defaultApprovalMode).toBe('allow');
+    });
+  });
+
+  // ------------------------------------------------------------------ #
+  //  setApprovalPolicy / setAutoApproveTools / setPermissionHandler
+  // ------------------------------------------------------------------ #
+  describe('setApprovalPolicy', () => {
+    it('accepts valid policies', () => {
+      const bridge = createBridge();
+      bridge.setApprovalPolicy('interactive');
+      bridge.setApprovalPolicy('auto-approve');
+      bridge.setApprovalPolicy('ask-always');
+      // No error thrown
+    });
+  });
+
+  describe('setAutoApproveTools', () => {
+    it('stores tool patterns', () => {
+      const bridge = createBridge();
+      bridge.setAutoApproveTools(['read_*', 'Bash(ls *)']);
+      // No error — stored internally
+    });
+
+    it('accepts empty array', () => {
+      const bridge = createBridge();
+      bridge.setAutoApproveTools([]);
+    });
+  });
+
+  describe('setPermissionHandler', () => {
+    it('stores the handler', () => {
+      const bridge = createBridge();
+      const handler = async () => ({
+        optionId: 'proceed_once',
+      });
+      bridge.setPermissionHandler(handler);
+      // No error — handler stored
     });
   });
 
@@ -172,6 +210,24 @@ describe('AcpBridge', () => {
       bridge.stop();
 
       expect((bridge as any).pendingPermissions.size).toBe(0);
+    });
+  });
+
+  // ------------------------------------------------------------------ #
+  //  EventEmitter interface
+  // ------------------------------------------------------------------ #
+  describe('EventEmitter interface', () => {
+    it('extends EventEmitter', () => {
+      const bridge = createBridge();
+      expect(bridge).toBeInstanceOf(EventEmitter);
+    });
+
+    it('emits and receives events', () => {
+      const bridge = createBridge();
+      const listener = vi.fn();
+      bridge.on('testEvent', listener);
+      bridge.emit('testEvent', 'arg1', 'arg2');
+      expect(listener).toHaveBeenCalledWith('arg1', 'arg2');
     });
   });
 });

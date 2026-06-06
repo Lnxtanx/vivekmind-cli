@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { SessionRouter } from './SessionRouter.js';
-import type { AcpBridge } from './AcpBridge.js';
+import { SessionRouter } from './SessionRouter.ts';
+import type { AcpBridge } from './AcpBridge.ts';
 
 let sessionCounter = 0;
 
@@ -231,11 +231,33 @@ describe('SessionRouter', () => {
   });
 
   describe('registerExternalSession', () => {
-    it('registers an external session and makes it findable by resolve', async () => {
+    it('registers an external session for a routing key', () => {
       const router = new SessionRouter(bridge, '/tmp');
-      router.registerExternalSession('ch', 'alice', 'chat1', 'ext-session-1');
-      const sessionId = await router.resolve('ch', 'alice', 'chat1');
-      expect(sessionId).toBe('ext-session-1');
+      const result = router.registerExternalSession(
+        'ext-session-123',
+        'telegram',
+        'user1',
+        'chat1',
+      );
+      expect(result).toBe(true);
+      expect(router.getTarget('ext-session-123')).toEqual({
+        channelName: 'telegram',
+        senderId: 'user1',
+        chatId: 'chat1',
+        threadId: undefined,
+      });
+    });
+
+    it('resolve returns the registered session without creating a new one', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      router.registerExternalSession(
+        'ext-session-456',
+        'telegram',
+        'user1',
+        'chat1',
+      );
+      const sid = await router.resolve('telegram', 'user1', 'chat1');
+      expect(sid).toBe('ext-session-456');
       expect(bridge.newSession).not.toHaveBeenCalled();
     });
 
@@ -243,18 +265,51 @@ describe('SessionRouter', () => {
       const router = new SessionRouter(bridge, '/tmp');
       const original = await router.resolve('ch', 'alice', 'chat1');
       expect(bridge.newSession).toHaveBeenCalledTimes(1);
-      router.registerExternalSession('ch', 'alice', 'chat1', 'ext-session-2');
-      const sessionId = await router.resolve('ch', 'alice', 'chat1');
-      expect(sessionId).toBe('ext-session-2');
-      expect(sessionId).not.toBe(original);
+      // registerExternalSession returns false when key occupied
+      const result = router.registerExternalSession('ext-session-2', 'ch', 'alice', 'chat1');
+      expect(result).toBe(false);
     });
 
     it('stores target with threadId', () => {
       const router = new SessionRouter(bridge, '/tmp');
-      router.registerExternalSession('ch', 'alice', 'chat1', 'ext-session-1', '/tmp', 'thread-42');
+      router.registerExternalSession('ext-session-1', 'ch', 'alice', 'chat1', 'thread-42');
       const target = router.getTarget('ext-session-1');
       expect(target).toBeDefined();
       expect(target!.threadId).toBe('thread-42');
+    });
+
+    it('stores the provided cwd', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      router.registerExternalSession(
+        'ext-session',
+        'ch',
+        'user1',
+        'chat1',
+        undefined,
+        '/custom/cwd',
+      );
+      expect(router.getTarget('ext-session')).toBeDefined();
+    });
+  });
+
+  describe('unregisterSession', () => {
+    it('removes an external session mapping and returns session ID', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      router.registerExternalSession(
+        'ext-session-999',
+        'telegram',
+        'user1',
+        'chat1',
+      );
+      const removed = router.unregisterSession('telegram', 'user1', 'chat1');
+      expect(removed).toBe('ext-session-999');
+      expect(router.getTarget('ext-session-999')).toBeUndefined();
+    });
+
+    it('returns null if no session is mapped', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      const removed = router.unregisterSession('telegram', 'user1', 'chat1');
+      expect(removed).toBeNull();
     });
   });
 
@@ -311,6 +366,22 @@ describe('SessionRouter', () => {
       const sessions = router.getSessionsForChat('chat1');
       expect(sessions).toHaveLength(1);
       expect(sessions[0]!.senderId).toBe('alice');
+    });
+  });
+
+  describe('getSession', () => {
+    it('returns session ID without creating one', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      const sid = await router.resolve('ch', 'alice', 'chat1');
+      const fetched = router.getSession('ch', 'alice', 'chat1');
+      expect(fetched).toBe(sid);
+    });
+
+    it('returns undefined for non-existent session', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      const fetched = router.getSession('ch', 'alice', 'chat1');
+      expect(fetched).toBeUndefined();
+      expect(bridge.newSession).not.toHaveBeenCalled();
     });
   });
 });

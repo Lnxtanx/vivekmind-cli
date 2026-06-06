@@ -31,3 +31,4 @@ npm test
 ```
 
 Keep provider names, model names, and upstream attribution accurate. References to Qwen models or Qwen OAuth should not be renamed as part of product-branding cleanup.
+

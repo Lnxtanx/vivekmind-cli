@@ -4,6 +4,7 @@ export type {
   AvailableCommand,
   ToolCallEvent,
   PendingPermissionRequest,
+  PermissionHandler,
 } from './AcpBridge.js';
 export { BlockStreamer } from './BlockStreamer.js';
 export type { BlockStreamerOptions } from './BlockStreamer.js';
@@ -17,9 +18,11 @@ export { SenderGate } from './SenderGate.js';
 export type { SenderCheckResult } from './SenderGate.js';
 export { SessionRouter } from './SessionRouter.js';
 export type {
+  ApprovalPolicy,
   Attachment,
   BlockStreamingChunkConfig,
   BlockStreamingCoalesceConfig,
+  ApprovalPolicy,
   ChannelConfig,
   ChannelPlugin,
   ChannelType,
@@ -30,4 +33,6 @@ export type {
   SenderPolicy,
   SessionScope,
   SessionTarget,
+  ToolApprovalInfo,
+  ToolApprovalResult,
 } from './types.js';
