@@ -43,8 +43,8 @@ export const DUAL_OUTPUT_PROTOCOL_VERSION = 1;
  * programmatic consumption by IDE extensions, web frontends, CI pipelines, etc.
  *
  * Usage:
- *   qwen --json-fd 3        # JSON events written to fd 3
- *   qwen --json-file /path  # JSON events written to file/FIFO
+ *   vivekmind --json-fd 3        # JSON events written to fd 3
+ *   vivekmind --json-file /path  # JSON events written to file/FIFO
  */
 export class DualOutputBridge {
     adapter;

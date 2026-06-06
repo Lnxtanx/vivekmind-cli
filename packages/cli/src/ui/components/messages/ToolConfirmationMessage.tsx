@@ -98,6 +98,10 @@ export const ToolConfirmationMessage: React.FC<
 
   const isTrustedFolder = config.isTrustedFolder();
 
+  // Only handle Escape/Ctrl+C here when NOT delegating to AskUserQuestionDialog,
+  // which has its own keypress handler. Without this guard, pressing Escape would
+  // double-fire onConfirm(Cancel) — once from this handler and once from the dialog's.
+  const isDelegatingToQuestionDialog = confirmationDetails.type === 'ask_user_question';
   useKeypress(
     (key) => {
       if (!isFocused) return;
@@ -105,10 +109,23 @@ export const ToolConfirmationMessage: React.FC<
         handleConfirm(ToolConfirmationOutcome.Cancel);
       }
     },
-    { isActive: isFocused },
+    { isActive: isFocused && !isDelegatingToQuestionDialog },
   );
 
   const handleSelect = (item: ToolConfirmationOutcome) => handleConfirm(item);
+
+  // ask_user_question type always uses the dedicated dialog, even in compact mode.
+  // Without this check, subagent inline approvals would show a generic Yes/No/Cancel
+  // instead of the proper question dialog.
+  if (confirmationDetails.type === 'ask_user_question') {
+    return (
+      <AskUserQuestionDialog
+        confirmationDetails={confirmationDetails}
+        isFocused={isFocused}
+        onConfirm={onConfirm}
+      />
+    );
+  }
 
   // Compact mode: return simple 3-option display
   if (compactMode) {
@@ -395,15 +412,6 @@ export const ToolConfirmationMessage: React.FC<
           </Box>
         )}
       </Box>
-    );
-  } else if (confirmationDetails.type === 'ask_user_question') {
-    // Use dedicated dialog for ask_user_question type
-    return (
-      <AskUserQuestionDialog
-        confirmationDetails={confirmationDetails}
-        isFocused={isFocused}
-        onConfirm={onConfirm}
-      />
     );
   } else {
     // mcp tool confirmation

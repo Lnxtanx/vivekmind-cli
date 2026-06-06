@@ -6,7 +6,7 @@
 import { handleVivekMindAuth, handleApiKeyAuth, runInteractiveAuth, showAuthStatus, } from './auth/handler.js';
 import { t } from '../i18n/index.js';
 // Define subcommands separately
-const qwenOauthCommand = {
+const vivekmindOauthCommand = {
     command: 'vivekmind-oauth',
     describe: t('Authenticate using VivekMind OAuth'),
     handler: async () => {
@@ -71,7 +71,7 @@ export const authCommand = {
     command: 'auth',
     describe: t('Configure VivekMind authentication with OpenRouter, Coding Plan, API Key, or VivekMind-OAuth'),
     builder: (yargs) => yargs
-        .command(qwenOauthCommand)
+        .command(vivekmindOauthCommand)
         .command(codePlanCommand)
         .command(openRouterCommand)
         .command(apiKeyCommand)

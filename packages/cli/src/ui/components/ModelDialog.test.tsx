@@ -15,7 +15,7 @@ import type { Config } from '@vivekmind/core';
 import { AuthType, DEFAULT_VIVEKMIND_MODEL } from '@vivekmind/core';
 import type { LoadedSettings } from '../../config/settings.js';
 import { SettingScope } from '../../config/settings.js';
-import { getFilteredQwenModels } from '../models/availableModels.js';
+import { getFilteredVivekMindModels } from '../models/availableModels.js';
 
 vi.mock('../hooks/useKeypress.js', () => ({
   useKeypress: vi.fn(),
@@ -30,7 +30,7 @@ vi.mock('./shared/DescriptiveRadioButtonSelect.js', () => ({
 const createMockGetAvailableModelsForAuthType = () =>
   vi.fn((t: AuthType) => {
     if (t === AuthType.VIVEKMIND_OAUTH) {
-      return getFilteredQwenModels().map((m) => ({
+      return getFilteredVivekMindModels().map((m) => ({
         id: m.id,
         label: m.label,
         authType: AuthType.VIVEKMIND_OAUTH,
@@ -63,7 +63,7 @@ const renderComponent = (
     switchModel: vi.fn().mockResolvedValue(undefined),
     getAuthType: vi.fn(() => 'vivekmind-oauth'),
     getAllConfiguredModels: vi.fn(() =>
-      getFilteredQwenModels().map((m) => ({
+      getFilteredVivekMindModels().map((m) => ({
         id: m.id,
         label: m.label,
         description: m.description || '',
@@ -124,7 +124,7 @@ describe('<ModelDialog />', () => {
     expect(mockedSelect).toHaveBeenCalledTimes(1);
 
     const props = mockedSelect.mock.calls[0][0];
-    expect(props.items).toHaveLength(getFilteredQwenModels().length);
+    expect(props.items).toHaveLength(getFilteredVivekMindModels().length);
     // coder-model is the only model and it has vision capability
     expect(props.items[0].value).toBe(
       `${AuthType.VIVEKMIND_OAUTH}::${DEFAULT_VIVEKMIND_MODEL}`,
@@ -145,7 +145,7 @@ describe('<ModelDialog />', () => {
 
     expect(mockGetModel).toHaveBeenCalled();
     // Calculate expected index dynamically based on model list
-    const qwenModels = getFilteredQwenModels();
+    const qwenModels = getFilteredVivekMindModels();
     const expectedIndex = qwenModels.findIndex(
       (m) => m.id === DEFAULT_VIVEKMIND_MODEL,
     );
@@ -198,7 +198,7 @@ describe('<ModelDialog />', () => {
       {
         getAvailableModelsForAuthType: vi.fn((t: AuthType) => {
           if (t === AuthType.VIVEKMIND_OAUTH) {
-            return getFilteredQwenModels().map((m) => ({
+            return getFilteredVivekMindModels().map((m) => ({
               id: m.id,
               label: m.label,
               authType: AuthType.VIVEKMIND_OAUTH,
@@ -228,7 +228,7 @@ describe('<ModelDialog />', () => {
         return [{ id: 'gpt-4', label: 'GPT-4', authType: t }];
       }
       if (t === AuthType.VIVEKMIND_OAUTH) {
-        return getFilteredQwenModels().map((m) => ({
+        return getFilteredVivekMindModels().map((m) => ({
           id: m.id,
           label: m.label,
           authType: AuthType.VIVEKMIND_OAUTH,
@@ -243,7 +243,7 @@ describe('<ModelDialog />', () => {
       switchModel,
       getAvailableModelsForAuthType,
       getAllConfiguredModels: vi.fn(() => [
-        ...getFilteredQwenModels().map((m) => ({
+        ...getFilteredVivekMindModels().map((m) => ({
           id: m.id,
           label: m.label,
           description: m.description || '',
@@ -294,7 +294,7 @@ describe('<ModelDialog />', () => {
         return [{ id: 'gpt-4', label: 'GPT-4', authType: t }];
       }
       if (t === AuthType.VIVEKMIND_OAUTH) {
-        return getFilteredQwenModels().map((m) => ({
+        return getFilteredVivekMindModels().map((m) => ({
           id: m.id,
           label: m.label,
           authType: AuthType.VIVEKMIND_OAUTH,
@@ -386,7 +386,7 @@ describe('<ModelDialog />', () => {
               getAvailableModelsForAuthType:
                 createMockGetAvailableModelsForAuthType(),
               getAllConfiguredModels: vi.fn(() =>
-                getFilteredQwenModels().map((m) => ({
+                getFilteredVivekMindModels().map((m) => ({
                   id: m.id,
                   label: m.label,
                   description: m.description || '',
@@ -410,7 +410,7 @@ describe('<ModelDialog />', () => {
       getAuthType: mockGetAuthType,
       getAvailableModelsForAuthType: createMockGetAvailableModelsForAuthType(),
       getAllConfiguredModels: vi.fn(() =>
-        getFilteredQwenModels().map((m) => ({
+        getFilteredVivekMindModels().map((m) => ({
           id: m.id,
           label: m.label,
           description: m.description || '',
@@ -430,7 +430,7 @@ describe('<ModelDialog />', () => {
     // Should be called at least twice: initial render + re-render after context change
     expect(mockedSelect).toHaveBeenCalledTimes(2);
     // Calculate expected index for DEFAULT_VIVEKMIND_MODEL dynamically
-    const qwenModels = getFilteredQwenModels();
+    const qwenModels = getFilteredVivekMindModels();
     const expectedCoderIndex = qwenModels.findIndex(
       (m) => m.id === DEFAULT_VIVEKMIND_MODEL,
     );

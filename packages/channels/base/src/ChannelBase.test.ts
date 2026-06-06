@@ -56,6 +56,9 @@ function createBridge(): AcpBridge {
     isConnected: true,
     availableCommands: [],
     setBridge: vi.fn(),
+    resolvePermission: vi.fn().mockReturnValue(true),
+    denyPermission: vi.fn().mockReturnValue(true),
+    setDefaultApprovalMode: vi.fn(),
   });
   return bridge as unknown as AcpBridge;
 }
@@ -751,6 +754,168 @@ describe('ChannelBase', () => {
       expect((ch as any).isLocalCommand('hello')).toBe(false);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((ch as any).isLocalCommand('/unknown')).toBe(false);
+    });
+  });
+
+  describe('/attach command', () => {
+    it('attaches an external session to the chat', async () => {
+      const ch = createChannel();
+      await ch.handleInbound(envelope({ text: '/attach session-xyz' }));
+      expect(bridge.loadSession).toHaveBeenCalledWith('session-xyz', '/tmp');
+      expect(ch.sent).toHaveLength(1);
+      expect(ch.sent[0]!.text).toContain('Session attached');
+    });
+
+    it('shows error for invalid session ID', async () => {
+      bridge.loadSession.mockRejectedValueOnce(new Error('not found'));
+      const ch = createChannel();
+      await ch.handleInbound(envelope({ text: '/attach bad-session' }));
+      expect(ch.sent).toHaveLength(1);
+      expect(ch.sent[0]!.text).toContain('Could not attach');
+      expect(ch.sent[0]!.text).toContain('bad-session');
+    });
+
+    it('shows usage when no session ID provided', async () => {
+      const ch = createChannel();
+      await ch.handleInbound(envelope({ text: '/attach' }));
+      expect(ch.sent).toHaveLength(1);
+      expect(ch.sent[0]!.text).toContain('Usage');
+      expect(ch.sent[0]!.text).toContain('/attach');
+    });
+  });
+
+  describe('/detach command', () => {
+    it('detaches active session and shows session ID', async () => {
+      const ch = createChannel();
+      // Create a session first
+      await ch.handleInbound(envelope());
+      ch.sent = [];
+      // Now detach
+      await ch.handleInbound(envelope({ text: '/detach' }));
+      expect(ch.sent).toHaveLength(1);
+      expect(ch.sent[0]!.text).toContain('Session detached');
+      expect(ch.sent[0]!.text).toContain('s-1');
+    });
+
+    it('shows message when no session to detach', async () => {
+      const ch = createChannel();
+      await ch.handleInbound(envelope({ text: '/detach' }));
+      expect(ch.sent).toHaveLength(1);
+      expect(ch.sent[0]!.text).toContain('No active session');
+    });
+  });
+
+  describe('/chats command', () => {
+    it('shows no sessions message when empty', async () => {
+      const ch = createChannel();
+      await ch.handleInbound(envelope({ text: '/chats' }));
+      expect(ch.sent).toHaveLength(1);
+      expect(ch.sent[0]!.text).toContain('No active sessions');
+    });
+
+    it('lists active sessions in the chat', async () => {
+      const ch = createChannel();
+      // Create a session first
+      await ch.handleInbound(envelope());
+      ch.sent = [];
+      // List chats
+      await ch.handleInbound(envelope({ text: '/chats' }));
+      expect(ch.sent).toHaveLength(1);
+      expect(ch.sent[0]!.text).toContain('Active sessions');
+      expect(ch.sent[0]!.text).toContain('s-1');
+      expect(ch.sent[0]!.text).toContain('user1');
+    });
+  });
+
+  describe('/approval command', () => {
+    it('shows usage when no mode provided', async () => {
+      const ch = createChannel();
+      await ch.handleInbound(envelope({ text: '/approval' }));
+      expect(ch.sent).toHaveLength(1);
+      expect(ch.sent[0]!.text).toContain('Usage');
+      expect(ch.sent[0]!.text).toContain('ask');
+      expect(ch.sent[0]!.text).toContain('allow');
+      expect(ch.sent[0]!.text).toContain('deny');
+    });
+
+    it('shows error for invalid mode', async () => {
+      const ch = createChannel();
+      await ch.handleInbound(envelope({ text: '/approval invalid' }));
+      expect(ch.sent).toHaveLength(1);
+      expect(ch.sent[0]!.text).toContain('Usage');
+    });
+
+    it('sets approval mode to ask', async () => {
+      const ch = createChannel();
+      await ch.handleInbound(envelope({ text: '/approval ask' }));
+      expect(ch.sent).toHaveLength(1);
+      expect(ch.sent[0]!.text).toContain('Approval mode set to: ask');
+      expect(bridge.setDefaultApprovalMode).toHaveBeenCalledWith('ask');
+      expect(ch.config.approvalMode).toBe('ask');
+    });
+
+    it('sets approval mode to allow', async () => {
+      const ch = createChannel();
+      await ch.handleInbound(envelope({ text: '/approval allow' }));
+      expect(bridge.setDefaultApprovalMode).toHaveBeenCalledWith('allow');
+      expect(ch.config.approvalMode).toBe('allow');
+    });
+
+    it('sets approval mode to deny', async () => {
+      const ch = createChannel();
+      await ch.handleInbound(envelope({ text: '/approval deny' }));
+      expect(bridge.setDefaultApprovalMode).toHaveBeenCalledWith('deny');
+      expect(ch.config.approvalMode).toBe('deny');
+    });
+  });
+
+  describe('permission request handling', () => {
+    it('dispatches permission request to onRequestPermission when target found', async () => {
+      const ch = createChannel();
+      // Send a message to create a session and routing entry
+      await ch.handleInbound(envelope());
+      // Get the session ID that was created
+      const createdSessionId = (bridge.newSession as ReturnType<typeof vi.fn>).mock.results[0].value;
+      // Spy on onRequestPermission
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const requestSpy = vi.spyOn(ch as any, 'onRequestPermission');
+      // Create mock permission request
+      const mockRequest = {
+        id: 'perm-1',
+        sessionId: createdSessionId,
+        toolCallId: 'tc-1',
+        toolName: 'read_file',
+        description: 'Read a file',
+        options: [{ optionId: 'proceed_once', label: 'Proceed once' }],
+        resolve: vi.fn(),
+        reject: vi.fn(),
+        timeout: null,
+      };
+      // Emit the event on the bridge
+      (bridge as any).emit('requestPermission', mockRequest);
+      // Verify onRequestPermission was called with the right chatId and request
+      expect(requestSpy).toHaveBeenCalledWith('chat1', mockRequest);
+      requestSpy.mockRestore();
+    });
+
+    it('auto-approves when no target found', () => {
+      const ch = createChannel();
+      // Create mock permission request with non-existent session
+      const mockRequest = {
+        id: 'perm-2',
+        sessionId: 'nonexistent-session',
+        toolCallId: 'tc-2',
+        toolName: 'write_file',
+        description: 'Write a file',
+        options: [{ optionId: 'proceed_once', label: 'Proceed once' }],
+        resolve: vi.fn(),
+        reject: vi.fn(),
+        timeout: null,
+      };
+      // Emit the event on the bridge
+      (bridge as any).emit('requestPermission', mockRequest);
+      // Verify resolvePermission was called with 'proceed_once' directly
+      expect(bridge.resolvePermission).toHaveBeenCalledWith('perm-2', 'proceed_once');
     });
   });
 });

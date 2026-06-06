@@ -42,7 +42,7 @@ const BtwMessageInternal: React.FC<BtwDisplayProps> = ({
   return (
     <Box
       flexDirection="column"
-      borderStyle="round"
+      borderStyle="single"
       borderColor={Colors.AccentYellow}
       paddingX={1}
       width="100%"

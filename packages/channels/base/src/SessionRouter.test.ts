@@ -229,4 +229,88 @@ describe('SessionRouter', () => {
       expect(bridge.newSession).not.toHaveBeenCalled();
     });
   });
+
+  describe('registerExternalSession', () => {
+    it('registers an external session and makes it findable by resolve', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      router.registerExternalSession('ch', 'alice', 'chat1', 'ext-session-1');
+      const sessionId = await router.resolve('ch', 'alice', 'chat1');
+      expect(sessionId).toBe('ext-session-1');
+      expect(bridge.newSession).not.toHaveBeenCalled();
+    });
+
+    it('overwrites existing session for same routing key', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      const original = await router.resolve('ch', 'alice', 'chat1');
+      expect(bridge.newSession).toHaveBeenCalledTimes(1);
+      router.registerExternalSession('ch', 'alice', 'chat1', 'ext-session-2');
+      const sessionId = await router.resolve('ch', 'alice', 'chat1');
+      expect(sessionId).toBe('ext-session-2');
+      expect(sessionId).not.toBe(original);
+    });
+
+    it('stores target with threadId', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      router.registerExternalSession('ch', 'alice', 'chat1', 'ext-session-1', '/tmp', 'thread-42');
+      const target = router.getTarget('ext-session-1');
+      expect(target).toBeDefined();
+      expect(target!.threadId).toBe('thread-42');
+    });
+  });
+
+  describe('detachSession', () => {
+    it('detaches session and returns session ID', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      const sid = await router.resolve('ch', 'alice', 'chat1');
+      const detached = router.detachSession('ch', 'alice', 'chat1');
+      expect(detached).toBe(sid);
+      expect(router.hasSession('ch', 'alice', 'chat1')).toBe(false);
+      const newSid = await router.resolve('ch', 'alice', 'chat1');
+      expect(newSid).not.toBe(sid);
+    });
+
+    it('returns null when no session exists', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      expect(router.detachSession('ch', 'alice', 'chat1')).toBeNull();
+    });
+
+    it('detaches with threadId', async () => {
+      const router = new SessionRouter(bridge, '/tmp', 'thread');
+      await router.resolve('ch', 'alice', 'chat1', 'thread-1');
+      const detached = router.detachSession('ch', 'alice', 'chat1', 'thread-1');
+      expect(detached).toBeTruthy();
+    });
+
+    it('detaches first found when no chatId given', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      await router.resolve('ch', 'alice', 'chat1');
+      const detached = router.detachSession('ch', 'alice');
+      expect(detached).toBeTruthy();
+    });
+  });
+
+  describe('getSessionsForChat', () => {
+    it('returns sessions for a specific chat', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      await router.resolve('ch', 'alice', 'chat1');
+      await router.resolve('ch', 'bob', 'chat1');
+      const sessions = router.getSessionsForChat('chat1');
+      expect(sessions).toHaveLength(2);
+      expect(sessions.map(s => s.senderId).sort()).toEqual(['alice', 'bob']);
+    });
+
+    it('returns empty for chat with no sessions', () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      expect(router.getSessionsForChat('nonexistent')).toEqual([]);
+    });
+
+    it('does not return sessions from other chats', async () => {
+      const router = new SessionRouter(bridge, '/tmp');
+      await router.resolve('ch', 'alice', 'chat1');
+      await router.resolve('ch', 'bob', 'chat2');
+      const sessions = router.getSessionsForChat('chat1');
+      expect(sessions).toHaveLength(1);
+      expect(sessions[0]!.senderId).toBe('alice');
+    });
+  });
 });

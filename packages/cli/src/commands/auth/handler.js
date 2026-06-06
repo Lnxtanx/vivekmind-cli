@@ -666,7 +666,7 @@ export async function showAuthStatus() {
                 else {
                     writeStdoutLine(t('⚠️  Authentication Method: OpenAI-compatible Provider (Incomplete)'));
                     writeStdoutLine(t('  Issue: API key not found in environment or settings\n'));
-                    writeStdoutLine(t('  Run `qwen auth` to re-configure.\n'));
+                    writeStdoutLine(t('  Run `vivekmind auth` to re-configure.\n'));
                 }
             }
             else {
@@ -713,7 +713,7 @@ export async function showAuthStatus() {
                 else {
                     writeStdoutLine(t('⚠️  Authentication Method: OpenAI-compatible Provider (Incomplete)'));
                     writeStdoutLine(t('  Issue: API key not found in environment or settings\n'));
-                    writeStdoutLine(t('  Run `qwen auth` to re-configure.\n'));
+                    writeStdoutLine(t('  Run `vivekmind auth` to re-configure.\n'));
                 }
             }
         }

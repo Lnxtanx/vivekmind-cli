@@ -8,9 +8,6 @@ const CODE_LENGTH = 8;
 const EXPIRY_MS = 60 * 60 * 1000; // 1 hour
 const MAX_PENDING = 3;
 export class PairingStore {
-    dir;
-    pendingPath;
-    allowlistPath;
     constructor(channelName) {
         this.dir = path.join(os.homedir(), '.vivekmind', 'channels');
         this.pendingPath = path.join(this.dir, `${channelName}-pairing.json`);
@@ -112,4 +109,3 @@ function generateCode() {
     }
     return code;
 }
-//# sourceMappingURL=PairingStore.js.map

@@ -40,11 +40,11 @@ export const useVivekMindAuth = (
     authMessage: null,
   });
 
-  const isQwenAuth = pendingAuthType === AuthType.VIVEKMIND_OAUTH;
+  const isVivekMindAuth = pendingAuthType === AuthType.VIVEKMIND_OAUTH;
 
   // Set up event listeners when authentication starts
   useEffect(() => {
-    if (!isQwenAuth || !isAuthenticating) {
+    if (!isVivekMindAuth || !isAuthenticating) {
       // Reset state when not authenticating or not VivekMind auth
       setVivekmindAuthState({
         deviceAuth: null,
@@ -94,7 +94,7 @@ export const useVivekMindAuth = (
       vivekmindOAuth2Events.off(VivekMindOAuth2Event.AuthUri, handleDeviceAuth);
       vivekmindOAuth2Events.off(VivekMindOAuth2Event.AuthProgress, handleAuthProgress);
     };
-  }, [isQwenAuth, isAuthenticating]);
+  }, [isVivekMindAuth, isAuthenticating]);
 
   const cancelVivekMindAuth = useCallback(() => {
     // Emit cancel event to stop polling

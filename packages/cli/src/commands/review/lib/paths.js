@@ -17,7 +17,7 @@ export function worktreePath(prNumber) {
 }
 /** Local branch ref name for a fetched PR head. */
 export function reviewBranch(prNumber) {
-    return `qwen-review/pr-${prNumber}`;
+    return `vivekmind-review/pr-${prNumber}`;
 }
 /**
  * Per-target side-file path (review JSON, PR context, presubmit report).
@@ -28,10 +28,10 @@ export function reviewBranch(prNumber) {
  * and so they're scoped to the project rather than the user's whole machine.
  */
 export function tmpFile(target, suffix) {
-    return join(REVIEW_TMP_DIR, `qwen-review-${target}-${suffix}`);
+    return join(REVIEW_TMP_DIR, `vivekmind-review-${target}-${suffix}`);
 }
 /** Filename prefix used by `tmpFile`; useful for cleanup globbing. */
 export function tmpPrefix(target) {
-    return `qwen-review-${target}-`;
+    return `vivekmind-review-${target}-`;
 }
 //# sourceMappingURL=paths.js.map

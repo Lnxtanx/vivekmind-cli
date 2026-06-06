@@ -12,7 +12,7 @@ const generationOptions = [
         get label() {
             return t('Generate with VivekMind (Recommended)');
         },
-        value: 'qwen',
+        value: 'vivekmind',
     },
     {
         get label() {

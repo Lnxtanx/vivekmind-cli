@@ -28,7 +28,7 @@ const CACHED_VIVEKMIND_OAUTH_MODELS: AvailableModel[] = VIVEKMIND_OAUTH_MODELS.m
   }),
 );
 
-function getQwenOAuthModels(): readonly AvailableModel[] {
+function getVivekMindOAuthModels(): readonly AvailableModel[] {
   return CACHED_VIVEKMIND_OAUTH_MODELS;
 }
 
@@ -36,8 +36,8 @@ function getQwenOAuthModels(): readonly AvailableModel[] {
  * Get available VivekMind models
  * coder-model now has vision capabilities by default.
  */
-export function getFilteredQwenModels(): AvailableModel[] {
-  return [...getQwenOAuthModels()];
+export function getFilteredVivekMindModels(): AvailableModel[] {
+  return [...getVivekMindOAuthModels()];
 }
 
 /**
@@ -113,7 +113,7 @@ export function getAvailableModelsForAuthType(
   // Fall back to environment variables for specific auth types (no config provided)
   switch (authType) {
     case AuthType.VIVEKMIND_OAUTH: {
-      return [...getQwenOAuthModels()];
+      return [...getVivekMindOAuthModels()];
     }
     case AuthType.USE_OPENAI: {
       const openAIModel = getOpenAIAvailableModelFromEnv();

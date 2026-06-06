@@ -6,8 +6,8 @@
 
 // Post-review cleanup for /review Step 11.
 //   - Remove the temporary worktree at .vivekmind/tmp/review-pr-<n>.
-//   - Delete the local branch ref qwen-review/pr-<n>.
-//   - Remove any .vivekmind/tmp/qwen-review-<target>-* side files.
+//   - Delete the local branch ref vivekmind-review/pr-<n>.
+//   - Remove any .vivekmind/tmp/vivekmind-review-<target>-* side files.
 //
 // The command is idempotent — missing files / branches are silent OK.
 

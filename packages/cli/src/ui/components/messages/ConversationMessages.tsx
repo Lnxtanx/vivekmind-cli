@@ -197,8 +197,8 @@ export const UserMessage: React.FC<UserMessageProps> = ({ text }) => (
   <PrefixedTextMessage
     text={text}
     prefix=">"
-    prefixColor={theme.text.accent}
-    textColor={theme.text.accent}
+    prefixColor={theme.text.secondary}
+    textColor={theme.text.primary}
     ariaLabel={SCREEN_READER_USER_PREFIX}
     alignSelf="flex-start"
   />
@@ -211,7 +211,7 @@ export const UserShellMessage: React.FC<UserShellMessageProps> = ({ text }) => {
     <PrefixedTextMessage
       text={commandToDisplay}
       prefix="$"
-      prefixColor={theme.text.link}
+      prefixColor={theme.text.secondary}
       textColor={theme.text.primary}
     />
   );
@@ -226,7 +226,7 @@ export const AssistantMessage: React.FC<AssistantMessageProps> = ({
   <PrefixedMarkdownMessage
     text={text}
     prefix="✦"
-    prefixColor={theme.text.accent}
+    prefixColor={theme.text.assistant}
     ariaLabel={SCREEN_READER_MODEL_PREFIX}
     isPending={isPending}
     availableTerminalHeight={availableTerminalHeight}

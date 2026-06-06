@@ -3,13 +3,20 @@ import { Readable, Writable } from 'node:stream';
 import { EventEmitter } from 'node:events';
 import { ClientSideConnection, ndJsonStream, PROTOCOL_VERSION, } from '@agentclientprotocol/sdk';
 export class AcpBridge extends EventEmitter {
-    child = null;
-    connection = null;
-    options;
-    _availableCommands = [];
-    constructor(options) {
+    constructor(options, permissionTimeout = 60000) {
         super();
+        this.child = null;
+        this.connection = null;
+        this._availableCommands = [];
+        /** Pending permission requests awaiting channel resolution. */
+        this.pendingPermissions = new Map();
         this.options = options;
+        this.permissionTimeout = permissionTimeout;
+        this.defaultApprovalMode = 'allow'; // default: auto-approve (legacy behavior)
+    }
+    /** Set the default approval mode for unresolved permission requests. */
+    setDefaultApprovalMode(mode) {
+        this.defaultApprovalMode = mode;
     }
     get availableCommands() {
         return this._availableCommands;
@@ -52,8 +59,44 @@ export class AcpBridge extends EventEmitter {
                 return Promise.resolve();
             },
             requestPermission: async (params) => {
-                // Auto-approve for now; Phase 5 will add interactive approval
                 const options = Array.isArray(params.options) ? params.options : [];
+                // Emit event so the channel layer can show an approval UI
+                const permissionId = `${params.sessionId}:${Date.now()}:${Math.random().toString(36).slice(2, 8)}`;
+                // If ask mode or channel is listening, wait for resolution
+                if (this.defaultApprovalMode === 'ask' || this.listenerCount('requestPermission') > 0) {
+                    return new Promise((resolve, reject) => {
+                        const timeout = setTimeout(() => {
+                            this.pendingPermissions.delete(permissionId);
+                            // Timeout: fall back to default mode
+                            if (this.defaultApprovalMode === 'deny') {
+                                resolve({
+                                    outcome: { outcome: 'selected', optionId: 'deny' },
+                                });
+                            }
+                            else {
+                                const optionId = options.find((o) => o.optionId === 'proceed_once')?.optionId ||
+                                    options[0]?.optionId ||
+                                    'proceed_once';
+                                resolve({ outcome: { outcome: 'selected', optionId } });
+                            }
+                        }, this.permissionTimeout);
+                        const tc = params['toolCall'];
+                        const request = {
+                            id: permissionId,
+                            sessionId: params.sessionId,
+                            toolCallId: tc?.['toolCallId'] || '',
+                            toolName: tc?.['kind'] || '',
+                            description: tc?.['title'] || '',
+                            options,
+                            resolve,
+                            reject,
+                            timeout,
+                        };
+                        this.pendingPermissions.set(permissionId, request);
+                        this.emit('requestPermission', request);
+                    });
+                }
+                // Default: auto-approve (legacy behavior)
                 const optionId = options.find((o) => o.optionId === 'proceed_once')?.optionId ||
                     options[0]?.optionId ||
                     'proceed_once';
@@ -112,7 +155,33 @@ export class AcpBridge extends EventEmitter {
         const conn = this.ensureConnection();
         await conn.cancel({ sessionId });
     }
+    /** Resolve a pending permission request (called by channel adapters). */
+    resolvePermission(permissionId, optionId) {
+        const request = this.pendingPermissions.get(permissionId);
+        if (!request)
+            return false;
+        clearTimeout(request.timeout);
+        this.pendingPermissions.delete(permissionId);
+        request.resolve({ outcome: { outcome: 'selected', optionId } });
+        return true;
+    }
+    /** Deny a pending permission request. */
+    denyPermission(permissionId) {
+        const request = this.pendingPermissions.get(permissionId);
+        if (!request)
+            return false;
+        clearTimeout(request.timeout);
+        this.pendingPermissions.delete(permissionId);
+        request.resolve({ outcome: { outcome: 'selected', optionId: 'deny' } });
+        return true;
+    }
     stop() {
+        // Reject all pending permission requests
+        for (const request of this.pendingPermissions.values()) {
+            clearTimeout(request.timeout);
+            request.reject(new Error('Bridge shutting down'));
+        }
+        this.pendingPermissions.clear();
         if (this.child) {
             this.child.kill();
             this.child = null;
@@ -167,4 +236,3 @@ export class AcpBridge extends EventEmitter {
         return this.connection;
     }
 }
-//# sourceMappingURL=AcpBridge.js.map

@@ -994,7 +994,7 @@ export async function showAuthStatus(): Promise<void> {
           writeStdoutLine(
             t('  Issue: API key not found in environment or settings\n'),
           );
-          writeStdoutLine(t('  Run `qwen auth` to re-configure.\n'));
+          writeStdoutLine(t('  Run `vivekmind auth` to re-configure.\n'));
         }
       } else {
         const hasCodingPlanKey =
@@ -1075,7 +1075,7 @@ export async function showAuthStatus(): Promise<void> {
           writeStdoutLine(
             t('  Issue: API key not found in environment or settings\n'),
           );
-          writeStdoutLine(t('  Run `qwen auth` to re-configure.\n'));
+          writeStdoutLine(t('  Run `vivekmind auth` to re-configure.\n'));
         }
       }
     } else {

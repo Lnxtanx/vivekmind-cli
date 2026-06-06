@@ -106,9 +106,9 @@ async function promptForConsentInteractive(prompt, addExtensionUpdateConfirmatio
  * Builds a consent string for installing an extension based on it's
  * extensionConfig.
  */
-export function extensionConsentString(extensionConfig, commands = [], skills = [], subagents = [], originSource = 'QwenCode') {
+export function extensionConsentString(extensionConfig, commands = [], skills = [], subagents = [], originSource = 'VivekMind') {
     const output = [];
-    if (originSource !== 'QwenCode') {
+    if (originSource !== 'VivekMind') {
         output.push(t('You are installing an extension from {{originSource}}. Some features may not work perfectly with VivekMind.', { originSource }));
     }
     const mcpServerEntries = Object.entries(extensionConfig.mcpServers || {});
@@ -160,7 +160,7 @@ export function extensionConsentString(extensionConfig, commands = [], skills = 
 export const requestConsentOrFail = async (requestConsent, options) => {
     if (!options)
         return;
-    const { extensionConfig, originSource = 'QwenCode', commands = [], skills = [], subagents = [], previousExtensionConfig, previousCommands = [], previousSkills = [], previousSubagents = [], } = options;
+    const { extensionConfig, originSource = 'VivekMind', commands = [], skills = [], subagents = [], previousExtensionConfig, previousCommands = [], previousSkills = [], previousSubagents = [], } = options;
     const extensionConsent = extensionConsentString(extensionConfig, commands, skills, subagents, originSource);
     if (previousExtensionConfig) {
         const previousExtensionConsent = extensionConsentString(previousExtensionConfig, previousCommands, previousSkills, previousSubagents, originSource);

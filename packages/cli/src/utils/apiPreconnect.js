@@ -147,7 +147,7 @@ export function preconnectApi(authType, options = {}) {
             method: 'HEAD',
             signal: AbortSignal.timeout(5_000),
             headers: {
-                'User-Agent': 'QwenCode-Preconnect/1.0',
+                'User-Agent': 'VivekMind-Preconnect/1.0',
             },
             dispatcher,
         })

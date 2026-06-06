@@ -133,6 +133,70 @@ export class SessionRouter {
     return sessionId;
   }
 
+  /**
+   * Register an externally-created session (Phase 3: handoff from terminal).
+   * This allows a terminal session to be attached to a Telegram chat.
+   */
+  registerExternalSession(
+    channelName: string,
+    senderId: string,
+    chatId: string,
+    sessionId: string,
+    cwd?: string,
+    threadId?: string,
+  ): void {
+    const key = this.routingKey(channelName, senderId, chatId, threadId);
+    this.toSession.set(key, sessionId);
+    this.toTarget.set(sessionId, { channelName, senderId, chatId, threadId });
+    this.toCwd.set(sessionId, cwd || this.defaultCwd);
+    this.persist();
+  }
+
+  /**
+   * Detach a session from its channel routing (Phase 3: handoff back to terminal).
+   * Removes the routing entry but does NOT destroy the session.
+   * Returns the session ID if found.
+   */
+  detachSession(
+    channelName: string,
+    senderId: string,
+    chatId?: string,
+    threadId?: string,
+  ): string | null {
+    const key = chatId
+      ? this.routingKey(channelName, senderId, chatId, threadId)
+      : null;
+
+    if (key) {
+      return this.deleteByKey(key);
+    }
+
+    // No chatId: detach first found session for this sender+channel
+    const prefix = `${channelName}:${senderId}`;
+    for (const k of [...this.toSession.keys()]) {
+      if (k.startsWith(prefix)) {
+        return this.deleteByKey(k);
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Get all session IDs associated with a specific chat (Phase 6: multi-chat).
+   */
+  getSessionsForChat(chatId: string): Array<{ sessionId: string; senderId: string }> {
+    const results: Array<{ sessionId: string; senderId: string }> = [];
+    for (const [key, sessionId] of this.toSession) {
+      if (key.includes(`:${chatId}`)) {
+        const target = this.toTarget.get(sessionId);
+        if (target) {
+          results.push({ sessionId, senderId: target.senderId });
+        }
+      }
+    }
+    return results;
+  }
+
   /** Get all session entries for crash recovery. */
   getAll(): Array<{ key: string; sessionId: string; target: SessionTarget }> {
     const entries: Array<{

@@ -115,7 +115,7 @@ const ModelUsageTable: React.FC<{
       </Box>
       {/* Divider */}
       <Box
-        borderStyle="round"
+        borderStyle="single"
         borderBottom={true}
         borderTop={false}
         borderLeft={false}
@@ -217,7 +217,7 @@ export const StatsDisplay: React.FC<StatsDisplayProps> = ({
 
   return (
     <Box
-      borderStyle="round"
+      borderStyle="single"
       borderColor={theme.border.default}
       flexDirection="column"
       paddingY={1}

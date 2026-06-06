@@ -36,9 +36,9 @@ function loadCombined(baseRef) {
     const sections = [];
     const loaded = [];
     // 1. VivekMind-native rules.
-    const qwenRules = showFile(baseRef, '.vivekmind/review-rules.md');
-    if (qwenRules) {
-        sections.push(`### From .vivekmind/review-rules.md\n\n${qwenRules.trim()}`);
+    const reviewRules = showFile(baseRef, '.vivekmind/review-rules.md');
+    if (reviewRules) {
+        sections.push(`### From .vivekmind/review-rules.md\n\n${reviewRules.trim()}`);
         loaded.push('.vivekmind/review-rules.md');
     }
     // 2. Copilot-compatible rules: prefer .github/copilot-instructions.md;
@@ -66,9 +66,9 @@ function loadCombined(baseRef) {
         }
     }
     // 4. QWEN.md — extract Code Review section only.
-    const qwenMd = showFile(baseRef, 'QWEN.md');
-    if (qwenMd) {
-        const section = extractCodeReviewSection(qwenMd);
+    const contextMd = showFile(baseRef, 'QWEN.md');
+    if (contextMd) {
+        const section = extractCodeReviewSection(contextMd);
         if (section) {
             sections.push(`### From QWEN.md\n\n${section}`);
             loaded.push('QWEN.md');

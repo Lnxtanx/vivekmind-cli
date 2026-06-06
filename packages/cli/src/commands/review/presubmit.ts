@@ -111,7 +111,7 @@ function classifyCi(checkRuns: CheckRun[], statuses: CommitStatus[]) {
 }
 
 function classifyExistingComments(
-  qwenComments: RawComment[],
+  botComments: RawComment[],
   repliedToIds: Set<number>,
   newFindingKeys: Set<string>,
   commitSha: string,
@@ -121,7 +121,7 @@ function classifyExistingComments(
     CommentSummary[]
   > = { stale: [], resolved: [], overlap: [], noConflict: [] };
 
-  for (const c of qwenComments) {
+  for (const c of botComments) {
     const summary: CommentSummary = {
       id: c.id,
       path: c.path ?? '',
@@ -188,7 +188,7 @@ async function runPresubmit(args: PresubmitArgs): Promise<void> {
   const allComments = ghApiAll(
     `repos/${owner}/${repo}/pulls/${prNumber}/comments`,
   ) as RawComment[];
-  const qwenComments = allComments.filter((c) =>
+  const botComments = allComments.filter((c) =>
     /via VivekMind \/review/.test(c.body ?? ''),
   );
 
@@ -206,7 +206,7 @@ async function runPresubmit(args: PresubmitArgs): Promise<void> {
   );
 
   const buckets = classifyExistingComments(
-    qwenComments,
+    botComments,
     repliedToIds,
     newFindingKeys,
     commitSha,
@@ -229,7 +229,7 @@ async function runPresubmit(args: PresubmitArgs): Promise<void> {
     isSelfPr,
     ciStatus,
     existingComments: {
-      total: qwenComments.length,
+      total: botComments.length,
       byBucket: {
         stale: buckets.stale.length,
         resolved: buckets.resolved.length,

@@ -1,7 +1,4 @@
 export class SenderGate {
-    policy;
-    allowedUsers;
-    pairingStore;
     constructor(policy, allowedUsers = [], pairingStore) {
         this.policy = policy;
         this.allowedUsers = new Set(allowedUsers);
@@ -31,4 +28,3 @@ export class SenderGate {
         }
     }
 }
-//# sourceMappingURL=SenderGate.js.map

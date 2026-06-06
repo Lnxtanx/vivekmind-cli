@@ -181,7 +181,7 @@ export async function handleAtCommand({
   const contentLabelsForDisplay: string[] = [];
   const ignoredByReason: Record<string, string[]> = {
     git: [],
-    qwen: [],
+    vivekmind: [],
     both: [],
   };
 
@@ -247,7 +247,7 @@ export async function handleAtCommand({
       ignoredByReason[reason].push(pathName);
       const reasonText =
         reason === 'both'
-          ? 'ignored by both git and qwen'
+          ? 'ignored by both git and vivekmind'
           : reason === 'git'
             ? 'git-ignored'
             : 'vivekmind-ignored';

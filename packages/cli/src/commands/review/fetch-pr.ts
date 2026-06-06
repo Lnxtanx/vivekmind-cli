@@ -9,7 +9,7 @@
 //
 //   1. Clean any stale worktree / branch from a previously interrupted run
 //      so the new run starts fresh.
-//   2. `git fetch <remote> pull/<n>/head:qwen-review/pr-<n>` — pull the PR
+//   2. `git fetch <remote> pull/<n>/head:vivekmind-review/pr-<n>` — pull the PR
 //      HEAD into a unique local ref (does not modify the user's working
 //      tree, unlike `gh pr checkout`).
 //   3. `gh pr view ...` to fetch metadata (head/base ref names, head SHA,

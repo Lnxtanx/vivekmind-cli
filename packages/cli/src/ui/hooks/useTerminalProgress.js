@@ -56,7 +56,7 @@ export function useTerminalProgress(streamingState, hasToolExecuting) {
         };
     }, [streamingState, hasToolExecuting, writeProgress]);
     // Clear the progress bar on process exit so the terminal tab does not
-    // stay stuck showing progress after qwen terminates. We deliberately
+    // stay stuck showing progress after vivekmind terminates. We deliberately
     // hook only 'exit' (not SIGINT/SIGTERM) to avoid swallowing those
     // signals — other parts of the CLI already own the signal-to-shutdown
     // path and will ultimately call process.exit(), at which point 'exit'

@@ -69,7 +69,7 @@ export const ToolStatsDisplay: React.FC<ToolStatsDisplayProps> = ({
   if (activeTools.length === 0) {
     return (
       <Box
-        borderStyle="round"
+        borderStyle="single"
         borderColor={theme.border.default}
         paddingY={1}
         paddingX={2}
@@ -103,7 +103,7 @@ export const ToolStatsDisplay: React.FC<ToolStatsDisplayProps> = ({
 
   return (
     <Box
-      borderStyle="round"
+      borderStyle="single"
       borderColor={theme.border.default}
       flexDirection="column"
       paddingY={1}

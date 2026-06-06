@@ -14,7 +14,7 @@ import {
 import { t } from '../i18n/index.js';
 
 // Define subcommands separately
-const qwenOauthCommand = {
+const vivekmindOauthCommand = {
   command: 'vivekmind-oauth',
   describe: t('Authenticate using VivekMind OAuth'),
   handler: async () => {
@@ -89,7 +89,7 @@ export const authCommand: CommandModule = {
   ),
   builder: (yargs: Argv) =>
     yargs
-      .command(qwenOauthCommand)
+      .command(vivekmindOauthCommand)
       .command(codePlanCommand)
       .command(openRouterCommand)
       .command(apiKeyCommand)

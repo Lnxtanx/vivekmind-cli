@@ -3,6 +3,7 @@ export type {
   AcpBridgeOptions,
   AvailableCommand,
   ToolCallEvent,
+  PendingPermissionRequest,
 } from './AcpBridge.js';
 export { BlockStreamer } from './BlockStreamer.js';
 export type { BlockStreamerOptions } from './BlockStreamer.js';

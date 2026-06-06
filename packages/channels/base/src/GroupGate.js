@@ -1,6 +1,4 @@
 export class GroupGate {
-    policy;
-    groups;
     constructor(policy = 'disabled', groups = {}) {
         this.policy = policy;
         this.groups = groups;
@@ -38,4 +36,3 @@ export class GroupGate {
         return { allowed: true };
     }
 }
-//# sourceMappingURL=GroupGate.js.map

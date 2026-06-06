@@ -11,7 +11,7 @@ function question(rl: readline.Interface, prompt: string): Promise<string> {
   });
 }
 
-async function configureTelegramInteractive(): Promise<void> {
+async function configureTelegramInteractive(prefillName?: string): Promise<void> {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -36,7 +36,7 @@ async function configureTelegramInteractive(): Promise<void> {
     }
 
     // Channel name
-    const name = await question(
+    const name = prefillName || await question(
       rl,
       'Channel name (used as identifier, e.g. "my-telegram"): ',
     );
@@ -144,6 +144,10 @@ async function configureTelegramInteractive(): Promise<void> {
     if (allowedUsers.length > 0) {
       channelConfig['allowedUsers'] = allowedUsers;
       channelConfig['senderPolicy'] = 'allowlist';
+    } else {
+      // Default to open access when no users specified, otherwise parseChannelConfig
+      // defaults to 'allowlist' with empty users, silently dropping all messages.
+      channelConfig['senderPolicy'] = 'open';
     }
 
     existingChannels[name] = channelConfig;
@@ -373,7 +377,7 @@ export const configureTelegramCommand: CommandModule<
       return;
     }
 
-    // Name without token - interactive mode
-    await configureTelegramInteractive();
+    // Name without token - interactive mode (pass the name to avoid re-asking)
+    await configureTelegramInteractive(name);
   },
 };

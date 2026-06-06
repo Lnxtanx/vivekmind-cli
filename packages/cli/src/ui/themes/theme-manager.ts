@@ -241,7 +241,7 @@ class ThemeManager {
     );
 
     // Separate VivekMind themes
-    const qwenThemes = builtInThemes.filter(
+    const vivekmindThemes = builtInThemes.filter(
       (theme) => theme.name === VivekMindLight.name || theme.name === VivekMindDark.name,
     );
     const otherBuiltInThemes = builtInThemes.filter(
@@ -275,7 +275,7 @@ class ThemeManager {
     );
 
     // Combine VivekMind themes first, then sorted others
-    return [...qwenThemes, ...sortedOtherThemes];
+    return [...vivekmindThemes, ...sortedOtherThemes];
   }
 
   /**

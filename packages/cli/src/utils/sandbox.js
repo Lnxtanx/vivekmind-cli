@@ -128,8 +128,8 @@ function entrypoint(workdir, cliArgs) {
             ? 'npm run debug --'
             : 'npm rebuild && npm run start --'
         : process.env['DEBUG']
-            ? `node --inspect-brk=0.0.0.0:${process.env['DEBUG_PORT'] || '9229'} $(which qwen)`
-            : 'qwen';
+            ? `node --inspect-brk=0.0.0.0:${process.env['DEBUG_PORT'] || '9229'} $(which vivekmind)`
+            : 'vivekmind';
     const args = [...shellCmds, cliCmd, ...quotedCliArgs];
     return ['bash', '-c', args.join(' ')];
 }
@@ -273,7 +273,7 @@ export async function start_sandbox(config, nodeArgs = [], cliConfig, cliArgs = 
     if (process.env['BUILD_SANDBOX']) {
         if (!gcPath.includes('vivekmind/packages/')) {
             throw new FatalSandboxError('Cannot build sandbox using installed VivekMind binary; ' +
-                'run `npm link ./packages/cli` under QwenCode-cli repo to switch to linked binary.');
+                'run `npm link ./packages/cli` under VivekMind-cli repo to switch to linked binary.');
         }
         else {
             writeStderrLine('building sandbox ...');
@@ -546,10 +546,10 @@ export async function start_sandbox(config, nodeArgs = [], cliConfig, cliArgs = 
         const gid = execSync('id -g').toString().trim();
         // Instead of passing --user to the main sandbox container, we let it
         // start as root, then create a user with the host's UID/GID, and
-        // finally switch to that user to run the qwen process. This is
+        // finally switch to that user to run the vivekmind process. This is
         // necessary on Linux to ensure the user exists within the
         // container's /etc/passwd file, which is required by os.userInfo().
-        const username = 'qwen';
+        const username = 'vivekmind';
         const homeDir = getContainerPath(os.homedir());
         const setupUserCommands = [
             // Use -f with groupadd to avoid errors if the group already exists.

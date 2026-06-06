@@ -199,7 +199,7 @@ class ThemeManager {
             isCustom: true,
         }));
         // Separate VivekMind themes
-        const qwenThemes = builtInThemes.filter((theme) => theme.name === VivekMindLight.name || theme.name === VivekMindDark.name);
+        const vivekmindThemes = builtInThemes.filter((theme) => theme.name === VivekMindLight.name || theme.name === VivekMindDark.name);
         const otherBuiltInThemes = builtInThemes.filter((theme) => theme.name !== VivekMindLight.name && theme.name !== VivekMindDark.name);
         // Sort other themes by type and then name
         const sortedOtherThemes = [...otherBuiltInThemes, ...customThemes].sort((a, b) => {
@@ -224,7 +224,7 @@ class ThemeManager {
             return a.name.localeCompare(b.name);
         });
         // Combine VivekMind themes first, then sorted others
-        return [...qwenThemes, ...sortedOtherThemes];
+        return [...vivekmindThemes, ...sortedOtherThemes];
     }
     /**
      * Gets a theme by name.

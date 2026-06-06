@@ -12,8 +12,6 @@ import { ToolCallStatus } from '../../types.js';
 import { ToolMessage } from './ToolMessage.js';
 import { ToolConfirmationMessage } from './ToolConfirmationMessage.js';
 import { CompactToolGroupDisplay } from './CompactToolGroupDisplay.js';
-import { theme } from '../../semantic-colors.js';
-import { SHELL_COMMAND_NAME, SHELL_NAME } from '../../constants.js';
 import { useConfig } from '../../contexts/ConfigContext.js';
 import { useCompactMode } from '../../contexts/CompactModeContext.js';
 import type { AgentResultDisplay } from '@vivekmind/core';
@@ -64,7 +62,7 @@ interface ToolGroupMessageProps {
   compactLabel?: string;
 }
 
-// Main component renders the border and maps the tools using ToolMessage
+// Main component renders tool groups using ToolMessage
 export const ToolGroupMessage: React.FC<ToolGroupMessageProps> = ({
   toolCalls,
   availableTerminalHeight,
@@ -176,22 +174,8 @@ export const ToolGroupMessage: React.FC<ToolGroupMessageProps> = ({
   }
 
   // Full expanded view
-  const hasPending = !toolCalls.every(
-    (t) => t.status === ToolCallStatus.Success,
-  );
-  const isShellCommand = toolCalls.some(
-    (t) => t.name === SHELL_COMMAND_NAME || t.name === SHELL_NAME,
-  );
-  const borderColor =
-    isShellCommand || isEmbeddedShellFocused
-      ? theme.ui.symbol
-      : hasPending
-        ? theme.status.warning
-        : theme.border.default;
-
-  const staticHeight = /* border */ 2 + /* marginBottom */ 1;
-  // account for border (2 chars) and padding (2 chars)
-  const innerWidth = contentWidth - 4;
+  const staticHeight = /* marginBottom */ 1;
+  const innerWidth = contentWidth;
 
   let countToolCallsWithResults = 0;
   for (const tool of toolCalls) {
@@ -215,12 +199,7 @@ export const ToolGroupMessage: React.FC<ToolGroupMessageProps> = ({
     const readCount = memoryReadCount ?? 0;
     const writeCount = memoryWriteCount ?? 0;
     return (
-      <Box
-        flexDirection="column"
-        borderStyle="round"
-        width={contentWidth}
-        borderColor={theme.border.default}
-      >
+      <Box flexDirection="column">
         {readCount > 0 && (
           <Box paddingLeft={1}>
             <Text dimColor>
@@ -244,19 +223,7 @@ export const ToolGroupMessage: React.FC<ToolGroupMessageProps> = ({
   return (
     <Box
       flexDirection="column"
-      borderStyle="round"
-      /*
-        This width constraint is highly important and protects us from an Ink rendering bug.
-        Since the ToolGroup can typically change rendering states frequently, it can cause
-        Ink to render the border of the box incorrectly and span multiple lines and even
-        cause tearing.
-      */
       width={contentWidth}
-      borderDimColor={
-        hasPending && (!isShellCommand || !isEmbeddedShellFocused)
-      }
-      borderColor={borderColor}
-      gap={1}
     >
       {/* Memory badge for mixed groups (some memory ops + other ops) */}
       {!isMemoryOnlyGroup &&

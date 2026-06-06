@@ -35,15 +35,41 @@ export interface ToolCallEvent {
   rawInput?: Record<string, unknown>;
 }
 
+/** Pending permission request waiting for channel resolution. */
+export interface PendingPermissionRequest {
+  id: string;
+  sessionId: string;
+  toolCallId: string;
+  toolName: string;
+  description: string;
+  options: Array<{ optionId: string; label?: string }>;
+  resolve: (response: RequestPermissionResponse) => void;
+  reject: (error: Error) => void;
+  timeout: ReturnType<typeof setTimeout>;
+}
+
 export class AcpBridge extends EventEmitter {
   private child: ChildProcess | null = null;
   private connection: ClientSideConnection | null = null;
   private options: AcpBridgeOptions;
   private _availableCommands: AvailableCommand[] = [];
+  /** Pending permission requests awaiting channel resolution. */
+  private pendingPermissions: Map<string, PendingPermissionRequest> = new Map();
+  /** Default permission timeout (ms). */
+  private permissionTimeout: number;
+  /** Fallback approval mode when no channel resolves a request. */
+  private defaultApprovalMode: 'allow' | 'deny' | 'ask';
 
-  constructor(options: AcpBridgeOptions) {
+  constructor(options: AcpBridgeOptions, permissionTimeout = 60000) {
     super();
     this.options = options;
+    this.permissionTimeout = permissionTimeout;
+    this.defaultApprovalMode = 'allow'; // default: auto-approve (legacy behavior)
+  }
+
+  /** Set the default approval mode for unresolved permission requests. */
+  setDefaultApprovalMode(mode: 'allow' | 'deny' | 'ask'): void {
+    this.defaultApprovalMode = mode;
   }
 
   get availableCommands(): AvailableCommand[] {
@@ -104,8 +130,49 @@ export class AcpBridge extends EventEmitter {
         requestPermission: async (
           params: RequestPermissionRequest,
         ): Promise<RequestPermissionResponse> => {
-          // Auto-approve for now; Phase 5 will add interactive approval
           const options = Array.isArray(params.options) ? params.options : [];
+
+          // Emit event so the channel layer can show an approval UI
+          const permissionId = `${params.sessionId}:${Date.now()}:${Math.random().toString(36).slice(2, 8)}`;
+
+          // If ask mode or channel is listening, wait for resolution
+          if (this.defaultApprovalMode === 'ask' || this.listenerCount('requestPermission') > 0) {
+            return new Promise<RequestPermissionResponse>((resolve, reject) => {
+              const timeout = setTimeout(() => {
+                this.pendingPermissions.delete(permissionId);
+                // Timeout: fall back to default mode
+                if (this.defaultApprovalMode === 'deny') {
+                  resolve({
+                    outcome: { outcome: 'selected', optionId: 'deny' },
+                  });
+                } else {
+                  const optionId =
+                    options.find((o) => o.optionId === 'proceed_once')?.optionId ||
+                    options[0]?.optionId ||
+                    'proceed_once';
+                  resolve({ outcome: { outcome: 'selected', optionId } });
+                }
+              }, this.permissionTimeout);
+
+              const tc = (params as unknown as Record<string, unknown>)['toolCall'] as Record<string, unknown> | undefined;
+              const request: PendingPermissionRequest = {
+                id: permissionId,
+                sessionId: params.sessionId,
+                toolCallId: tc?.['toolCallId'] as string || '',
+                toolName: tc?.['kind'] as string || '',
+                description: tc?.['title'] as string || '',
+                options,
+                resolve,
+                reject,
+                timeout,
+              };
+
+              this.pendingPermissions.set(permissionId, request);
+              this.emit('requestPermission', request);
+            });
+          }
+
+          // Default: auto-approve (legacy behavior)
           const optionId =
             options.find((o) => o.optionId === 'proceed_once')?.optionId ||
             options[0]?.optionId ||
@@ -180,7 +247,34 @@ export class AcpBridge extends EventEmitter {
     await conn.cancel({ sessionId });
   }
 
+  /** Resolve a pending permission request (called by channel adapters). */
+  resolvePermission(permissionId: string, optionId: string): boolean {
+    const request = this.pendingPermissions.get(permissionId);
+    if (!request) return false;
+    clearTimeout(request.timeout);
+    this.pendingPermissions.delete(permissionId);
+    request.resolve({ outcome: { outcome: 'selected', optionId } });
+    return true;
+  }
+
+  /** Deny a pending permission request. */
+  denyPermission(permissionId: string): boolean {
+    const request = this.pendingPermissions.get(permissionId);
+    if (!request) return false;
+    clearTimeout(request.timeout);
+    this.pendingPermissions.delete(permissionId);
+    request.resolve({ outcome: { outcome: 'selected', optionId: 'deny' } });
+    return true;
+  }
+
   stop(): void {
+    // Reject all pending permission requests
+    for (const request of this.pendingPermissions.values()) {
+      clearTimeout(request.timeout);
+      request.reject(new Error('Bridge shutting down'));
+    }
+    this.pendingPermissions.clear();
+
     if (this.child) {
       this.child.kill();
       this.child = null;

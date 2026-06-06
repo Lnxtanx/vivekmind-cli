@@ -1,14 +1,10 @@
 import { existsSync, readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 export class SessionRouter {
-    toSession = new Map(); // routing key → session ID
-    toTarget = new Map(); // session ID → target
-    toCwd = new Map(); // session ID → cwd
-    bridge;
-    defaultCwd;
-    defaultScope;
-    channelScopes = new Map();
-    persistPath;
     constructor(bridge, defaultCwd, scope = 'user', persistPath) {
+        this.toSession = new Map(); // routing key → session ID
+        this.toTarget = new Map(); // session ID → target
+        this.toCwd = new Map(); // session ID → cwd
+        this.channelScopes = new Map();
         this.bridge = bridge;
         this.defaultCwd = defaultCwd;
         this.defaultScope = scope;
@@ -99,6 +95,53 @@ export class SessionRouter {
         this.toCwd.delete(sessionId);
         return sessionId;
     }
+    /**
+     * Register an externally-created session (Phase 3: handoff from terminal).
+     * This allows a terminal session to be attached to a Telegram chat.
+     */
+    registerExternalSession(channelName, senderId, chatId, sessionId, cwd, threadId) {
+        const key = this.routingKey(channelName, senderId, chatId, threadId);
+        this.toSession.set(key, sessionId);
+        this.toTarget.set(sessionId, { channelName, senderId, chatId, threadId });
+        this.toCwd.set(sessionId, cwd || this.defaultCwd);
+        this.persist();
+    }
+    /**
+     * Detach a session from its channel routing (Phase 3: handoff back to terminal).
+     * Removes the routing entry but does NOT destroy the session.
+     * Returns the session ID if found.
+     */
+    detachSession(channelName, senderId, chatId, threadId) {
+        const key = chatId
+            ? this.routingKey(channelName, senderId, chatId, threadId)
+            : null;
+        if (key) {
+            return this.deleteByKey(key);
+        }
+        // No chatId: detach first found session for this sender+channel
+        const prefix = `${channelName}:${senderId}`;
+        for (const k of [...this.toSession.keys()]) {
+            if (k.startsWith(prefix)) {
+                return this.deleteByKey(k);
+            }
+        }
+        return null;
+    }
+    /**
+     * Get all session IDs associated with a specific chat (Phase 6: multi-chat).
+     */
+    getSessionsForChat(chatId) {
+        const results = [];
+        for (const [key, sessionId] of this.toSession) {
+            if (key.includes(`:${chatId}`)) {
+                const target = this.toTarget.get(sessionId);
+                if (target) {
+                    results.push({ sessionId, senderId: target.senderId });
+                }
+            }
+        }
+        return results;
+    }
     /** Get all session entries for crash recovery. */
     getAll() {
         const entries = [];
@@ -183,4 +226,3 @@ export class SessionRouter {
         }
     }
 }
-//# sourceMappingURL=SessionRouter.js.map

@@ -74,7 +74,7 @@ const StickyTodoListComponent: React.FC<StickyTodoListProps> = ({
       marginX={2}
       width={width}
       flexDirection="column"
-      borderStyle="round"
+      borderStyle="single"
       borderColor={theme.border.default}
       paddingX={1}
     >

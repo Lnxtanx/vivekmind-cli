@@ -61,16 +61,24 @@ export async function parseChannelConfig(
     ? resolveEnvVars(rawConfig['clientSecret'] as string)
     : undefined;
 
-  return {
+    // Default senderPolicy: use 'open' when no explicit policy and no allowedUsers,
+    // otherwise 'allowlist'. An empty allowlist with 'allowlist' policy silently drops
+    // all messages — a common pitfall for users who skip the allowedUsers prompt.
+    const rawSenderPolicy = rawConfig['senderPolicy'] as
+      | ChannelConfig['senderPolicy']
+      | undefined;
+    const rawAllowedUsers = (rawConfig['allowedUsers'] as string[]) || [];
+    const senderPolicy: ChannelConfig['senderPolicy'] =
+      rawSenderPolicy ||
+      (rawAllowedUsers.length > 0 ? 'allowlist' : 'open');
+    return {
     ...rawConfig,
     type: channelType,
     token,
     clientId,
     clientSecret,
-    senderPolicy:
-      (rawConfig['senderPolicy'] as ChannelConfig['senderPolicy']) ||
-      'allowlist',
-    allowedUsers: (rawConfig['allowedUsers'] as string[]) || [],
+    senderPolicy,
+    allowedUsers: rawAllowedUsers,
     sessionScope:
       (rawConfig['sessionScope'] as ChannelConfig['sessionScope']) || 'user',
     cwd: (rawConfig['cwd'] as string) || process.cwd(),

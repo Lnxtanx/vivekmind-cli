@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Parent command for 'qwen review'. Hosts the deterministic helpers used by
+// Parent command for 'vivekmind review'. Hosts the deterministic helpers used by
 // the /review skill (presubmit checks, post-review cleanup) so the prompt
 // can stay short and the logic stays testable.
 

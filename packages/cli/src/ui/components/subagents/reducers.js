@@ -12,7 +12,7 @@ import { getStepKind, getTotalSteps } from './utils.js';
 export const initialWizardState = {
     currentStep: WIZARD_STEPS.LOCATION_SELECTION,
     location: 'project',
-    generationMethod: 'qwen',
+    generationMethod: 'vivekmind',
     userDescription: '',
     generatedSystemPrompt: '',
     generatedDescription: '',

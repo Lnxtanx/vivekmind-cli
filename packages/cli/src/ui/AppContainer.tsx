@@ -1646,13 +1646,13 @@ export const AppContainer = (props: AppContainerProps) => {
     isDeleteDialogOpen ||
     isExtensionsManagerDialogOpen ||
     isRewindSelectorOpen ||
-    bgTasksDialogOpen;
+    bgTasksDialogOpen ||
+    streamingState === StreamingState.WaitingForConfirmation;
   dialogsVisibleRef.current = dialogsVisible;
   const shouldShowStickyTodos =
     stickyTodos !== null &&
     !dialogsVisible &&
-    !isFeedbackDialogOpen &&
-    streamingState !== StreamingState.WaitingForConfirmation;
+    !isFeedbackDialogOpen;
   const stickyTodoWidth = Math.min(mainAreaWidth, 64);
   const stickyTodoMaxVisibleItems =
     getStickyTodoMaxVisibleItems(terminalHeight);
@@ -2083,6 +2083,12 @@ export const AppContainer = (props: AppContainerProps) => {
         handleExit(ctrlDPressedOnce, setCtrlDPressedOnce, ctrlDTimerRef);
         return;
       } else if (keyMatchers[Command.ESCAPE](key)) {
+        // During WaitingForConfirmation (e.g. askUserQuestion), let the
+        // dialog's own keypress handler manage Escape — don't interfere.
+        if (streamingState === StreamingState.WaitingForConfirmation) {
+          return;
+        }
+
         // Dismiss or cancel btw side-question on Escape,
         // but only when btw is actually visible (not hidden behind a dialog).
         if (btwItem && !dialogsVisibleRef.current) {
@@ -2142,6 +2148,12 @@ export const AppContainer = (props: AppContainerProps) => {
           escapeTimerRef.current = null;
         }
         setEscapePressedOnce(false);
+        return;
+      }
+
+      // Skip toggle/key handlers when WaitingForConfirmation (askUserQuestion dialog active).
+      // The dialog has its own keypress handlers; global shortcuts must not interfere.
+      if (streamingState === StreamingState.WaitingForConfirmation) {
         return;
       }
 

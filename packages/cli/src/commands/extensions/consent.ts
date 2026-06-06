@@ -149,10 +149,10 @@ export function extensionConsentString(
   commands: string[] = [],
   skills: SkillConfig[] = [],
   subagents: SubagentConfig[] = [],
-  originSource: string = 'QwenCode',
+  originSource: string = 'VivekMind',
 ): string {
   const output: string[] = [];
-  if (originSource !== 'QwenCode') {
+  if (originSource !== 'VivekMind') {
     output.push(
       t(
         'You are installing an extension from {{originSource}}. Some features may not work perfectly with VivekMind.',
@@ -231,7 +231,7 @@ export const requestConsentOrFail = async (
   if (!options) return;
   const {
     extensionConfig,
-    originSource = 'QwenCode',
+    originSource = 'VivekMind',
     commands = [],
     skills = [],
     subagents = [],

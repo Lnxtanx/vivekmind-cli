@@ -28,7 +28,7 @@ const StickyTodoListComponent = ({ todos, width, maxVisibleItems = STICKY_TODO_M
     const numberColumnWidth = Math.max(...visibleTodos.map((todo, index) => (todoNumberById.get(todo.id) ?? `${index + 1}.`).length)) + 1;
     // 6 = 2 (status icon column) + 2 (border columns) + 2 (paddingX columns).
     const contentColumnWidth = Math.max(1, width - numberColumnWidth - 6);
-    return (_jsxs(Box, { marginX: 2, width: width, flexDirection: "column", borderStyle: "round", borderColor: theme.border.default, paddingX: 1, children: [_jsx(Text, { color: theme.text.secondary, bold: true, children: t('Current tasks') }), visibleTodos.map((todo, index) => {
+    return (_jsxs(Box, { marginX: 2, width: width, flexDirection: "column", borderStyle: "single", borderColor: theme.border.default, paddingX: 1, children: [_jsx(Text, { color: theme.text.secondary, bold: true, children: t('Current tasks') }), visibleTodos.map((todo, index) => {
                 const todoNumber = todoNumberById.get(todo.id) ?? `${index + 1}.`;
                 const itemColor = todo.status === 'in_progress'
                     ? Colors.AccentGreen

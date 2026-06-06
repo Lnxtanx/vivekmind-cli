@@ -14,7 +14,7 @@ export type AvailableModel = {
  * Get available VivekMind models
  * coder-model now has vision capabilities by default.
  */
-export declare function getFilteredQwenModels(): AvailableModel[];
+export declare function getFilteredVivekMindModels(): AvailableModel[];
 /**
  * Currently we use the single model of `OPENAI_MODEL` in the env.
  * In the future, after settings.json is updated, we will allow users to configure this themselves.

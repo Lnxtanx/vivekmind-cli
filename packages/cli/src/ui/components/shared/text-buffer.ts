@@ -2215,7 +2215,7 @@ export function useTextBuffer({
         process.env['VISUAL'] ??
         process.env['EDITOR'] ??
         (process.platform === 'win32' ? 'notepad' : 'vi');
-      const tmpDir = fs.mkdtempSync(pathMod.join(os.tmpdir(), 'qwen-edit-'));
+      const tmpDir = fs.mkdtempSync(pathMod.join(os.tmpdir(), 'vivekmind-edit-'));
       const filePath = pathMod.join(tmpDir, 'buffer.txt');
       fs.writeFileSync(filePath, text, 'utf8');
 

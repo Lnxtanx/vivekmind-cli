@@ -11,15 +11,15 @@ const CACHED_VIVEKMIND_OAUTH_MODELS = VIVEKMIND_OAUTH_MODELS.map((model) => ({
     description: model.description,
     isVision: model.capabilities?.vision ?? false,
 }));
-function getQwenOAuthModels() {
+function getVivekMindOAuthModels() {
     return CACHED_VIVEKMIND_OAUTH_MODELS;
 }
 /**
  * Get available VivekMind models
  * coder-model now has vision capabilities by default.
  */
-export function getFilteredQwenModels() {
-    return [...getQwenOAuthModels()];
+export function getFilteredVivekMindModels() {
+    return [...getVivekMindOAuthModels()];
 }
 /**
  * Currently we use the single model of `OPENAI_MODEL` in the env.
@@ -86,7 +86,7 @@ export function getAvailableModelsForAuthType(authType, config) {
     // Fall back to environment variables for specific auth types (no config provided)
     switch (authType) {
         case AuthType.VIVEKMIND_OAUTH: {
-            return [...getQwenOAuthModels()];
+            return [...getVivekMindOAuthModels()];
         }
         case AuthType.USE_OPENAI: {
             const openAIModel = getOpenAIAvailableModelFromEnv();

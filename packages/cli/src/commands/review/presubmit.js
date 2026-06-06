@@ -54,9 +54,9 @@ function classifyCi(checkRuns, statuses) {
         totalChecks: checkRuns.length + statuses.length,
     };
 }
-function classifyExistingComments(qwenComments, repliedToIds, newFindingKeys, commitSha) {
+function classifyExistingComments(botComments, repliedToIds, newFindingKeys, commitSha) {
     const buckets = { stale: [], resolved: [], overlap: [], noConflict: [] };
-    for (const c of qwenComments) {
+    for (const c of botComments) {
         const summary = {
             id: c.id,
             path: c.path ?? '',
@@ -104,7 +104,7 @@ async function runPresubmit(args) {
     // Paginate: PRs can have >30 inline comments and the latest pages carry
     // the most recent (and most likely to overlap with new findings).
     const allComments = ghApiAll(`repos/${owner}/${repo}/pulls/${prNumber}/comments`);
-    const qwenComments = allComments.filter((c) => /via VivekMind \/review/.test(c.body ?? ''));
+    const botComments = allComments.filter((c) => /via VivekMind \/review/.test(c.body ?? ''));
     const repliedToIds = new Set();
     for (const c of allComments) {
         if (c.in_reply_to_id)
@@ -115,7 +115,7 @@ async function runPresubmit(args) {
         newFindings = JSON.parse(readFileSync(newFindingsPath, 'utf8'));
     }
     const newFindingKeys = new Set(newFindings.map((f) => `${f.path}:${f.line}`));
-    const buckets = classifyExistingComments(qwenComments, repliedToIds, newFindingKeys, commitSha);
+    const buckets = classifyExistingComments(botComments, repliedToIds, newFindingKeys, commitSha);
     // --- Downgrade decisions ----------------------------------------------
     const downgradeReasons = [];
     if (isSelfPr)
@@ -133,7 +133,7 @@ async function runPresubmit(args) {
         isSelfPr,
         ciStatus,
         existingComments: {
-            total: qwenComments.length,
+            total: botComments.length,
             byBucket: {
                 stale: buckets.stale.length,
                 resolved: buckets.resolved.length,

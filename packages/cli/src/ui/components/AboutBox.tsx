@@ -20,7 +20,7 @@ export const AboutBox: React.FC<AboutBoxProps> = ({ width, ...props }) => {
 
   return (
     <Box
-      borderStyle="round"
+      borderStyle="single"
       borderColor={theme.border.default}
       flexDirection="column"
       padding={1}

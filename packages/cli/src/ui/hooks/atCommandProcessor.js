@@ -108,7 +108,7 @@ export async function handleAtCommand({ query, config, onDebugMessage, messageId
     const contentLabelsForDisplay = [];
     const ignoredByReason = {
         git: [],
-        qwen: [],
+        vivekmind: [],
         both: [],
     };
     for (const atPathPart of atPathCommandParts) {
@@ -144,7 +144,7 @@ export async function handleAtCommand({ query, config, onDebugMessage, messageId
             const reason = gitIgnored && vivekMindIgnored ? 'both' : gitIgnored ? 'git' : 'vivekmind';
             ignoredByReason[reason].push(pathName);
             const reasonText = reason === 'both'
-                ? 'ignored by both git and qwen'
+                ? 'ignored by both git and vivekmind'
                 : reason === 'git'
                     ? 'git-ignored'
                     : 'vivekmind-ignored';

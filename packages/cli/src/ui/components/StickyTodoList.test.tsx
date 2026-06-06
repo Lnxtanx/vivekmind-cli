@@ -49,7 +49,7 @@ describe('StickyTodoList', () => {
       .filter(Boolean);
 
     expect(output).toContain('Current tasks');
-    expect(output).toContain('╭');
+    expect(output).toContain('┌');
     expect(
       lines.find((line) => line.includes('Run core tests')) ?? '',
     ).toContain('3.');

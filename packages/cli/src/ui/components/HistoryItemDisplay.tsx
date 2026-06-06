@@ -102,7 +102,7 @@ const HistoryItemDisplayComponent: React.FC<HistoryItemDisplayProps> = ({
 
   const { compactMode } = useCompactMode();
   const itemForDisplay = useMemo(() => escapeAnsiCtrlCodes(item), [item]);
-  const contentWidth = terminalWidth - 4;
+  const contentWidth = terminalWidth - 2;
   const boxWidth = mainAreaWidth || contentWidth;
 
   return (
@@ -110,8 +110,8 @@ const HistoryItemDisplayComponent: React.FC<HistoryItemDisplayProps> = ({
       flexDirection="column"
       key={itemForDisplay.id}
       marginTop={marginTop}
-      marginLeft={2}
-      marginRight={2}
+      marginLeft={1}
+      marginRight={1}
     >
       {/* Render standard message types */}
       {itemForDisplay.type === 'user' && (

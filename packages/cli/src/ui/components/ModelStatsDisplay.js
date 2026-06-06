@@ -22,7 +22,7 @@ export const ModelStatsDisplay = ({ width, }) => {
     const settings = useSettings();
     const modelPricing = settings.merged.modelPricing;
     if (entries.length === 0) {
-        return (_jsx(Box, { borderStyle: "round", borderColor: theme.border.default, paddingY: 1, paddingX: 2, width: width, children: _jsx(Text, { color: theme.text.primary, children: t('No API calls have been made in this session.') }) }));
+        return (_jsx(Box, { borderStyle: "single", borderColor: theme.border.default, paddingY: 1, paddingX: 2, width: width, children: _jsx(Text, { color: theme.text.primary, children: t('No API calls have been made in this session.') }) }));
     }
     const getModelValues = (getter) => entries.map(({ metrics }) => getter(metrics));
     const hasThoughts = entries.some(({ metrics }) => metrics.tokens.thoughts > 0);
@@ -33,7 +33,7 @@ export const ModelStatsDisplay = ({ width, }) => {
         outputTokens: metrics.tokens.candidates + metrics.tokens.thoughts,
         pricing: modelPricing?.[getModelName(key)],
     }) != null);
-    return (_jsxs(Box, { borderStyle: "round", borderColor: theme.border.default, flexDirection: "column", paddingY: 1, paddingX: 2, width: width, children: [_jsx(Text, { bold: true, color: theme.text.accent, children: t('Model Stats For Nerds') }), _jsx(Box, { height: 1 }), _jsxs(Box, { children: [_jsx(Box, { width: METRIC_COL_WIDTH, children: _jsx(Text, { bold: true, color: theme.text.primary, children: t('Metric') }) }), entries.map(({ key, label }) => (_jsx(Box, { width: MODEL_COL_WIDTH, children: _jsx(Text, { bold: true, color: theme.text.primary, children: label }) }, key)))] }), _jsx(Box, { borderStyle: "single", borderBottom: true, borderTop: false, borderLeft: false, borderRight: false, borderColor: theme.border.default }), _jsx(StatRow, { title: t('API'), values: [], isSection: true }), _jsx(StatRow, { title: t('Requests'), values: getModelValues((m) => m.api.totalRequests.toLocaleString()) }), _jsx(StatRow, { title: t('Errors'), values: getModelValues((m) => {
+    return (_jsxs(Box, { borderStyle: "single", borderColor: theme.border.default, flexDirection: "column", paddingY: 1, paddingX: 2, width: width, children: [_jsx(Text, { bold: true, color: theme.text.accent, children: t('Model Stats For Nerds') }), _jsx(Box, { height: 1 }), _jsxs(Box, { children: [_jsx(Box, { width: METRIC_COL_WIDTH, children: _jsx(Text, { bold: true, color: theme.text.primary, children: t('Metric') }) }), entries.map(({ key, label }) => (_jsx(Box, { width: MODEL_COL_WIDTH, children: _jsx(Text, { bold: true, color: theme.text.primary, children: label }) }, key)))] }), _jsx(Box, { borderStyle: "single", borderBottom: true, borderTop: false, borderLeft: false, borderRight: false, borderColor: theme.border.default }), _jsx(StatRow, { title: t('API'), values: [], isSection: true }), _jsx(StatRow, { title: t('Requests'), values: getModelValues((m) => m.api.totalRequests.toLocaleString()) }), _jsx(StatRow, { title: t('Errors'), values: getModelValues((m) => {
                     const errorRate = calculateErrorRate(m);
                     return (_jsxs(Text, { color: m.api.totalErrors > 0 ? theme.status.error : theme.text.primary, children: [m.api.totalErrors.toLocaleString(), " (", errorRate.toFixed(1), "%)"] }));
                 }) }), _jsx(StatRow, { title: t('Avg Latency'), values: getModelValues((m) => {

@@ -19,7 +19,7 @@ export const Help: React.FC<Help> = ({ commands, width }) => (
   <Box
     flexDirection="column"
     borderColor={theme.border.default}
-    borderStyle="round"
+    borderStyle="single"
     padding={1}
     width={width}
   >

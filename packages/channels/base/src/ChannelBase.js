@@ -4,23 +4,15 @@ import { SenderGate } from './SenderGate.js';
 import { PairingStore } from './PairingStore.js';
 import { SessionRouter } from './SessionRouter.js';
 export class ChannelBase {
-    config;
-    bridge;
-    groupGate;
-    gate;
-    router;
-    name;
-    /** Resolved proxy URL, available to subclasses for adapter-specific clients. */
-    proxy;
-    instructedSessions = new Set();
-    commands = new Map();
-    /** Per-session promise chain to serialize prompt + send (followup mode). */
-    sessionQueues = new Map();
-    /** Per-session active prompt tracking for dispatch modes. */
-    activePrompts = new Map();
-    /** Per-session message buffer for collect mode. */
-    collectBuffers = new Map();
     constructor(name, config, bridge, options) {
+        this.instructedSessions = new Set();
+        this.commands = new Map();
+        /** Per-session promise chain to serialize prompt + send (followup mode). */
+        this.sessionQueues = new Map();
+        /** Per-session active prompt tracking for dispatch modes. */
+        this.activePrompts = new Map();
+        /** Per-session message buffer for collect mode. */
+        this.collectBuffers = new Map();
         this.name = name;
         this.config = config;
         this.bridge = bridge;
@@ -41,13 +33,47 @@ export class ChannelBase {
                     this.onToolCall(target.chatId, event);
                 }
             });
+            // Phase 1: Listen for permission requests and dispatch to channel
+            bridge.on('requestPermission', (request) => {
+                const target = this.router.getTarget(request.sessionId);
+                if (target) {
+                    this.onRequestPermission(target.chatId, request);
+                }
+                else {
+                    // No target — fall back to default
+                    bridge.resolvePermission(request.id, 'proceed_once');
+                }
+            });
         }
+    }
+    /**
+     * Called when a tool permission request needs user approval.
+     * Override to show platform-specific approval UI (e.g., Telegram inline keyboard).
+     * Default: auto-approve (legacy behavior).
+     */
+    onRequestPermission(_chatId, request) {
+        // Default: auto-approve for backward compatibility
+        this.bridge.resolvePermission(request.id, 'proceed_once');
     }
     /** Replace the bridge instance (used after crash recovery restart). */
     setBridge(bridge) {
         this.bridge = bridge;
     }
-    onToolCall(_chatId, _event) { }
+    /**
+     * Called when a tool call event occurs (Phase 2: notifications).
+     * Override to send status messages to the user.
+     */
+    onToolCall(chatId, event) {
+        const statusEmoji = {
+            pending: '⏳',
+            running: '🔧',
+            completed: '✅',
+            error: '❌',
+        };
+        const emoji = statusEmoji[event.status] || '🔧';
+        const msg = `${emoji} ${event.kind}: ${event.title}`;
+        this.sendMessage(chatId, msg).catch(() => { });
+    }
     /**
      * Called when a prompt actually begins processing (inside the session queue).
      * Override to show a platform-specific working indicator (e.g., typing, reaction).
@@ -105,9 +131,13 @@ export class ChannelBase {
                 '/help — Show this help',
                 '/clear — Clear your session (aliases: /reset, /new)',
                 '/status — Show session info',
+                '/attach <sessionId> — Attach an existing session to this chat',
+                '/detach — Detach session back to terminal',
+                '/chats — List active sessions in this channel',
+                '/approval <ask|allow|deny> — Set tool approval mode',
             ];
             // Platform-specific commands (registered by adapters, not shared ones)
-            const sharedCmds = new Set(['help', 'clear', 'reset', 'new', 'status']);
+            const sharedCmds = new Set(['help', 'clear', 'reset', 'new', 'status', 'attach', 'detach', 'chats', 'approval']);
             const platformCmds = [...this.commands.keys()].filter((c) => !sharedCmds.has(c));
             if (platformCmds.length > 0) {
                 for (const cmd of platformCmds) {
@@ -128,12 +158,70 @@ export class ChannelBase {
         this.registerCommand('status', async (envelope) => {
             const hasSession = this.router.hasSession(this.name, envelope.senderId, envelope.chatId);
             const policy = this.config.senderPolicy;
+            const approval = this.config.approvalMode || 'allow';
             const lines = [
                 `Session: ${hasSession ? 'active' : 'none'}`,
                 `Access: ${policy}`,
+                `Approval: ${approval}`,
                 `Channel: ${this.name}`,
             ];
             await this.sendMessage(envelope.chatId, lines.join('\n'));
+            return true;
+        });
+        // Phase 3: Attach an external session to this chat
+        this.registerCommand('attach', async (envelope, args) => {
+            const sessionId = args.trim();
+            if (!sessionId) {
+                await this.sendMessage(envelope.chatId, 'Usage: /attach <sessionId>\n\nAttach an existing terminal session to this chat. The session will continue where you left off.');
+                return true;
+            }
+            try {
+                // Load the session to verify it exists
+                await this.bridge.loadSession(sessionId, this.config.cwd);
+                this.router.registerExternalSession(this.name, envelope.senderId, envelope.chatId, sessionId, this.config.cwd, envelope.threadId);
+                await this.sendMessage(envelope.chatId, `✅ Session attached. Continue chatting — the agent remembers everything from the terminal session.`);
+            }
+            catch {
+                await this.sendMessage(envelope.chatId, `❌ Could not attach session "${sessionId}". Make sure the session ID is valid and the CWD matches.`);
+            }
+            return true;
+        });
+        // Phase 3: Detach session (handoff back to terminal)
+        this.registerCommand('detach', async (envelope) => {
+            const sessionId = this.router.detachSession(this.name, envelope.senderId, envelope.chatId, envelope.threadId);
+            if (sessionId) {
+                await this.sendMessage(envelope.chatId, `✅ Session detached. Session ${sessionId} is still active in the terminal — continue there, or use /attach to reconnect.`);
+            }
+            else {
+                await this.sendMessage(envelope.chatId, 'No active session to detach.');
+            }
+            return true;
+        });
+        // Phase 6: List active sessions in this channel
+        this.registerCommand('chats', async (envelope) => {
+            const sessions = this.router.getSessionsForChat(envelope.chatId);
+            if (sessions.length === 0) {
+                await this.sendMessage(envelope.chatId, 'No active sessions in this chat.');
+            }
+            else {
+                const lines = [`Active sessions (${sessions.length}):`];
+                for (const s of sessions) {
+                    lines.push(`• ${s.sessionId} (user: ${s.senderId})`);
+                }
+                await this.sendMessage(envelope.chatId, lines.join('\n'));
+            }
+            return true;
+        });
+        // Phase 5: Set approval mode per channel
+        this.registerCommand('approval', async (envelope, args) => {
+            const mode = args.trim().toLowerCase();
+            if (!['ask', 'allow', 'deny'].includes(mode)) {
+                await this.sendMessage(envelope.chatId, 'Usage: /approval <ask|allow|deny>\n\n• ask — Prompt for approval on each tool call\n• allow — Auto-approve all tool calls\n• deny — Auto-deny all tool calls');
+                return true;
+            }
+            this.config.approvalMode = mode;
+            this.bridge.setDefaultApprovalMode(mode);
+            await this.sendMessage(envelope.chatId, `✅ Approval mode set to: ${mode}`);
             return true;
         });
     }
@@ -332,4 +420,3 @@ export class ChannelBase {
         }
     }
 }
-//# sourceMappingURL=ChannelBase.js.map
