@@ -11,22 +11,22 @@
  * TUIs — it just analyses what you recorded):
  *
  *   # macOS / BSD `script`:
- *   script -q /tmp/qwen.before.raw node dist/cli.js --yolo
- *   # …drive a SubAgent scenario, then exit qwen with /quit or Ctrl-D
+ *   script -q /tmp/vivekmind.before.raw node dist/cli.js --yolo
+ *   # …drive a SubAgent scenario, then exit vivekmind with /quit or Ctrl-D
  *
  *   # Linux / util-linux `script`:
- *   script -q -c 'node dist/cli.js --yolo' /tmp/qwen.before.raw
+ *   script -q -c 'node dist/cli.js --yolo' /tmp/vivekmind.before.raw
  *
  *   # tmux variant: a tmux session preserves whatever you do live; pipe-pane
  *   # gives you the same raw bytes.
  *   tmux new -s flicker -d 'node dist/cli.js --yolo'
- *   tmux pipe-pane -t flicker -o 'cat > /tmp/qwen.before.raw'
+ *   tmux pipe-pane -t flicker -o 'cat > /tmp/vivekmind.before.raw'
  *   tmux attach -t flicker
  *
  * Then:
  *
- *   node scripts/measure-flicker.mjs /tmp/qwen.before.raw
- *   node scripts/measure-flicker.mjs /tmp/qwen.after.raw /tmp/qwen.before.raw
+ *   node scripts/measure-flicker.mjs /tmp/vivekmind.before.raw
+ *   node scripts/measure-flicker.mjs /tmp/vivekmind.after.raw /tmp/vivekmind.before.raw
  *
  * The second form prints both, and the delta — lower clearTerminalPair on
  * "current" vs "baseline" is the win condition for a flicker fix.

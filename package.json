@@ -23,7 +23,7 @@
     "url": "git+https://github.com/Lnxtanx/vivekmind-cli.git"
   },
   "config": {
-    "sandboxImageUri": "ghcr.io/lnxtanx/vivekmind-cli:0.15.6"
+    "sandboxImageUri": "ghcr.io/lnxtanx/vivekmind-cli:1.0.0"
   },
   "scripts": {
     "start": "cross-env node scripts/start.js",

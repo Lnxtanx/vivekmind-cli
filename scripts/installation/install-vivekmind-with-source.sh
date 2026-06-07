@@ -429,7 +429,7 @@ fix_npm_permissions() {
 # ============================================
 # Install VivekMind
 # ============================================
-install_qwen_code() {
+install_vivekmind_code() {
     # Ensure NVM node is in PATH
     export NVM_DIR="${HOME}/.nvm"
     # shellcheck source=/dev/null
@@ -462,9 +462,9 @@ install_qwen_code() {
 
         # Verify installation
         if command_exists vivekmind; then
-            local qwen_version
-            qwen_version=$(vivekmind --version 2>/dev/null) || qwen_version="unknown"
-            log_info "VivekMind version: ${qwen_version}"
+            local vivekmind_version
+            vivekmind_version=$(vivekmind --version 2>/dev/null) || vivekmind_version="unknown"
+            log_info "VivekMind version: ${vivekmind_version}"
         fi
     else
         log_error "Failed to install VivekMind!"
@@ -528,7 +528,7 @@ main() {
     echo ""
 
     # Install VivekMind
-    install_qwen_code
+    install_vivekmind_code
     echo ""
 
     # ============================================
@@ -555,7 +555,7 @@ main() {
         echo ""
         echo "You can now run: vivekmind"
         echo ""
-        # Auto-start qwen
+        # Auto-start vivekmind
         log_info "Starting VivekMind..."
         echo ""
         exec vivekmind

@@ -12,4 +12,4 @@ When reporting, include:
 - expected and actual behavior
 - relevant logs with secrets removed
 
-VivekMind is a fork of VivekMind CLI, so inherited upstream security fixes should be reviewed and merged promptly when applicable.
+VivekMind CLI is committed to security. Please report any potential vulnerabilities privately to security@vivekmind.com.

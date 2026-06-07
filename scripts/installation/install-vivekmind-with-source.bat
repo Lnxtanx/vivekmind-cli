@@ -55,7 +55,7 @@ if !ERRORLEVEL! EQU 0 (
     
     if !MAJOR_VERSION! GEQ 20 (
         echo INFO: Node.js version !NODE_VERSION! is sufficient. Skipping Node.js installation.
-        goto :InstallQwenCode
+        goto :InstallVivekMindCode
     ) else (
         echo INFO: Node.js version !NODE_VERSION! is too low. Need version 20 or higher.
         echo INFO: Installing Node.js 20+
@@ -74,7 +74,7 @@ if !ERRORLEVEL! EQU 0 (
     )
 )
 
-:InstallQwenCode
+:InstallVivekMindCode
 
 REM Verify npm is available before installing VivekMind
 REM Always use full path to npm to avoid local node_modules conflicts
@@ -130,7 +130,7 @@ if not "!SOURCE!"=="unknown" (
 )
 
 REM Verify installation
-call :CheckCommandExists qwen
+call :CheckCommandExists vivekmind
 if %ERRORLEVEL% EQU 0 (
     echo SUCCESS: VivekMind is available as 'vivekmind' command.
     call vivekmind --version

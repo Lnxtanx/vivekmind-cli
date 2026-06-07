@@ -1,7 +1,17 @@
 {
   "name": "@vivekmind/channel-dingtalk",
-  "version": "0.15.6",
+  "version": "1.0.0",
   "description": "DingTalk channel adapter for VivekMind",
+  "license": "Apache-2.0",
+  "homepage": "https://code.vivekmind.com",
+  "author": "VivekMind",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lnxtanx/vivekmind-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Lnxtanx/vivekmind-cli/issues"
+  },
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

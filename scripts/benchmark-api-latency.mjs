@@ -56,7 +56,7 @@ async function fetchOnce(url, dispatcher, method = 'HEAD') {
     await fetch(url, {
       method,
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      headers: { 'User-Agent': 'QwenCode-Benchmark/1.0' },
+      headers: { 'User-Agent': 'VivekMindCode-Benchmark/1.0' },
       dispatcher,
     });
   } catch (err) {

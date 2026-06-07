@@ -61,8 +61,8 @@ const App = () => {
             dangerouslySetInnerHTML={{ __html: logoSvgWithGradient }}
           />
           <div className="logo">
-            <div className="logo-text" data-text="QWEN">
-              <span className="logo-text-inner">QWEN</span>
+            <div className="logo-text" data-text="VIVEKMIND">
+              <span className="logo-text-inner">VIVEKMIND</span>
             </div>
           </div>
         </div>

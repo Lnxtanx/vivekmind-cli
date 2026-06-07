@@ -1,6 +1,6 @@
 # Contributing to VivekMind
 
-Thank you for contributing to VivekMind. This project is a fork of [VivekMind CLI](https://github.com/VivekMindLM/vivekmind-cli) and remains licensed under Apache-2.0.
+Thank you for contributing to VivekMind CLI. This project is licensed under the Apache-2.0 license.
 
 ## Legal Requirements
 
@@ -30,5 +30,5 @@ npm run typecheck
 npm test
 ```
 
-Keep provider names, model names, and upstream attribution accurate. References to VivekMind models or VivekMind OAuth should not be renamed as part of product-branding cleanup.
+Keep provider names, model names, and upstream attribution accurate. References to external models and OAuth providers should not be renamed as part of product-branding cleanup.
 
