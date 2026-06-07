@@ -59,6 +59,18 @@ export const ToolConfirmationMessage: React.FC<
 
   const [ideClient, setIdeClient] = useState<IdeClient | null>(null);
   const [isDiffingEnabled, setIsDiffingEnabled] = useState(false);
+  const [blink, setBlink] = useState(true);
+
+  useEffect(() => {
+    const terminalBellEnabled = (settings?.merged?.general?.terminalBell as boolean) ?? true;
+    if (terminalBellEnabled) {
+      process.stdout.write('\x07');
+    }
+    const timer = setInterval(() => {
+      setBlink((b) => !b);
+    }, 500);
+    return () => clearInterval(timer);
+  }, [settings]);
 
   useEffect(() => {
     let isMounted = true;
@@ -480,6 +492,9 @@ export const ToolConfirmationMessage: React.FC<
 
       {/* Confirmation Question */}
       <Box marginBottom={1} flexShrink={0}>
+        <Text bold color={blink ? theme.text.accent : theme.text.primary}>
+          {blink ? '⚠️  PERMISSION REQUIRED: ' : '    PERMISSION REQUIRED: '}
+        </Text>
         <Text color={theme.text.primary} wrap="truncate">
           {question}
         </Text>

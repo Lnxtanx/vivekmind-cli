@@ -6,13 +6,7 @@ export type SessionScope = 'user' | 'thread' | 'single';
 export type ChannelType = string;
 export type GroupPolicy = 'disabled' | 'allowlist' | 'open';
 export type DispatchMode = 'collect' | 'steer' | 'followup';
-export type ApprovalPolicy =
-  | 'ask'
-  | 'yolo'
-  | 'auto_edit'
-  | 'interactive'
-  | 'auto-approve'
-  | 'ask-always';
+export type ApprovalPolicy = 'ask' | 'yolo' | 'auto_edit';
 
 export interface GroupConfig {
   requireMention?: boolean; // default: true

@@ -36,10 +36,6 @@ export interface ToolCallEvent {
   rawInput?: Record<string, unknown>;
 }
 
-export type PermissionHandler = (
-  params: RequestPermissionRequest,
-) => Promise<RequestPermissionResponse>;
-
 /** Pending permission request waiting for channel resolution. */
 export interface PendingPermissionRequest {
   id: string;
@@ -69,7 +65,7 @@ export class AcpBridge extends EventEmitter {
   private permissionTimeout: number;
   /** Fallback approval mode when no channel resolves a request. */
   private defaultApprovalMode: 'allow' | 'deny' | 'ask';
-  public approvalPolicy: ApprovalPolicy = 'interactive';
+  public approvalPolicy: ApprovalPolicy = 'ask';
   public autoApproveTools: string[] = [];
 
   /**

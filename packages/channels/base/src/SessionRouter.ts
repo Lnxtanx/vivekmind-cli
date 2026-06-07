@@ -464,15 +464,6 @@ export class SessionRouter {
     }
   }
 
-  private deleteByKey(key: string): string | null {
-    const sessionId = this.toSession.get(key);
-    if (!sessionId) return null;
-    this.toSession.delete(key);
-    this.toTarget.delete(sessionId);
-    this.toCwd.delete(sessionId);
-    return sessionId;
-  }
-
   private persist(): void {
     if (!this.persistPath) return;
 

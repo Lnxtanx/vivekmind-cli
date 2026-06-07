@@ -11,15 +11,17 @@ import {
   CommandKind,
 } from './types.js';
 import { t } from '../../i18n/index.js';
+import { findCliEntryPath } from '../../commands/channel/config-utils.js';
 
 // ── /channel start ──────────────────────────────────────────────────────────
 
 async function startAction(context: CommandContext, args: string) {
   const channelName = args.trim();
-  const cmd = channelName ? `channel start ${channelName}` : 'channel start';
-  const { execFile } = await import('node:child_process');
-  const { promisify } = await import('node:util');
-  const execFileAsync = promisify(execFile);
+  const cliEntryPath = findCliEntryPath();
+  const execArgs = [cliEntryPath, 'channel', 'start'];
+  if (channelName) {
+    execArgs.push(channelName);
+  }
 
   context.ui.setPendingItem({
     type: MessageType.INFO,
@@ -27,32 +29,126 @@ async function startAction(context: CommandContext, args: string) {
   });
 
   try {
-    const { stderr, stdout } = await execFileAsync('vivekmind', [cmd], {
-      timeout: 15000,
+    const { spawn } = await import('node:child_process');
+    const child = spawn(process.execPath, execArgs, {
+      detached: true,
+      stdio: ['ignore', 'pipe', 'pipe'],
       windowsHide: true,
     });
+    child.unref();
 
-    context.ui.setPendingItem(null);
+    await new Promise<void>((resolve, reject) => {
+      let resolved = false;
+      let stderrOutput = '';
+      let stdoutOutput = '';
 
-    const output = (stdout || stderr || '').trim();
-    if (output) {
-      for (const line of output.split('\n')) {
-        if (line.trim()) {
+      const handleSuccess = () => {
+        if (resolved) return;
+        resolved = true;
+        resolve();
+      };
+
+      const handleFailure = (msg: string) => {
+        if (resolved) return;
+        resolved = true;
+        child.kill();
+        reject(new Error(msg));
+      };
+
+      let stdoutRemainder = '';
+      child.stdout?.on('data', (data: Buffer) => {
+        const str = stdoutRemainder + data.toString();
+        const lines = str.split('\n');
+        stdoutRemainder = lines.pop() || '';
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed) {
+            context.ui.addItem(
+              { type: MessageType.INFO, text: trimmed },
+              Date.now(),
+            );
+            stdoutOutput += trimmed + '\n';
+            if (
+              !resolved &&
+              (trimmed.includes('running') ||
+                trimmed.includes('Running') ||
+                trimmed.includes('Press Ctrl+C to stop'))
+            ) {
+              handleSuccess();
+            }
+          }
+        }
+      });
+
+      let stderrRemainder = '';
+      child.stderr?.on('data', (data: Buffer) => {
+        const str = stderrRemainder + data.toString();
+        const lines = str.split('\n');
+        stderrRemainder = lines.pop() || '';
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed) {
+            context.ui.addItem(
+              { type: MessageType.INFO, text: trimmed },
+              Date.now(),
+            );
+            stderrOutput += trimmed + '\n';
+            if (!resolved && trimmed.includes('Error:')) {
+              handleFailure(trimmed);
+            }
+          }
+        }
+      });
+
+      child.on('error', (err) => {
+        handleFailure(err.message);
+      });
+
+      child.on('exit', (code, signal) => {
+        if (!resolved) {
+          handleFailure(
+            stderrOutput.trim() || stdoutOutput.trim() || `Exit code ${code}`,
+          );
+        } else {
+          const statusText =
+            code !== null
+              ? t('exited with code {{code}}', { code: String(code) })
+              : t('terminated by signal {{signal}}', { signal: signal || 'unknown' });
           context.ui.addItem(
-            { type: MessageType.INFO, text: line.trim() },
+            {
+              type: MessageType.INFO,
+              text: t('Channel service stopped: {{status}}', {
+                status: statusText,
+              }),
+            },
             Date.now(),
           );
         }
-      }
-    } else {
-      context.ui.addItem(
-        {
-          type: MessageType.INFO,
-          text: t('Channel service started.'),
-        },
-        Date.now(),
-      );
-    }
+      });
+
+      // 15 seconds timeout
+      setTimeout(() => {
+        if (resolved) return;
+        if (child.exitCode === null) {
+          handleSuccess();
+        } else {
+          handleFailure(
+            stderrOutput.trim() || `Process exited with code ${child.exitCode}`,
+          );
+        }
+      }, 15000);
+    });
+
+    context.ui.setPendingItem(null);
+    context.ui.addItem(
+      {
+        type: MessageType.INFO,
+        text: channelName
+          ? t('Channel service started for: {{name}}', { name: channelName })
+          : t('Channel service started.'),
+      },
+      Date.now(),
+    );
   } catch (error: unknown) {
     context.ui.setPendingItem(null);
     const msg =
@@ -70,6 +166,7 @@ async function startAction(context: CommandContext, args: string) {
 // ── /channel stop ───────────────────────────────────────────────────────────
 
 async function stopAction(context: CommandContext, _args: string) {
+  const cliEntryPath = findCliEntryPath();
   const { execFile } = await import('node:child_process');
   const { promisify } = await import('node:util');
   const execFileAsync = promisify(execFile);
@@ -81,8 +178,8 @@ async function stopAction(context: CommandContext, _args: string) {
 
   try {
     const { stderr, stdout } = await execFileAsync(
-      'vivekmind',
-      ['channel', 'stop'],
+      process.execPath,
+      [cliEntryPath, 'channel', 'stop'],
       { timeout: 10000, windowsHide: true },
     );
 
@@ -126,14 +223,15 @@ async function stopAction(context: CommandContext, _args: string) {
 // ── /channel status ──────────────────────────────────────────────────────────
 
 async function statusAction(context: CommandContext, _args: string) {
+  const cliEntryPath = findCliEntryPath();
   const { execFile } = await import('node:child_process');
   const { promisify } = await import('node:util');
   const execFileAsync = promisify(execFile);
 
   try {
     const { stdout, stderr } = await execFileAsync(
-      'vivekmind',
-      ['channel', 'status'],
+      process.execPath,
+      [cliEntryPath, 'channel', 'status'],
       { timeout: 5000, windowsHide: true },
     );
 
@@ -216,6 +314,7 @@ async function configureTelegramAction(
   context: CommandContext,
   _args: string,
 ) {
+  const cliEntryPath = findCliEntryPath();
   const { execFile } = await import('node:child_process');
   const { promisify } = await import('node:util');
   const execFileAsync = promisify(execFile);
@@ -227,8 +326,8 @@ async function configureTelegramAction(
 
   try {
     const { stdout } = await execFileAsync(
-      'vivekmind',
-      ['channel', 'configure-telegram'],
+      process.execPath,
+      [cliEntryPath, 'channel', 'configure-telegram'],
       { timeout: 30000, windowsHide: true },
     );
 

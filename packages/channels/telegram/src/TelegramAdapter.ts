@@ -37,6 +37,10 @@ interface ToolStatusEntry {
   flushing: boolean;
   /** Latest status for each tool name */
   toolStatuses: Map<string, { status: string; kind: string }>;
+  startTime: number;
+  isThinking: boolean;
+  sendingMessage?: Promise<number>;
+  cleanupTimer?: ReturnType<typeof setTimeout> | null;
 }
 
 /** Read-only / informational tools that are safe to auto-approve in 'auto_edit' mode */
@@ -413,8 +417,12 @@ export class TelegramChannel extends ChannelBase {
         timer: null,
         flushing: false,
         toolStatuses: new Map(),
+        startTime: Date.now(),
+        isThinking: false,
       };
       this.toolStatusMap.set(chatId, entry);
+    } else {
+      entry.isThinking = false;
     }
 
     // Track this tool's latest status
@@ -456,41 +464,74 @@ export class TelegramChannel extends ChannelBase {
       entry.timer = null;
     }
 
-    // Check if there are still running tools (don't clear the message yet)
-    const completedStatuses = new Set(['completed', 'failed', 'error']);
-    let hasRunningTools = false;
-    for (const [, info] of entry.toolStatuses) {
-      if (!completedStatuses.has(info.status)) {
-        hasRunningTools = true;
-        break;
-      }
+    // Clear any cleanup timer since we are updating/flushing
+    if (entry.cleanupTimer) {
+      clearTimeout(entry.cleanupTimer);
+      entry.cleanupTimer = null;
     }
-
-    // Build status message
-    const lines: string[] = [];
-    const count = entry.toolStatuses.size;
-
-    if (count === 1) {
-      const [name, info] = entry.toolStatuses.entries().next().value!;
-      const statusEmoji = info.status === 'completed' ? '✅' : info.status === 'failed' || info.status === 'error' ? '❌' : '⏳';
-      lines.push(
-        `${statusEmoji} ${toolIcon(info.kind)} <b>${this.escapeHtml(name)}</b> — ${this.escapeHtml(overrideStatus || info.status)}`,
-      );
-    } else {
-      if (count > 1) {
-        lines.push(`<b>${count} tools running:</b>`);
-      }
-      for (const [name, info] of entry.toolStatuses) {
-        const statusEmoji = info.status === 'completed' ? '✅' : info.status === 'failed' || info.status === 'error' ? '❌' : '⏳';
-        lines.push(
-          `  ${statusEmoji} ${toolIcon(info.kind)} ${this.escapeHtml(name)}`,
-        );
-      }
-    }
-    const message = lines.join('\n');
 
     entry.flushing = true;
+
     try {
+      // Await thinking message send if still in progress
+      if (entry.sendingMessage) {
+        entry.messageId = await entry.sendingMessage;
+        delete entry.sendingMessage;
+      }
+
+      const getStatusText = (status: string) => {
+        if (status === 'completed') return 'completed';
+        if (status === 'failed' || status === 'error') return 'failed';
+        if (status === 'running' || status === 'in_progress') return 'in progress';
+        if (status === 'pending') return 'pending';
+        return status;
+      };
+
+      // Count tools done and active
+      let toolsDone = 0;
+      let toolsActive = 0;
+      for (const [, info] of entry.toolStatuses) {
+        const statusText = getStatusText(info.status);
+        if (statusText === 'completed' || statusText === 'failed') {
+          toolsDone++;
+        } else {
+          toolsActive++;
+        }
+      }
+
+      const hasRunningTools = toolsActive > 0;
+      const elapsedSec = Math.round((Date.now() - entry.startTime) / 1000);
+      const totalToolsCount = entry.toolStatuses.size;
+
+      let message = '';
+
+      if (!hasRunningTools) {
+        message = `&gt; Done — ${totalToolsCount} tools completed in ${elapsedSec}s`;
+      } else {
+        const lines: string[] = [];
+        lines.push('&gt; Working...');
+
+        const allTools = Array.from(entry.toolStatuses.entries());
+        if (totalToolsCount <= 8) {
+          for (const [name, info] of allTools) {
+            const statusText = getStatusText(info.status);
+            lines.push(`  ${toolIcon(info.kind)} [${this.escapeHtml(name)}] ${statusText}`);
+          }
+        } else {
+          const visibleCount = 7;
+          const olderCount = totalToolsCount - visibleCount;
+          lines.push(`  +${olderCount} more`);
+          const visibleTools = allTools.slice(olderCount);
+          for (const [name, info] of visibleTools) {
+            const statusText = getStatusText(info.status);
+            lines.push(`  ${toolIcon(info.kind)} [${this.escapeHtml(name)}] ${statusText}`);
+          }
+        }
+
+        lines.push(`  ${toolsDone} tools done, ${toolsActive} active, ${elapsedSec}s`);
+        message = lines.join('\n');
+      }
+
       if (entry.messageId) {
         // Edit existing message
         try {
@@ -499,38 +540,35 @@ export class TelegramChannel extends ChannelBase {
           });
         } catch {
           // Message may have been deleted — send a new one
-          entry.messageId = 0;
+          const sentMsg = await this.bot.api.sendMessage(chatId, message, {
+            parse_mode: 'HTML',
+          });
+          entry.messageId = sentMsg.message_id;
         }
-      }
-
-      if (!entry.messageId) {
+      } else {
+        // Send a new message
         const sentMsg = await this.bot.api.sendMessage(chatId, message, {
           parse_mode: 'HTML',
         });
         entry.messageId = sentMsg.message_id;
       }
 
-      // If no tools are running anymore, clean up after a short delay
+      // If no tools are running anymore, clean up after a 5 second delay
       if (!hasRunningTools) {
-        setTimeout(() => {
-          // Only delete if no new tools have started since
+        entry.cleanupTimer = setTimeout(() => {
           const currentEntry = this.toolStatusMap.get(chatId);
           if (currentEntry === entry) {
-            // Try to delete the status message to keep chat clean
-            this.bot.api
-              .deleteMessage(chatId, entry.messageId)
-              .catch(() => {
-                // Ignore — might have already been deleted or too old
-              });
+            if (entry.messageId) {
+              this.bot.api
+                .deleteMessage(chatId, entry.messageId)
+                .catch(() => {});
+            }
             this.toolStatusMap.delete(chatId);
           }
-        }, 3000);
-      } else {
-        // Reset counter but keep tracking
-        entry.toolCount = 0;
+        }, 5000);
       }
-    } catch {
-      // Silently ignore — sending/editing can fail for various reasons
+    } catch (err) {
+      process.stderr.write(`[Telegram:${this.name}] flushToolStatus error: ${err}\n`);
     } finally {
       entry.flushing = false;
     }
@@ -1064,7 +1102,11 @@ export class TelegramChannel extends ChannelBase {
 
   private typingIntervals = new Map<string, ReturnType<typeof setInterval>>();
 
-  protected override onPromptStart(chatId: string): void {
+  protected override onPromptStart(
+    chatId: string,
+    sessionId: string,
+    messageId?: string,
+  ): void {
     const existing = this.typingIntervals.get(chatId);
     if (existing) clearInterval(existing);
 
@@ -1072,13 +1114,113 @@ export class TelegramChannel extends ChannelBase {
       this.bot.api.sendChatAction(chatId, 'typing').catch(() => {});
     sendTyping();
     this.typingIntervals.set(chatId, setInterval(sendTyping, 4000));
+
+    // Status message initialization
+    let entry = this.toolStatusMap.get(chatId);
+    if (!entry) {
+      const sendingPromise = this.bot.api
+        .sendMessage(chatId, '&gt; Thinking...', { parse_mode: 'HTML' })
+        .then((msg) => msg.message_id)
+        .catch(() => 0);
+
+      entry = {
+        messageId: 0,
+        toolCount: 0,
+        timer: null,
+        flushing: false,
+        toolStatuses: new Map(),
+        startTime: Date.now(),
+        isThinking: true,
+        sendingMessage: sendingPromise,
+      };
+      this.toolStatusMap.set(chatId, entry);
+
+      sendingPromise.then((mid) => {
+        if (entry) {
+          entry.messageId = mid;
+          delete entry.sendingMessage;
+        }
+      });
+    }
   }
 
-  protected override onPromptEnd(chatId: string): void {
+  protected override onPromptEnd(
+    chatId: string,
+    sessionId: string,
+    messageId?: string,
+  ): void {
     const interval = this.typingIntervals.get(chatId);
     if (interval) {
       clearInterval(interval);
       this.typingIntervals.delete(chatId);
+    }
+
+    const entry = this.toolStatusMap.get(chatId);
+    if (entry) {
+      if (entry.isThinking && entry.toolStatuses.size === 0) {
+        const updateAndClean = async () => {
+          if (entry.sendingMessage) {
+            entry.messageId = await entry.sendingMessage;
+            delete entry.sendingMessage;
+          }
+          if (entry.messageId) {
+            try {
+              await this.bot.api.editMessageText(chatId, entry.messageId, '&gt; Done', {
+                parse_mode: 'HTML',
+              });
+            } catch {
+              // ignore
+            }
+            if (entry.cleanupTimer) {
+              clearTimeout(entry.cleanupTimer);
+            }
+            entry.cleanupTimer = setTimeout(() => {
+              const currentEntry = this.toolStatusMap.get(chatId);
+              if (currentEntry === entry) {
+                if (entry.messageId) {
+                  this.bot.api.deleteMessage(chatId, entry.messageId).catch(() => {});
+                }
+                this.toolStatusMap.delete(chatId);
+              }
+            }, 3000);
+          } else {
+            this.toolStatusMap.delete(chatId);
+          }
+        };
+        updateAndClean().catch(() => {});
+      }
+    }
+  }
+
+  protected override onResponseChunk(
+    chatId: string,
+    chunk: string,
+    sessionId: string,
+  ): void {
+    const entry = this.toolStatusMap.get(chatId);
+    if (entry) {
+      const clearStatus = async () => {
+        if (entry.sendingMessage) {
+          entry.messageId = await entry.sendingMessage;
+          delete entry.sendingMessage;
+        }
+        if (entry.messageId) {
+          try {
+            await this.bot.api.deleteMessage(chatId, entry.messageId);
+          } catch {
+            // ignore
+          }
+        }
+      };
+      clearStatus().catch(() => {});
+
+      if (entry.cleanupTimer) {
+        clearTimeout(entry.cleanupTimer);
+      }
+      if (entry.timer) {
+        clearTimeout(entry.timer);
+      }
+      this.toolStatusMap.delete(chatId);
     }
   }
 

@@ -4,6 +4,8 @@
 
 <h1 align="center">VivekMind CLI</h1>
 
+<h3 align="center"><a href="https://code.vivekmind.com">code.vivekmind.com</a></h3>
+
 <p align="center">
   <strong>Open-source terminal AI coding agent with full AWS Bedrock support</strong>
 </p>
@@ -48,7 +50,7 @@ VivekMind supports a wide range of AI providers out of the box. Set the correspo
 
 | Provider | Auth Type | Example Models |
 |----------|-----------|----------------|
-| **AWS Bedrock** | `bedrock` | Claude Opus 4.7, Amazon Nova Pro, Llama 4 Maverick |
+| **AWS Bedrock** | `bedrock` | Claude (3/3.5/4.7), Amazon Nova (Pro/Lite/Micro), Llama (3/3.1/3.3/4), Qwen Coder, GLM, Mistral, Cohere |
 | **Anthropic** | `anthropic` | Claude Opus 4.7, Sonnet 4.6, Haiku 4.5 |
 | **Google Gemini** | `gemini` | Gemini 3 Pro, 2.5 Pro, 2.5 Flash |
 | **OpenAI** | `openai` | GPT-5.2, 5.4 Mini, 4.1, o3, o4-mini |
@@ -73,7 +75,7 @@ VivekMind supports a wide range of AI providers out of the box. Set the correspo
 
 ### AWS Bedrock Setup
 
-AWS Bedrock works with your existing AWS credentials. No additional API key is needed:
+AWS Bedrock works with your existing AWS credentials. No additional API key is needed. VivekMind supports the full list of AWS Bedrock models, including **Anthropic Claude** (3/3.5/4.7), **Amazon Nova** (Pro/Lite/Micro), **Meta Llama** (3/3.3/4), **Qwen Coder** models, **GLMs**, **Mistral**, and **Cohere Command**:
 
 ```bash
 # Ensure AWS credentials are set
@@ -85,7 +87,7 @@ export AWS_SECRET_ACCESS_KEY=your-secret
 vivekmind
 ```
 
-Bedrock models are auto-discovered via `ListFoundationModels` API. Configure specific models in `settings.json`:
+Bedrock models are auto-discovered via the `ListFoundationModels` API. You can configure and name specific models in `settings.json`:
 
 ```json
 {
@@ -161,6 +163,7 @@ Over 40 built-in commands for session control, configuration, and workflow manag
 /vim            Toggle vim mode
 /init           Initialize project configuration
 /doctor         Run diagnostic checks
+/channel        Manage messaging channels (start, stop, status, list, configure-telegram)
 ```
 
 Create custom slash commands by adding `.md` files to `.vivekmind/commands/`.
@@ -217,14 +220,26 @@ vivekmind channel configure-telegram
 vivekmind channel start my-telegram
 ```
 
-Supported channels:
+#### Supported Channels
 
-| Channel | Status |
-|---------|--------|
-| **Telegram** | Full support (grammY) |
-| **WeChat / Weixin** | Adapter available |
-| **DingTalk** | Adapter available |
-| **Custom** | Plugin framework via `@vivekmind/channel-base` |
+| Channel | Status | Description |
+|---------|--------|-------------|
+| **Telegram** | **Full support (grammY)** | High-fidelity integration with interactive tool approvals, multi-choice question prompts, and real-time SSE progress reporting. |
+| **WeChat / Weixin** | Adapter available | Standard chat adapter. |
+| **DingTalk** | Adapter available | Standard chat adapter. |
+| **Custom** | Plugin framework | Build your own channel via `@vivekmind/channel-base`. |
+
+#### Telegram Channel Features
+
+VivekMind provides an industry-leading user experience for Telegram users:
+- **Interactive Tool Confirmation:** Confirm tool calls (such as writes or executing commands) directly inside your Telegram chat using inline approval buttons (**Allow Once**, **Always Allow**, **Deny**).
+- **Interactive Question Prompts:** Responds to multi-choice prompts (like `askUserQuestion`) using numbered interactive buttons.
+- **Real-Time Tool Status Display:** Follows the agent's work step-by-step:
+  - Prints a dynamic `> Thinking...` card on start.
+  - Lists each tool on its own line: `  {toolIcon} [tool_name] status` using text labels instead of emojis (e.g. `🔍 [read_file] completed`, `✏️ [write_file] in progress`).
+  - Limits output to max 8 lines, truncating and grouping older steps as `  +N more`.
+  - Appends a status footer showing completed vs active tool counts and elapsed execution seconds: `  N tools done, M active, Xs`.
+  - Updates the card to `> Done — X tools completed in Ys` upon execution completion and deletes itself after 5 seconds to keep the chat clean (or instantly clears the card when text response streaming begins).
 
 Channel configuration lives in `settings.json` under the `channels` key. See `settings.example.json` for templates.
 
@@ -366,7 +381,7 @@ VivekMind is a fork of [Qwen Code](https://github.com/QwenLM/qwen-code), origina
 
 Qwen Code is copyright (C) 2025 Google LLC and Alibaba Cloud, and is used under the Apache License, Version 2.0.
 
-VivekMind modifications are copyright (C) 2026 [VivekMind](https://vivekmind.com).
+VivekMind modifications are copyright (C) 2026 [VivekMind](https://code.vivekmind.com).
 
 ## License
 

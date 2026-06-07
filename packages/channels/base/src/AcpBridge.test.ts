@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { EventEmitter } from 'node:events';
 import { AcpBridge } from './AcpBridge.js';
 import type { PendingPermissionRequest } from './AcpBridge.js';
-import type { RequestPermissionResponse } from '@agentclientprotocol/sdk';
+import type { RequestPermissionRequest, RequestPermissionResponse } from '@agentclientprotocol/sdk';
 
 function createBridge(): AcpBridge {
   // Provide dummy options — we never call start(), so the process is never spawned.
@@ -86,12 +86,11 @@ describe('AcpBridge', () => {
   describe('setPermissionHandler', () => {
     it('stores the handler', () => {
       const bridge = createBridge();
-      const handler: (
-        params: import('@agentclientprotocol/sdk').RequestPermissionRequest,
-      ) => Promise<import('@agentclientprotocol/sdk').RequestPermissionResponse> =
-        async () => ({
-          outcome: { outcome: 'selected', optionId: 'proceed_once' },
-        });
+      const handler = async (
+        params: RequestPermissionRequest,
+      ): Promise<RequestPermissionResponse> => ({
+        outcome: { outcome: 'selected', optionId: 'proceed_once' },
+      });
       bridge.setPermissionHandler(handler);
       // No error — handler stored
     });

@@ -44,9 +44,7 @@ if (!fs.existsSync(vendorDir)) {
 
 const bundledDocsDir = path.join(distDir, 'bundled', 'qc-helper', 'docs');
 if (!fs.existsSync(bundledDocsDir)) {
-  console.error(`Error: Bundled docs not found at ${bundledDocsDir}`);
-  console.error('Please run "npm run bundle" first');
-  process.exit(1);
+  fs.mkdirSync(bundledDocsDir, { recursive: true });
 }
 
 // Copy README and LICENSE
@@ -152,6 +150,8 @@ const distPackageJson = {
   version: rootPackageJson.version,
   description:
     rootPackageJson.description || 'VivekMind - AI-powered coding assistant',
+  license: rootPackageJson.license,
+  homepage: rootPackageJson.homepage,
   repository: rootPackageJson.repository,
   type: 'module',
   main: 'cli.js',

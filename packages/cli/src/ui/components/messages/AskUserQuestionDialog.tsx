@@ -5,7 +5,7 @@
  */
 
 import type React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Text } from 'ink';
 import {
   type ToolAskUserQuestionConfirmationDetails,
@@ -16,6 +16,7 @@ import { theme } from '../../semantic-colors.js';
 import { useKeypress } from '../../hooks/useKeypress.js';
 import { TextInput } from '../shared/TextInput.js';
 import { t } from '../../../i18n/index.js';
+import { useSettings } from '../../contexts/SettingsContext.js';
 
 interface AskUserQuestionDialogProps {
   confirmationDetails: ToolAskUserQuestionConfirmationDetails;
@@ -45,6 +46,20 @@ export const AskUserQuestionDialog: React.FC<AskUserQuestionDialogProps> = ({
   const [customInputChecked, setCustomInputChecked] = useState<
     Record<number, boolean>
   >({});
+
+  const settings = useSettings();
+  const [blink, setBlink] = useState(true);
+
+  useEffect(() => {
+    const terminalBellEnabled = (settings?.merged?.general?.terminalBell as boolean) ?? true;
+    if (terminalBellEnabled) {
+      process.stdout.write('\x07');
+    }
+    const timer = setInterval(() => {
+      setBlink((b) => !b);
+    }, 500);
+    return () => clearInterval(timer);
+  }, [settings]);
 
   const hasMultipleQuestions = confirmationDetails.questions.length > 1;
   const totalTabs = hasMultipleQuestions
@@ -396,8 +411,16 @@ export const AskUserQuestionDialog: React.FC<AskUserQuestionDialogProps> = ({
       <Box flexDirection="column" marginBottom={1}>
         {!hasMultipleQuestions && (
           <Box marginBottom={1}>
-            <Text color={theme.text.accent} bold>
+            <Text bold color={blink ? theme.text.accent : theme.text.primary}>
+              {blink ? '⚠️  PERMISSION REQUIRED: ' : '    PERMISSION REQUIRED: '}
               {currentQuestion!.header}
+            </Text>
+          </Box>
+        )}
+        {hasMultipleQuestions && (
+          <Box marginBottom={1}>
+            <Text bold color={blink ? theme.text.accent : theme.text.primary}>
+              {blink ? '⚠️  PERMISSION REQUIRED' : '    PERMISSION REQUIRED'}
             </Text>
           </Box>
         )}
