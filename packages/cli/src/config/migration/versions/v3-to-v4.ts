@@ -7,7 +7,7 @@
 import type { SettingsMigration } from '../types.js';
 
 /**
- * Mapping of legacy Qwen protocol names to standard environment variable names.
+ * Mapping of legacy VivekMind protocol names to standard environment variable names.
  */
 const LEGACY_KEY_TO_STANDARD_MAP: Record<string, string> = {
   OPENAI: 'OPENAI_API_KEY',

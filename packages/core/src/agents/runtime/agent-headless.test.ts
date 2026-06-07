@@ -247,7 +247,7 @@ describe('subagent.ts', () => {
     let mockSendMessageStream: Mock;
 
     const defaultModelConfig: ModelConfig = {
-      model: 'qwen3-coder-plus',
+      model: 'vivekmind3-coder-plus',
     };
 
     const defaultRunConfig: RunConfig = {

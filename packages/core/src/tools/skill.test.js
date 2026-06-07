@@ -547,12 +547,12 @@ describe('SkillTool', () => {
         it('should propagate model from skill config to ToolResult', async () => {
             const skillWithModel = {
                 ...mockSkills[0],
-                model: 'qwen-max',
+                model: 'vivekmind-max',
             };
             vi.mocked(mockSkillManager.loadSkillForRuntime).mockResolvedValue(skillWithModel);
             const invocation = skillTool.createInvocation({ skill: 'code-review' });
             const result = (await invocation.execute());
-            expect(result.modelOverride).toBe('qwen-max');
+            expect(result.modelOverride).toBe('vivekmind-max');
         });
         it('should set modelOverride to undefined when skill has no model', async () => {
             const skillWithoutModel = {

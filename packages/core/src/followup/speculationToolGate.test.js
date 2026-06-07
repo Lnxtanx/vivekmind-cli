@@ -97,7 +97,7 @@ describe('speculationToolGate', () => {
             const args = { file_path: filePath };
             await rewritePathArgs(args, overlayFs);
             expect(args['file_path']).not.toBe(filePath);
-            expect(String(args['file_path'])).toContain('qwen-speculation');
+            expect(String(args['file_path'])).toContain('vivekmind-speculation');
         });
         it('rewrites filePath argument (camelCase)', async () => {
             const filePath = join(testDir, 'file.ts');
@@ -117,7 +117,7 @@ describe('speculationToolGate', () => {
             await writeFile(filePath, 'content');
             const args = { path: filePath };
             await rewritePathArgs(args, overlayFs);
-            expect(String(args['path'])).toContain('qwen-speculation');
+            expect(String(args['path'])).toContain('vivekmind-speculation');
         });
     });
     describe('read path resolution through overlay', () => {
@@ -132,7 +132,7 @@ describe('speculationToolGate', () => {
             const result = await evaluateToolCall(ToolNames.READ_FILE, args, overlayFs, ApprovalMode.DEFAULT);
             expect(result.action).toBe('allow');
             // The file_path arg should now point to the overlay
-            expect(String(args['file_path'])).toContain('qwen-speculation');
+            expect(String(args['file_path'])).toContain('vivekmind-speculation');
             expect(String(args['file_path'])).not.toBe(filePath);
         });
         it('does not resolve read path when file was not written to overlay', async () => {

@@ -159,7 +159,7 @@ The `source.json` file contains:
 ### Technical Implementation
 
 - The source information is stored as a separate JSON file
-- The `QwenLogger` class reads this file during telemetry initialization
+- The `VivekMindLogger` class reads this file during telemetry initialization
 - The source is included in the `app.channel` field of the RUM payload
 - The implementation gracefully handles missing files, unknown values, and parsing errors
 

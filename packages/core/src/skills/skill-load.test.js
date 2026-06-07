@@ -426,7 +426,7 @@ body
     });
     describe('parseModelField', () => {
         it('should return the model string for a valid model', () => {
-            expect(parseModelField({ model: 'qwen-max' })).toBe('qwen-max');
+            expect(parseModelField({ model: 'vivekmind-max' })).toBe('vivekmind-max');
         });
         it('should return undefined when model is omitted', () => {
             expect(parseModelField({})).toBeUndefined();
@@ -441,7 +441,7 @@ body
             expect(parseModelField({ model: '   ' })).toBeUndefined();
         });
         it('should trim whitespace from model string', () => {
-            expect(parseModelField({ model: '  qwen-max  ' })).toBe('qwen-max');
+            expect(parseModelField({ model: '  vivekmind-max  ' })).toBe('vivekmind-max');
         });
         it('should throw for non-string types', () => {
             expect(() => parseModelField({ model: 123 })).toThrow('"model" must be a string');
@@ -596,10 +596,10 @@ body
             mockParseYaml.mockReturnValue({
                 name: 'model-test',
                 description: 'Test skill with model',
-                model: 'qwen-max',
+                model: 'vivekmind-max',
             });
-            const config = parseSkillContent(`---\nname: model-test\ndescription: Test skill with model\nmodel: qwen-max\n---\n\nBody text.`, testFilePath);
-            expect(config.model).toBe('qwen-max');
+            const config = parseSkillContent(`---\nname: model-test\ndescription: Test skill with model\nmodel: vivekmind-max\n---\n\nBody text.`, testFilePath);
+            expect(config.model).toBe('vivekmind-max');
         });
         it('should set model to undefined when omitted', () => {
             mockParseYaml.mockReturnValue({

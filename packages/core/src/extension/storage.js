@@ -32,7 +32,7 @@ export class ExtensionStorage {
         return storage.getExtensionsDir();
     }
     static async createTmpDir() {
-        return await fs.promises.mkdtemp(path.join(os.tmpdir(), 'qwen-extension'));
+        return await fs.promises.mkdtemp(path.join(os.tmpdir(), 'vivekmind-extension'));
     }
 }
 //# sourceMappingURL=storage.js.map

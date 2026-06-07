@@ -17,7 +17,7 @@
     "vivekmind-extension.json"
   ],
   "bin": {
-    "qwen-channel-plugin-example-server": "dist/start-server.js"
+    "vivekmind-channel-plugin-example-server": "dist/start-server.js"
   },
   "scripts": {
     "build": "tsc --build",

@@ -1930,7 +1930,7 @@ describe('HookEventHandler', () => {
 
       await hookEventHandler.fireSubagentStartEvent(
         'agent-456',
-        'qwen-tester',
+        'vivekmind-tester',
         PermissionMode.Plan,
       );
 
@@ -1944,7 +1944,7 @@ describe('HookEventHandler', () => {
       };
 
       expect(input.agent_id).toBe('agent-456');
-      expect(input.agent_type).toBe('qwen-tester');
+      expect(input.agent_type).toBe('vivekmind-tester');
       expect(input.permission_mode).toBe(PermissionMode.Plan);
       expect(input.hook_event_name).toBe(HookEventName.SubagentStart);
     });
@@ -2093,7 +2093,7 @@ describe('HookEventHandler', () => {
 
       await hookEventHandler.fireSubagentStopEvent(
         'agent-456',
-        'qwen-tester',
+        'vivekmind-tester',
         '/transcript/path.jsonl',
         'last message from agent',
         true,
@@ -2113,7 +2113,7 @@ describe('HookEventHandler', () => {
       };
 
       expect(input.agent_id).toBe('agent-456');
-      expect(input.agent_type).toBe('qwen-tester');
+      expect(input.agent_type).toBe('vivekmind-tester');
       expect(input.agent_transcript_path).toBe('/transcript/path.jsonl');
       expect(input.last_assistant_message).toBe('last message from agent');
       expect(input.stop_hook_active).toBe(true);

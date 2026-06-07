@@ -47,7 +47,7 @@ export function decodeTagName(str) {
 }
 export class Logger {
     storage;
-    qwenDir;
+    vivekmindDir;
     logFilePath;
     sessionId;
     messageId = 0; // Instance-specific counter for the next messageId
@@ -107,10 +107,10 @@ export class Logger {
         if (this.initialized) {
             return;
         }
-        this.qwenDir = this.storage.getProjectTempDir();
-        this.logFilePath = path.join(this.qwenDir, LOG_FILE_NAME);
+        this.vivekmindDir = this.storage.getProjectTempDir();
+        this.logFilePath = path.join(this.vivekmindDir, LOG_FILE_NAME);
         try {
-            await fs.mkdir(this.qwenDir, { recursive: true });
+            await fs.mkdir(this.vivekmindDir, { recursive: true });
             let fileExisted = true;
             try {
                 await fs.access(this.logFilePath);
@@ -219,12 +219,12 @@ export class Logger {
         if (!tag.length) {
             throw new Error('No checkpoint tag specified.');
         }
-        if (!this.qwenDir) {
+        if (!this.vivekmindDir) {
             throw new Error('Checkpoint file path not set.');
         }
         // Encode the tag to handle all special characters safely.
         const encodedTag = encodeTagName(tag);
-        return path.join(this.qwenDir, `checkpoint-${encodedTag}.json`);
+        return path.join(this.vivekmindDir, `checkpoint-${encodedTag}.json`);
     }
     async _getCheckpointPath(tag) {
         // 1. Check for the new encoded path first.
@@ -241,7 +241,7 @@ export class Logger {
             // It was not found, so we'll check the old path next.
         }
         // 2. Fallback for backward compatibility: check for the old raw path.
-        const oldPath = path.join(this.qwenDir, `checkpoint-${tag}.json`);
+        const oldPath = path.join(this.vivekmindDir, `checkpoint-${tag}.json`);
         try {
             await fs.access(oldPath);
             return oldPath; // Found it, use the old path.
@@ -295,7 +295,7 @@ export class Logger {
         }
     }
     async deleteCheckpoint(tag) {
-        if (!this.initialized || !this.qwenDir) {
+        if (!this.initialized || !this.vivekmindDir) {
             this.debugLogger.error('Logger not initialized or checkpoint file path not set. Cannot delete checkpoint.');
             return false;
         }
@@ -315,7 +315,7 @@ export class Logger {
             // It's okay if it doesn't exist.
         }
         // 2. Attempt to delete the old raw path for backward compatibility.
-        const oldPath = path.join(this.qwenDir, `checkpoint-${tag}.json`);
+        const oldPath = path.join(this.vivekmindDir, `checkpoint-${tag}.json`);
         if (newPath !== oldPath) {
             try {
                 await fs.unlink(oldPath);

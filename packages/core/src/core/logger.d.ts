@@ -45,7 +45,7 @@ export declare function encodeTagName(str: string): string;
 export declare function decodeTagName(str: string): string;
 export declare class Logger {
     private readonly storage;
-    private qwenDir;
+    private vivekmindDir;
     private logFilePath;
     private sessionId;
     private messageId;

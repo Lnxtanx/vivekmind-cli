@@ -27,7 +27,7 @@ export class OverlayFs {
     const id = randomUUID().slice(0, 8);
     this.overlayDir = join(
       tmpdir(),
-      'qwen-speculation',
+      'vivekmind-speculation',
       String(process.pid),
       id,
     );

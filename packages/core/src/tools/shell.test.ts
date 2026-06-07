@@ -62,7 +62,7 @@ describe('ShellTool', () => {
         .mockReturnValue(createMockWorkspaceContext('/test/dir')),
       storage: {
         getUserSkillsDirs: vi.fn().mockReturnValue(['/test/dir/.vivekmind/skills']),
-        getProjectTempDir: vi.fn().mockReturnValue('/tmp/qwen-temp'),
+        getProjectTempDir: vi.fn().mockReturnValue('/tmp/vivekmind-temp'),
         getProjectDir: vi.fn().mockReturnValue('/test/proj'),
       },
       getTruncateToolOutputThreshold: vi.fn().mockReturnValue(0),
@@ -72,7 +72,7 @@ describe('ShellTool', () => {
       getGitCoAuthor: vi.fn().mockReturnValue({
         enabled: true,
         name: 'VivekMind-Coder',
-        email: 'qwen-coder@alibabacloud.com',
+        email: 'vivekmind-clir@alibabacloud.com',
       }),
       getShouldUseNodePtyShell: vi.fn().mockReturnValue(false),
       getBackgroundShellRegistry: vi.fn().mockReturnValue({
@@ -1030,7 +1030,7 @@ describe('ShellTool', () => {
           .mockResolvedValue({
             content:
               'Tool output was too large and has been truncated.\n[mocked truncated body]',
-            outputFile: '/tmp/qwen-temp/shell_mocked.output',
+            outputFile: '/tmp/vivekmind-temp/shell_mocked.output',
           });
 
         try {
@@ -1274,7 +1274,7 @@ describe('ShellTool', () => {
         // Verify that the command was executed with co-author added
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1304,7 +1304,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1334,7 +1334,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1364,7 +1364,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1450,7 +1450,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1465,7 +1465,7 @@ describe('ShellTool', () => {
         (mockConfig.getGitCoAuthor as Mock).mockReturnValue({
           enabled: false,
           name: 'VivekMind-Coder',
-          email: 'qwen-coder@alibabacloud.com',
+          email: 'vivekmind-clir@alibabacloud.com',
         });
 
         const command = 'git commit -m "Initial commit"';
@@ -1552,7 +1552,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),
@@ -1585,7 +1585,7 @@ describe('ShellTool', () => {
 
         expect(mockShellExecutionService).toHaveBeenCalledWith(
           expect.stringContaining(
-            'Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>',
+            'Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>',
           ),
           expect.any(String),
           expect.any(Function),

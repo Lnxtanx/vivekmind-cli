@@ -445,7 +445,7 @@ describe('HookPlanner', () => {
             };
             vi.mocked(mockRegistry.getHooksForEvent).mockReturnValue([entry]);
             const result = planner.createExecutionPlan(HookEventName.SubagentStart, {
-                agentType: 'qwen-tester',
+                agentType: 'vivekmind-tester',
             });
             expect(result).toBeNull();
         });
@@ -507,12 +507,12 @@ describe('HookPlanner', () => {
                 config: { type: HookType.Command, command: 'echo test' },
                 source: HooksConfigSource.Project,
                 eventName: HookEventName.SubagentStop,
-                matcher: 'qwen-tester',
+                matcher: 'vivekmind-tester',
                 enabled: true,
             };
             vi.mocked(mockRegistry.getHooksForEvent).mockReturnValue([entry]);
             const result = planner.createExecutionPlan(HookEventName.SubagentStop, {
-                agentType: 'qwen-tester',
+                agentType: 'vivekmind-tester',
             });
             expect(result).not.toBeNull();
         });
@@ -521,7 +521,7 @@ describe('HookPlanner', () => {
                 config: { type: HookType.Command, command: 'echo test' },
                 source: HooksConfigSource.Project,
                 eventName: HookEventName.SubagentStop,
-                matcher: 'qwen-tester',
+                matcher: 'vivekmind-tester',
                 enabled: true,
             };
             vi.mocked(mockRegistry.getHooksForEvent).mockReturnValue([entry]);
@@ -540,7 +540,7 @@ describe('HookPlanner', () => {
             };
             vi.mocked(mockRegistry.getHooksForEvent).mockReturnValue([entry]);
             const result = planner.createExecutionPlan(HookEventName.SubagentStop, {
-                agentType: 'qwen-tester',
+                agentType: 'vivekmind-tester',
             });
             expect(result).not.toBeNull();
         });

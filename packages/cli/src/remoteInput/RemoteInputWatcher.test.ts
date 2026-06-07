@@ -16,7 +16,7 @@ describe('RemoteInputWatcher', () => {
   let watcher: RemoteInputWatcher | null = null;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'qwen-remote-input-'));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vivekmind-remote-input-'));
     inputFile = path.join(tmpDir, 'input.jsonl');
     fs.writeFileSync(inputFile, '');
   });

@@ -42,7 +42,7 @@ export class GitService {
         await fs.mkdir(repoDir, { recursive: true });
         // We don't want to inherit the user's name, email, or gpg signing
         // preferences for the shadow repository, so we create a dedicated gitconfig.
-        const gitConfigContent = '[user]\n  name = VivekMind\n  email = vivekmind@qwen.ai\n[commit]\n  gpgsign = false\n';
+        const gitConfigContent = '[user]\n  name = VivekMind\n  email = vivekmind@vivekmind.ai\n[commit]\n  gpgsign = false\n';
         await fs.writeFile(gitConfigPath, gitConfigContent);
         const repo = simpleGit(repoDir).env({
             // Prevent git from using the user's global git config.

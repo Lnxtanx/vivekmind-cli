@@ -612,7 +612,7 @@ describe('ModelsConfig', () => {
     const modelProvidersConfig: ModelProvidersConfig = {
       openai: [
         {
-          id: 'qwen3.5-plus',
+          id: 'vivekmind3.5-plus',
           name: 'Test Model',
           baseUrl: 'https://api.example.com/v1',
           envKey,
@@ -628,7 +628,7 @@ describe('ModelsConfig', () => {
       initialAuthType: AuthType.USE_OPENAI,
       modelProvidersConfig,
       generationConfig: {
-        model: 'qwen3.5-plus',
+        model: 'vivekmind3.5-plus',
         apiKey: 'settings-api-key',
         baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
       },
@@ -645,7 +645,7 @@ describe('ModelsConfig', () => {
     );
 
     // Simulate what refreshAuth does on startup
-    modelsConfig.syncAfterAuthRefresh(AuthType.USE_OPENAI, 'qwen3.5-plus');
+    modelsConfig.syncAfterAuthRefresh(AuthType.USE_OPENAI, 'vivekmind3.5-plus');
 
     const gc = currentGenerationConfig(modelsConfig);
     // The settings-sourced apiKey should be preserved as fallback
@@ -653,7 +653,7 @@ describe('ModelsConfig', () => {
     // envKey metadata should still be set for diagnostics
     expect(gc.apiKeyEnvKey).toBe(envKey);
     // Model and other provider config should be applied
-    expect(gc.model).toBe('qwen3.5-plus');
+    expect(gc.model).toBe('vivekmind3.5-plus');
     expect(gc.samplingParams?.temperature).toBe(0.3);
 
     // Source should still reflect settings origin
@@ -1389,26 +1389,26 @@ describe('ModelsConfig', () => {
       const allModels = modelsConfig.getAllConfiguredModels();
 
       // vivekmind-oauth models should be ordered first
-      const firstNonQwenIndex = allModels.findIndex(
+      const firstNonVivekMindIndex = allModels.findIndex(
         (m) => m.authType !== AuthType.VIVEKMIND_OAUTH,
       );
-      expect(firstNonQwenIndex).toBeGreaterThan(0);
+      expect(firstNonVivekMindIndex).toBeGreaterThan(0);
       expect(
         allModels
-          .slice(0, firstNonQwenIndex)
+          .slice(0, firstNonVivekMindIndex)
           .every((m) => m.authType === AuthType.VIVEKMIND_OAUTH),
       ).toBe(true);
       expect(
         allModels
-          .slice(firstNonQwenIndex)
+          .slice(firstNonVivekMindIndex)
           .every((m) => m.authType !== AuthType.VIVEKMIND_OAUTH),
       ).toBe(true);
 
       // Should include vivekmind-oauth models (hard-coded)
-      const qwenModels = allModels.filter(
+      const vivekmindModels = allModels.filter(
         (m) => m.authType === AuthType.VIVEKMIND_OAUTH,
       );
-      expect(qwenModels.length).toBeGreaterThan(0);
+      expect(vivekmindModels.length).toBeGreaterThan(0);
 
       // Should include openai models
       const openaiModels = allModels.filter(
@@ -1440,10 +1440,10 @@ describe('ModelsConfig', () => {
 
       // Should still include vivekmind-oauth models (hard-coded)
       expect(allModels.length).toBeGreaterThan(0);
-      const qwenModels = allModels.filter(
+      const vivekmindModels = allModels.filter(
         (m) => m.authType === AuthType.VIVEKMIND_OAUTH,
       );
-      expect(qwenModels.length).toBeGreaterThan(0);
+      expect(vivekmindModels.length).toBeGreaterThan(0);
     });
 
     it('should return models with correct structure', () => {
@@ -1512,19 +1512,19 @@ describe('ModelsConfig', () => {
       expect(openaiOnly.map((m) => m.id)).toContain('openai-model-1');
 
       // Filter: include vivekmind-oauth but request it later -> still ordered first
-      const withQwen = modelsConfig.getAllConfiguredModels([
+      const withVivekMind = modelsConfig.getAllConfiguredModels([
         AuthType.USE_OPENAI,
         AuthType.VIVEKMIND_OAUTH,
         AuthType.USE_ANTHROPIC,
       ]);
-      expect(withQwen.length).toBeGreaterThan(0);
-      const firstNonQwenIndex = withQwen.findIndex(
+      expect(withVivekMind.length).toBeGreaterThan(0);
+      const firstNonVivekMindIndex = withVivekMind.findIndex(
         (m) => m.authType !== AuthType.VIVEKMIND_OAUTH,
       );
-      expect(firstNonQwenIndex).toBeGreaterThan(0);
+      expect(firstNonVivekMindIndex).toBeGreaterThan(0);
       expect(
-        withQwen
-          .slice(0, firstNonQwenIndex)
+        withVivekMind
+          .slice(0, firstNonVivekMindIndex)
           .every((m) => m.authType === AuthType.VIVEKMIND_OAUTH),
       ).toBe(true);
     });
@@ -2040,7 +2040,7 @@ describe('ModelsConfig', () => {
         },
       });
 
-      const initialQwenModels = modelsConfig
+      const initialVivekMindModels = modelsConfig
         .getAllConfiguredModels()
         .filter((m) => m.authType === AuthType.VIVEKMIND_OAUTH);
 
@@ -2049,10 +2049,10 @@ describe('ModelsConfig', () => {
       });
 
       // vivekmind-oauth models should still exist
-      const qwenModelsAfterReload = modelsConfig
+      const vivekmindModelsAfterReload = modelsConfig
         .getAllConfiguredModels()
         .filter((m) => m.authType === AuthType.VIVEKMIND_OAUTH);
-      expect(qwenModelsAfterReload.length).toBe(initialQwenModels.length);
+      expect(vivekmindModelsAfterReload.length).toBe(initialVivekMindModels.length);
     });
 
     it('should handle reload with undefined config', () => {

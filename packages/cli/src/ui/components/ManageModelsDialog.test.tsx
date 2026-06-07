@@ -41,22 +41,22 @@ describe('ManageModelsDialog helpers', () => {
   it('buildModelLabel uses the short display label only', () => {
     expect(
       buildModelLabel(
-        makeEntry('qwen/qwen3-coder:free', {
+        makeEntry('vivekmind/vivekmind3-coder:free', {
           badges: ['free', 'vision'],
           contextWindowSize: 1_000_000,
         }),
       ),
-    ).toBe('qwen/qwen3-coder:free');
+    ).toBe('vivekmind/vivekmind3-coder:free');
   });
 
   it.each<[FilterMode, string[]]>([
-    ['all', ['qwen/qwen3-coder:free', 'openai/gpt-4o-mini']],
+    ['all', ['vivekmind/vivekmind3-coder:free', 'openai/gpt-4o-mini']],
     ['enabled', ['openai/gpt-4o-mini']],
-    ['free', ['qwen/qwen3-coder:free']],
-    ['vision', ['qwen/qwen3-coder:free']],
+    ['free', ['vivekmind/vivekmind3-coder:free']],
+    ['vision', ['vivekmind/vivekmind3-coder:free']],
   ])('applyCatalogFilters supports %s filter', (filterMode, expectedIds) => {
     const entries = [
-      makeEntry('qwen/qwen3-coder:free', {
+      makeEntry('vivekmind/vivekmind3-coder:free', {
         badges: ['free', 'vision'],
         supportsVision: true,
       }),
@@ -75,7 +75,7 @@ describe('ManageModelsDialog helpers', () => {
 
   it('applyCatalogFilters combines query and filter mode', () => {
     const entries = [
-      makeEntry('qwen/qwen3-coder:free', {
+      makeEntry('vivekmind/vivekmind3-coder:free', {
         badges: ['free'],
       }),
       makeEntry('glm/glm-4.5-air:free', {
@@ -86,16 +86,16 @@ describe('ManageModelsDialog helpers', () => {
     expect(
       applyCatalogFilters({
         entries,
-        query: 'qwen',
+        query: 'vivekmind',
         selectedIds: [],
         filterMode: 'free',
       }).map((entry) => entry.id),
-    ).toEqual(['qwen/qwen3-coder:free']);
+    ).toEqual(['vivekmind/vivekmind3-coder:free']);
   });
 
   it('applyCatalogFilters supports enabled quick filter in search', () => {
     const entries = [
-      makeEntry('qwen/qwen3-coder:free'),
+      makeEntry('vivekmind/vivekmind3-coder:free'),
       makeEntry('openai/gpt-4o-mini'),
     ];
 

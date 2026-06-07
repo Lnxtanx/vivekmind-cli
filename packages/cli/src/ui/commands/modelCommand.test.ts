@@ -147,10 +147,10 @@ describe('modelCommand', () => {
         services: {
           config: {
             getContentGeneratorConfig: vi.fn().mockReturnValue({
-              model: 'qwen-max',
+              model: 'vivekmind-max',
               authType: AuthType.VIVEKMIND_OAUTH,
             }),
-            getModel: vi.fn().mockReturnValue('qwen-max'),
+            getModel: vi.fn().mockReturnValue('vivekmind-max'),
           },
         },
       });
@@ -160,7 +160,7 @@ describe('modelCommand', () => {
       expect(result).toEqual({
         type: 'message',
         messageType: 'info',
-        content: expect.stringContaining('qwen-max'),
+        content: expect.stringContaining('vivekmind-max'),
       });
       expect((result as { type: string }).type).toBe('message');
     });
@@ -172,13 +172,13 @@ describe('modelCommand', () => {
         services: {
           config: {
             getContentGeneratorConfig: vi.fn().mockReturnValue({
-              model: 'qwen-max',
+              model: 'vivekmind-max',
               authType: AuthType.VIVEKMIND_OAUTH,
             }),
-            getModel: vi.fn().mockReturnValue('qwen-max'),
+            getModel: vi.fn().mockReturnValue('vivekmind-max'),
           },
           settings: {
-            merged: { fastModel: 'qwen-turbo' } as Record<string, unknown>,
+            merged: { fastModel: 'vivekmind-turbo' } as Record<string, unknown>,
           },
         },
       });
@@ -188,7 +188,7 @@ describe('modelCommand', () => {
       expect(result).toEqual({
         type: 'message',
         messageType: 'info',
-        content: expect.stringContaining('qwen-turbo'),
+        content: expect.stringContaining('vivekmind-turbo'),
       });
     });
   });

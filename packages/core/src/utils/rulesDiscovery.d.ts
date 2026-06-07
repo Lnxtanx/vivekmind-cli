@@ -25,7 +25,7 @@ export interface LoadRulesResponse {
 export declare function parseRuleFile(rawContent: string, filePath: string): RuleFile | null;
 /**
  * Format loaded rules into a single string with source markers,
- * consistent with the `--- Context from: ... ---` format used for QWEN.md.
+ * consistent with the `--- Context from: ... ---` format used for VIVEKMIND.md.
  */
 export declare function formatRules(rules: RuleFile[], projectRoot: string): string;
 /**

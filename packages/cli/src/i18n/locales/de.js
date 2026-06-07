@@ -97,8 +97,8 @@ export default {
   // ============================================================================
   // Commands - General
   // ============================================================================
-  'Analyzes the project and creates a tailored QWEN.md file.':
-    'Analysiert das Projekt und erstellt eine maßgeschneiderte QWEN.md-Datei.',
+  'Analyzes the project and creates a tailored VIVEKMIND.md file.':
+    'Analysiert das Projekt und erstellt eine maßgeschneiderte VIVEKMIND.md-Datei.',
   'List available VivekMind tools. Usage: /tools [desc]':
     'Verfügbare VivekMind Werkzeuge auflisten. Verwendung: /tools [desc]',
   'List available skills.': 'Verfügbare Skills auflisten.',
@@ -431,8 +431,8 @@ export default {
   remote: 'remote',
   'This extension will add the following commands: {{commands}}.':
     'Diese Erweiterung wird folgende Befehle hinzufügen: {{commands}}.',
-  'This extension will append info to your QWEN.md context using {{fileName}}':
-    'Diese Erweiterung wird Informationen zu Ihrem QWEN.md-Kontext mit {{fileName}} hinzufügen',
+  'This extension will append info to your VIVEKMIND.md context using {{fileName}}':
+    'Diese Erweiterung wird Informationen zu Ihrem VIVEKMIND.md-Kontext mit {{fileName}} hinzufügen',
   'This extension will exclude the following core tools: {{tools}}':
     'Diese Erweiterung wird folgende Kernwerkzeuge ausschließen: {{tools}}',
   'This extension will install the following skills:':
@@ -1081,8 +1081,8 @@ export default {
     'Der Befehl /directory add wird in restriktiven Sandbox-Profilen nicht unterstützt. Bitte verwenden Sie --include-directories beim Starten der Sitzung.',
   "Error adding '{{path}}': {{error}}":
     "Fehler beim Hinzufügen von '{{path}}': {{error}}",
-  'Successfully added QWEN.md files from the following directories if there are:\n- {{directories}}':
-    'QWEN.md-Dateien aus folgenden Verzeichnissen erfolgreich hinzugefügt, falls vorhanden:\n- {{directories}}',
+  'Successfully added VIVEKMIND.md files from the following directories if there are:\n- {{directories}}':
+    'VIVEKMIND.md-Dateien aus folgenden Verzeichnissen erfolgreich hinzugefügt, falls vorhanden:\n- {{directories}}',
   'Error refreshing memory: {{error}}':
     'Fehler beim Aktualisieren des Speichers: {{error}}',
   'Successfully added directories:\n- {{directories}}':
@@ -1399,8 +1399,8 @@ export default {
     "Modell konnte nicht auf '{{modelId}}' umgestellt werden.\n\n{{error}}",
   'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
     'VivekMind 3.6 Plus — effizientes Hybridmodell mit führender Programmierleistung',
-  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    'Das neueste VivekMind Vision Modell von Alibaba Cloud ModelStudio (Version: qwen3-vl-plus-2025-09-23)',
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: vivekmind3-vl-plus-2025-09-23)':
+    'Das neueste VivekMind Vision Modell von Alibaba Cloud ModelStudio (Version: vivekmind3-vl-plus-2025-09-23)',
 
   // ============================================================================
   // Dialogs - Permissions
@@ -1835,8 +1835,8 @@ export default {
     'Probieren Sie /insight, um personalisierte Erkenntnisse aus Ihrem Chatverlauf zu erstellen.',
   'Press Ctrl+O to toggle compact mode — hide tool output and thinking for a cleaner view.':
     'Strg+O drücken, um den Kompaktmodus umzuschalten — Tool-Ausgabe und Denkprozess ausblenden.',
-  'Add a QWEN.md file to give VivekMind persistent project context.':
-    'Fügen Sie eine QWEN.md-Datei hinzu, um VivekMind dauerhaften Projektkontext zu geben.',
+  'Add a VIVEKMIND.md file to give VivekMind persistent project context.':
+    'Fügen Sie eine VIVEKMIND.md-Datei hinzu, um VivekMind dauerhaften Projektkontext zu geben.',
   'Use /btw to ask a quick side question without disrupting the conversation.':
     'Verwenden Sie /btw, um eine kurze Nebenfrage zu stellen, ohne die Unterhaltung zu unterbrechen.',
   'Context is almost full! Run /compress now or start /new to continue.':

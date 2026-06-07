@@ -33,27 +33,27 @@ const argv = yargs(hideBin(process.argv)).option('q', {
   default: false,
 }).argv;
 
-let qwenSandbox = process.env.VIVEKMIND_SANDBOX;
+let vivekmindSandbox = process.env.VIVEKMIND_SANDBOX;
 
-if (!qwenSandbox) {
+if (!vivekmindSandbox) {
   const userSettingsFile = join(os.homedir(), '.vivekmind', 'settings.json');
   if (existsSync(userSettingsFile)) {
     const settings = JSON.parse(
       stripJsonComments(readFileSync(userSettingsFile, 'utf-8')),
     );
     if (settings.sandbox) {
-      qwenSandbox = settings.sandbox;
+      vivekmindSandbox = settings.sandbox;
     }
   }
 }
 
-if (!qwenSandbox) {
+if (!vivekmindSandbox) {
   let currentDir = process.cwd();
   while (true) {
-    const qwenEnv = join(currentDir, '.vivekmind', '.env');
+    const vivekmindEnv = join(currentDir, '.vivekmind', '.env');
     const regularEnv = join(currentDir, '.env');
-    if (existsSync(qwenEnv)) {
-      dotenv.config({ path: qwenEnv, quiet: true });
+    if (existsSync(vivekmindEnv)) {
+      dotenv.config({ path: vivekmindEnv, quiet: true });
       break;
     } else if (existsSync(regularEnv)) {
       dotenv.config({ path: regularEnv, quiet: true });
@@ -65,10 +65,10 @@ if (!qwenSandbox) {
     }
     currentDir = parentDir;
   }
-  qwenSandbox = process.env.VIVEKMIND_SANDBOX;
+  vivekmindSandbox = process.env.VIVEKMIND_SANDBOX;
 }
 
-qwenSandbox = (qwenSandbox || '').toLowerCase();
+vivekmindSandbox = (vivekmindSandbox || '').toLowerCase();
 
 const commandExists = (cmd) => {
   // Use 'where.exe' (not 'where') on Windows because PowerShell aliases
@@ -91,7 +91,7 @@ const commandExists = (cmd) => {
 };
 
 let command = '';
-if (['1', 'true'].includes(qwenSandbox)) {
+if (['1', 'true'].includes(vivekmindSandbox)) {
   if (commandExists('docker')) {
     command = 'docker';
   } else if (commandExists('podman')) {
@@ -102,12 +102,12 @@ if (['1', 'true'].includes(qwenSandbox)) {
     );
     process.exit(1);
   }
-} else if (qwenSandbox && !['0', 'false'].includes(qwenSandbox)) {
-  if (commandExists(qwenSandbox)) {
-    command = qwenSandbox;
+} else if (vivekmindSandbox && !['0', 'false'].includes(vivekmindSandbox)) {
+  if (commandExists(vivekmindSandbox)) {
+    command = vivekmindSandbox;
   } else {
     console.error(
-      `ERROR: missing sandbox command '${qwenSandbox}' (from VIVEKMIND_SANDBOX)`,
+      `ERROR: missing sandbox command '${vivekmindSandbox}' (from VIVEKMIND_SANDBOX)`,
     );
     process.exit(1);
   }

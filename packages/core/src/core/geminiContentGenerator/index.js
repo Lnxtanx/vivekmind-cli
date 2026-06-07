@@ -12,7 +12,7 @@ export { GeminiContentGenerator } from './geminiContentGenerator.js';
 export function createGeminiContentGenerator(config, gcConfig) {
     const version = process.env['CLI_VERSION'] || process.version;
     const userAgent = config.userAgent ||
-        `QwenCode/${version} (${process.platform}; ${process.arch})`;
+        `VivekMindCode/${version} (${process.platform}; ${process.arch})`;
     const baseHeaders = {
         'User-Agent': userAgent,
     };

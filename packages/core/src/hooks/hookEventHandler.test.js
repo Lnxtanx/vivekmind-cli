@@ -1124,12 +1124,12 @@ describe('HookEventHandler', () => {
             vi.mocked(mockHookPlanner.createExecutionPlan).mockReturnValue(mockPlan);
             vi.mocked(mockHookRunner.executeHooksParallel).mockResolvedValue([]);
             vi.mocked(mockHookAggregator.aggregateResults).mockReturnValue(createMockAggregatedResult(true));
-            await hookEventHandler.fireSubagentStartEvent('agent-456', 'qwen-tester', PermissionMode.Plan);
+            await hookEventHandler.fireSubagentStartEvent('agent-456', 'vivekmind-tester', PermissionMode.Plan);
             const mockCalls = mockHookRunner.executeHooksParallel.mock
                 .calls;
             const input = mockCalls[0][2];
             expect(input.agent_id).toBe('agent-456');
-            expect(input.agent_type).toBe('qwen-tester');
+            expect(input.agent_type).toBe('vivekmind-tester');
             expect(input.permission_mode).toBe(PermissionMode.Plan);
             expect(input.hook_event_name).toBe(HookEventName.SubagentStart);
         });
@@ -1213,12 +1213,12 @@ describe('HookEventHandler', () => {
             vi.mocked(mockHookPlanner.createExecutionPlan).mockReturnValue(mockPlan);
             vi.mocked(mockHookRunner.executeHooksParallel).mockResolvedValue([]);
             vi.mocked(mockHookAggregator.aggregateResults).mockReturnValue(createMockAggregatedResult(true));
-            await hookEventHandler.fireSubagentStopEvent('agent-456', 'qwen-tester', '/transcript/path.jsonl', 'last message from agent', true, PermissionMode.Yolo);
+            await hookEventHandler.fireSubagentStopEvent('agent-456', 'vivekmind-tester', '/transcript/path.jsonl', 'last message from agent', true, PermissionMode.Yolo);
             const mockCalls = mockHookRunner.executeHooksParallel.mock
                 .calls;
             const input = mockCalls[0][2];
             expect(input.agent_id).toBe('agent-456');
-            expect(input.agent_type).toBe('qwen-tester');
+            expect(input.agent_type).toBe('vivekmind-tester');
             expect(input.agent_transcript_path).toBe('/transcript/path.jsonl');
             expect(input.last_assistant_message).toBe('last message from agent');
             expect(input.stop_hook_active).toBe(true);

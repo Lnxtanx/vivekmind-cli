@@ -25,7 +25,7 @@ Add to `settings.json`:
     "enabled": true,
     "target": "all",
     "promptFile": ".vivekmind/rewrite-prompt.txt",
-    "model": "qwen3-plus",
+    "model": "vivekmind3-plus",
     "contextTurns": 1,
     "timeoutMs": 60000
   }

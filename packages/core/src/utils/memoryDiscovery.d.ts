@@ -20,7 +20,7 @@ export interface LoadServerHierarchicalMemoryOptions {
     explicitOnly?: boolean;
 }
 /**
- * Loads hierarchical QWEN.md files and concatenates their content.
+ * Loads hierarchical VIVEKMIND.md files and concatenates their content.
  * Also loads path-based context rules from `.vivekmind/rules/` directories.
  * This function is intended for use by the server.
  *

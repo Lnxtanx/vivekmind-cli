@@ -15,7 +15,7 @@ declare global {
 const ReactDOM = window.ReactDOM;
 const React = window.React;
 
-declare const QwenCodeWebUI: {
+declare const VivekMindWebUI: {
   ChatViewer: (props: {
     messages: unknown[];
     autoScroll: boolean;
@@ -27,7 +27,7 @@ declare const QwenCodeWebUI: {
   }) => React.ReactNode;
 };
 
-const { ChatViewer, PlatformProvider } = QwenCodeWebUI;
+const { ChatViewer, PlatformProvider } = VivekMindWebUI;
 
 const logoSvgWithGradient = (() => {
   if (!logoSvg) {

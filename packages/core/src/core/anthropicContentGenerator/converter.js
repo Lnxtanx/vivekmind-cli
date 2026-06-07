@@ -509,7 +509,7 @@ export class AnthropicContentConverter {
      * Should be paired with `fillMissingThinkingSignatures` running first
      * so that signature-less `thinking` blocks become compliant in place
      * (preserving their original text), and this pass then sees them as
-     * already-satisfying. https://github.com/QwenLM/qwen-code/issues/3786
+     * already-satisfying. https://github.com/VivekMindLM/vivekmind-cli/issues/3786
      */
     injectEmptyThinkingOnToolUseTurns(messages) {
         for (const message of messages) {

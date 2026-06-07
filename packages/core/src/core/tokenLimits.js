@@ -40,16 +40,16 @@ export function normalize(model) {
         s = s.split(':').pop() ?? s;
     }
     // Strip Bedrock region and provider prefixes (e.g., us.anthropic.claude, meta.llama, zai.glm, deepseek.v3)
-    s = s.replace(/^(?:us\.|eu\.|ap\.)?(?:anthropic|meta|mistral|cohere|amazon|deepseek|qwen|zai|ai21|twelvelabs|writer|google)\./, '');
+    s = s.replace(/^(?:us\.|eu\.|ap\.)?(?:anthropic|meta|mistral|cohere|amazon|deepseek|vivekmind|zai|ai21|twelvelabs|writer|google)\./, '');
     // collapse whitespace to single hyphen
     s = s.replace(/\s+/g, '-');
     // remove trailing build / date / revision suffixes:
     // - dates (e.g., -20250219), -v1, version numbers, 'latest', 'preview' etc.
     s = s.replace(/-preview/g, '');
     // Special handling for model names that include date/version as part of the model identifier
-    // - VivekMind models: qwen-plus-latest, qwen-flash-latest, qwen-vl-max-latest
+    // - VivekMind models: vivekmind-plus-latest, vivekmind-flash-latest, vivekmind-vl-max-latest
     // - Kimi models: kimi-k2-0905, kimi-k2-0711, etc. (keep date for version distinction)
-    if (!s.match(/^qwen-(?:plus|flash|vl-max)-latest$/) &&
+    if (!s.match(/^vivekmind-(?:plus|flash|vl-max)-latest$/) &&
         !s.match(/^kimi-k2-\d{4}$/)) {
         // Regex breakdown:
         // -(?:...)$ - Non-capturing group for suffixes at the end of the string
@@ -97,17 +97,17 @@ const PATTERNS = [
     // Alibaba / VivekMind
     // -------------------
     // Commercial API models (1,000,000 context)
-    [/^qwen3-coder/, LIMITS['1m']],
-    [/^qwen3\.\d/, LIMITS['1m']],
-    [/^qwen-plus-latest$/, LIMITS['1m']],
-    [/^qwen-flash-latest$/, LIMITS['1m']],
+    [/^vivekmind3-coder/, LIMITS['1m']],
+    [/^vivekmind3\.\d/, LIMITS['1m']],
+    [/^vivekmind-plus-latest$/, LIMITS['1m']],
+    [/^vivekmind-flash-latest$/, LIMITS['1m']],
     [/^coder-model$/, LIMITS['1m']],
     // Commercial API models (256K context)
-    [/^qwen3-max/, LIMITS['256k']],
-    // Open-source Qwen3 variants: 256K native
-    [/^qwen3-coder-/, LIMITS['256k']],
+    [/^vivekmind3-max/, LIMITS['256k']],
+    // Open-source VivekMind3 variants: 256K native
+    [/^vivekmind3-coder-/, LIMITS['256k']],
     // VivekMind fallback (VL, turbo, plus, 2.5, etc.): 128K
-    [/^qwen/, LIMITS['256k']],
+    [/^vivekmind/, LIMITS['256k']],
     // -------------------
     // DeepSeek
     // -------------------
@@ -188,10 +188,10 @@ const OUTPUT_PATTERNS = [
     [/^claude-opus-4-6/, LIMITS['128k']], // Opus 4.6: 128K
     [/^claude-/, LIMITS['64k']], // Claude fallback: 64K
     // Alibaba / VivekMind
-    [/^qwen3-coder/, LIMITS['64k']],
-    [/^qwen3\.\d/, LIMITS['64k']],
+    [/^vivekmind3-coder/, LIMITS['64k']],
+    [/^vivekmind3\.\d/, LIMITS['64k']],
     [/^coder-model$/, LIMITS['64k']],
-    [/^qwen/, LIMITS['32k']], // VivekMind fallback (VL, turbo, plus, etc.): 8K
+    [/^vivekmind/, LIMITS['32k']], // VivekMind fallback (VL, turbo, plus, etc.): 8K
     // DeepSeek
     [/^v3\.2/, LIMITS['8k']],
     [/^deepseek-v4/, LIMITS['384k']], // DeepSeek V4 (flash, pro): 384K

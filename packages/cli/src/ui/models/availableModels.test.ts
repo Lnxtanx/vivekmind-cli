@@ -77,7 +77,7 @@ describe('availableModels', () => {
       process.env = originalEnv;
     });
 
-    it('should return hard-coded qwen models for vivekmind-oauth', () => {
+    it('should return hard-coded vivekmind models for vivekmind-oauth', () => {
       const models = getAvailableModelsForAuthType(AuthType.VIVEKMIND_OAUTH);
       expect(models.length).toBe(1);
       expect(models[0].id).toBe('coder-model');

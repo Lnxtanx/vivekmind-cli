@@ -168,8 +168,8 @@ describe('systemInfo', () => {
       expect(getSandboxEnv(false)).toBe('vivekmind-test-sandbox');
     });
 
-    it('should handle qwen- prefix removal', () => {
-      process.env['SANDBOX'] = 'qwen-custom-sandbox';
+    it('should handle vivekmind- prefix removal', () => {
+      process.env['SANDBOX'] = 'vivekmind-custom-sandbox';
       expect(getSandboxEnv(true)).toBe('custom-sandbox');
     });
   });

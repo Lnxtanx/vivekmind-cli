@@ -19,9 +19,9 @@ vi.mock('./sharedTokenManager.js', () => ({
             }
             return this.instance;
         }
-        async getValidCredentials(qwenClient) {
+        async getValidCredentials(vivekmindClient) {
             // Try to get credentials from the client first
-            const clientCredentials = qwenClient.getCredentials();
+            const clientCredentials = vivekmindClient.getCredentials();
             if (clientCredentials && clientCredentials.access_token) {
                 return clientCredentials;
             }

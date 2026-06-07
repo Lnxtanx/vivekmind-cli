@@ -896,8 +896,8 @@ describe('HookSystem', () => {
                 },
             };
             vi.mocked(mockHookEventHandler.fireSubagentStopEvent).mockResolvedValue(mockResult);
-            await hookSystem.fireSubagentStopEvent('agent-456', 'qwen-tester', '/transcript/path.jsonl', 'last message from agent', true, PermissionMode.Plan);
-            expect(mockHookEventHandler.fireSubagentStopEvent).toHaveBeenCalledWith('agent-456', 'qwen-tester', '/transcript/path.jsonl', 'last message from agent', true, PermissionMode.Plan, undefined);
+            await hookSystem.fireSubagentStopEvent('agent-456', 'vivekmind-tester', '/transcript/path.jsonl', 'last message from agent', true, PermissionMode.Plan);
+            expect(mockHookEventHandler.fireSubagentStopEvent).toHaveBeenCalledWith('agent-456', 'vivekmind-tester', '/transcript/path.jsonl', 'last message from agent', true, PermissionMode.Plan, undefined);
         });
         it('should return undefined when no final output', async () => {
             const mockResult = {

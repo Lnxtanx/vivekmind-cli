@@ -807,7 +807,7 @@ export function logModelSlashCommand(
 }
 
 export function logHookCall(config: Config, event: HookCallEvent): void {
-  // Log to QwenLogger for RUM telemetry only
+  // Log to VivekMindLogger for RUM telemetry only
   VivekMindLogger.getInstance(config)?.logHookCallEvent(event);
 }
 

@@ -51,7 +51,7 @@ export interface SkillConfig {
   /**
    * Optional model override for this skill's execution.
    * Uses the same selector syntax as subagent model selectors:
-   * bare model ID (e.g., `qwen-coder-plus`), `authType:modelId`
+   * bare model ID (e.g., `vivekmind-clir-plus`), `authType:modelId`
    * for cross-provider, or omitted/`inherit` to use the session model.
    */
   model?: string;

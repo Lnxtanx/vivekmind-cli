@@ -43,7 +43,7 @@ function isDeepSeekAnthropicHostname(contentGeneratorConfig) {
  * anthropic-compatible endpoints (sglang/vllm). For decisions where a model-
  * name false positive is dangerous (e.g. `reasoning.effort: 'max'` clamping),
  * use `isDeepSeekAnthropicHostname` instead.
- * https://github.com/QwenLM/qwen-code/issues/3786
+ * https://github.com/VivekMindLM/vivekmind-cli/issues/3786
  */
 function isDeepSeekAnthropicProvider(contentGeneratorConfig) {
     if (isDeepSeekAnthropicHostname(contentGeneratorConfig))
@@ -132,7 +132,7 @@ export class AnthropicContentGenerator {
         // would cause two physical headers on the wire (one mixed-case, one
         // lowercase) when the per-request override fires.
         const version = this.cliConfig.getCliVersion() || 'unknown';
-        const userAgent = `QwenCode/${version} (${process.platform}; ${process.arch})`;
+        const userAgent = `VivekMindCode/${version} (${process.platform}; ${process.arch})`;
         const { customHeaders } = this.contentGeneratorConfig;
         const headers = { 'User-Agent': userAgent };
         if (customHeaders) {

@@ -114,11 +114,11 @@ describe('modelConfigResolver', () => {
                     cli: {},
                     settings: {},
                     env: {
-                        VIVEKMIND_MODEL: 'qwen-model',
+                        VIVEKMIND_MODEL: 'vivekmind-model',
                         OPENAI_API_KEY: 'key',
                     },
                 });
-                expect(result.config.model).toBe('qwen-model');
+                expect(result.config.model).toBe('vivekmind-model');
                 expect(result.sources['model'].envKey).toBe('VIVEKMIND_MODEL');
             });
         });
@@ -590,7 +590,7 @@ describe('modelConfigResolver', () => {
     });
     describe('[Regression] timeout env override refactor', () => {
         it('[Regression] OAuth path must apply VIVEKMIND_CODE_API_TIMEOUT_MS (was broken before fix #3629)', () => {
-            // Guards against the original bug where resolveQwenOAuthConfig()
+            // Guards against the original bug where resolveVivekMindOAuthConfig()
             // returned before applying the env override.
             const result = resolveModelConfig({
                 authType: AuthType.VIVEKMIND_OAUTH,

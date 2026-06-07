@@ -64,11 +64,11 @@ export const VISION_MODEL_MAP: Record<string, VisionCapability> = {
   'gemini-1.5-pro': GEMINI_VISION,
   'gemini-1.5-flash': GEMINI_VISION,
 
-  'qwen3.5-plus': VIVEKMIND_VISION,
-  'qwen3.6-plus': VIVEKMIND_VISION,
+  'vivekmind3.5-plus': VIVEKMIND_VISION,
+  'vivekmind3.6-plus': VIVEKMIND_VISION,
   'coder-model': VIVEKMIND_VISION,
-  'qwen-vl-': VIVEKMIND_VISION,
-  'qwen3-vl-': VIVEKMIND_VISION,
+  'vivekmind-vl-': VIVEKMIND_VISION,
+  'vivekmind3-vl-': VIVEKMIND_VISION,
 
   'glm-4.5v': {
     supportsVision: true,

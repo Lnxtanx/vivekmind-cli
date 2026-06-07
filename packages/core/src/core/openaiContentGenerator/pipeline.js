@@ -252,7 +252,7 @@ export class ContentGenerationPipeline {
         //   - the config-level opt-out is set (`reasoning: false`).
         // In both cases we want the wire shape to actually disable thinking,
         // not just remove the effort knob — otherwise providers whose default
-        // is "thinking enabled" (DeepSeek V4+, qwen3) keep paying thinking
+        // is "thinking enabled" (DeepSeek V4+, vivekmind3) keep paying thinking
         // latency/cost.
         const reasoningDisabled = request.config?.thinkingConfig?.includeThoughts === false ||
             this.contentGeneratorConfig.reasoning === false;
@@ -338,7 +338,7 @@ export class ContentGenerationPipeline {
         //   - glm-4.7             — thinking is enabled by default; can be disabled via `extra_body.thinking.enabled`
         //   - kimi-k2-thinking    — thinking is enabled by default and cannot be disabled
         //   - gpt-5.x series      — thinking is enabled by default; can be disabled via `reasoning.effort`
-        //   - qwen3 series        — model-dependent; can be manually disabled via `extra_body.enable_thinking`
+        //   - vivekmind3 series        — model-dependent; can be manually disabled via `extra_body.enable_thinking`
         //
         // Given this inconsistency, we avoid mapping values and only pass through the
         // configured reasoning object when explicitly enabled. This keeps provider- and

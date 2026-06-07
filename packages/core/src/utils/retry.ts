@@ -7,7 +7,7 @@
 
 import type { GenerateContentResponse } from '@google/genai';
 import { AuthType } from '../core/contentGenerator.js';
-import { isQwenQuotaExceededError } from './quotaErrorDetection.js';
+import { isVivekMindQuotaExceededError } from './quotaErrorDetection.js';
 import { createDebugLogger } from './debugLogger.js';
 import { getErrorStatus } from './errors.js';
 
@@ -198,7 +198,7 @@ export async function retryWithBackoff<T>(
       const errorStatus = getErrorStatus(error);
 
       // Check for VivekMind OAuth quota exceeded error - throw immediately without retry
-      if (authType === AuthType.VIVEKMIND_OAUTH && isQwenQuotaExceededError(error)) {
+      if (authType === AuthType.VIVEKMIND_OAUTH && isVivekMindQuotaExceededError(error)) {
         throw new Error(
           `VivekMind OAuth free tier has been discontinued as of 2026-04-15.\n\n` +
             `To continue using VivekMind, try one of these alternatives:\n` +

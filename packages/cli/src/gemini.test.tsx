@@ -111,7 +111,7 @@ vi.mock('./core/initializer.js', () => ({
 describe('gemini.tsx main function', () => {
   let originalEnvGeminiSandbox: string | undefined;
   let originalEnvSandbox: string | undefined;
-  let originalEnvQwenCodeSimple: string | undefined;
+  let originalEnvVivekMindCodeSimple: string | undefined;
   let initialUnhandledRejectionListeners: NodeJS.UnhandledRejectionListener[] =
     [];
 
@@ -119,7 +119,7 @@ describe('gemini.tsx main function', () => {
     // Store and clear sandbox-related env variables to ensure a consistent test environment
     originalEnvGeminiSandbox = process.env['VIVEKMIND_SANDBOX'];
     originalEnvSandbox = process.env['SANDBOX'];
-    originalEnvQwenCodeSimple = process.env['VIVEKMIND_CODE_SIMPLE'];
+    originalEnvVivekMindCodeSimple = process.env['VIVEKMIND_CODE_SIMPLE'];
     delete process.env['VIVEKMIND_SANDBOX'];
     delete process.env['SANDBOX'];
     delete process.env['VIVEKMIND_CODE_SIMPLE'];
@@ -140,8 +140,8 @@ describe('gemini.tsx main function', () => {
     } else {
       delete process.env['SANDBOX'];
     }
-    if (originalEnvQwenCodeSimple !== undefined) {
-      process.env['VIVEKMIND_CODE_SIMPLE'] = originalEnvQwenCodeSimple;
+    if (originalEnvVivekMindCodeSimple !== undefined) {
+      process.env['VIVEKMIND_CODE_SIMPLE'] = originalEnvVivekMindCodeSimple;
     } else {
       delete process.env['VIVEKMIND_CODE_SIMPLE'];
     }

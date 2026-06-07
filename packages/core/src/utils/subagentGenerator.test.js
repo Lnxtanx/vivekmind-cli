@@ -17,7 +17,7 @@ describe('subagentGenerator', () => {
         // Create a mock config that returns the mock client and model
         mockConfig = {
             getBaseLlmClient: vi.fn().mockReturnValue(mockClient),
-            getModel: vi.fn().mockReturnValue('qwen3-coder-plus'),
+            getModel: vi.fn().mockReturnValue('vivekmind3-coder-plus'),
         };
     });
     afterEach(() => {
@@ -48,7 +48,7 @@ describe('subagentGenerator', () => {
         expect(callParams.contents[0]?.parts?.[0]?.text).toContain(`Create an agent configuration based on this request: "${userDescription}"`);
         // Check other parameters
         expect(callParams.abortSignal).toBe(abortSignal);
-        expect(callParams.model).toBe('qwen3-coder-plus');
+        expect(callParams.model).toBe('vivekmind3-coder-plus');
         expect(callParams.systemInstruction).toContain('You are an elite AI agent architect');
     });
     it('should throw error when LLM response is missing required fields', async () => {
@@ -87,7 +87,7 @@ describe('subagentGenerator', () => {
         mockClient.generateJson.mockResolvedValue(mockResponse);
         await subagentGenerator(userDescription, mockConfig, abortSignal);
         expect(mockClient.generateJson).toHaveBeenCalledWith(expect.objectContaining({
-            model: 'qwen3-coder-plus',
+            model: 'vivekmind3-coder-plus',
             contents: expect.any(Object),
             schema: expect.objectContaining({
                 type: 'object',

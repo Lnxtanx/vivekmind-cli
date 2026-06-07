@@ -210,7 +210,7 @@ describe('renameCommand', () => {
 
     it('uses fastModel when configured', async () => {
       const { config, generateContent } = mockConfigForKebab({
-        fastModel: 'qwen-turbo',
+        fastModel: 'vivekmind-turbo',
         model: 'main-model',
       });
       mockContext = createMockCommandContext({
@@ -220,7 +220,7 @@ describe('renameCommand', () => {
       await renameCommand.action!(mockContext, '');
 
       expect(generateContent).toHaveBeenCalledOnce();
-      expect(generateContent.mock.calls[0][0].model).toBe('qwen-turbo');
+      expect(generateContent.mock.calls[0][0].model).toBe('vivekmind-turbo');
     });
 
     it('falls back to main model when fastModel is unset', async () => {
@@ -267,7 +267,7 @@ describe('renameCommand', () => {
         getChatRecordingService: vi.fn().mockReturnValue({
           recordCustomTitle: vi.fn(),
         }),
-        getFastModel: vi.fn().mockReturnValue('qwen-turbo'),
+        getFastModel: vi.fn().mockReturnValue('vivekmind-turbo'),
       };
       mockContext = createMockCommandContext({
         services: { config: mockConfig as never },
@@ -288,14 +288,14 @@ describe('renameCommand', () => {
       tryGenerateSessionTitleMock.mockResolvedValue({
         ok: true,
         title: 'Fix login button on mobile',
-        modelUsed: 'qwen-turbo',
+        modelUsed: 'vivekmind-turbo',
       });
       const mockRecordCustomTitle = vi.fn().mockReturnValue(true);
       const mockConfig = {
         getChatRecordingService: vi.fn().mockReturnValue({
           recordCustomTitle: mockRecordCustomTitle,
         }),
-        getFastModel: vi.fn().mockReturnValue('qwen-turbo'),
+        getFastModel: vi.fn().mockReturnValue('vivekmind-turbo'),
       };
       mockContext = createMockCommandContext({
         services: { config: mockConfig as never },
@@ -324,7 +324,7 @@ describe('renameCommand', () => {
         getChatRecordingService: vi.fn().mockReturnValue({
           recordCustomTitle: vi.fn(),
         }),
-        getFastModel: vi.fn().mockReturnValue('qwen-turbo'),
+        getFastModel: vi.fn().mockReturnValue('vivekmind-turbo'),
       };
       mockContext = createMockCommandContext({
         services: { config: mockConfig as never },
@@ -349,7 +349,7 @@ describe('renameCommand', () => {
         getChatRecordingService: vi.fn().mockReturnValue({
           recordCustomTitle: vi.fn(),
         }),
-        getFastModel: vi.fn().mockReturnValue('qwen-turbo'),
+        getFastModel: vi.fn().mockReturnValue('vivekmind-turbo'),
       };
       mockContext = createMockCommandContext({
         services: { config: mockConfig as never },
@@ -370,7 +370,7 @@ describe('renameCommand', () => {
         getChatRecordingService: vi.fn().mockReturnValue({
           recordCustomTitle: vi.fn(),
         }),
-        getFastModel: vi.fn().mockReturnValue('qwen-turbo'),
+        getFastModel: vi.fn().mockReturnValue('vivekmind-turbo'),
       };
       mockContext = createMockCommandContext({
         services: { config: mockConfig as never },
@@ -397,7 +397,7 @@ describe('renameCommand', () => {
         getChatRecordingService: vi.fn().mockReturnValue({
           recordCustomTitle: vi.fn(),
         }),
-        getFastModel: vi.fn().mockReturnValue('qwen-turbo'),
+        getFastModel: vi.fn().mockReturnValue('vivekmind-turbo'),
       };
       mockContext = createMockCommandContext({
         services: { config: mockConfig as never },
@@ -416,7 +416,7 @@ describe('renameCommand', () => {
       tryGenerateSessionTitleMock.mockResolvedValue({
         ok: true,
         title: 'Audit auth middleware',
-        modelUsed: 'qwen-turbo',
+        modelUsed: 'vivekmind-turbo',
       });
       const mockRenameSession = vi.fn().mockResolvedValue(true);
       const mockConfig = {
@@ -425,7 +425,7 @@ describe('renameCommand', () => {
         getSessionService: vi.fn().mockReturnValue({
           renameSession: mockRenameSession,
         }),
-        getFastModel: vi.fn().mockReturnValue('qwen-turbo'),
+        getFastModel: vi.fn().mockReturnValue('vivekmind-turbo'),
       };
       mockContext = createMockCommandContext({
         services: { config: mockConfig as never },

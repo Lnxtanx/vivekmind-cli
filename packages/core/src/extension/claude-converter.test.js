@@ -8,16 +8,16 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
-import { convertClaudeToQwenConfig, mergeClaudeConfigs, isClaudePluginConfig, convertClaudePluginPackage, } from './claude-converter.js';
+import { convertClaudeToVivekMindConfig, mergeClaudeConfigs, isClaudePluginConfig, convertClaudePluginPackage, } from './claude-converter.js';
 import { HookType } from '../hooks/types.js';
 import { performVariableReplacement } from './variables.js';
-describe('convertClaudeToQwenConfig', () => {
+describe('convertClaudeToVivekMindConfig', () => {
     it('should convert basic Claude config', () => {
         const claudeConfig = {
             name: 'claude-plugin',
             version: '1.0.0',
         };
-        const result = convertClaudeToQwenConfig(claudeConfig);
+        const result = convertClaudeToVivekMindConfig(claudeConfig);
         expect(result.name).toBe('claude-plugin');
         expect(result.version).toBe('1.0.0');
     });
@@ -29,7 +29,7 @@ describe('convertClaudeToQwenConfig', () => {
             agents: ['agents/agent1.md'],
             skills: ['skills/skill1'],
         };
-        const result = convertClaudeToQwenConfig(claudeConfig);
+        const result = convertClaudeToVivekMindConfig(claudeConfig);
         // Commands, skills, agents are collected as directories, not in config
         expect(result.name).toBe('full-plugin');
         expect(result.version).toBe('1.0.0');
@@ -49,14 +49,14 @@ describe('convertClaudeToQwenConfig', () => {
                 },
             },
         };
-        const result = convertClaudeToQwenConfig(claudeConfig);
+        const result = convertClaudeToVivekMindConfig(claudeConfig);
         expect(result.lspServers).toEqual(claudeConfig.lspServers);
     });
     it('should throw error for missing name', () => {
         const invalidConfig = {
             version: '1.0.0',
         };
-        expect(() => convertClaudeToQwenConfig(invalidConfig)).toThrow();
+        expect(() => convertClaudeToVivekMindConfig(invalidConfig)).toThrow();
     });
 });
 describe('mergeClaudeConfigs', () => {

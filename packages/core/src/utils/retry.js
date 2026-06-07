@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { AuthType } from '../core/contentGenerator.js';
-import { isQwenQuotaExceededError } from './quotaErrorDetection.js';
+import { isVivekMindQuotaExceededError } from './quotaErrorDetection.js';
 import { createDebugLogger } from './debugLogger.js';
 import { getErrorStatus } from './errors.js';
 const debugLogger = createDebugLogger('RETRY');
@@ -122,7 +122,7 @@ export async function retryWithBackoff(fn, options) {
         catch (error) {
             const errorStatus = getErrorStatus(error);
             // Check for VivekMind OAuth quota exceeded error - throw immediately without retry
-            if (authType === AuthType.VIVEKMIND_OAUTH && isQwenQuotaExceededError(error)) {
+            if (authType === AuthType.VIVEKMIND_OAUTH && isVivekMindQuotaExceededError(error)) {
                 throw new Error(`VivekMind OAuth free tier has been discontinued as of 2026-04-15.\n\n` +
                     `To continue using VivekMind, try one of these alternatives:\n` +
                     `  - OpenRouter:    https://openrouter.ai/docs/quickstart\n` +

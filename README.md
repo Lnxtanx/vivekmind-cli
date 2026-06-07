@@ -18,7 +18,7 @@
 
 ---
 
-VivekMind is a fork of [Qwen Code](https://github.com/QwenLM/qwen-code) (by Google & Alibaba Cloud), tailored for developers who want a powerful, provider-flexible AI coding assistant that lives entirely inside the terminal. It ships with native AWS Bedrock integration, 20+ AI provider support, and a rich extensible architecture built around tools, skills, agents, and MCP servers.
+VivekMind CLI is a powerful, provider-flexible AI coding assistant that lives entirely inside your terminal. It features native AWS Bedrock integration, multi-model capability (20+ providers supported), and a rich extensible architecture built around tools, skills, subagents, and Model Context Protocol (MCP) servers.
 
 Install it, point it at any model, and start coding — all from your shell.
 
@@ -50,7 +50,7 @@ VivekMind supports a wide range of AI providers out of the box. Set the correspo
 
 | Provider | Auth Type | Example Models |
 |----------|-----------|----------------|
-| **AWS Bedrock** | `bedrock` | Claude (3/3.5/4.7), Amazon Nova (Pro/Lite/Micro), Llama (3/3.1/3.3/4), Qwen Coder, GLM, Mistral, Cohere |
+| **AWS Bedrock** | `bedrock` | Claude (3/3.5/4.7), Amazon Nova (Pro/Lite/Micro), Llama (3/3.1/3.3/4), VivekMind CLIr, GLM, Mistral, Cohere |
 | **Anthropic** | `anthropic` | Claude Opus 4.7, Sonnet 4.6, Haiku 4.5 |
 | **Google Gemini** | `gemini` | Gemini 3 Pro, 2.5 Pro, 2.5 Flash |
 | **OpenAI** | `openai` | GPT-5.2, 5.4 Mini, 4.1, o3, o4-mini |
@@ -58,7 +58,7 @@ VivekMind supports a wide range of AI providers out of the box. Set the correspo
 | **Anthropic (Vertex AI)** | `anthropic-vertex-ai` | Claude Opus 4.7 (Vertex) |
 | **DeepSeek** | `deepseek` | DeepSeek Chat V3, DeepSeek Reasoner R1 |
 | **Mistral AI** | `mistral` | Mistral Large, Codestral, Pixtral Large |
-| **Alibaba DashScope** | `dashscope` | Qwen3 Coder Plus, Qwen VL Max |
+| **Alibaba DashScope** | `dashscope` | VivekMind3 Coder Plus, VivekMind VL Max |
 | **xAI (Grok)** | `xai` | Grok 4 |
 | **OpenRouter** | `openrouter` | Claude Opus 4.7 (OpenRouter) |
 | **Groq** | `groq` | Llama 3.3 70B (Groq) |
@@ -75,7 +75,7 @@ VivekMind supports a wide range of AI providers out of the box. Set the correspo
 
 ### AWS Bedrock Setup
 
-AWS Bedrock works with your existing AWS credentials. No additional API key is needed. VivekMind supports the full list of AWS Bedrock models, including **Anthropic Claude** (3/3.5/4.7), **Amazon Nova** (Pro/Lite/Micro), **Meta Llama** (3/3.3/4), **Qwen Coder** models, **GLMs**, **Mistral**, and **Cohere Command**:
+AWS Bedrock works with your existing AWS credentials. No additional API key is needed. VivekMind supports the full list of AWS Bedrock models, including **Anthropic Claude** (3/3.5/4.7), **Amazon Nova** (Pro/Lite/Micro), **Meta Llama** (3/3.3/4), **VivekMind CLIr** models, **GLMs**, **Mistral**, and **Cohere Command**:
 
 ```bash
 # Ensure AWS credentials are set
@@ -372,16 +372,6 @@ npm run lint
 # Full preflight check
 npm run preflight
 ```
-
----
-
-## Attribution
-
-VivekMind is a fork of [Qwen Code](https://github.com/QwenLM/qwen-code), originally developed by Google LLC and Alibaba Cloud.
-
-Qwen Code is copyright (C) 2025 Google LLC and Alibaba Cloud, and is used under the Apache License, Version 2.0.
-
-VivekMind modifications are copyright (C) 2026 [VivekMind](https://code.vivekmind.com).
 
 ## License
 

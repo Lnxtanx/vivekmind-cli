@@ -294,14 +294,14 @@
     "dashscope": [
       {
         "//": "--- Alibaba DashScope ---",
-        "id": "qwen3-coder-plus",
-        "name": "Qwen3 Coder Plus",
+        "id": "vivekmind3-coder-plus",
+        "name": "VivekMind3 Coder Plus",
         "envKey": "DASHSCOPE_API_KEY",
         "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
         "generationConfig": { "contextWindowSize": 1000000 }
       },
       {
-        "id": "qwen-vl-max",
+        "id": "vivekmind-vl-max",
         "name": "VivekMind VL Max",
         "envKey": "DASHSCOPE_API_KEY",
         "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",

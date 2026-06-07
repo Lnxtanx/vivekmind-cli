@@ -82,7 +82,7 @@ describe('SMOKE TESTS — E2E Verification', () => {
             const writeArgs = { file_path: filePath };
             await rewritePathArgs(writeArgs, overlay);
             const op = writeArgs['file_path'];
-            expect(op).toContain('qwen-speculation');
+            expect(op).toContain('vivekmind-speculation');
             await writeFile(op, 'speculated content');
             const readArgs = { file_path: filePath };
             await evaluateToolCall(ToolNames.READ_FILE, readArgs, overlay, ApprovalMode.AUTO_EDIT);
@@ -99,10 +99,10 @@ describe('SMOKE TESTS — E2E Verification', () => {
                 systemInstruction: 'You are helpful',
                 tools: [{ functionDeclarations: [{ name: 'edit' }] }],
             };
-            saveCacheSafeParams(config, [{ role: 'user', parts: [{ text: 'hi' }] }], 'qwen-max');
+            saveCacheSafeParams(config, [{ role: 'user', parts: [{ text: 'hi' }] }], 'vivekmind-max');
             const p = getCacheSafeParams();
             expect(p).not.toBeNull();
-            expect(p.model).toBe('qwen-max');
+            expect(p.model).toBe('vivekmind-max');
             config.tools[0].functionDeclarations.push({ name: 'shell' });
             const saved = getCacheSafeParams();
             const tools = saved.generationConfig.tools;

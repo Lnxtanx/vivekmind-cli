@@ -54,11 +54,11 @@ describe('ExtensionStorage', () => {
         expect(ExtensionStorage.getUserExtensionsDir()).toBe(expectedDir);
     });
     it('should create a temporary directory', async () => {
-        const mockTmpDir = '/tmp/qwen-extension-123';
+        const mockTmpDir = '/tmp/vivekmind-extension-123';
         vi.mocked(fs.promises.mkdtemp).mockResolvedValue(mockTmpDir);
         vi.mocked(os.tmpdir).mockReturnValue('/tmp');
         const result = await ExtensionStorage.createTmpDir();
-        expect(fs.promises.mkdtemp).toHaveBeenCalledWith(path.join('/tmp', 'qwen-extension'));
+        expect(fs.promises.mkdtemp).toHaveBeenCalledWith(path.join('/tmp', 'vivekmind-extension'));
         expect(result).toBe(mockTmpDir);
     });
 });

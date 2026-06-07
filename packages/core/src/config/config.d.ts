@@ -115,7 +115,7 @@ export interface GitCoAuthorSettings {
     name?: string;
     email?: string;
 }
-export type ExtensionOriginSource = 'QwenCode' | 'Claude' | 'Gemini';
+export type ExtensionOriginSource = 'VivekMindCode' | 'Claude' | 'Gemini';
 export interface ExtensionInstallMetadata {
     source: string;
     type: 'git' | 'local' | 'link' | 'github-release' | 'npm';

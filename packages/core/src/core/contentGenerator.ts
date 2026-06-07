@@ -151,7 +151,7 @@ export type ContentGeneratorConfig = {
   // LM Studio) reject anything else with HTTP 400 "Invalid 'messages' in
   // payload". Enable this for any provider that strictly validates tool
   // message content. Default: false (preserves prior behavior for permissive
-  // providers). See QwenLM/qwen-code#3616.
+  // providers). See VivekMindLM/vivekmind-cli#3616.
   splitToolMedia?: boolean;
 };
 

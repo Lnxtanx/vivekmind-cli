@@ -723,7 +723,7 @@ async function handleAlibabaStandardApiKeyAuth(): Promise<void> {
 function handleCustomApiKeyAuth(): void {
   writeStdoutLine(
     t(
-      '\nYou can configure your API key and models in settings.json.\nRefer to the documentation for setup instructions:\n  https://qwenlm.github.io/vivekmind-docs/en/users/configuration/model-providers/\n',
+      '\nYou can configure your API key and models in settings.json.\nRefer to the documentation for setup instructions:\n  https://vivekmindlm.github.io/vivekmind-docs/en/users/configuration/model-providers/\n',
     ),
   );
   process.exit(0);
@@ -766,7 +766,7 @@ async function promptForStandardRegion(): Promise<AlibabaStandardRegion> {
  * Prompts the user to enter comma-separated model IDs
  */
 async function promptForModelIds(): Promise<string> {
-  const defaultModels = 'qwen3.5-plus,glm-5,kimi-k2.5';
+  const defaultModels = 'vivekmind3.5-plus,glm-5,kimi-k2.5';
   return promptForInput(
     t('Enter model IDs (comma-separated, default: {{default}}): ', {
       default: defaultModels,

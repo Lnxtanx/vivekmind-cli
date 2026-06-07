@@ -45,7 +45,7 @@ describe('managed auto-memory lifecycle integration', () => {
     );
     mockConfig = {
       getSessionId: () => 'session-1',
-      getModel: () => 'qwen3-coder-plus',
+      getModel: () => 'vivekmind3-coder-plus',
     } as Config;
     vi.clearAllMocks();
     extractionCount = 0;

@@ -32,10 +32,10 @@ vi.mock('../utils/shell-utils.js', () => ({
   isCommandAvailable: vi.fn(),
 }));
 
-const hoistedMockGetGlobalQwenDir = vi.hoisted(() => vi.fn());
+const hoistedMockGetGlobalVivekMindDir = vi.hoisted(() => vi.fn());
 vi.mock('../config/storage.js', () => ({
   Storage: {
-    getGlobalVivekMindDir: hoistedMockGetGlobalQwenDir,
+    getGlobalVivekMindDir: hoistedMockGetGlobalVivekMindDir,
   },
 }));
 
@@ -65,7 +65,7 @@ describe('GitWorktreeService', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    hoistedMockGetGlobalQwenDir.mockReturnValue('/mock-qwen');
+    hoistedMockGetGlobalVivekMindDir.mockReturnValue('/mock-vivekmind');
     (isCommandAvailable as Mock).mockReturnValue({ available: true });
 
     hoistedMockSimpleGit.mockImplementation(() => ({
@@ -178,7 +178,7 @@ describe('GitWorktreeService', () => {
     const result = await service.createWorktree('s1', 'Model A');
 
     const expectedPath = path.join(
-      '/mock-qwen',
+      '/mock-vivekmind',
       'worktrees',
       's1',
       'worktrees',
@@ -427,7 +427,7 @@ describe('GitWorktreeService', () => {
       return {
         id: `${sessionId}/${name}`,
         name,
-        path: `/mock-qwen/worktrees/${sessionId}/worktrees/${name}`,
+        path: `/mock-vivekmind/worktrees/${sessionId}/worktrees/${name}`,
         branch: `worktrees/${sessionId}/${name}`,
         isActive: true,
         createdAt: 1,

@@ -31,7 +31,7 @@ Create a well-structured pull request with proper description and title.
 - Leave the "Screenshots / Video Demo" section empty for the author to fill in
   manually
 - Add this line at the end of PR body: "🤖 Generated with [VivekMind
-  Code](https://github.com/QwenLM/vivekmind-code)", with a line separator
+  Code](https://github.com/VivekMindLM/vivekmind-code)", with a line separator
 
 4.  **Set up PR**
 

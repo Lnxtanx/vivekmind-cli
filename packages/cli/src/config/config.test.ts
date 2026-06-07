@@ -606,7 +606,7 @@ describe('loadCliConfig', () => {
     vi.restoreAllMocks();
   });
 
-  it('should reset context file names to QWEN.md and AGENTS.md by default', async () => {
+  it('should reset context file names to VIVEKMIND.md and AGENTS.md by default', async () => {
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = {};
@@ -666,7 +666,7 @@ describe('loadCliConfig', () => {
     process.argv = ['node', 'script.js'];
     const argv = await parseArguments();
     const settings: Settings = {};
-    const defaultContextFiles = ['QWEN.md', 'AGENTS.md'];
+    const defaultContextFiles = ['VIVEKMIND.md', 'AGENTS.md'];
     const getAllSpy = vi
       .spyOn(ServerConfig, 'getAllGeminiMdFilenames')
       .mockReturnValue(defaultContextFiles);
@@ -1676,7 +1676,7 @@ describe('loadCliConfig model selection', () => {
     const config = await loadCliConfig(
       {
         model: {
-          name: 'qwen3-coder-plus',
+          name: 'vivekmind3-coder-plus',
         },
       },
       argv,
@@ -1684,7 +1684,7 @@ describe('loadCliConfig model selection', () => {
       [],
     );
 
-    expect(config.getModel()).toBe('qwen3-coder-plus');
+    expect(config.getModel()).toBe('vivekmind3-coder-plus');
   });
 
   it.skip('uses the default gemini model if nothing is set', async () => {
@@ -1709,13 +1709,13 @@ describe('loadCliConfig model selection', () => {
       '--auth-type',
       'openai',
       '--model',
-      'qwen3-coder-plus',
+      'vivekmind3-coder-plus',
     ];
     const argv = await parseArguments();
     const config = await loadCliConfig(
       {
         model: {
-          name: 'qwen3-coder-flash',
+          name: 'vivekmind3-coder-flash',
         },
       },
       argv,
@@ -1723,7 +1723,7 @@ describe('loadCliConfig model selection', () => {
       [],
     );
 
-    expect(config.getModel()).toBe('qwen3-coder-plus');
+    expect(config.getModel()).toBe('vivekmind3-coder-plus');
   });
 
   it('selects the model from argvs if provided', async () => {
@@ -1733,7 +1733,7 @@ describe('loadCliConfig model selection', () => {
       '--auth-type',
       'openai',
       '--model',
-      'qwen3-coder-plus',
+      'vivekmind3-coder-plus',
     ];
     const argv = await parseArguments();
     const config = await loadCliConfig(
@@ -1745,7 +1745,7 @@ describe('loadCliConfig model selection', () => {
       [],
     );
 
-    expect(config.getModel()).toBe('qwen3-coder-plus');
+    expect(config.getModel()).toBe('vivekmind3-coder-plus');
   });
 });
 

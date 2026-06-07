@@ -32,7 +32,7 @@ import {
 } from './sharedTokenManager.js';
 
 interface MockSharedTokenManager {
-  getValidCredentials(qwenClient: VivekMindOAuth2Client): Promise<VivekMindCredentials>;
+  getValidCredentials(vivekmindClient: VivekMindOAuth2Client): Promise<VivekMindCredentials>;
   getCurrentCredentials(): VivekMindCredentials | null;
   clearCache(): void;
 }
@@ -50,10 +50,10 @@ vi.mock('./sharedTokenManager.js', () => ({
     }
 
     async getValidCredentials(
-      qwenClient: VivekMindOAuth2Client,
+      vivekmindClient: VivekMindOAuth2Client,
     ): Promise<VivekMindCredentials> {
       // Try to get credentials from the client first
-      const clientCredentials = qwenClient.getCredentials();
+      const clientCredentials = vivekmindClient.getCredentials();
       if (clientCredentials && clientCredentials.access_token) {
         return clientCredentials;
       }

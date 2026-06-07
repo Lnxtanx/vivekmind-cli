@@ -18,7 +18,7 @@ export interface GeminiExtensionConfig {
  * @param extensionDir Path to the Gemini extension directory
  * @returns VivekMind ExtensionConfig
  */
-export declare function convertGeminiToQwenConfig(extensionDir: string): ExtensionConfig;
+export declare function convertGeminiToVivekMindConfig(extensionDir: string): ExtensionConfig;
 /**
  * Converts a complete Gemini extension package to VivekMind format.
  * Creates a new temporary directory with:

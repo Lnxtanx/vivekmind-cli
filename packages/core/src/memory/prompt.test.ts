@@ -35,7 +35,7 @@ describe('managed auto-memory prompt helpers', () => {
 
   it('appends managed auto-memory after existing hierarchical memory', () => {
     const result = appendManagedAutoMemoryToUserMemory(
-      '--- Context from: QWEN.md ---\nProject rules',
+      '--- Context from: VIVEKMIND.md ---\nProject rules',
       '/tmp/project/.vivekmind/memory',
       '- [Project Memory](project/release-freeze.md) — Release freeze starts Friday.',
     );

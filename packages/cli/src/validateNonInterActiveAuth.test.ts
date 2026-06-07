@@ -48,7 +48,7 @@ describe('validateNonInterActiveAuth', () => {
   let originalEnvVertexAi: string | undefined;
   let originalEnvGcp: string | undefined;
   let originalEnvOpenAiApiKey: string | undefined;
-  let originalEnvQwenOauth: string | undefined;
+  let originalEnvVivekMindOauth: string | undefined;
   let originalEnvGoogleApiKey: string | undefined;
   let originalEnvAnthropicApiKey: string | undefined;
   let processExitSpy: ReturnType<typeof vi.spyOn<[code?: number], never>>;
@@ -60,7 +60,7 @@ describe('validateNonInterActiveAuth', () => {
     originalEnvVertexAi = process.env['GOOGLE_GENAI_USE_VERTEXAI'];
     originalEnvGcp = process.env['GOOGLE_GENAI_USE_GCA'];
     originalEnvOpenAiApiKey = process.env['OPENAI_API_KEY'];
-    originalEnvQwenOauth = process.env['VIVEKMIND_OAUTH'];
+    originalEnvVivekMindOauth = process.env['VIVEKMIND_OAUTH'];
     originalEnvGoogleApiKey = process.env['GOOGLE_API_KEY'];
     originalEnvAnthropicApiKey = process.env['ANTHROPIC_API_KEY'];
     delete process.env['GEMINI_API_KEY'];
@@ -117,8 +117,8 @@ describe('validateNonInterActiveAuth', () => {
     } else {
       delete process.env['OPENAI_API_KEY'];
     }
-    if (originalEnvQwenOauth !== undefined) {
-      process.env['VIVEKMIND_OAUTH'] = originalEnvQwenOauth;
+    if (originalEnvVivekMindOauth !== undefined) {
+      process.env['VIVEKMIND_OAUTH'] = originalEnvVivekMindOauth;
     } else {
       delete process.env['VIVEKMIND_OAUTH'];
     }

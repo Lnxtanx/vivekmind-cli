@@ -14,7 +14,7 @@ function makeConfig(opts) {
     });
     const config = {
         getFastModel: vi.fn(() => opts.fastModel ?? undefined),
-        getModel: vi.fn(() => 'qwen-plus'),
+        getModel: vi.fn(() => 'vivekmind-plus'),
         getGeminiClient: vi.fn(() => ({
             getChat: () => ({
                 getHistory: () => opts.history ?? [],
@@ -42,7 +42,7 @@ describe('tryGenerateSessionTitle', () => {
     });
     it('returns {ok:false, reason:"empty_history"} for a fresh session', async () => {
         const { config } = makeConfig({
-            fastModel: 'qwen-turbo',
+            fastModel: 'vivekmind-turbo',
             history: [],
         });
         const outcome = await tryGenerateSessionTitle(config, new AbortController().signal);
@@ -50,7 +50,7 @@ describe('tryGenerateSessionTitle', () => {
     });
     it('returns {ok:false, reason:"model_error"} when the LLM throws', async () => {
         const { config } = makeConfig({
-            fastModel: 'qwen-turbo',
+            fastModel: 'vivekmind-turbo',
             history: DIALOG_HISTORY,
             generateJsonResult: () => Promise.reject(new Error('API down')),
         });
@@ -60,7 +60,7 @@ describe('tryGenerateSessionTitle', () => {
     it('returns {ok:false, reason:"aborted"} when the user cancels', async () => {
         const controller = new AbortController();
         const { config } = makeConfig({
-            fastModel: 'qwen-turbo',
+            fastModel: 'vivekmind-turbo',
             history: DIALOG_HISTORY,
             generateJsonResult: async () => {
                 controller.abort();
@@ -72,7 +72,7 @@ describe('tryGenerateSessionTitle', () => {
     });
     it('returns {ok:false, reason:"empty_result"} when the model returns junk', async () => {
         const { config } = makeConfig({
-            fastModel: 'qwen-turbo',
+            fastModel: 'vivekmind-turbo',
             history: DIALOG_HISTORY,
             generateJsonResult: { title: '   ...  ' },
         });
@@ -81,7 +81,7 @@ describe('tryGenerateSessionTitle', () => {
     });
     it('returns {ok:true, title, modelUsed} on success', async () => {
         const { config, generateJson } = makeConfig({
-            fastModel: 'qwen-turbo',
+            fastModel: 'vivekmind-turbo',
             history: DIALOG_HISTORY,
             generateJsonResult: { title: 'Fix login button on mobile' },
         });
@@ -89,13 +89,13 @@ describe('tryGenerateSessionTitle', () => {
         expect(outcome).toEqual({
             ok: true,
             title: 'Fix login button on mobile',
-            modelUsed: 'qwen-turbo',
+            modelUsed: 'vivekmind-turbo',
         });
         // Schema call must use the fast model (not the main model) and the
         // canonical title schema with required:['title'] and maxAttempts:1.
         expect(generateJson).toHaveBeenCalledOnce();
         const callOpts = generateJson.mock.calls[0][0];
-        expect(callOpts.model).toBe('qwen-turbo');
+        expect(callOpts.model).toBe('vivekmind-turbo');
         expect(callOpts.schema.type).toBe('object');
         expect(callOpts.schema.required).toEqual(['title']);
         expect(callOpts.schema.properties.title.type).toBe('string');
@@ -103,7 +103,7 @@ describe('tryGenerateSessionTitle', () => {
     });
     it('sanitizes residual markdown and trailing punctuation from the model result', async () => {
         const { config } = makeConfig({
-            fastModel: 'qwen-turbo',
+            fastModel: 'vivekmind-turbo',
             history: DIALOG_HISTORY,
             generateJsonResult: { title: '**Fix login button.**' },
         });
@@ -147,8 +147,8 @@ describe('tryGenerateSessionTitle', () => {
             return { title: 'Audit auth middleware' };
         });
         const config = {
-            getFastModel: vi.fn(() => 'qwen-turbo'),
-            getModel: vi.fn(() => 'qwen-plus'),
+            getFastModel: vi.fn(() => 'vivekmind-turbo'),
+            getModel: vi.fn(() => 'vivekmind-plus'),
             getGeminiClient: vi.fn(() => ({
                 getChat: () => ({ getHistory: () => history }),
             })),
@@ -178,8 +178,8 @@ describe('tryGenerateSessionTitle', () => {
             return { title: 'Long session' };
         });
         const config = {
-            getFastModel: vi.fn(() => 'qwen-turbo'),
-            getModel: vi.fn(() => 'qwen-plus'),
+            getFastModel: vi.fn(() => 'vivekmind-turbo'),
+            getModel: vi.fn(() => 'vivekmind-plus'),
             getGeminiClient: vi.fn(() => ({
                 getChat: () => ({ getHistory: () => history }),
             })),

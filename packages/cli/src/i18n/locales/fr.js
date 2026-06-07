@@ -114,8 +114,8 @@ export default {
   // ============================================================================
   // Commandes - Général
   // ============================================================================
-  'Analyzes the project and creates a tailored QWEN.md file.':
-    'Analyse le projet et crée un fichier QWEN.md personnalisé.',
+  'Analyzes the project and creates a tailored VIVEKMIND.md file.':
+    'Analyse le projet et crée un fichier VIVEKMIND.md personnalisé.',
   'List available VivekMind tools. Usage: /tools [desc]':
     'Lister les outils VivekMind disponibles. Utilisation : /tools [desc]',
   'List available skills.': 'Lister les compétences disponibles.',
@@ -527,8 +527,8 @@ export default {
   remote: 'distant',
   'This extension will add the following commands: {{commands}}.':
     'Cette extension ajoutera les commandes suivantes : {{commands}}.',
-  'This extension will append info to your QWEN.md context using {{fileName}}':
-    'Cette extension ajoutera des informations à votre contexte QWEN.md en utilisant {{fileName}}',
+  'This extension will append info to your VIVEKMIND.md context using {{fileName}}':
+    'Cette extension ajoutera des informations à votre contexte VIVEKMIND.md en utilisant {{fileName}}',
   'This extension will exclude the following core tools: {{tools}}':
     'Cette extension exclura les outils principaux suivants : {{tools}}',
   'This extension will install the following skills:':
@@ -1226,8 +1226,8 @@ export default {
     "La commande /directory add n'est pas prise en charge dans les profils de bac à sable restrictifs. Utilisez plutôt --include-directories lors du démarrage de la session.",
   "Error adding '{{path}}': {{error}}":
     "Erreur lors de l'ajout de '{{path}}' : {{error}}",
-  'Successfully added QWEN.md files from the following directories if there are:\n- {{directories}}':
-    "Fichiers QWEN.md ajoutés avec succès depuis les répertoires suivants s'ils existent :\n- {{directories}}",
+  'Successfully added VIVEKMIND.md files from the following directories if there are:\n- {{directories}}':
+    "Fichiers VIVEKMIND.md ajoutés avec succès depuis les répertoires suivants s'ils existent :\n- {{directories}}",
   'Error refreshing memory: {{error}}':
     "Erreur lors de l'actualisation de la mémoire : {{error}}",
   'Successfully added directories:\n- {{directories}}':
@@ -1442,8 +1442,8 @@ export default {
     "Échec du changement de modèle vers '{{modelId}}'.\n\n{{error}}",
   'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
     'VivekMind 3.6 Plus — modèle hybride efficace avec des performances de codage de pointe',
-  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    "Le dernier modèle VivekMind Vision d'Alibaba Cloud ModelStudio (version : qwen3-vl-plus-2025-09-23)",
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: vivekmind3-vl-plus-2025-09-23)':
+    "Le dernier modèle VivekMind Vision d'Alibaba Cloud ModelStudio (version : vivekmind3-vl-plus-2025-09-23)",
 
   // ============================================================================
   // Boîtes de dialogue - Permissions

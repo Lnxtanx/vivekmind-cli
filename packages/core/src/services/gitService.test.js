@@ -126,7 +126,7 @@ describe('GitService', () => {
         it('should create a .gitconfig file with the correct content', async () => {
             const service = new GitService(projectRoot, storage);
             await service.setupShadowGitRepository();
-            const expectedConfigContent = '[user]\n  name = VivekMind\n  email = vivekmind@qwen.ai\n[commit]\n  gpgsign = false\n';
+            const expectedConfigContent = '[user]\n  name = VivekMind\n  email = vivekmind@vivekmind.ai\n[commit]\n  gpgsign = false\n';
             const actualConfigContent = await fs.readFile(gitConfigPath, 'utf-8');
             expect(actualConfigContent).toBe(expectedConfigContent);
         });

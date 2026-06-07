@@ -150,7 +150,7 @@ async function loadRulesFromDir(rulesDir, excludes) {
 // ─────────────────────────────────────────────────────────────────────────────
 /**
  * Format loaded rules into a single string with source markers,
- * consistent with the `--- Context from: ... ---` format used for QWEN.md.
+ * consistent with the `--- Context from: ... ---` format used for VIVEKMIND.md.
  */
 export function formatRules(rules, projectRoot) {
     return rules

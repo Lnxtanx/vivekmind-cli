@@ -11,8 +11,8 @@ export const AGENT_CONTEXT_FILENAME = 'AGENTS.md';
 export const MEMORY_SECTION_HEADER = '## VivekMind Added Memories';
 
 // This variable will hold the currently configured filename for context files.
-// It defaults to include both QWEN.md and AGENTS.md but can be overridden by setGeminiMdFilename.
-// QWEN.md is first to maintain backward compatibility (used by /init command tool).
+// It defaults to include both VIVEKMIND.md and AGENTS.md but can be overridden by setGeminiMdFilename.
+// VIVEKMIND.md is first to maintain backward compatibility (used by /init command tool).
 let currentGeminiMdFilename: string | string[] = [
   DEFAULT_CONTEXT_FILENAME,
   AGENT_CONTEXT_FILENAME,

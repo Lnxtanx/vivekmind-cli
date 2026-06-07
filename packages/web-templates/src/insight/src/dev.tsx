@@ -285,11 +285,11 @@ const MOCK_DATA: InsightData = {
         {
           title: 'Preempt Common Issues',
           suggestion:
-            'Add testing conventions to QWEN.md to avoid iterative mock fixes',
+            'Add testing conventions to VIVEKMIND.md to avoid iterative mock fixes',
           detail:
-            '5 buggy_code friction points mostly came from test mock implementation issues. Documenting your testing patterns in QWEN.md would help VivekMind generate correct tests on the first attempt.',
+            '5 buggy_code friction points mostly came from test mock implementation issues. Documenting your testing patterns in VIVEKMIND.md would help VivekMind generate correct tests on the first attempt.',
           copyable_prompt:
-            "Add to QWEN.md: 'When generating tests, use vi.mock() before vi.mocked() and always include required providers'",
+            "Add to VIVEKMIND.md: 'When generating tests, use vi.mock() before vi.mocked() and always include required providers'",
         },
       ],
     },

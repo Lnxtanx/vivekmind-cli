@@ -10,7 +10,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
 import {
-  convertClaudeToQwenConfig,
+  convertClaudeToVivekMindConfig,
   mergeClaudeConfigs,
   isClaudePluginConfig,
   convertClaudePluginPackage,
@@ -21,14 +21,14 @@ import {
 import { HookType } from '../hooks/types.js';
 import { performVariableReplacement } from './variables.js';
 
-describe('convertClaudeToQwenConfig', () => {
+describe('convertClaudeToVivekMindConfig', () => {
   it('should convert basic Claude config', () => {
     const claudeConfig: ClaudePluginConfig = {
       name: 'claude-plugin',
       version: '1.0.0',
     };
 
-    const result = convertClaudeToQwenConfig(claudeConfig);
+    const result = convertClaudeToVivekMindConfig(claudeConfig);
 
     expect(result.name).toBe('claude-plugin');
     expect(result.version).toBe('1.0.0');
@@ -43,7 +43,7 @@ describe('convertClaudeToQwenConfig', () => {
       skills: ['skills/skill1'],
     };
 
-    const result = convertClaudeToQwenConfig(claudeConfig);
+    const result = convertClaudeToVivekMindConfig(claudeConfig);
 
     // Commands, skills, agents are collected as directories, not in config
     expect(result.name).toBe('full-plugin');
@@ -66,7 +66,7 @@ describe('convertClaudeToQwenConfig', () => {
       },
     };
 
-    const result = convertClaudeToQwenConfig(claudeConfig);
+    const result = convertClaudeToVivekMindConfig(claudeConfig);
 
     expect(result.lspServers).toEqual(claudeConfig.lspServers);
   });
@@ -76,7 +76,7 @@ describe('convertClaudeToQwenConfig', () => {
       version: '1.0.0',
     } as ClaudePluginConfig;
 
-    expect(() => convertClaudeToQwenConfig(invalidConfig)).toThrow();
+    expect(() => convertClaudeToVivekMindConfig(invalidConfig)).toThrow();
   });
 });
 

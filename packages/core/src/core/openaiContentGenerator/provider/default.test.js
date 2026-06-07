@@ -54,7 +54,7 @@ describe('DefaultOpenAICompatibleProvider', () => {
         it('should build headers with User-Agent', () => {
             const headers = provider.buildHeaders();
             expect(headers).toEqual({
-                'User-Agent': `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
+                'User-Agent': `VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`,
             });
         });
         it('should merge customHeaders with defaults (and allow overrides)', () => {
@@ -75,7 +75,7 @@ describe('DefaultOpenAICompatibleProvider', () => {
             mockCliConfig.getCliVersion.mockReturnValue(undefined);
             const headers = provider.buildHeaders();
             expect(headers).toEqual({
-                'User-Agent': `QwenCode/unknown (${process.platform}; ${process.arch})`,
+                'User-Agent': `VivekMindCode/unknown (${process.platform}; ${process.arch})`,
             });
         });
     });
@@ -88,7 +88,7 @@ describe('DefaultOpenAICompatibleProvider', () => {
                 timeout: 60000,
                 maxRetries: 2,
                 defaultHeaders: {
-                    'User-Agent': `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
+                    'User-Agent': `VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`,
                 },
             }));
             expect(client).toBeDefined();
@@ -103,7 +103,7 @@ describe('DefaultOpenAICompatibleProvider', () => {
                 timeout: DEFAULT_TIMEOUT,
                 maxRetries: DEFAULT_MAX_RETRIES,
                 defaultHeaders: {
-                    'User-Agent': `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
+                    'User-Agent': `VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`,
                 },
             }));
         });

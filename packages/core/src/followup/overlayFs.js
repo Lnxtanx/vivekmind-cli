@@ -24,7 +24,7 @@ export class OverlayFs {
     constructor(realCwd) {
         this.realCwd = realCwd;
         const id = randomUUID().slice(0, 8);
-        this.overlayDir = join(tmpdir(), 'qwen-speculation', String(process.pid), id);
+        this.overlayDir = join(tmpdir(), 'vivekmind-speculation', String(process.pid), id);
     }
     /** Get the overlay directory path */
     getOverlayDir() {

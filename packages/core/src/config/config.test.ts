@@ -150,16 +150,16 @@ vi.mock('../tools/read-many-files', () => ({
 }));
 vi.mock('../memory/const.js', () => ({
   setGeminiMdFilename: vi.fn(),
-  getCurrentGeminiMdFilename: vi.fn(() => 'QWEN.md'), // Mock the original filename
-  getAllGeminiMdFilenames: vi.fn(() => ['QWEN.md', 'AGENTS.md']),
-  DEFAULT_CONTEXT_FILENAME: 'QWEN.md',
+  getCurrentGeminiMdFilename: vi.fn(() => 'VIVEKMIND.md'), // Mock the original filename
+  getAllGeminiMdFilenames: vi.fn(() => ['VIVEKMIND.md', 'AGENTS.md']),
+  DEFAULT_CONTEXT_FILENAME: 'VIVEKMIND.md',
   VIVEKMIND_CONFIG_DIR: '.vivekmind',
 }));
 vi.mock('../tools/memory-config', () => ({
   setGeminiMdFilename: vi.fn(),
-  getCurrentGeminiMdFilename: vi.fn(() => 'QWEN.md'),
-  getAllGeminiMdFilenames: vi.fn(() => ['QWEN.md', 'AGENTS.md']),
-  DEFAULT_CONTEXT_FILENAME: 'QWEN.md',
+  getCurrentGeminiMdFilename: vi.fn(() => 'VIVEKMIND.md'),
+  getAllGeminiMdFilenames: vi.fn(() => ['VIVEKMIND.md', 'AGENTS.md']),
+  DEFAULT_CONTEXT_FILENAME: 'VIVEKMIND.md',
   AGENT_CONTEXT_FILENAME: 'AGENTS.md',
   VIVEKMIND_CONFIG_DIR: '.vivekmind',
   MEMORY_SECTION_HEADER: '## VivekMind Added Memories',
@@ -257,7 +257,7 @@ vi.mock('../core/toolHookTriggers.js', () => ({
 }));
 
 describe('Server Config (config.ts)', () => {
-  const MODEL = 'qwen3-coder-plus';
+  const MODEL = 'vivekmind3-coder-plus';
 
   // Default mock for canUseRipgrep to return true (tests that care about ripgrep will override this)
   beforeEach(() => {
@@ -468,7 +468,7 @@ describe('Server Config (config.ts)', () => {
       const authType = AuthType.USE_GEMINI;
       const mockContentConfig = {
         apiKey: 'test-key',
-        model: 'qwen3-coder-plus',
+        model: 'vivekmind3-coder-plus',
         authType,
       };
 
@@ -505,7 +505,7 @@ describe('Server Config (config.ts)', () => {
       const authType = AuthType.USE_GEMINI;
       const mockContentConfig = {
         apiKey: 'test-key',
-        model: 'qwen3-coder-plus',
+        model: 'vivekmind3-coder-plus',
         authType,
       };
 
@@ -533,7 +533,7 @@ describe('Server Config (config.ts)', () => {
       const authType = AuthType.USE_GEMINI;
       const mockContentConfig = {
         apiKey: 'test-key',
-        model: 'qwen3-coder-plus',
+        model: 'vivekmind3-coder-plus',
         authType,
       };
 
@@ -783,7 +783,7 @@ describe('Server Config (config.ts)', () => {
     const config = new Config(baseParams);
 
     vi.mocked(loadServerHierarchicalMemory).mockResolvedValue({
-      memoryContent: '--- Context from: QWEN.md ---\nProject rules',
+      memoryContent: '--- Context from: VIVEKMIND.md ---\nProject rules',
       fileCount: 1,
       ruleCount: 0,
       conditionalRules: [],
@@ -804,7 +804,7 @@ describe('Server Config (config.ts)', () => {
     const config = new Config(baseParams);
 
     vi.mocked(loadServerHierarchicalMemory).mockResolvedValue({
-      memoryContent: '--- Context from: QWEN.md ---\nProject rules',
+      memoryContent: '--- Context from: VIVEKMIND.md ---\nProject rules',
       fileCount: 1,
       ruleCount: 0,
       conditionalRules: [],
@@ -826,7 +826,7 @@ describe('Server Config (config.ts)', () => {
     });
 
     vi.mocked(loadServerHierarchicalMemory).mockResolvedValue({
-      memoryContent: '--- Context from: QWEN.md ---\nProject rules',
+      memoryContent: '--- Context from: VIVEKMIND.md ---\nProject rules',
       fileCount: 1,
       ruleCount: 0,
       conditionalRules: [],
@@ -853,7 +853,7 @@ describe('Server Config (config.ts)', () => {
     });
 
     vi.mocked(loadServerHierarchicalMemory).mockResolvedValue({
-      memoryContent: '--- Context from: QWEN.md ---\nProject rules',
+      memoryContent: '--- Context from: VIVEKMIND.md ---\nProject rules',
       fileCount: 1,
       ruleCount: 0,
       conditionalRules: [],
@@ -1870,7 +1870,7 @@ describe('Model Switching and Config Updates', () => {
     cwd: '/tmp',
     targetDir: '/path/to/target',
     debugMode: false,
-    model: 'qwen3-coder-plus',
+    model: 'vivekmind3-coder-plus',
     usageStatisticsEnabled: false,
     telemetry: { enabled: false },
   };
@@ -1884,7 +1884,7 @@ describe('Model Switching and Config Updates', () => {
 
     // Initialize with first model
     const initialConfig: ContentGeneratorConfig = {
-      ['model']: 'qwen3-coder-plus',
+      ['model']: 'vivekmind3-coder-plus',
       ['authType']: AuthType.VIVEKMIND_OAUTH,
       ['apiKey']: 'test-key',
       ['contextWindowSize']: 1_000_000,
@@ -1904,12 +1904,12 @@ describe('Model Switching and Config Updates', () => {
 
     // Verify initial config
     const contentGenConfig = config.getContentGeneratorConfig();
-    expect(contentGenConfig['model']).toBe('qwen3-coder-plus');
+    expect(contentGenConfig['model']).toBe('vivekmind3-coder-plus');
     expect(contentGenConfig['contextWindowSize']).toBe(1_000_000);
 
     // Switch to a different model with different token limits
     const newConfig: ContentGeneratorConfig = {
-      ['model']: 'qwen-max',
+      ['model']: 'vivekmind-max',
       ['authType']: AuthType.VIVEKMIND_OAUTH,
       ['apiKey']: 'test-key',
       ['contextWindowSize']: 128_000,
@@ -1939,7 +1939,7 @@ describe('Model Switching and Config Updates', () => {
 
     // Verify all fields are updated
     const updatedConfig = config.getContentGeneratorConfig();
-    expect(updatedConfig['model']).toBe('qwen-max');
+    expect(updatedConfig['model']).toBe('vivekmind-max');
     expect(updatedConfig['contextWindowSize']).toBe(128_000);
     expect(updatedConfig['samplingParams']?.temperature).toBe(0.8);
     expect(updatedConfig['enableCacheControl']).toBe(false);
@@ -1959,7 +1959,7 @@ describe('Model Switching and Config Updates', () => {
 
     // Initialize with vivekmind-oauth
     const initialConfig: ContentGeneratorConfig = {
-      ['model']: 'qwen3-coder-plus',
+      ['model']: 'vivekmind3-coder-plus',
       ['authType']: AuthType.VIVEKMIND_OAUTH,
       ['apiKey']: 'test-key',
       ['contextWindowSize']: 1_000_000,
@@ -2011,7 +2011,7 @@ describe('Model Switching and Config Updates', () => {
 
     // Initialize with config that has undefined token limits
     const initialConfig: ContentGeneratorConfig = {
-      ['model']: 'qwen3-coder-plus',
+      ['model']: 'vivekmind3-coder-plus',
       ['authType']: AuthType.VIVEKMIND_OAUTH,
       ['apiKey']: 'test-key',
       ['contextWindowSize']: undefined,
@@ -2026,7 +2026,7 @@ describe('Model Switching and Config Updates', () => {
 
     // Switch to model with defined limits
     const newConfig: ContentGeneratorConfig = {
-      ['model']: 'qwen-max',
+      ['model']: 'vivekmind-max',
       ['authType']: AuthType.VIVEKMIND_OAUTH,
       ['apiKey']: 'test-key',
       ['contextWindowSize']: 128_000,

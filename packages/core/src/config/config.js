@@ -919,7 +919,7 @@ export class Config {
         // For other auth types we always refresh to recreate the ContentGenerator.
         //
         // Rationale:
-        // - Non-qwen providers may need to re-validate credentials / baseUrl / envKey.
+        // - Non-vivekmind providers may need to re-validate credentials / baseUrl / envKey.
         // - ModelsConfig.applyResolvedModelDefaults can clear or change credentials sources.
         // - Refresh keeps runtime behavior consistent and centralized.
         if (authType === AuthType.VIVEKMIND_OAUTH && !requiresRefresh) {

@@ -7,4 +7,4 @@
 export const DEFAULT_VIVEKMIND_MODEL = 'coder-model';
 export const DEFAULT_VIVEKMIND_FLASH_MODEL = 'coder-model';
 export const DEFAULT_VIVEKMIND_EMBEDDING_MODEL = 'text-embedding-v4';
-export const MAINLINE_CODER_MODEL = 'qwen3.5-plus';
+export const MAINLINE_CODER_MODEL = 'vivekmind3.5-plus';

@@ -26,11 +26,11 @@ import { createDebugLogger } from '@vivekmind/core';
 const debugLogger = createDebugLogger('SETUP_GITHUB');
 
 export const GITHUB_WORKFLOW_PATHS = [
-  'qwen-dispatch/qwen-dispatch.yml',
-  'qwen-assistant/qwen-invoke.yml',
-  'issue-triage/qwen-triage.yml',
-  'issue-triage/qwen-scheduled-triage.yml',
-  'pr-review/qwen-review.yml',
+  'vivekmind-dispatch/vivekmind-dispatch.yml',
+  'vivekmind-assistant/vivekmind-invoke.yml',
+  'issue-triage/vivekmind-triage.yml',
+  'issue-triage/vivekmind-scheduled-triage.yml',
+  'pr-review/vivekmind-review.yml',
 ];
 
 // Generate OS-specific commands to open the GitHub pages needed for setup.
@@ -156,7 +156,7 @@ export const setupGithubCommand: SlashCommand = {
     for (const workflow of GITHUB_WORKFLOW_PATHS) {
       downloads.push(
         (async () => {
-          const endpoint = `https://raw.githubusercontent.com/QwenLM/qwen-code-action/refs/tags/${releaseTag}/examples/workflows/${workflow}`;
+          const endpoint = `https://raw.githubusercontent.com/VivekMindLM/vivekmind-cli-action/refs/tags/${releaseTag}/examples/workflows/${workflow}`;
           const response = await fetch(endpoint, {
             method: 'GET',
             dispatcher: proxy ? new ProxyAgent(proxy) : undefined,

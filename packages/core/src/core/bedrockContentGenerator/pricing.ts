@@ -100,11 +100,11 @@ export const BEDROCK_PRICING: Record<string, BedrockModelPricing> = {
   'deepseek.r1-v1:0': { inputPer1K: 0.00055, outputPer1K: 0.00219 },
 
   // VivekMind
-  'qwen.qwen3-coder-next': { inputPer1K: 0.0003, outputPer1K: 0.001 },
-  'qwen.qwen3-next-80b-a3b': { inputPer1K: 0.0005, outputPer1K: 0.0015 },
-  'qwen.qwen3-32b-v1:0': { inputPer1K: 0.00015, outputPer1K: 0.00045 },
-  'qwen.qwen3-vl-235b-a22b': { inputPer1K: 0.001, outputPer1K: 0.003 },
-  'qwen.qwen3-coder-30b-a3b-v1:0': { inputPer1K: 0.00015, outputPer1K: 0.00045 },
+  'vivekmind.vivekmind3-coder-next': { inputPer1K: 0.0003, outputPer1K: 0.001 },
+  'vivekmind.vivekmind3-next-80b-a3b': { inputPer1K: 0.0005, outputPer1K: 0.0015 },
+  'vivekmind.vivekmind3-32b-v1:0': { inputPer1K: 0.00015, outputPer1K: 0.00045 },
+  'vivekmind.vivekmind3-vl-235b-a22b': { inputPer1K: 0.001, outputPer1K: 0.003 },
+  'vivekmind.vivekmind3-coder-30b-a3b-v1:0': { inputPer1K: 0.00015, outputPer1K: 0.00045 },
 
   // Z.AI (GLM)
   'zai.glm-4.7-flash': { inputPer1K: 0.00005, outputPer1K: 0.00005 },

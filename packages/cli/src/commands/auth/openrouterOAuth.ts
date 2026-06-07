@@ -304,7 +304,7 @@ function buildOpenRouterHeaders() {
   };
 }
 
-const OPENROUTER_MODEL_PRIORITY_PREFIXES = ['qwen/', 'glm/', 'minimax/'];
+const OPENROUTER_MODEL_PRIORITY_PREFIXES = ['vivekmind/', 'glm/', 'minimax/'];
 const OPENROUTER_RECOMMENDED_MODEL_LIMIT = 16;
 const OPENROUTER_FREE_MODEL_ID_HINT = ':free';
 

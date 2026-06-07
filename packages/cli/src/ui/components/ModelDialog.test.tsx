@@ -145,8 +145,8 @@ describe('<ModelDialog />', () => {
 
     expect(mockGetModel).toHaveBeenCalled();
     // Calculate expected index dynamically based on model list
-    const qwenModels = getFilteredVivekMindModels();
-    const expectedIndex = qwenModels.findIndex(
+    const vivekmindModels = getFilteredVivekMindModels();
+    const expectedIndex = vivekmindModels.findIndex(
       (m) => m.id === DEFAULT_VIVEKMIND_MODEL,
     );
     expect(mockedSelect).toHaveBeenCalledWith(
@@ -430,8 +430,8 @@ describe('<ModelDialog />', () => {
     // Should be called at least twice: initial render + re-render after context change
     expect(mockedSelect).toHaveBeenCalledTimes(2);
     // Calculate expected index for DEFAULT_VIVEKMIND_MODEL dynamically
-    const qwenModels = getFilteredVivekMindModels();
-    const expectedCoderIndex = qwenModels.findIndex(
+    const vivekmindModels = getFilteredVivekMindModels();
+    const expectedCoderIndex = vivekmindModels.findIndex(
       (m) => m.id === DEFAULT_VIVEKMIND_MODEL,
     );
     expect(mockedSelect.mock.calls[1][0].initialIndex).toBe(expectedCoderIndex);

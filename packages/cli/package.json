@@ -1,6 +1,6 @@
 {
   "name": "vivekmind",
-  "version": "0.15.7",
+  "version": "1.0.0",
   "description": "Open-source terminal AI agent with full AWS Bedrock support. Bring your own keys.",
   "license": "Apache-2.0",
   "homepage": "https://code.vivekmind.com",

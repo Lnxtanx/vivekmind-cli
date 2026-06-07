@@ -25,10 +25,10 @@ vi.mock('simple-git', () => ({
 vi.mock('../utils/shell-utils.js', () => ({
     isCommandAvailable: vi.fn(),
 }));
-const hoistedMockGetGlobalQwenDir = vi.hoisted(() => vi.fn());
+const hoistedMockGetGlobalVivekMindDir = vi.hoisted(() => vi.fn());
 vi.mock('../config/storage.js', () => ({
     Storage: {
-        getGlobalVivekMindDir: hoistedMockGetGlobalQwenDir,
+        getGlobalVivekMindDir: hoistedMockGetGlobalVivekMindDir,
     },
 }));
 const hoistedMockFsMkdir = vi.hoisted(() => vi.fn());
@@ -54,7 +54,7 @@ vi.mock('node:fs/promises', async (importOriginal) => {
 describe('GitWorktreeService', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        hoistedMockGetGlobalQwenDir.mockReturnValue('/mock-qwen');
+        hoistedMockGetGlobalVivekMindDir.mockReturnValue('/mock-vivekmind');
         isCommandAvailable.mockReturnValue({ available: true });
         hoistedMockSimpleGit.mockImplementation(() => ({
             checkIsRepo: hoistedMockCheckIsRepo,
@@ -144,7 +144,7 @@ describe('GitWorktreeService', () => {
     it('createWorktree should create a sanitized branch and worktree path', async () => {
         const service = new GitWorktreeService('/repo');
         const result = await service.createWorktree('s1', 'Model A');
-        const expectedPath = path.join('/mock-qwen', 'worktrees', 's1', 'worktrees', 'model-a');
+        const expectedPath = path.join('/mock-vivekmind', 'worktrees', 's1', 'worktrees', 'model-a');
         expect(result.success).toBe(true);
         expect(result.worktree?.branch).toBe('main-s1-model-a');
         expect(result.worktree?.path).toBe(expectedPath);
@@ -337,7 +337,7 @@ describe('GitWorktreeService', () => {
             return {
                 id: `${sessionId}/${name}`,
                 name,
-                path: `/mock-qwen/worktrees/${sessionId}/worktrees/${name}`,
+                path: `/mock-vivekmind/worktrees/${sessionId}/worktrees/${name}`,
                 branch: `worktrees/${sessionId}/${name}`,
                 isActive: true,
                 createdAt: 1,

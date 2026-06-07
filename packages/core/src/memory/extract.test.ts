@@ -34,7 +34,7 @@ describe('auto-memory extraction', () => {
     await ensureAutoMemoryScaffold(projectRoot);
     mockConfig = {
       getSessionId: vi.fn().mockReturnValue('session-1'),
-      getModel: vi.fn().mockReturnValue('qwen3-coder-plus'),
+      getModel: vi.fn().mockReturnValue('vivekmind3-coder-plus'),
     } as unknown as Config;
     vi.clearAllMocks();
   });

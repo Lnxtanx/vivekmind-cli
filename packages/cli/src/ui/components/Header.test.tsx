@@ -15,7 +15,7 @@ const useTerminalSizeMock = vi.mocked(useTerminalSize.useTerminalSize);
 const defaultProps = {
   version: '1.0.0',
   authDisplayType: 'VivekMind OAuth',
-  model: 'qwen-coder-plus',
+  model: 'vivekmind-clir-plus',
   workingDirectory: '/home/user/projects/test',
 };
 
@@ -55,7 +55,7 @@ describe('<Header />', () => {
   it('displays auth type and model', () => {
     const { lastFrame } = render(<Header {...defaultProps} />);
     expect(lastFrame()).toContain('VivekMind OAuth');
-    expect(lastFrame()).toContain('qwen-coder-plus');
+    expect(lastFrame()).toContain('vivekmind-clir-plus');
   });
 
   it('displays Coding Plan auth type', () => {

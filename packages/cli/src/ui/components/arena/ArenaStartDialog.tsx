@@ -21,7 +21,7 @@ interface ArenaStartDialogProps {
 }
 
 const MODEL_PROVIDERS_DOCUMENTATION_URL =
-  'https://qwenlm.github.io/vivekmind-docs/en/users/configuration/settings/#modelproviders';
+  'https://vivekmindlm.github.io/vivekmind-docs/en/users/configuration/settings/#modelproviders';
 
 export function ArenaStartDialog({
   onClose,
@@ -36,16 +36,16 @@ export function ArenaStartDialog({
 
     return selectableModels.map((model) => {
       const token = `${model.authType}:${model.id}`;
-      const isQwenOauth = model.authType === AuthType.VIVEKMIND_OAUTH;
+      const isVivekMindOauth = model.authType === AuthType.VIVEKMIND_OAUTH;
       return {
         key: token,
         value: token,
         label: `[${model.authType}] ${model.label}`,
-        disabled: isQwenOauth,
+        disabled: isVivekMindOauth,
       };
     });
   }, [config]);
-  const hasDisabledQwenOauth = modelItems.some((item) => item.disabled);
+  const hasDisabledVivekMindOauth = modelItems.some((item) => item.disabled);
   const selectableModelCount = modelItems.filter(
     (item) => !item.disabled,
   ).length;
@@ -109,9 +109,9 @@ export function ArenaStartDialog({
         </Box>
       )}
 
-      {(hasDisabledQwenOauth || needsMoreModels) && (
+      {(hasDisabledVivekMindOauth || needsMoreModels) && (
         <Box marginTop={1} flexDirection="column">
-          {hasDisabledQwenOauth && (
+          {hasDisabledVivekMindOauth && (
             <Text color={theme.status.warning}>
               {t('Note: vivekmind-oauth models are not supported in Arena.')}
             </Text>

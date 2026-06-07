@@ -1,5 +1,5 @@
 {
-  "name": "qwen-channel-plugin-example",
+  "name": "vivekmind-channel-plugin-example",
   "version": "0.1.0",
   "channels": {
     "plugin-example": {

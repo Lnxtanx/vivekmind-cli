@@ -93,7 +93,7 @@ export declare function convertClaudeAgentConfig(claudeAgent: ClaudeAgentConfig)
  * @param claudeConfig Claude plugin configuration
  * @returns VivekMind ExtensionConfig
  */
-export declare function convertClaudeToQwenConfig(claudeConfig: ClaudePluginConfig): ExtensionConfig;
+export declare function convertClaudeToVivekMindConfig(claudeConfig: ClaudePluginConfig): ExtensionConfig;
 /**
  * Converts a complete Claude plugin package to VivekMind format.
  * Creates a new temporary directory with:

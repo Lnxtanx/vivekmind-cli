@@ -69,12 +69,12 @@ describe('OpenRouterOpenAICompatibleProvider', () => {
         it('should include base headers from parent class', () => {
             const headers = provider.buildHeaders();
             // Should include User-Agent from parent
-            expect(headers['User-Agent']).toBe(`QwenCode/1.0.0 (${process.platform}; ${process.arch})`);
+            expect(headers['User-Agent']).toBe(`VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`);
         });
         it('should add OpenRouter-specific headers', () => {
             const headers = provider.buildHeaders();
             expect(headers).toEqual({
-                'User-Agent': `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
+                'User-Agent': `VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`,
                 'HTTP-Referer': 'https://github.com/Lnxtanx/vivekmind-cli',
                 'X-OpenRouter-Title': 'VivekMind',
             });
@@ -97,7 +97,7 @@ describe('OpenRouterOpenAICompatibleProvider', () => {
         it('should handle unknown CLI version from parent', () => {
             vi.mocked(mockCliConfig.getCliVersion).mockReturnValue(undefined);
             const headers = provider.buildHeaders();
-            expect(headers['User-Agent']).toBe(`QwenCode/unknown (${process.platform}; ${process.arch})`);
+            expect(headers['User-Agent']).toBe(`VivekMindCode/unknown (${process.platform}; ${process.arch})`);
             expect(headers['HTTP-Referer']).toBe('https://github.com/Lnxtanx/vivekmind-cli');
             expect(headers['X-OpenRouter-Title']).toBe('VivekMind');
         });

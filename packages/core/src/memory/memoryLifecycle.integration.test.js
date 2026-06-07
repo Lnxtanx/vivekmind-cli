@@ -36,7 +36,7 @@ describe('managed auto-memory lifecycle integration', () => {
         await ensureAutoMemoryScaffold(projectRoot, new Date('2026-04-01T00:00:00.000Z'));
         mockConfig = {
             getSessionId: () => 'session-1',
-            getModel: () => 'qwen3-coder-plus',
+            getModel: () => 'vivekmind3-coder-plus',
         };
         vi.clearAllMocks();
         extractionCount = 0;

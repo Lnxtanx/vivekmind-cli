@@ -49,7 +49,7 @@ describe('ChatRecordingService - recordCustomTitle', () => {
           .fn()
           .mockReturnValue('/test/project/root/.vivekmind/projects/test-project'),
       },
-      getModel: vi.fn().mockReturnValue('qwen-plus'),
+      getModel: vi.fn().mockReturnValue('vivekmind-plus'),
       getFastModel: vi.fn().mockReturnValue(undefined),
       isInteractive: vi.fn().mockReturnValue(false),
       getDebugMode: vi.fn().mockReturnValue(false),

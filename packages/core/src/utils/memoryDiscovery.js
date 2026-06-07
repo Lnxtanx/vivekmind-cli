@@ -113,7 +113,7 @@ async function getGeminiMdFilePathsInternalForEachDir(dir, userHomePath, fileSer
             continue;
         }
         if (isHomeDirectory) {
-            // For home directory, only check for QWEN.md directly in the home directory
+            // For home directory, only check for VIVEKMIND.md directly in the home directory
             const homeContextPath = path.join(resolvedHome, geminiMdFilename);
             try {
                 await fs.access(homeContextPath, fsSync.constants.R_OK);
@@ -227,7 +227,7 @@ currentWorkingDirectoryForDisplay) {
         .join('\n\n');
 }
 /**
- * Loads hierarchical QWEN.md files and concatenates their content.
+ * Loads hierarchical VIVEKMIND.md files and concatenates their content.
  * Also loads path-based context rules from `.vivekmind/rules/` directories.
  * This function is intended for use by the server.
  *
@@ -246,7 +246,7 @@ export async function loadServerHierarchicalMemory(currentWorkingDirectory, incl
         const contentsWithPaths = await readGeminiMdFiles(filePaths, importFormat);
         // Pass CWD for relative path display in concatenated content
         combinedInstructions = concatenateInstructions(contentsWithPaths, currentWorkingDirectory);
-        // Only count files that match configured memory filenames (e.g., QWEN.md),
+        // Only count files that match configured memory filenames (e.g., VIVEKMIND.md),
         // excluding system context files like output-language.md
         const memoryFilenames = new Set(getAllGeminiMdFilenames());
         fileCount = contentsWithPaths.filter((item) => memoryFilenames.has(path.basename(item.filePath))).length;
@@ -266,7 +266,7 @@ export async function loadServerHierarchicalMemory(currentWorkingDirectory, incl
             : rulesContent;
     }
     if (!memoryContent && filePaths.length === 0 && ruleCount === 0) {
-        logger.debug('No QWEN.md files or rules found.');
+        logger.debug('No VIVEKMIND.md files or rules found.');
     }
     return {
         memoryContent,

@@ -20,10 +20,10 @@ import {
   runOpenRouterOAuthLogin,
 } from '../../commands/auth/openrouterOAuth.js';
 
-vi.mock('../hooks/useQwenAuth.js', () => ({
-  useQwenAuth: vi.fn(() => ({
+vi.mock('../hooks/useVivekMindAuth.js', () => ({
+  useVivekMindAuth: vi.fn(() => ({
     vivekmindAuthState: {},
-    cancelQwenAuth: vi.fn(),
+    cancelVivekMindAuth: vi.fn(),
   })),
 }));
 
@@ -284,27 +284,27 @@ describe('generateCustomApiKeyEnvKey', () => {
 
 describe('normalizeCustomModelIds', () => {
   it('splits comma-separated model IDs', () => {
-    const result = normalizeCustomModelIds('qwen/qwen3-coder,openai/gpt-4.1');
-    expect(result).toEqual(['qwen/qwen3-coder', 'openai/gpt-4.1']);
+    const result = normalizeCustomModelIds('vivekmind/vivekmind3-coder,openai/gpt-4.1');
+    expect(result).toEqual(['vivekmind/vivekmind3-coder', 'openai/gpt-4.1']);
   });
 
   it('trims whitespace from each model ID', () => {
     const result = normalizeCustomModelIds(
-      ' qwen/qwen3-coder , openai/gpt-4.1 ',
+      ' vivekmind/vivekmind3-coder , openai/gpt-4.1 ',
     );
-    expect(result).toEqual(['qwen/qwen3-coder', 'openai/gpt-4.1']);
+    expect(result).toEqual(['vivekmind/vivekmind3-coder', 'openai/gpt-4.1']);
   });
 
   it('deduplicates while preserving order', () => {
     const result = normalizeCustomModelIds(
-      'qwen/qwen3-coder,openai/gpt-4.1,qwen/qwen3-coder',
+      'vivekmind/vivekmind3-coder,openai/gpt-4.1,vivekmind/vivekmind3-coder',
     );
-    expect(result).toEqual(['qwen/qwen3-coder', 'openai/gpt-4.1']);
+    expect(result).toEqual(['vivekmind/vivekmind3-coder', 'openai/gpt-4.1']);
   });
 
   it('removes empty entries', () => {
-    const result = normalizeCustomModelIds('qwen/qwen3-coder,,openai/gpt-4.1');
-    expect(result).toEqual(['qwen/qwen3-coder', 'openai/gpt-4.1']);
+    const result = normalizeCustomModelIds('vivekmind/vivekmind3-coder,,openai/gpt-4.1');
+    expect(result).toEqual(['vivekmind/vivekmind3-coder', 'openai/gpt-4.1']);
   });
 
   it('returns empty array for empty input', () => {
@@ -318,8 +318,8 @@ describe('normalizeCustomModelIds', () => {
   });
 
   it('handles single model ID', () => {
-    const result = normalizeCustomModelIds('qwen/qwen3-coder');
-    expect(result).toEqual(['qwen/qwen3-coder']);
+    const result = normalizeCustomModelIds('vivekmind/vivekmind3-coder');
+    expect(result).toEqual(['vivekmind/vivekmind3-coder']);
   });
 });
 

@@ -142,11 +142,11 @@ describe('telemetry/config helpers', () => {
         });
         it('VIVEKMIND_ env vars take precedence over OTEL_ vars for per-signal endpoints', async () => {
             const env = {
-                VIVEKMIND_TELEMETRY_OTLP_TRACES_ENDPOINT: 'http://qwen-traces:4318/v1/traces',
+                VIVEKMIND_TELEMETRY_OTLP_TRACES_ENDPOINT: 'http://vivekmind-traces:4318/v1/traces',
                 OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: 'http://otel-traces:4318/v1/traces',
             };
             const resolved = await resolveTelemetrySettings({ env });
-            expect(resolved.otlpTracesEndpoint).toBe('http://qwen-traces:4318/v1/traces');
+            expect(resolved.otlpTracesEndpoint).toBe('http://vivekmind-traces:4318/v1/traces');
         });
         it('resolves per-signal endpoints from settings', async () => {
             const settings = {

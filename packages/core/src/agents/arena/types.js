@@ -26,7 +26,7 @@ export var ArenaSessionStatus;
     ArenaSessionStatus["FAILED"] = "failed";
 })(ArenaSessionStatus || (ArenaSessionStatus = {}));
 /**
- * Convert an agentId (e.g. "arena-xxx/qwen-coder-plus") to a filename-safe
+ * Convert an agentId (e.g. "arena-xxx/vivekmind-clir-plus") to a filename-safe
  * string by replacing path-unsafe characters with "--".
  */
 export function safeAgentId(agentId) {

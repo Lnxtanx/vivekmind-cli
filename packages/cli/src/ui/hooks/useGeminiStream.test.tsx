@@ -941,7 +941,7 @@ describe('useGeminiStream', () => {
       const config = {
         ...mockConfig,
         getEmitToolUseSummaries: vi.fn(() => false),
-        getFastModel: vi.fn(() => 'qwen-fast'),
+        getFastModel: vi.fn(() => 'vivekmind-fast'),
         getGeminiClient: vi.fn(() => ({
           generateContent: vi.fn(),
         })),
@@ -983,7 +983,7 @@ describe('useGeminiStream', () => {
       const config = {
         ...mockConfig,
         getEmitToolUseSummaries: vi.fn(() => true),
-        getFastModel: vi.fn(() => 'qwen-fast'),
+        getFastModel: vi.fn(() => 'vivekmind-fast'),
         getGeminiClient: vi.fn(() => ({ generateContent })),
       } as unknown as Config;
 
@@ -1008,7 +1008,7 @@ describe('useGeminiStream', () => {
       // Model was called with the fast model and includes tool names in the prompt.
       expect(generateContent).toHaveBeenCalledTimes(1);
       const callArgs = generateContent.mock.calls[0];
-      expect(callArgs[3]).toBe('qwen-fast');
+      expect(callArgs[3]).toBe('vivekmind-fast');
       const userText = callArgs[0][0].parts[0].text as string;
       expect(userText).toContain('Tool: Grep');
       expect(userText).toContain('Tool: Read');
@@ -1030,7 +1030,7 @@ describe('useGeminiStream', () => {
       const config = {
         ...mockConfig,
         getEmitToolUseSummaries: vi.fn(() => true),
-        getFastModel: vi.fn(() => 'qwen-fast'),
+        getFastModel: vi.fn(() => 'vivekmind-fast'),
         getGeminiClient: vi.fn(() => ({ generateContent })),
       } as unknown as Config;
 
@@ -1132,7 +1132,7 @@ describe('useGeminiStream', () => {
       const config = {
         ...mockConfig,
         getEmitToolUseSummaries: vi.fn(() => true),
-        getFastModel: vi.fn(() => 'qwen-fast'),
+        getFastModel: vi.fn(() => 'vivekmind-fast'),
         getGeminiClient: vi.fn(() => ({ generateContent })),
       } as unknown as Config;
 
@@ -2898,7 +2898,7 @@ describe('useGeminiStream', () => {
             type: ServerGeminiEventType.Thought,
             value: {
               subject: '',
-              description: ' user mentioned globally installed qwen,',
+              description: ' user mentioned globally installed vivekmind,',
             },
           };
           yield {
@@ -2918,14 +2918,14 @@ describe('useGeminiStream', () => {
         expect(mockAddItem).toHaveBeenCalledWith(
           expect.objectContaining({
             type: 'gemini_thought',
-            text: 'The user mentioned globally installed qwen,',
+            text: 'The user mentioned globally installed vivekmind,',
           }),
           expect.any(Number),
         );
       });
       expect(result.current.thought).toEqual({
         subject: 'Evaluating installation approach',
-        description: 'The user mentioned globally installed qwen,',
+        description: 'The user mentioned globally installed vivekmind,',
       });
     });
 

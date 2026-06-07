@@ -112,7 +112,7 @@ describe('showAuthStatus', () => {
           version: 'abc123def456',
         },
         model: {
-          name: 'qwen3.5-plus',
+          name: 'vivekmind3.5-plus',
         },
       }),
     );
@@ -234,12 +234,12 @@ describe('showAuthStatus', () => {
           },
         },
         model: {
-          name: 'qwen3.5-plus',
+          name: 'vivekmind3.5-plus',
         },
         modelProviders: {
           openai: [
             {
-              id: 'qwen3.5-plus',
+              id: 'vivekmind3.5-plus',
               envKey: 'BAILIAN_CODING_PLAN_API_KEY',
               baseUrl: 'https://coding.dashscope.aliyuncs.com/v1',
             },
@@ -309,7 +309,7 @@ describe('showAuthStatus', () => {
           region: 'china',
         },
         model: {
-          name: 'qwen3.5-plus',
+          name: 'vivekmind3.5-plus',
         },
       }),
     );
@@ -335,7 +335,7 @@ describe('showAuthStatus', () => {
           region: 'global',
         },
         model: {
-          name: 'qwen3-coder-plus',
+          name: 'vivekmind3-coder-plus',
         },
       }),
     );
@@ -361,7 +361,7 @@ describe('showAuthStatus', () => {
           region: 'china',
         },
         model: {
-          name: 'qwen3.5-plus',
+          name: 'vivekmind3.5-plus',
         },
       }),
     );
@@ -369,7 +369,7 @@ describe('showAuthStatus', () => {
     await showAuthStatus();
 
     expect(writeStdoutLine).toHaveBeenCalledWith(
-      expect.stringContaining('qwen3.5-plus'),
+      expect.stringContaining('vivekmind3.5-plus'),
     );
   });
 
@@ -388,7 +388,7 @@ describe('showAuthStatus', () => {
           version: 'abc123def456789',
         },
         model: {
-          name: 'qwen3.5-plus',
+          name: 'vivekmind3.5-plus',
         },
       }),
     );

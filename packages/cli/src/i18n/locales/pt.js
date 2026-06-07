@@ -110,8 +110,8 @@ export default {
   // ============================================================================
   // Commands - General
   // ============================================================================
-  'Analyzes the project and creates a tailored QWEN.md file.':
-    'Analisa o projeto e cria um arquivo QWEN.md personalizado.',
+  'Analyzes the project and creates a tailored VIVEKMIND.md file.':
+    'Analisa o projeto e cria um arquivo VIVEKMIND.md personalizado.',
   'List available VivekMind tools. Usage: /tools [desc]':
     'Listar ferramentas VivekMind disponíveis. Uso: /tools [desc]',
   'List available skills.': 'Listar habilidades disponíveis.',
@@ -455,8 +455,8 @@ export default {
   remote: 'remoto',
   'This extension will add the following commands: {{commands}}.':
     'Esta extensão adicionará os seguintes comandos: {{commands}}.',
-  'This extension will append info to your QWEN.md context using {{fileName}}':
-    'Esta extensão anexará informações ao seu contexto QWEN.md usando {{fileName}}',
+  'This extension will append info to your VIVEKMIND.md context using {{fileName}}':
+    'Esta extensão anexará informações ao seu contexto VIVEKMIND.md usando {{fileName}}',
   'This extension will exclude the following core tools: {{tools}}':
     'Esta extensão excluirá as seguintes ferramentas principais: {{tools}}',
   'This extension will install the following skills:':
@@ -1089,8 +1089,8 @@ export default {
     'O comando /directory add não é suportado em perfis de sandbox restritivos. Use --include-directories ao iniciar a sessão.',
   "Error adding '{{path}}': {{error}}":
     "Erro ao adicionar '{{path}}': {{error}}",
-  'Successfully added QWEN.md files from the following directories if there are:\n- {{directories}}':
-    'Arquivos QWEN.md adicionados com sucesso dos seguintes diretórios, se houverem:\n- {{directories}}',
+  'Successfully added VIVEKMIND.md files from the following directories if there are:\n- {{directories}}':
+    'Arquivos VIVEKMIND.md adicionados com sucesso dos seguintes diretórios, se houverem:\n- {{directories}}',
   'Error refreshing memory: {{error}}': 'Erro ao atualizar memória: {{error}}',
   'Successfully added directories:\n- {{directories}}':
     'Diretórios adicionados com sucesso:\n- {{directories}}',
@@ -1404,8 +1404,8 @@ export default {
     "Falha ao trocar o modelo para '{{modelId}}'.\n\n{{error}}",
   'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
     'VivekMind 3.6 Plus — modelo híbrido eficiente com desempenho líder em programação',
-  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    'O modelo VivekMind Vision mais recente do Alibaba Cloud ModelStudio (versão: qwen3-vl-plus-2025-09-23)',
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: vivekmind3-vl-plus-2025-09-23)':
+    'O modelo VivekMind Vision mais recente do Alibaba Cloud ModelStudio (versão: vivekmind3-vl-plus-2025-09-23)',
 
   // ============================================================================
   // Dialogs - Permissions
@@ -1569,8 +1569,8 @@ export default {
     'Experimente /insight para gerar insights personalizados do seu histórico de conversas.',
   'Press Ctrl+O to toggle compact mode — hide tool output and thinking for a cleaner view.':
     'Pressione Ctrl+O para alternar o modo compacto — ocultar saída de ferramentas e raciocínio.',
-  'Add a QWEN.md file to give VivekMind persistent project context.':
-    'Adicione um arquivo QWEN.md para dar ao VivekMind um contexto persistente do projeto.',
+  'Add a VIVEKMIND.md file to give VivekMind persistent project context.':
+    'Adicione um arquivo VIVEKMIND.md para dar ao VivekMind um contexto persistente do projeto.',
   'Use /btw to ask a quick side question without disrupting the conversation.':
     'Use /btw para fazer uma pergunta lateral rápida sem interromper a conversa.',
   'Context is almost full! Run /compress now or start /new to continue.':

@@ -10,9 +10,9 @@ describe('ModelRegistry', () => {
     describe('initialization', () => {
         it('should always include hard-coded vivekmind-oauth models', () => {
             const registry = new ModelRegistry();
-            const qwenModels = registry.getModelsForAuthType(AuthType.VIVEKMIND_OAUTH);
-            expect(qwenModels.length).toBe(VIVEKMIND_OAUTH_MODELS.length);
-            expect(qwenModels[0].id).toBe('coder-model');
+            const vivekmindModels = registry.getModelsForAuthType(AuthType.VIVEKMIND_OAUTH);
+            expect(vivekmindModels.length).toBe(VIVEKMIND_OAUTH_MODELS.length);
+            expect(vivekmindModels[0].id).toBe('coder-model');
         });
         it('should initialize with empty config', () => {
             const registry = new ModelRegistry();
@@ -38,16 +38,16 @@ describe('ModelRegistry', () => {
             const modelProvidersConfig = {
                 'vivekmind-oauth': [
                     {
-                        id: 'custom-qwen',
+                        id: 'custom-vivekmind',
                         name: 'Custom VivekMind',
                     },
                 ],
             };
             const registry = new ModelRegistry(modelProvidersConfig);
             // Should still use hard-coded vivekmind-oauth models
-            const qwenModels = registry.getModelsForAuthType(AuthType.VIVEKMIND_OAUTH);
-            expect(qwenModels.length).toBe(VIVEKMIND_OAUTH_MODELS.length);
-            expect(qwenModels.find((m) => m.id === 'custom-qwen')).toBeUndefined();
+            const vivekmindModels = registry.getModelsForAuthType(AuthType.VIVEKMIND_OAUTH);
+            expect(vivekmindModels.length).toBe(VIVEKMIND_OAUTH_MODELS.length);
+            expect(vivekmindModels.find((m) => m.id === 'custom-vivekmind')).toBeUndefined();
         });
     });
     describe('getModelsForAuthType', () => {
@@ -345,12 +345,12 @@ describe('ModelRegistry', () => {
         it('should ignore vivekmind-oauth models in reload config', () => {
             const registry = new ModelRegistry();
             registry.reloadModels({
-                'vivekmind-oauth': [{ id: 'custom-qwen', name: 'Custom VivekMind' }],
+                'vivekmind-oauth': [{ id: 'custom-vivekmind', name: 'Custom VivekMind' }],
             });
             // vivekmind-oauth should still use hard-coded models
-            const qwenModels = registry.getModelsForAuthType(AuthType.VIVEKMIND_OAUTH);
-            expect(qwenModels.length).toBe(VIVEKMIND_OAUTH_MODELS.length);
-            expect(qwenModels.find((m) => m.id === 'custom-qwen')).toBeUndefined();
+            const vivekmindModels = registry.getModelsForAuthType(AuthType.VIVEKMIND_OAUTH);
+            expect(vivekmindModels.length).toBe(VIVEKMIND_OAUTH_MODELS.length);
+            expect(vivekmindModels.find((m) => m.id === 'custom-vivekmind')).toBeUndefined();
         });
         it('should handle reload with multiple authTypes', () => {
             const registry = new ModelRegistry({

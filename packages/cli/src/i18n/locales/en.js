@@ -117,8 +117,8 @@ export default {
   // ============================================================================
   // Commands - General
   // ============================================================================
-  'Analyzes the project and creates a tailored QWEN.md file.':
-    'Analyzes the project and creates a tailored QWEN.md file.',
+  'Analyzes the project and creates a tailored VIVEKMIND.md file.':
+    'Analyzes the project and creates a tailored VIVEKMIND.md file.',
   'List available VivekMind tools. Usage: /tools [desc]':
     'List available VivekMind tools. Usage: /tools [desc]',
   'List available skills.': 'List available skills.',
@@ -513,8 +513,8 @@ export default {
   remote: 'remote',
   'This extension will add the following commands: {{commands}}.':
     'This extension will add the following commands: {{commands}}.',
-  'This extension will append info to your QWEN.md context using {{fileName}}':
-    'This extension will append info to your QWEN.md context using {{fileName}}',
+  'This extension will append info to your VIVEKMIND.md context using {{fileName}}':
+    'This extension will append info to your VIVEKMIND.md context using {{fileName}}',
   'This extension will exclude the following core tools: {{tools}}':
     'This extension will exclude the following core tools: {{tools}}',
   'This extension will install the following skills:':
@@ -1247,8 +1247,8 @@ export default {
   'The /directory add command is not supported in restrictive sandbox profiles. Please use --include-directories when starting the session instead.':
     'The /directory add command is not supported in restrictive sandbox profiles. Please use --include-directories when starting the session instead.',
   "Error adding '{{path}}': {{error}}": "Error adding '{{path}}': {{error}}",
-  'Successfully added QWEN.md files from the following directories if there are:\n- {{directories}}':
-    'Successfully added QWEN.md files from the following directories if there are:\n- {{directories}}',
+  'Successfully added VIVEKMIND.md files from the following directories if there are:\n- {{directories}}':
+    'Successfully added VIVEKMIND.md files from the following directories if there are:\n- {{directories}}',
   'Error refreshing memory: {{error}}': 'Error refreshing memory: {{error}}',
   'Successfully added directories:\n- {{directories}}':
     'Successfully added directories:\n- {{directories}}',
@@ -1455,8 +1455,8 @@ export default {
     "Failed to switch model to '{{modelId}}'.\n\n{{error}}",
   'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
     'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance',
-  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)',
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: vivekmind3-vl-plus-2025-09-23)':
+    'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: vivekmind3-vl-plus-2025-09-23)',
 
   // ============================================================================
   // Dialogs - Permissions
@@ -1617,8 +1617,8 @@ export default {
     'Try /insight to generate personalized insights from your chat history.',
   'Press Ctrl+O to toggle compact mode — hide tool output and thinking for a cleaner view.':
     'Press Ctrl+O to toggle compact mode — hide tool output and thinking for a cleaner view.',
-  'Add a QWEN.md file to give VivekMind persistent project context.':
-    'Add a QWEN.md file to give VivekMind persistent project context.',
+  'Add a VIVEKMIND.md file to give VivekMind persistent project context.':
+    'Add a VIVEKMIND.md file to give VivekMind persistent project context.',
   'Use /btw to ask a quick side question without disrupting the conversation.':
     'Use /btw to ask a quick side question without disrupting the conversation.',
   'Context is almost full! Run /compress now or start /new to continue.':

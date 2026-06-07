@@ -79,7 +79,7 @@ describe('Session', () => {
     ensureTool: ReturnType<typeof vi.fn>;
   };
   beforeEach(() => {
-    currentModel = 'qwen3-code-plus';
+    currentModel = 'vivekmind3-code-plus';
     currentAuthType = AuthType.USE_OPENAI;
     switchModelSpy = vi
       .fn()
@@ -205,7 +205,7 @@ describe('Session', () => {
 
   describe('setModel', () => {
     it('sets model via config and returns current model', async () => {
-      const requested = `qwen3-coder-plus(${AuthType.USE_OPENAI})`;
+      const requested = `vivekmind3-coder-plus(${AuthType.USE_OPENAI})`;
       await session.setModel({
         sessionId: 'test-session-id',
         modelId: `  ${requested}  `,
@@ -213,7 +213,7 @@ describe('Session', () => {
 
       expect(mockConfig.switchModel).toHaveBeenCalledWith(
         AuthType.USE_OPENAI,
-        'qwen3-coder-plus',
+        'vivekmind3-coder-plus',
         undefined,
       );
     });
@@ -408,7 +408,7 @@ describe('Session', () => {
 
         expect(mockChat.sendMessageStream).not.toHaveBeenCalled();
         expect(compressedChat.sendMessageStream).toHaveBeenCalledWith(
-          'qwen3-code-plus',
+          'vivekmind3-code-plus',
           {
             message: expect.any(Array),
             config: { abortSignal: expect.any(AbortSignal) },
@@ -439,7 +439,7 @@ describe('Session', () => {
             content: {
               type: 'text',
               text:
-                'IMPORTANT: This conversation approached the input token limit for qwen3-code-plus. ' +
+                'IMPORTANT: This conversation approached the input token limit for vivekmind3-code-plus. ' +
                 'A compressed context will be sent for future messages (compressed from: 1200 to 450 tokens).',
             },
           },
@@ -465,7 +465,7 @@ describe('Session', () => {
           expect.any(AbortSignal),
         );
         expect(mockChat.sendMessageStream).toHaveBeenCalledWith(
-          'qwen3-code-plus',
+          'vivekmind3-code-plus',
           {
             message: expect.any(Array),
             config: { abortSignal: expect.any(AbortSignal) },
@@ -802,7 +802,7 @@ describe('Session', () => {
             content: {
               type: 'text',
               text:
-                'IMPORTANT: This conversation approached the input token limit for qwen3-code-plus. ' +
+                'IMPORTANT: This conversation approached the input token limit for vivekmind3-code-plus. ' +
                 'A compressed context will be sent for future messages (compressed from: 1200 to 101 tokens).',
             },
           },
@@ -1363,7 +1363,7 @@ describe('Session', () => {
 
     it('passes resolved paths to read_many_files tool', async () => {
       const tempDir = await fs.mkdtemp(
-        path.join(os.tmpdir(), 'qwen-acp-session-'),
+        path.join(os.tmpdir(), 'vivekmind-acp-session-'),
       );
       const fileName = 'README.md';
       const filePath = path.join(tempDir, fileName);

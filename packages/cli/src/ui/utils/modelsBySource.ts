@@ -44,7 +44,7 @@ export interface ModelSourceEntry {
  *   ALL models renders with a `${model} (${source})` label — including the
  *   `(main)` rows — so the user can directly compare attribution across the
  *   whole stats panel. This matches the issue mockup, which shows
- *   `qwen-max (main)` alongside `qwen-plus (researcher)`.
+ *   `vivekmind-max (main)` alongside `vivekmind-plus (researcher)`.
  * - Within the split case, sources under a given model are sorted with
  *   `MAIN_SOURCE` first (if present), then the rest alphabetically.
  * - Models with zero requests (aggregate) are omitted.

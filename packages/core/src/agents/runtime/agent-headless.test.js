@@ -194,7 +194,7 @@ describe('subagent.ts', () => {
     describe('AgentHeadless', () => {
         let mockSendMessageStream;
         const defaultModelConfig = {
-            model: 'qwen3-coder-plus',
+            model: 'vivekmind3-coder-plus',
         };
         const defaultRunConfig = {
             max_time_minutes: 5,

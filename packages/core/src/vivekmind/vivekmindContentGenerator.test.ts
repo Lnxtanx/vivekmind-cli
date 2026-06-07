@@ -126,7 +126,7 @@ vi.mock('./sharedTokenManager.js', () => ({
     }
 
     async getValidCredentials(
-      qwenClient: IVivekMindOAuth2Client,
+      vivekmindClient: IVivekMindOAuth2Client,
     ): Promise<VivekMindCredentials> {
       // If we're configured to throw an error, do so
       if (this.shouldThrowError && this.errorToThrow) {
@@ -135,9 +135,9 @@ vi.mock('./sharedTokenManager.js', () => ({
 
       // Try to get credentials from the mock client first to trigger auth errors
       try {
-        const { token } = await qwenClient.getAccessToken();
+        const { token } = await vivekmindClient.getAccessToken();
         if (token) {
-          const credentials = qwenClient.getCredentials();
+          const credentials = vivekmindClient.getCredentials();
           return credentials;
         }
       } catch (error) {
@@ -160,10 +160,10 @@ vi.mock('./sharedTokenManager.js', () => ({
         if (isAuthError) {
           // Try to refresh the token through the client
           try {
-            const refreshResult = await qwenClient.refreshAccessToken();
+            const refreshResult = await vivekmindClient.refreshAccessToken();
             if (refreshResult && !('error' in refreshResult)) {
               // Refresh succeeded, update client credentials and return them
-              const updatedCredentials = qwenClient.getCredentials();
+              const updatedCredentials = vivekmindClient.getCredentials();
               return updatedCredentials;
             } else {
               // Refresh failed, throw appropriate error
@@ -291,8 +291,8 @@ const createMockResponse = (text: string): GenerateContentResponse =>
   }) as GenerateContentResponse;
 
 describe('VivekMindContentGenerator', () => {
-  let mockQwenClient: IVivekMindOAuth2Client;
-  let qwenContentGenerator: VivekMindContentGenerator;
+  let mockVivekMindClient: IVivekMindOAuth2Client;
+  let vivekmindContentGenerator: VivekMindContentGenerator;
   let mockConfig: Config;
 
   const mockCredentials: VivekMindCredentials = {
@@ -307,9 +307,9 @@ describe('VivekMindContentGenerator', () => {
     // Mock Config
     mockConfig = {
       getContentGeneratorConfig: vi.fn().mockReturnValue({
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         apiKey: 'test-api-key',
-        authType: 'qwen',
+        authType: 'vivekmind',
         baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
         enableOpenAILogging: false,
         timeout: 120000,
@@ -326,7 +326,7 @@ describe('VivekMindContentGenerator', () => {
     } as unknown as Config;
 
     // Mock VivekMindOAuth2Client
-    mockQwenClient = {
+    mockVivekMindClient = {
       getAccessToken: vi.fn(),
       getCredentials: vi.fn(),
       setCredentials: vi.fn(),
@@ -337,15 +337,15 @@ describe('VivekMindContentGenerator', () => {
 
     // Create VivekMindContentGenerator instance
     const contentGeneratorConfig = {
-      model: 'qwen-turbo',
+      model: 'vivekmind-turbo',
       apiKey: 'test-api-key',
       authType: AuthType.VIVEKMIND_OAUTH,
       baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
       timeout: 120000,
       maxRetries: 3,
     };
-    qwenContentGenerator = new VivekMindContentGenerator(
-      mockQwenClient,
+    vivekmindContentGenerator = new VivekMindContentGenerator(
+      mockVivekMindClient,
       contentGeneratorConfig,
       mockConfig,
     );
@@ -357,37 +357,37 @@ describe('VivekMindContentGenerator', () => {
 
   describe('Core Content Generation Methods', () => {
     it('should generate content with valid token', async () => {
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'valid-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue(mockCredentials);
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue(mockCredentials);
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
-      const result = await qwenContentGenerator.generateContent(
+      const result = await vivekmindContentGenerator.generateContent(
         request,
         'test-prompt-id',
       );
 
       expect(result.text).toBe('Generated content');
-      expect(mockQwenClient.getAccessToken).toHaveBeenCalled();
+      expect(mockVivekMindClient.getAccessToken).toHaveBeenCalled();
     });
 
     it('should generate content stream with valid token', async () => {
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'valid-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue(mockCredentials);
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue(mockCredentials);
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello stream' }] }],
       };
 
-      const stream = await qwenContentGenerator.generateContentStream(
+      const stream = await vivekmindContentGenerator.generateContentStream(
         request,
         'test-prompt-id',
       );
@@ -398,7 +398,7 @@ describe('VivekMindContentGenerator', () => {
       }
 
       expect(chunks).toEqual(['Stream chunk 1', 'Stream chunk 2']);
-      expect(mockQwenClient.getAccessToken).toHaveBeenCalled();
+      expect(mockVivekMindClient.getAccessToken).toHaveBeenCalled();
     });
 
     it('should count tokens without requiring authentication', async () => {
@@ -406,33 +406,33 @@ describe('VivekMindContentGenerator', () => {
       vi.clearAllMocks();
 
       const request: CountTokensParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Count me' }] }],
       };
 
-      const result = await qwenContentGenerator.countTokens(request);
+      const result = await vivekmindContentGenerator.countTokens(request);
 
       expect(result.totalTokens).toBe(15);
       // countTokens is a local operation and should not require OAuth credentials
-      expect(mockQwenClient.getAccessToken).not.toHaveBeenCalled();
+      expect(mockVivekMindClient.getAccessToken).not.toHaveBeenCalled();
     });
 
     it('should embed content with valid token', async () => {
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'valid-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue(mockCredentials);
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue(mockCredentials);
 
       const request: EmbedContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ parts: [{ text: 'Embed me' }] }],
       };
 
-      const result = await qwenContentGenerator.embedContent(request);
+      const result = await vivekmindContentGenerator.embedContent(request);
 
       expect(result.embeddings).toHaveLength(1);
       expect(result.embeddings?.[0]?.values).toEqual([0.1, 0.2, 0.3]);
-      expect(mockQwenClient.getAccessToken).toHaveBeenCalled();
+      expect(mockVivekMindClient.getAccessToken).toHaveBeenCalled();
     });
   });
 
@@ -441,12 +441,12 @@ describe('VivekMindContentGenerator', () => {
       const authError = { status: 401, message: 'Unauthorized' };
 
       // First call fails with auth error, second call succeeds
-      vi.mocked(mockQwenClient.getAccessToken)
+      vi.mocked(mockVivekMindClient.getAccessToken)
         .mockRejectedValueOnce(authError)
         .mockResolvedValueOnce({ token: 'refreshed-token' });
 
       // Refresh succeeds
-      vi.mocked(mockQwenClient.refreshAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.refreshAccessToken).mockResolvedValue({
         access_token: 'refreshed-token',
         token_type: 'Bearer',
         expires_in: 3600,
@@ -454,7 +454,7 @@ describe('VivekMindContentGenerator', () => {
       });
 
       // Set credentials for second call
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         access_token: 'refreshed-token',
         token_type: 'Bearer',
         refresh_token: 'refresh-token',
@@ -463,17 +463,17 @@ describe('VivekMindContentGenerator', () => {
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
-      const result = await qwenContentGenerator.generateContent(
+      const result = await vivekmindContentGenerator.generateContent(
         request,
         'test-prompt-id',
       );
 
       expect(result.text).toBe('Generated content');
-      expect(mockQwenClient.refreshAccessToken).toHaveBeenCalled();
+      expect(mockVivekMindClient.refreshAccessToken).toHaveBeenCalled();
     });
 
     it('should refresh token on auth error and retry for content stream', async () => {
@@ -483,12 +483,12 @@ describe('VivekMindContentGenerator', () => {
       vi.clearAllMocks();
 
       // First call fails with auth error, second call succeeds
-      vi.mocked(mockQwenClient.getAccessToken)
+      vi.mocked(mockVivekMindClient.getAccessToken)
         .mockRejectedValueOnce(authError)
         .mockResolvedValueOnce({ token: 'refreshed-stream-token' });
 
       // Refresh succeeds
-      vi.mocked(mockQwenClient.refreshAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.refreshAccessToken).mockResolvedValue({
         access_token: 'refreshed-stream-token',
         token_type: 'Bearer',
         expires_in: 3600,
@@ -496,7 +496,7 @@ describe('VivekMindContentGenerator', () => {
       });
 
       // Set credentials for second call
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         access_token: 'refreshed-stream-token',
         token_type: 'Bearer',
         refresh_token: 'refresh-token',
@@ -505,11 +505,11 @@ describe('VivekMindContentGenerator', () => {
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello stream' }] }],
       };
 
-      const stream = await qwenContentGenerator.generateContentStream(
+      const stream = await vivekmindContentGenerator.generateContentStream(
         request,
         'test-prompt-id',
       );
@@ -520,7 +520,7 @@ describe('VivekMindContentGenerator', () => {
       }
 
       expect(chunks).toEqual(['Stream chunk 1', 'Stream chunk 2']);
-      expect(mockQwenClient.refreshAccessToken).toHaveBeenCalled();
+      expect(mockVivekMindClient.refreshAccessToken).toHaveBeenCalled();
     });
 
     it('should handle token refresh failure', async () => {
@@ -535,12 +535,12 @@ describe('VivekMindContentGenerator', () => {
       );
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
       await expect(
-        qwenContentGenerator.generateContent(request, 'test-prompt-id'),
+        vivekmindContentGenerator.generateContent(request, 'test-prompt-id'),
       ).rejects.toThrow(
         'Failed to obtain valid VivekMind access token. Please re-authenticate.',
       );
@@ -550,22 +550,22 @@ describe('VivekMindContentGenerator', () => {
     });
 
     it('should update endpoint when token is refreshed', async () => {
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'valid-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         ...mockCredentials,
         resource_url: 'https://new-endpoint.com',
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
-      await qwenContentGenerator.generateContent(request, 'test-prompt-id');
+      await vivekmindContentGenerator.generateContent(request, 'test-prompt-id');
 
-      expect(mockQwenClient.getCredentials).toHaveBeenCalled();
+      expect(mockVivekMindClient.getCredentials).toHaveBeenCalled();
     });
   });
 
@@ -573,10 +573,10 @@ describe('VivekMindContentGenerator', () => {
     it('should use default endpoint when no custom endpoint provided', async () => {
       let capturedBaseURL = '';
 
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'valid-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         access_token: 'test-token',
         refresh_token: 'test-refresh',
         // No resource_url provided
@@ -584,7 +584,7 @@ describe('VivekMindContentGenerator', () => {
 
       // Mock the parent's generateContent to capture the baseURL during the call
       const parentPrototype = Object.getPrototypeOf(
-        Object.getPrototypeOf(qwenContentGenerator),
+        Object.getPrototypeOf(vivekmindContentGenerator),
       );
       const originalGenerateContent = parentPrototype.generateContent;
       parentPrototype.generateContent = vi.fn().mockImplementation(function (
@@ -597,11 +597,11 @@ describe('VivekMindContentGenerator', () => {
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
-      await qwenContentGenerator.generateContent(request, 'test-prompt-id');
+      await vivekmindContentGenerator.generateContent(request, 'test-prompt-id');
 
       // Should use default endpoint with /v1 suffix
       expect(capturedBaseURL).toBe(
@@ -615,17 +615,17 @@ describe('VivekMindContentGenerator', () => {
     it('should normalize hostname-only endpoints by adding https protocol', async () => {
       let capturedBaseURL = '';
 
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'valid-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         ...mockCredentials,
         resource_url: 'custom-endpoint.com',
       });
 
       // Mock the parent's generateContent to capture the baseURL during the call
       const parentPrototype = Object.getPrototypeOf(
-        Object.getPrototypeOf(qwenContentGenerator),
+        Object.getPrototypeOf(vivekmindContentGenerator),
       );
       const originalGenerateContent = parentPrototype.generateContent;
       parentPrototype.generateContent = vi.fn().mockImplementation(function (
@@ -638,11 +638,11 @@ describe('VivekMindContentGenerator', () => {
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
-      await qwenContentGenerator.generateContent(request, 'test-prompt-id');
+      await vivekmindContentGenerator.generateContent(request, 'test-prompt-id');
 
       // Should add https:// and /v1
       expect(capturedBaseURL).toBe('https://custom-endpoint.com/v1');
@@ -654,17 +654,17 @@ describe('VivekMindContentGenerator', () => {
     it('should preserve existing protocol in endpoint URLs', async () => {
       let capturedBaseURL = '';
 
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'valid-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         ...mockCredentials,
         resource_url: 'https://custom-endpoint.com',
       });
 
       // Mock the parent's generateContent to capture the baseURL during the call
       const parentPrototype = Object.getPrototypeOf(
-        Object.getPrototypeOf(qwenContentGenerator),
+        Object.getPrototypeOf(vivekmindContentGenerator),
       );
       const originalGenerateContent = parentPrototype.generateContent;
       parentPrototype.generateContent = vi.fn().mockImplementation(function (
@@ -677,11 +677,11 @@ describe('VivekMindContentGenerator', () => {
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
-      await qwenContentGenerator.generateContent(request, 'test-prompt-id');
+      await vivekmindContentGenerator.generateContent(request, 'test-prompt-id');
 
       // Should preserve https:// and add /v1
       expect(capturedBaseURL).toBe('https://custom-endpoint.com/v1');
@@ -693,17 +693,17 @@ describe('VivekMindContentGenerator', () => {
     it('should not duplicate /v1 suffix if already present', async () => {
       let capturedBaseURL = '';
 
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'valid-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         ...mockCredentials,
         resource_url: 'https://custom-endpoint.com/v1',
       });
 
       // Mock the parent's generateContent to capture the baseURL during the call
       const parentPrototype = Object.getPrototypeOf(
-        Object.getPrototypeOf(qwenContentGenerator),
+        Object.getPrototypeOf(vivekmindContentGenerator),
       );
       const originalGenerateContent = parentPrototype.generateContent;
       parentPrototype.generateContent = vi.fn().mockImplementation(function (
@@ -716,11 +716,11 @@ describe('VivekMindContentGenerator', () => {
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
-      await qwenContentGenerator.generateContent(request, 'test-prompt-id');
+      await vivekmindContentGenerator.generateContent(request, 'test-prompt-id');
 
       // Should not duplicate /v1
       expect(capturedBaseURL).toBe('https://custom-endpoint.com/v1');
@@ -733,26 +733,26 @@ describe('VivekMindContentGenerator', () => {
   describe('Client State Management', () => {
     it('should set dynamic credentials during operations', async () => {
       const client = (
-        qwenContentGenerator as unknown as {
+        vivekmindContentGenerator as unknown as {
           pipeline: { client: { apiKey: string; baseURL: string } };
         }
       ).pipeline.client;
 
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'temp-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         ...mockCredentials,
         access_token: 'temp-token',
         resource_url: 'https://temp-endpoint.com',
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
-      await qwenContentGenerator.generateContent(request, 'test-prompt-id');
+      await vivekmindContentGenerator.generateContent(request, 'test-prompt-id');
 
       // Should have dynamic credentials set
       expect(client.apiKey).toBe('temp-token');
@@ -761,15 +761,15 @@ describe('VivekMindContentGenerator', () => {
 
     it('should set credentials even when operation throws', async () => {
       const client = (
-        qwenContentGenerator as unknown as {
+        vivekmindContentGenerator as unknown as {
           pipeline: { client: { apiKey: string; baseURL: string } };
         }
       ).pipeline.client;
 
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'temp-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         ...mockCredentials,
         access_token: 'temp-token',
       });
@@ -777,18 +777,18 @@ describe('VivekMindContentGenerator', () => {
       // Mock the parent method to throw an error
       const mockError = new Error('Network error');
       const parentPrototype = Object.getPrototypeOf(
-        Object.getPrototypeOf(qwenContentGenerator),
+        Object.getPrototypeOf(vivekmindContentGenerator),
       );
       const originalGenerateContent = parentPrototype.generateContent;
       parentPrototype.generateContent = vi.fn().mockRejectedValue(mockError);
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
       try {
-        await qwenContentGenerator.generateContent(request, 'test-prompt-id');
+        await vivekmindContentGenerator.generateContent(request, 'test-prompt-id');
       } catch (error) {
         expect(error).toBe(mockError);
       }
@@ -814,14 +814,14 @@ describe('VivekMindContentGenerator', () => {
 
       // Replace the parent method
       const parentPrototype = Object.getPrototypeOf(
-        Object.getPrototypeOf(qwenContentGenerator),
+        Object.getPrototypeOf(vivekmindContentGenerator),
       );
       const originalGenerateContent = parentPrototype.generateContent;
       parentPrototype.generateContent = mockGenerateContent;
 
       // Mock getAccessToken to fail initially, then succeed
       let getAccessTokenCallCount = 0;
-      vi.mocked(mockQwenClient.getAccessToken).mockImplementation(async () => {
+      vi.mocked(mockVivekMindClient.getAccessToken).mockImplementation(async () => {
         getAccessTokenCallCount++;
         if (getAccessTokenCallCount <= 2) {
           throw authError; // Fail on first two calls (initial + retry)
@@ -829,7 +829,7 @@ describe('VivekMindContentGenerator', () => {
         return { token: 'refreshed-token' }; // Succeed after refresh
       });
 
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         access_token: 'refreshed-token',
         token_type: 'Bearer',
         refresh_token: 'refresh-token',
@@ -837,25 +837,25 @@ describe('VivekMindContentGenerator', () => {
         expiry_date: Date.now() + 3600000,
       });
 
-      vi.mocked(mockQwenClient.refreshAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.refreshAccessToken).mockResolvedValue({
         access_token: 'refreshed-token',
         token_type: 'Bearer',
         expires_in: 3600,
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
-      const result = await qwenContentGenerator.generateContent(
+      const result = await vivekmindContentGenerator.generateContent(
         request,
         'test-prompt-id',
       );
 
       expect(result.text).toBe('Success after retry');
       expect(mockGenerateContent).toHaveBeenCalledTimes(2);
-      expect(mockQwenClient.refreshAccessToken).toHaveBeenCalled();
+      expect(mockVivekMindClient.refreshAccessToken).toHaveBeenCalled();
 
       // Restore original method
       parentPrototype.generateContent = originalGenerateContent;
@@ -866,89 +866,89 @@ describe('VivekMindContentGenerator', () => {
 
       const mockGenerateContent = vi.fn().mockRejectedValue(networkError);
       const parentPrototype = Object.getPrototypeOf(
-        Object.getPrototypeOf(qwenContentGenerator),
+        Object.getPrototypeOf(vivekmindContentGenerator),
       );
       const originalGenerateContent = parentPrototype.generateContent;
       parentPrototype.generateContent = mockGenerateContent;
 
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'valid-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue(mockCredentials);
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue(mockCredentials);
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
       await expect(
-        qwenContentGenerator.generateContent(request, 'test-prompt-id'),
+        vivekmindContentGenerator.generateContent(request, 'test-prompt-id'),
       ).rejects.toThrow('Network timeout');
       expect(mockGenerateContent).toHaveBeenCalledTimes(1);
-      expect(mockQwenClient.refreshAccessToken).not.toHaveBeenCalled();
+      expect(mockVivekMindClient.refreshAccessToken).not.toHaveBeenCalled();
 
       // Restore original method
       parentPrototype.generateContent = originalGenerateContent;
     });
 
     it('should handle error response from token refresh', async () => {
-      vi.mocked(mockQwenClient.getAccessToken).mockRejectedValue(
+      vi.mocked(mockVivekMindClient.getAccessToken).mockRejectedValue(
         new Error('Token expired'),
       );
-      vi.mocked(mockQwenClient.refreshAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.refreshAccessToken).mockResolvedValue({
         error: 'invalid_grant',
         error_description: 'Refresh token expired',
       } as ErrorData);
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
       await expect(
-        qwenContentGenerator.generateContent(request, 'test-prompt-id'),
+        vivekmindContentGenerator.generateContent(request, 'test-prompt-id'),
       ).rejects.toThrow('Failed to obtain valid VivekMind access token');
     });
   });
 
   describe('Token State Management', () => {
     it('should cache and return current token', () => {
-      expect(qwenContentGenerator.getCurrentToken()).toBeNull();
+      expect(vivekmindContentGenerator.getCurrentToken()).toBeNull();
 
       // Simulate setting a token internally
       (
-        qwenContentGenerator as unknown as { currentToken: string }
+        vivekmindContentGenerator as unknown as { currentToken: string }
       ).currentToken = 'cached-token';
 
-      expect(qwenContentGenerator.getCurrentToken()).toBe('cached-token');
+      expect(vivekmindContentGenerator.getCurrentToken()).toBe('cached-token');
     });
 
     it('should clear token on clearToken()', () => {
       // Simulate having cached token value
-      const qwenInstance = qwenContentGenerator as unknown as {
+      const vivekmindInstance = vivekmindContentGenerator as unknown as {
         currentToken: string;
       };
-      qwenInstance.currentToken = 'cached-token';
+      vivekmindInstance.currentToken = 'cached-token';
 
-      qwenContentGenerator.clearToken();
+      vivekmindContentGenerator.clearToken();
 
-      expect(qwenContentGenerator.getCurrentToken()).toBeNull();
+      expect(vivekmindContentGenerator.getCurrentToken()).toBeNull();
     });
 
     it('should handle concurrent token refresh requests', async () => {
       let refreshCallCount = 0;
 
       // Clear any existing cached token first
-      qwenContentGenerator.clearToken();
+      vivekmindContentGenerator.clearToken();
 
       // Mock to simulate auth error on first parent call, which should trigger refresh
       const authError = { status: 401, message: 'Unauthorized' };
       let parentCallCount = 0;
 
-      vi.mocked(mockQwenClient.getAccessToken).mockRejectedValue(authError);
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue(mockCredentials);
+      vi.mocked(mockVivekMindClient.getAccessToken).mockRejectedValue(authError);
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue(mockCredentials);
 
-      vi.mocked(mockQwenClient.refreshAccessToken).mockImplementation(
+      vi.mocked(mockVivekMindClient.refreshAccessToken).mockImplementation(
         async () => {
           refreshCallCount++;
           await new Promise((resolve) => setTimeout(resolve, 50)); // Longer delay to ensure concurrency
@@ -962,7 +962,7 @@ describe('VivekMindContentGenerator', () => {
 
       // Mock the parent method to fail first then succeed
       const parentPrototype = Object.getPrototypeOf(
-        Object.getPrototypeOf(qwenContentGenerator),
+        Object.getPrototypeOf(vivekmindContentGenerator),
       );
       const originalGenerateContent = parentPrototype.generateContent;
       parentPrototype.generateContent = vi.fn().mockImplementation(async () => {
@@ -974,15 +974,15 @@ describe('VivekMindContentGenerator', () => {
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
       // Make multiple concurrent requests - should all use the same refresh promise
       const promises = [
-        qwenContentGenerator.generateContent(request, 'test-prompt-id'),
-        qwenContentGenerator.generateContent(request, 'test-prompt-id'),
-        qwenContentGenerator.generateContent(request, 'test-prompt-id'),
+        vivekmindContentGenerator.generateContent(request, 'test-prompt-id'),
+        vivekmindContentGenerator.generateContent(request, 'test-prompt-id'),
+        vivekmindContentGenerator.generateContent(request, 'test-prompt-id'),
       ];
 
       const results = await Promise.all(promises);
@@ -1014,7 +1014,7 @@ describe('VivekMindContentGenerator', () => {
 
       authErrors.forEach((error) => {
         const shouldSuppress = (
-          qwenContentGenerator as unknown as {
+          vivekmindContentGenerator as unknown as {
             shouldSuppressErrorLogging: (
               error: unknown,
               request: GenerateContentParameters,
@@ -1035,7 +1035,7 @@ describe('VivekMindContentGenerator', () => {
 
       nonAuthErrors.forEach((error) => {
         const shouldSuppress = (
-          qwenContentGenerator as unknown as {
+          vivekmindContentGenerator as unknown as {
             shouldSuppressErrorLogging: (
               error: unknown,
               request: GenerateContentParameters,
@@ -1062,13 +1062,13 @@ describe('VivekMindContentGenerator', () => {
       });
 
       const parentPrototype = Object.getPrototypeOf(
-        Object.getPrototypeOf(qwenContentGenerator),
+        Object.getPrototypeOf(vivekmindContentGenerator),
       );
       parentPrototype.generateContent = mockGenerateContent;
 
       // Mock getAccessToken to fail initially, then succeed
       let getAccessTokenCallCount = 0;
-      vi.mocked(mockQwenClient.getAccessToken).mockImplementation(async () => {
+      vi.mocked(mockVivekMindClient.getAccessToken).mockImplementation(async () => {
         getAccessTokenCallCount++;
         if (getAccessTokenCallCount <= 2) {
           throw authError; // Fail on first two calls (initial + retry)
@@ -1076,7 +1076,7 @@ describe('VivekMindContentGenerator', () => {
         return { token: 'new-token' }; // Succeed after refresh
       });
 
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         access_token: 'new-token',
         token_type: 'Bearer',
         refresh_token: 'refresh-token',
@@ -1084,7 +1084,7 @@ describe('VivekMindContentGenerator', () => {
         expiry_date: Date.now() + 7200000,
       });
 
-      vi.mocked(mockQwenClient.refreshAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.refreshAccessToken).mockResolvedValue({
         access_token: 'new-token',
         token_type: 'Bearer',
         expires_in: 7200,
@@ -1092,18 +1092,18 @@ describe('VivekMindContentGenerator', () => {
       });
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Test message' }] }],
       };
 
-      const result = await qwenContentGenerator.generateContent(
+      const result = await vivekmindContentGenerator.generateContent(
         request,
         'test-prompt-id',
       );
 
       expect(result.text).toBe('Success after refresh');
-      expect(mockQwenClient.getAccessToken).toHaveBeenCalled();
-      expect(mockQwenClient.refreshAccessToken).toHaveBeenCalled();
+      expect(mockVivekMindClient.getAccessToken).toHaveBeenCalled();
+      expect(mockVivekMindClient.refreshAccessToken).toHaveBeenCalled();
       expect(callCount).toBe(2); // Initial call + retry
     });
   });
@@ -1127,20 +1127,20 @@ describe('VivekMindContentGenerator', () => {
 
       // Create new instance to pick up the mock
       const newGenerator = new VivekMindContentGenerator(
-        mockQwenClient,
-        { model: 'qwen-turbo', authType: AuthType.VIVEKMIND_OAUTH },
+        mockVivekMindClient,
+        { model: 'vivekmind-turbo', authType: AuthType.VIVEKMIND_OAUTH },
         mockConfig,
       );
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
       await newGenerator.generateContent(request, 'test-prompt-id');
 
       expect(mockTokenManager.getValidCredentials).toHaveBeenCalledWith(
-        mockQwenClient,
+        mockVivekMindClient,
       );
 
       // Restore original
@@ -1162,13 +1162,13 @@ describe('VivekMindContentGenerator', () => {
         .mockReturnValue(mockTokenManager);
 
       const newGenerator = new VivekMindContentGenerator(
-        mockQwenClient,
-        { model: 'qwen-turbo', authType: AuthType.VIVEKMIND_OAUTH },
+        mockVivekMindClient,
+        { model: 'vivekmind-turbo', authType: AuthType.VIVEKMIND_OAUTH },
         mockConfig,
       );
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
@@ -1195,13 +1195,13 @@ describe('VivekMindContentGenerator', () => {
         .mockReturnValue(mockTokenManager);
 
       const newGenerator = new VivekMindContentGenerator(
-        mockQwenClient,
-        { model: 'qwen-turbo', authType: AuthType.VIVEKMIND_OAUTH },
+        mockVivekMindClient,
+        { model: 'vivekmind-turbo', authType: AuthType.VIVEKMIND_OAUTH },
         mockConfig,
       );
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
@@ -1232,15 +1232,15 @@ describe('VivekMindContentGenerator', () => {
       ];
 
       endpoints.forEach(({ input, expected }) => {
-        vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+        vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
           token: 'test-token',
         });
-        vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+        vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
           ...mockCredentials,
           resource_url: input,
         });
 
-        const generator = qwenContentGenerator as unknown as {
+        const generator = vivekmindContentGenerator as unknown as {
           getCurrentEndpoint: (resourceUrl?: string) => string;
         };
 
@@ -1265,7 +1265,7 @@ describe('VivekMindContentGenerator', () => {
       ];
 
       endpoints.forEach(({ input, expected }) => {
-        const generator = qwenContentGenerator as unknown as {
+        const generator = vivekmindContentGenerator as unknown as {
           getCurrentEndpoint: (resourceUrl?: string) => string;
         };
 
@@ -1274,7 +1274,7 @@ describe('VivekMindContentGenerator', () => {
     });
 
     it('should handle undefined resource URL', () => {
-      const generator = qwenContentGenerator as unknown as {
+      const generator = vivekmindContentGenerator as unknown as {
         getCurrentEndpoint: (resourceUrl?: string) => string;
       };
 
@@ -1284,7 +1284,7 @@ describe('VivekMindContentGenerator', () => {
     });
 
     it('should handle empty resource URL', () => {
-      const generator = qwenContentGenerator as unknown as {
+      const generator = vivekmindContentGenerator as unknown as {
         getCurrentEndpoint: (resourceUrl?: string) => string;
       };
 
@@ -1305,7 +1305,7 @@ describe('VivekMindContentGenerator', () => {
       ];
 
       authErrors.forEach((error) => {
-        const generator = qwenContentGenerator as unknown as {
+        const generator = vivekmindContentGenerator as unknown as {
           isAuthError: (error: unknown) => boolean;
         };
         expect(generator.isAuthError(error)).toBe(true);
@@ -1313,7 +1313,7 @@ describe('VivekMindContentGenerator', () => {
 
       // 400 is not typically an auth error, it's bad request
       const nonAuthError = { status: 400 };
-      const generator = qwenContentGenerator as unknown as {
+      const generator = vivekmindContentGenerator as unknown as {
         isAuthError: (error: unknown) => boolean;
       };
       expect(generator.isAuthError(nonAuthError)).toBe(false);
@@ -1334,7 +1334,7 @@ describe('VivekMindContentGenerator', () => {
 
       authMessages.forEach((message) => {
         const error = new Error(message);
-        const generator = qwenContentGenerator as unknown as {
+        const generator = vivekmindContentGenerator as unknown as {
           isAuthError: (error: unknown) => boolean;
         };
         expect(generator.isAuthError(error)).toBe(true);
@@ -1356,7 +1356,7 @@ describe('VivekMindContentGenerator', () => {
       ];
 
       nonAuthErrors.forEach((error) => {
-        const generator = qwenContentGenerator as unknown as {
+        const generator = vivekmindContentGenerator as unknown as {
           isAuthError: (error: unknown) => boolean;
         };
         expect(generator.isAuthError(error)).toBe(false);
@@ -1372,7 +1372,7 @@ describe('VivekMindContentGenerator', () => {
 
       // These should not be identified as auth errors because the method only looks at top-level properties
       complexErrors.forEach((error) => {
-        const generator = qwenContentGenerator as unknown as {
+        const generator = vivekmindContentGenerator as unknown as {
           isAuthError: (error: unknown) => boolean;
         };
         expect(generator.isAuthError(error)).toBe(false);
@@ -1383,15 +1383,15 @@ describe('VivekMindContentGenerator', () => {
   describe('Stream Error Handling', () => {
     it('should set credentials when stream generation fails', async () => {
       const client = (
-        qwenContentGenerator as unknown as {
+        vivekmindContentGenerator as unknown as {
           pipeline: { client: { apiKey: string; baseURL: string } };
         }
       ).pipeline.client;
 
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'stream-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue({
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue({
         ...mockCredentials,
         access_token: 'stream-token',
         resource_url: 'https://stream-endpoint.com',
@@ -1399,7 +1399,7 @@ describe('VivekMindContentGenerator', () => {
 
       // Mock parent method to throw error
       const parentPrototype = Object.getPrototypeOf(
-        Object.getPrototypeOf(qwenContentGenerator),
+        Object.getPrototypeOf(vivekmindContentGenerator),
       );
       const originalGenerateContentStream =
         parentPrototype.generateContentStream;
@@ -1408,12 +1408,12 @@ describe('VivekMindContentGenerator', () => {
         .mockRejectedValue(new Error('Stream error'));
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Stream test' }] }],
       };
 
       try {
-        await qwenContentGenerator.generateContentStream(
+        await vivekmindContentGenerator.generateContentStream(
           request,
           'test-prompt-id',
         );
@@ -1431,7 +1431,7 @@ describe('VivekMindContentGenerator', () => {
 
     it('should set credentials for successful streams', async () => {
       const client = (
-        qwenContentGenerator as unknown as {
+        vivekmindContentGenerator as unknown as {
           pipeline: { client: { apiKey: string; baseURL: string } };
         }
       ).pipeline.client;
@@ -1444,10 +1444,10 @@ describe('VivekMindContentGenerator', () => {
         expiry_date: Date.now() + 3600000,
       };
 
-      vi.mocked(mockQwenClient.getAccessToken).mockResolvedValue({
+      vi.mocked(mockVivekMindClient.getAccessToken).mockResolvedValue({
         token: 'stream-token',
       });
-      vi.mocked(mockQwenClient.getCredentials).mockReturnValue(
+      vi.mocked(mockVivekMindClient.getCredentials).mockReturnValue(
         streamCredentials,
       );
 
@@ -1458,11 +1458,11 @@ describe('VivekMindContentGenerator', () => {
       mockTokenManager.setMockCredentials(streamCredentials);
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Stream test' }] }],
       };
 
-      const stream = await qwenContentGenerator.generateContentStream(
+      const stream = await vivekmindContentGenerator.generateContentStream(
         request,
         'test-prompt-id',
       );
@@ -1499,8 +1499,8 @@ describe('VivekMindContentGenerator', () => {
         .mockReturnValue(mockTokenManager);
 
       const newGenerator = new VivekMindContentGenerator(
-        mockQwenClient,
-        { model: 'qwen-turbo', authType: AuthType.VIVEKMIND_OAUTH },
+        mockVivekMindClient,
+        { model: 'vivekmind-turbo', authType: AuthType.VIVEKMIND_OAUTH },
         mockConfig,
       );
 
@@ -1520,8 +1520,8 @@ describe('VivekMindContentGenerator', () => {
         .mockReturnValue(mockTokenManager);
 
       const newGenerator = new VivekMindContentGenerator(
-        mockQwenClient,
-        { model: 'qwen-turbo', authType: AuthType.VIVEKMIND_OAUTH },
+        mockVivekMindClient,
+        { model: 'vivekmind-turbo', authType: AuthType.VIVEKMIND_OAUTH },
         mockConfig,
       );
 
@@ -1543,8 +1543,8 @@ describe('VivekMindContentGenerator', () => {
         .mockReturnValue(mockTokenManager);
 
       const newGenerator = new VivekMindContentGenerator(
-        mockQwenClient,
-        { model: 'qwen-turbo', authType: AuthType.VIVEKMIND_OAUTH },
+        mockVivekMindClient,
+        { model: 'vivekmind-turbo', authType: AuthType.VIVEKMIND_OAUTH },
         mockConfig,
       );
 
@@ -1564,8 +1564,8 @@ describe('VivekMindContentGenerator', () => {
         .mockReturnValue(mockTokenManager);
 
       const newGenerator = new VivekMindContentGenerator(
-        mockQwenClient,
-        { model: 'qwen-turbo', authType: AuthType.VIVEKMIND_OAUTH },
+        mockVivekMindClient,
+        { model: 'vivekmind-turbo', authType: AuthType.VIVEKMIND_OAUTH },
         mockConfig,
       );
 
@@ -1580,9 +1580,9 @@ describe('VivekMindContentGenerator', () => {
   describe('Constructor and Initialization', () => {
     it('should initialize with configured base URL when provided', () => {
       const generator = new VivekMindContentGenerator(
-        mockQwenClient,
+        mockVivekMindClient,
         {
-          model: 'qwen-turbo',
+          model: 'vivekmind-turbo',
           authType: AuthType.VIVEKMIND_OAUTH,
           baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
           apiKey: 'test-key',
@@ -1600,8 +1600,8 @@ describe('VivekMindContentGenerator', () => {
 
     it('should get SharedTokenManager instance', () => {
       const generator = new VivekMindContentGenerator(
-        mockQwenClient,
-        { model: 'qwen-turbo', authType: AuthType.VIVEKMIND_OAUTH },
+        mockVivekMindClient,
+        { model: 'vivekmind-turbo', authType: AuthType.VIVEKMIND_OAUTH },
         mockConfig,
       );
 
@@ -1626,13 +1626,13 @@ describe('VivekMindContentGenerator', () => {
         .mockReturnValue(mockTokenManager);
 
       const newGenerator = new VivekMindContentGenerator(
-        mockQwenClient,
-        { model: 'qwen-turbo', authType: AuthType.VIVEKMIND_OAUTH },
+        mockVivekMindClient,
+        { model: 'vivekmind-turbo', authType: AuthType.VIVEKMIND_OAUTH },
         mockConfig,
       );
 
       const request: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
@@ -1655,23 +1655,23 @@ describe('VivekMindContentGenerator', () => {
         .mockReturnValue(mockTokenManager);
 
       const newGenerator = new VivekMindContentGenerator(
-        mockQwenClient,
-        { model: 'qwen-turbo', authType: AuthType.VIVEKMIND_OAUTH },
+        mockVivekMindClient,
+        { model: 'vivekmind-turbo', authType: AuthType.VIVEKMIND_OAUTH },
         mockConfig,
       );
 
       const generateRequest: GenerateContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Hello' }] }],
       };
 
       const countRequest: CountTokensParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ role: 'user', parts: [{ text: 'Count' }] }],
       };
 
       const embedRequest: EmbedContentParameters = {
-        model: 'qwen-turbo',
+        model: 'vivekmind-turbo',
         contents: [{ parts: [{ text: 'Embed' }] }],
       };
 

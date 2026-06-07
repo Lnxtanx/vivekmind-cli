@@ -18,7 +18,7 @@ describe('Circular Reference Integration Test', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         VivekMindLogger.instance = undefined;
     });
-    it('should handle HttpsProxyAgent-like circular references in qwen logging', () => {
+    it('should handle HttpsProxyAgent-like circular references in vivekmind logging', () => {
         // Create a mock config with proxy
         const mockConfig = {
             getTelemetryEnabled: () => true,

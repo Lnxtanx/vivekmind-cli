@@ -140,7 +140,7 @@ describe('DeepSeekOpenAICompatibleProvider', () => {
                 content: 'Hello \n\n[Unsupported content type: image_url]',
             });
         });
-        // https://github.com/QwenLM/qwen-code/issues/3695 — DeepSeek's thinking
+        // https://github.com/VivekMindLM/vivekmind-cli/issues/3695 — DeepSeek's thinking
         // mode rejects subsequent requests when any prior assistant turn omits
         // reasoning_content, even if the model itself returned no reasoning text.
         // The provider must always send the field.

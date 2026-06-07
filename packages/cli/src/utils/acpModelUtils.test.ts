@@ -14,29 +14,29 @@ import {
 
 describe('acpModelUtils', () => {
   it('formats modelId(authType)', () => {
-    expect(formatAcpModelId('qwen3', AuthType.VIVEKMIND_OAUTH)).toBe(
-      `qwen3(${AuthType.VIVEKMIND_OAUTH})`,
+    expect(formatAcpModelId('vivekmind3', AuthType.VIVEKMIND_OAUTH)).toBe(
+      `vivekmind3(${AuthType.VIVEKMIND_OAUTH})`,
     );
   });
 
   it('extracts base model id when string ends with parentheses', () => {
-    expect(parseAcpBaseModelId(`qwen3(${AuthType.USE_OPENAI})`)).toBe('qwen3');
+    expect(parseAcpBaseModelId(`vivekmind3(${AuthType.USE_OPENAI})`)).toBe('vivekmind3');
   });
 
   it('does not strip when parentheses are not a trailing suffix', () => {
-    expect(parseAcpBaseModelId('qwen3(x) y')).toBe('qwen3(x) y');
+    expect(parseAcpBaseModelId('vivekmind3(x) y')).toBe('vivekmind3(x) y');
   });
 
   it('parses modelId and validates authType', () => {
-    expect(parseAcpModelOption(` qwen3(${AuthType.USE_OPENAI}) `)).toEqual({
-      modelId: 'qwen3',
+    expect(parseAcpModelOption(` vivekmind3(${AuthType.USE_OPENAI}) `)).toEqual({
+      modelId: 'vivekmind3',
       authType: AuthType.USE_OPENAI,
     });
   });
 
   it('returns trimmed input as modelId when authType is invalid', () => {
-    expect(parseAcpModelOption('qwen3(not-a-real-auth)')).toEqual({
-      modelId: 'qwen3(not-a-real-auth)',
+    expect(parseAcpModelOption('vivekmind3(not-a-real-auth)')).toEqual({
+      modelId: 'vivekmind3(not-a-real-auth)',
     });
   });
 });

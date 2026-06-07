@@ -362,7 +362,7 @@ function getActionsSection(): string {
   return `
 # Executing actions with care
 
-Carefully consider the reversibility and blast radius of actions. Generally you can freely take local, reversible actions like editing files or running tests. But for actions that are hard to reverse, affect shared systems beyond your local environment, or could otherwise be risky or destructive, check with the user before proceeding. The cost of pausing to confirm is low, while the cost of an unwanted action (lost work, unintended messages sent, deleted branches) can be very high. For actions like these, consider the context, the action, and user instructions, and by default transparently communicate the action and ask for confirmation before proceeding. This default can be changed by user instructions - if explicitly asked to operate more autonomously, then you may proceed without confirmation, but still attend to the risks and consequences when taking actions. A user approving an action (like a git push) once does NOT mean that they approve it in all contexts, so unless actions are authorized in advance in durable instructions like QWEN.md files, always confirm first. Authorization stands for the scope specified, not beyond. Match the scope of your actions to what was actually requested.
+Carefully consider the reversibility and blast radius of actions. Generally you can freely take local, reversible actions like editing files or running tests. But for actions that are hard to reverse, affect shared systems beyond your local environment, or could otherwise be risky or destructive, check with the user before proceeding. The cost of pausing to confirm is low, while the cost of an unwanted action (lost work, unintended messages sent, deleted branches) can be very high. For actions like these, consider the context, the action, and user instructions, and by default transparently communicate the action and ask for confirmation before proceeding. This default can be changed by user instructions - if explicitly asked to operate more autonomously, then you may proceed without confirmation, but still attend to the risks and consequences when taking actions. A user approving an action (like a git push) once does NOT mean that they approve it in all contexts, so unless actions are authorized in advance in durable instructions like VIVEKMIND.md files, always confirm first. Authorization stands for the scope specified, not beyond. Match the scope of your actions to what was actually requested.
 
 Examples of the kind of risky actions that warrant user confirmation:
 - Destructive operations: deleting files/branches, dropping database tables, killing processes, rm -rf, overwriting uncommitted changes
@@ -551,7 +551,7 @@ To help you check their settings, I can read their contents. Which one would you
 </example>
 `.trim();
 
-const qwenCoderToolCallExamples = `
+const vivekmindCoderToolCallExamples = `
 # Examples (Illustrating Tone and Workflow)
 <example>
 user: 1 + 2
@@ -708,7 +708,7 @@ I found the following 'app.config' files:
 To help you check their settings, I can read their contents. Which one would you like to start with, or should I read all of them?
 </example>
 `.trim();
-const qwenVlToolCallExamples = `
+const vivekmindVlToolCallExamples = `
 # Examples (Illustrating Tone and Workflow)
 <example>
 user: 1 + 2
@@ -812,10 +812,10 @@ function getToolCallExamples(model?: string): string {
   const toolCallStyle = process.env['VIVEKMIND_CODE_TOOL_CALL_STYLE'];
   if (toolCallStyle) {
     switch (toolCallStyle.toLowerCase()) {
-      case 'qwen-coder':
-        return qwenCoderToolCallExamples;
-      case 'qwen-vl':
-        return qwenVlToolCallExamples;
+      case 'vivekmind-clir':
+        return vivekmindCoderToolCallExamples;
+      case 'vivekmind-vl':
+        return vivekmindVlToolCallExamples;
       case 'general':
         return generalToolCallExamples;
       default:
@@ -828,17 +828,17 @@ function getToolCallExamples(model?: string): string {
 
   // Enhanced regex-based model detection
   if (model && model.length < 100) {
-    // Match qwen*-coder patterns (e.g., qwen3-coder, qwen2.5-coder, qwen-coder)
-    if (/qwen[^-]*-coder/i.test(model)) {
-      return qwenCoderToolCallExamples;
+    // Match vivekmind*-coder patterns (e.g., vivekmind3-coder, vivekmind2.5-coder, vivekmind-clir)
+    if (/vivekmind[^-]*-coder/i.test(model)) {
+      return vivekmindCoderToolCallExamples;
     }
-    // Match qwen*-vl patterns (e.g., qwen-vl, qwen2-vl, qwen3-vl)
-    if (/qwen[^-]*-vl/i.test(model)) {
-      return qwenVlToolCallExamples;
+    // Match vivekmind*-vl patterns (e.g., vivekmind-vl, vivekmind2-vl, vivekmind3-vl)
+    if (/vivekmind[^-]*-vl/i.test(model)) {
+      return vivekmindVlToolCallExamples;
     }
-    // Match coder-model pattern (same as qwen3-coder)
+    // Match coder-model pattern (same as vivekmind3-coder)
     if (/coder-model/i.test(model)) {
-      return qwenCoderToolCallExamples;
+      return vivekmindCoderToolCallExamples;
     }
   }
 

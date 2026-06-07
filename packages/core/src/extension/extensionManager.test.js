@@ -68,7 +68,7 @@ function createExtension({ extensionsDir = 'extensions-dir', name = 'my-extensio
     fs.mkdirSync(extDir, { recursive: true });
     fs.writeFileSync(path.join(extDir, EXTENSIONS_CONFIG_FILENAME), JSON.stringify({ name, version, contextFileName, mcpServers }));
     if (addContextFile) {
-        fs.writeFileSync(path.join(extDir, 'QWEN.md'), 'context');
+        fs.writeFileSync(path.join(extDir, 'VIVEKMIND.md'), 'context');
     }
     if (contextFileName) {
         fs.writeFileSync(path.join(extDir, contextFileName), 'context');
@@ -118,7 +118,7 @@ describe('extension tests', () => {
             expect(extensions[0].path).toBe(extensionDir);
             expect(extensions[0].config.name).toBe('test-extension');
         });
-        it('should load context file path when QWEN.md is present', async () => {
+        it('should load context file path when VIVEKMIND.md is present', async () => {
             createExtension({
                 extensionsDir: userExtensionsDir,
                 name: 'ext1',
@@ -137,7 +137,7 @@ describe('extension tests', () => {
             const ext1 = extensions.find((e) => e.config.name === 'ext1');
             const ext2 = extensions.find((e) => e.config.name === 'ext2');
             expect(ext1?.contextFiles).toEqual([
-                path.join(userExtensionsDir, 'ext1', 'QWEN.md'),
+                path.join(userExtensionsDir, 'ext1', 'VIVEKMIND.md'),
             ]);
             expect(ext2?.contextFiles).toEqual([]);
         });
@@ -158,7 +158,7 @@ describe('extension tests', () => {
                 path.join(userExtensionsDir, 'ext1', 'my-context-file.md'),
             ]);
         });
-        it('should use default QWEN.md when contextFileName is empty array', async () => {
+        it('should use default VIVEKMIND.md when contextFileName is empty array', async () => {
             const extDir = path.join(userExtensionsDir, 'ext-empty-context');
             fs.mkdirSync(extDir, { recursive: true });
             fs.writeFileSync(path.join(extDir, EXTENSIONS_CONFIG_FILENAME), JSON.stringify({
@@ -166,14 +166,14 @@ describe('extension tests', () => {
                 version: '1.0.0',
                 contextFileName: [],
             }));
-            fs.writeFileSync(path.join(extDir, 'QWEN.md'), 'context content');
+            fs.writeFileSync(path.join(extDir, 'VIVEKMIND.md'), 'context content');
             const manager = createExtensionManager();
             await manager.refreshCache();
             const extensions = manager.getLoadedExtensions();
             expect(extensions).toHaveLength(1);
             const ext = extensions.find((e) => e.config.name === 'ext-empty-context');
             expect(ext?.contextFiles).toEqual([
-                path.join(userExtensionsDir, 'ext-empty-context', 'QWEN.md'),
+                path.join(userExtensionsDir, 'ext-empty-context', 'VIVEKMIND.md'),
             ]);
         });
         it('should skip extensions with invalid JSON and log a warning', async () => {

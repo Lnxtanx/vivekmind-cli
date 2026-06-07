@@ -45,7 +45,7 @@ export function isDeepSeekHostname(contentGeneratorConfig) {
  * same input-format constraint, so the model-name fallback is
  * intentional. For decisions that depend on the wire shape DeepSeek's
  * own API exposes (e.g. `reasoning_effort`, `thinking`), use
- * `isDeepSeekHostname` instead — see https://github.com/QwenLM/qwen-code/issues/3613.
+ * `isDeepSeekHostname` instead — see https://github.com/VivekMindLM/vivekmind-cli/issues/3613.
  */
 export function isDeepSeekProvider(contentGeneratorConfig) {
     if (isDeepSeekHostname(contentGeneratorConfig))
@@ -131,7 +131,7 @@ function flattenContentParts(message) {
 // DeepSeek's chat-completions endpoint accepts a flat `reasoning_effort`
 // body parameter (Possible values: high, max — see
 // https://api-docs.deepseek.com/zh-cn/api/create-chat-completion). The
-// standard qwen-code config shape is `reasoning: { effort, ... }` which gets
+// standard vivekmind-cli config shape is `reasoning: { effort, ... }` which gets
 // passed through verbatim by the OpenAI pipeline. Translate to the flat
 // shape DeepSeek expects so user-configured effort levels actually take
 // effect; otherwise the nested `reasoning` object is ignored and the server
@@ -182,7 +182,7 @@ function translateReasoningEffort(request) {
 // prior assistant turn, including ones without tool_calls. The model may
 // legitimately return a turn without reasoning text, so the field can be
 // missing when we rebuild the request. Send an empty string in that case so
-// the API contract is satisfied. https://github.com/QwenLM/qwen-code/issues/3695
+// the API contract is satisfied. https://github.com/VivekMindLM/vivekmind-cli/issues/3695
 function ensureReasoningContentOnToolCalls(message) {
     if (message.role !== 'assistant') {
         return message;

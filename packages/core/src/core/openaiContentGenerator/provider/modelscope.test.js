@@ -14,7 +14,7 @@ describe('ModelScopeOpenAICompatibleProvider', () => {
         mockContentGeneratorConfig = {
             apiKey: 'test-api-key',
             baseUrl: 'https://api.modelscope.cn/v1',
-            model: 'qwen-max',
+            model: 'vivekmind-max',
         };
         mockCliConfig = {
             getCliVersion: vi.fn().mockReturnValue('1.0.0'),
@@ -34,7 +34,7 @@ describe('ModelScopeOpenAICompatibleProvider', () => {
     describe('buildRequest', () => {
         it('should remove stream_options when stream is false', () => {
             const originalRequest = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 messages: [{ role: 'user', content: 'Hello!' }],
                 stream: false,
                 stream_options: { include_usage: true },
@@ -44,7 +44,7 @@ describe('ModelScopeOpenAICompatibleProvider', () => {
         });
         it('should keep stream_options when stream is true', () => {
             const originalRequest = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 messages: [{ role: 'user', content: 'Hello!' }],
                 stream: true,
                 stream_options: { include_usage: true },
@@ -54,7 +54,7 @@ describe('ModelScopeOpenAICompatibleProvider', () => {
         });
         it('should handle requests without stream_options', () => {
             const originalRequest = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 messages: [{ role: 'user', content: 'Hello!' }],
                 stream: false,
             };

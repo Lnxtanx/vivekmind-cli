@@ -151,7 +151,7 @@ export function resolveModelConfig(
 
   // Special handling for VivekMind OAuth
   if (authType === AuthType.VIVEKMIND_OAUTH) {
-    return resolveQwenOAuthConfig(input, warnings);
+    return resolveVivekMindOAuthConfig(input, warnings);
   }
 
   // Get auth-specific env var mappings.
@@ -307,7 +307,7 @@ export function resolveModelConfig(
  * Special resolver for VivekMind OAuth authentication.
  * VivekMind OAuth has fixed model options and uses dynamic tokens.
  */
-function resolveQwenOAuthConfig(
+function resolveVivekMindOAuthConfig(
   input: ModelConfigSourcesInput,
   warnings: string[],
 ): ModelConfigResolutionResult {

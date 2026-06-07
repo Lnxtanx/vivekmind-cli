@@ -199,7 +199,7 @@ describe('Storage – runtime path methods use getRuntimeBaseDir', () => {
 });
 describe('Storage – config paths remain at ~/.vivekmind regardless of runtime dir', () => {
     const originalEnv = process.env['VIVEKMIND_RUNTIME_DIR'];
-    const globalQwenDir = Storage.getGlobalVivekMindDir();
+    const globalVivekMindDir = Storage.getGlobalVivekMindDir();
     beforeEach(() => {
         Storage.setRuntimeBaseDir(path.resolve('custom-runtime'));
         process.env['VIVEKMIND_RUNTIME_DIR'] = path.resolve('env-runtime');
@@ -214,33 +214,33 @@ describe('Storage – config paths remain at ~/.vivekmind regardless of runtime 
         }
     });
     it('getGlobalSettingsPath still uses ~/.vivekmind', () => {
-        expect(Storage.getGlobalSettingsPath()).toBe(path.join(globalQwenDir, 'settings.json'));
+        expect(Storage.getGlobalSettingsPath()).toBe(path.join(globalVivekMindDir, 'settings.json'));
     });
     it('getInstallationIdPath still uses ~/.vivekmind', () => {
-        expect(Storage.getInstallationIdPath()).toBe(path.join(globalQwenDir, 'installation_id'));
+        expect(Storage.getInstallationIdPath()).toBe(path.join(globalVivekMindDir, 'installation_id'));
     });
     it('getGoogleAccountsPath still uses ~/.vivekmind', () => {
-        expect(Storage.getGoogleAccountsPath()).toBe(path.join(globalQwenDir, 'google_accounts.json'));
+        expect(Storage.getGoogleAccountsPath()).toBe(path.join(globalVivekMindDir, 'google_accounts.json'));
     });
     it('getMcpOAuthTokensPath still uses ~/.vivekmind', () => {
-        expect(Storage.getMcpOAuthTokensPath()).toBe(path.join(globalQwenDir, 'mcp-oauth-tokens.json'));
+        expect(Storage.getMcpOAuthTokensPath()).toBe(path.join(globalVivekMindDir, 'mcp-oauth-tokens.json'));
     });
     it('getOAuthCredsPath still uses ~/.vivekmind', () => {
-        expect(Storage.getOAuthCredsPath()).toBe(path.join(globalQwenDir, 'oauth_creds.json'));
+        expect(Storage.getOAuthCredsPath()).toBe(path.join(globalVivekMindDir, 'oauth_creds.json'));
     });
     it('getUserCommandsDir still uses ~/.vivekmind', () => {
-        expect(Storage.getUserCommandsDir()).toBe(path.join(globalQwenDir, 'commands'));
+        expect(Storage.getUserCommandsDir()).toBe(path.join(globalVivekMindDir, 'commands'));
     });
     it('getGlobalMemoryFilePath still uses ~/.vivekmind', () => {
-        expect(Storage.getGlobalMemoryFilePath()).toBe(path.join(globalQwenDir, 'memory.md'));
+        expect(Storage.getGlobalMemoryFilePath()).toBe(path.join(globalVivekMindDir, 'memory.md'));
     });
     it('getGlobalBinDir still uses ~/.vivekmind', () => {
-        expect(Storage.getGlobalBinDir()).toBe(path.join(globalQwenDir, 'bin'));
+        expect(Storage.getGlobalBinDir()).toBe(path.join(globalVivekMindDir, 'bin'));
     });
     it('getUserSkillsDirs still includes ~/.vivekmind/skills', () => {
         const storage = new Storage('/tmp/project');
         const skillsDirs = storage.getUserSkillsDirs();
-        expect(skillsDirs.some((dir) => dir === path.join(globalQwenDir, 'skills'))).toBe(true);
+        expect(skillsDirs.some((dir) => dir === path.join(globalVivekMindDir, 'skills'))).toBe(true);
     });
 });
 describe('Storage – runtime base dir async context isolation', () => {

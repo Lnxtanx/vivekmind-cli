@@ -38,7 +38,7 @@ export declare function isDeepSeekHostname(contentGeneratorConfig: ContentGenera
  * same input-format constraint, so the model-name fallback is
  * intentional. For decisions that depend on the wire shape DeepSeek's
  * own API exposes (e.g. `reasoning_effort`, `thinking`), use
- * `isDeepSeekHostname` instead — see https://github.com/QwenLM/qwen-code/issues/3613.
+ * `isDeepSeekHostname` instead — see https://github.com/VivekMindLM/vivekmind-cli/issues/3613.
  */
 export declare function isDeepSeekProvider(contentGeneratorConfig: ContentGeneratorConfig): boolean;
 export declare class DeepSeekOpenAICompatibleProvider extends DefaultOpenAICompatibleProvider {

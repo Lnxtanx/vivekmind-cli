@@ -439,8 +439,8 @@ describe('openrouterOAuth', () => {
             },
           },
           {
-            id: 'qwen/qwen3-coder:free',
-            name: 'Qwen3 Coder',
+            id: 'vivekmind/vivekmind3-coder:free',
+            name: 'VivekMind3 Coder',
             architecture: {
               input_modalities: ['text'],
               output_modalities: ['text'],
@@ -483,8 +483,8 @@ describe('openrouterOAuth', () => {
     );
     expect(models).toEqual([
       {
-        id: 'qwen/qwen3-coder:free',
-        name: 'OpenRouter · Qwen3 Coder',
+        id: 'vivekmind/vivekmind3-coder:free',
+        name: 'OpenRouter · VivekMind3 Coder',
         baseUrl: 'https://openrouter.ai/api/v1',
         envKey: 'OPENROUTER_API_KEY',
       },
@@ -515,14 +515,14 @@ describe('openrouterOAuth', () => {
     const recommended = selectRecommendedOpenRouterModels(
       [
         {
-          id: 'qwen/qwen3-coder:free',
-          name: 'OpenRouter · Qwen3 Coder',
+          id: 'vivekmind/vivekmind3-coder:free',
+          name: 'OpenRouter · VivekMind3 Coder',
           baseUrl: 'https://openrouter.ai/api/v1',
           envKey: 'OPENROUTER_API_KEY',
         },
         {
-          id: 'qwen/qwen3-max',
-          name: 'OpenRouter · Qwen3 Max',
+          id: 'vivekmind/vivekmind3-max',
+          name: 'OpenRouter · VivekMind3 Max',
           baseUrl: 'https://openrouter.ai/api/v1',
           envKey: 'OPENROUTER_API_KEY',
         },
@@ -575,9 +575,9 @@ describe('openrouterOAuth', () => {
     );
 
     expect(recommended.map((model) => model.id)).toEqual([
-      'qwen/qwen3-coder:free',
+      'vivekmind/vivekmind3-coder:free',
       'glm/glm-4.5-air:free',
-      'qwen/qwen3-max',
+      'vivekmind/vivekmind3-max',
       'minimax/minimax-m1',
       'anthropic/claude-3.7-sonnet',
       'google/gemini-2.5-flash',

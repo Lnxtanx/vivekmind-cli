@@ -856,8 +856,8 @@ describe('modelConfigUtils', () => {
     // Edge Case 2: VIVEKMIND_MODEL is used as final fallback when OPENAI_MODEL is not set
     it('Edge Case 2: VIVEKMIND_MODEL should be used as fallback when OPENAI_MODEL is not set', () => {
       const argv = {};
-      const qwenProvider: ProviderModelConfig = {
-        id: 'qwen-env-model',
+      const vivekmindProvider: ProviderModelConfig = {
+        id: 'vivekmind-env-model',
         name: 'VivekMind Env Model',
       };
       const settings = makeMockSettings({
@@ -865,14 +865,14 @@ describe('modelConfigUtils', () => {
         modelProviders: {
           [AuthType.USE_OPENAI]: [
             { id: 'other-model', name: 'Other Model' },
-            qwenProvider,
+            vivekmindProvider,
           ],
         },
       });
       const selectedAuthType = AuthType.USE_OPENAI;
 
       vi.mocked(resolveModelConfig).mockReturnValue({
-        config: { model: 'qwen-env-model', apiKey: '', baseUrl: '' },
+        config: { model: 'vivekmind-env-model', apiKey: '', baseUrl: '' },
         sources: {},
         warnings: [],
       });
@@ -881,12 +881,12 @@ describe('modelConfigUtils', () => {
         argv,
         settings,
         selectedAuthType,
-        env: { VIVEKMIND_MODEL: 'qwen-env-model' },
+        env: { VIVEKMIND_MODEL: 'vivekmind-env-model' },
       });
 
       expect(vi.mocked(resolveModelConfig)).toHaveBeenCalledWith(
         expect.objectContaining({
-          modelProvider: qwenProvider,
+          modelProvider: vivekmindProvider,
         }),
       );
     });
@@ -898,8 +898,8 @@ describe('modelConfigUtils', () => {
         id: 'openai-env-model',
         name: 'OpenAI Env Model',
       };
-      const qwenProvider: ProviderModelConfig = {
-        id: 'qwen-env-model',
+      const vivekmindProvider: ProviderModelConfig = {
+        id: 'vivekmind-env-model',
         name: 'VivekMind Env Model',
       };
       const settings = makeMockSettings({
@@ -908,7 +908,7 @@ describe('modelConfigUtils', () => {
           [AuthType.USE_OPENAI]: [
             { id: 'other-model', name: 'Other Model' },
             openAIProvider,
-            qwenProvider,
+            vivekmindProvider,
           ],
         },
       });
@@ -926,7 +926,7 @@ describe('modelConfigUtils', () => {
         selectedAuthType,
         env: {
           OPENAI_MODEL: 'openai-env-model',
-          VIVEKMIND_MODEL: 'qwen-env-model',
+          VIVEKMIND_MODEL: 'vivekmind-env-model',
         },
       });
 
@@ -1147,10 +1147,10 @@ describe('modelConfigUtils', () => {
       it('[Regression] VIVEKMIND_MODEL as fallback when OPENAI_MODEL not set', () => {
         const settings = makeMockSettings({ model: { name: undefined } });
         const selectedAuthType = AuthType.USE_OPENAI;
-        const env = { VIVEKMIND_MODEL: 'qwen-model', OPENAI_API_KEY: 'key' };
+        const env = { VIVEKMIND_MODEL: 'vivekmind-model', OPENAI_API_KEY: 'key' };
 
         vi.mocked(resolveModelConfig).mockImplementation(() => ({
-          config: { model: 'qwen-model', apiKey: 'key', baseUrl: '' },
+          config: { model: 'vivekmind-model', apiKey: 'key', baseUrl: '' },
           sources: { model: { kind: 'env' as const, envKey: 'VIVEKMIND_MODEL' } },
           warnings: [],
         }));
@@ -1164,7 +1164,7 @@ describe('modelConfigUtils', () => {
 
         // VIVEKMIND_MODEL should be passed to resolveModelConfig
         const callArgs = vi.mocked(resolveModelConfig).mock.calls[0][0];
-        expect(callArgs.env?.['VIVEKMIND_MODEL']).toBe('qwen-model');
+        expect(callArgs.env?.['VIVEKMIND_MODEL']).toBe('vivekmind-model');
       });
 
       it('[Regression] Non-OpenAI auth ignores OPENAI_MODEL', () => {

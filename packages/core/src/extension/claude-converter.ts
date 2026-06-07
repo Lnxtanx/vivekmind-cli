@@ -164,28 +164,28 @@ export function convertClaudeAgentConfig(
   claudeAgent: ClaudeAgentConfig,
 ): Record<string, unknown> {
   // Base config with required fields
-  const qwenAgent: Record<string, unknown> = {
+  const vivekmindAgent: Record<string, unknown> = {
     name: claudeAgent.name,
     description: claudeAgent.description,
   };
 
   if (claudeAgent.color) {
-    qwenAgent['color'] = claudeAgent.color;
+    vivekmindAgent['color'] = claudeAgent.color;
   }
 
   // Convert system prompt if present
   if (claudeAgent.systemPrompt) {
-    qwenAgent['systemPrompt'] = claudeAgent.systemPrompt;
+    vivekmindAgent['systemPrompt'] = claudeAgent.systemPrompt;
   }
 
   // Convert tools using claudeBuildInToolsTransform
   if (claudeAgent.tools && claudeAgent.tools.length > 0) {
-    qwenAgent['tools'] = claudeBuildInToolsTransform(claudeAgent.tools);
+    vivekmindAgent['tools'] = claudeBuildInToolsTransform(claudeAgent.tools);
   }
 
   // Preserve Claude's top-level model selector.
   if (claudeAgent.model) {
-    qwenAgent['model'] = claudeAgent.model;
+    vivekmindAgent['model'] = claudeAgent.model;
   }
 
   // Map Claude permission mode aliases to VivekMind ApprovalMode values.
@@ -194,7 +194,7 @@ export function convertClaudeAgentConfig(
   // rather than `auto-edit` (which auto-approves), preserving the restrictive
   // intent. `bypassPermissions` is the Claude mode that auto-approves everything.
   if (claudeAgent.permissionMode) {
-    const claudeToQwenMode: Record<string, string> = {
+    const claudeToVivekMindMode: Record<string, string> = {
       default: 'default',
       plan: 'plan',
       acceptEdits: 'auto-edit',
@@ -203,21 +203,21 @@ export function convertClaudeAgentConfig(
       auto: 'auto-edit',
     };
     const mapped =
-      claudeToQwenMode[claudeAgent.permissionMode] ??
+      claudeToVivekMindMode[claudeAgent.permissionMode] ??
       claudeAgent.permissionMode;
-    qwenAgent['approvalMode'] = mapped;
+    vivekmindAgent['approvalMode'] = mapped;
   }
   if (claudeAgent.hooks) {
-    qwenAgent['hooks'] = claudeAgent.hooks;
+    vivekmindAgent['hooks'] = claudeAgent.hooks;
   }
   if (claudeAgent.skills && claudeAgent.skills.length > 0) {
-    qwenAgent['skills'] = claudeAgent.skills;
+    vivekmindAgent['skills'] = claudeAgent.skills;
   }
   if (claudeAgent.disallowedTools && claudeAgent.disallowedTools.length > 0) {
-    qwenAgent['disallowedTools'] = claudeAgent.disallowedTools;
+    vivekmindAgent['disallowedTools'] = claudeAgent.disallowedTools;
   }
 
-  return qwenAgent;
+  return vivekmindAgent;
 }
 
 /**
@@ -269,11 +269,11 @@ async function convertAgentFiles(agentsDir: string): Promise<void> {
       };
 
       // Convert to VivekMind format
-      const qwenAgent = convertClaudeAgentConfig(claudeAgent);
+      const vivekmindAgent = convertClaudeAgentConfig(claudeAgent);
 
       // Build new frontmatter (excluding systemPrompt as it goes in body)
       const newFrontmatter: Record<string, unknown> = {};
-      for (const [key, value] of Object.entries(qwenAgent)) {
+      for (const [key, value] of Object.entries(vivekmindAgent)) {
         if (key !== 'systemPrompt' && value !== undefined) {
           newFrontmatter[key] = value;
         }
@@ -281,7 +281,7 @@ async function convertAgentFiles(agentsDir: string): Promise<void> {
 
       // Write converted content back
       const newYaml = stringifyYaml(newFrontmatter);
-      const systemPrompt = (qwenAgent['systemPrompt'] as string) || body.trim();
+      const systemPrompt = (vivekmindAgent['systemPrompt'] as string) || body.trim();
       const newContent = `---
 ${newYaml}
 ---
@@ -303,7 +303,7 @@ ${systemPrompt}
  * @param claudeConfig Claude plugin configuration
  * @returns VivekMind ExtensionConfig
  */
-export function convertClaudeToQwenConfig(
+export function convertClaudeToVivekMindConfig(
   claudeConfig: ClaudePluginConfig,
 ): ExtensionConfig {
   // Validate required fields
@@ -523,18 +523,18 @@ export async function convertClaudePluginPackage(
     await convertAgentFiles(agentsDestDir);
 
     // Step 10: Convert to VivekMind format config
-    const qwenConfig = convertClaudeToQwenConfig(mergedConfig);
+    const vivekmindConfig = convertClaudeToVivekMindConfig(mergedConfig);
 
     // Step 11: Write vivekmind-extension.json
-    const qwenConfigPath = path.join(tmpDir, 'vivekmind-extension.json');
+    const vivekmindConfigPath = path.join(tmpDir, 'vivekmind-extension.json');
     fs.writeFileSync(
-      qwenConfigPath,
-      JSON.stringify(qwenConfig, null, 2),
+      vivekmindConfigPath,
+      JSON.stringify(vivekmindConfig, null, 2),
       'utf-8',
     );
 
     return {
-      config: qwenConfig,
+      config: vivekmindConfig,
       convertedDir: tmpDir,
     };
   } catch (error) {

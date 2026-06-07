@@ -15,7 +15,7 @@
 //   2. `.github/copilot-instructions.md` (preferred)
 //      OR `copilot-instructions.md` (fallback — only one is loaded)
 //   3. `AGENTS.md` — only the `## Code Review` section
-//   4. `QWEN.md`   — only the `## Code Review` section
+//   4. `VIVEKMIND.md`   — only the `## Code Review` section
 //
 // Missing files are skipped silently. If no rules are found, the script
 // writes an empty file (or omits the file when `--out` is not given) and
@@ -99,13 +99,13 @@ function loadCombined(baseRef: string): {
     }
   }
 
-  // 4. QWEN.md — extract Code Review section only.
-  const contextMd = showFile(baseRef, 'QWEN.md');
+  // 4. VIVEKMIND.md — extract Code Review section only.
+  const contextMd = showFile(baseRef, 'VIVEKMIND.md');
   if (contextMd) {
     const section = extractCodeReviewSection(contextMd);
     if (section) {
-      sections.push(`### From QWEN.md\n\n${section}`);
-      loaded.push('QWEN.md');
+      sections.push(`### From VIVEKMIND.md\n\n${section}`);
+      loaded.push('VIVEKMIND.md');
     }
   }
 
@@ -134,7 +134,7 @@ async function runLoadRules(args: LoadRulesArgs): Promise<void> {
 export const loadRulesCommand: CommandModule = {
   command: 'load-rules <base_ref>',
   describe:
-    "Read project review rules from the base branch (.vivekmind/review-rules.md, .github/copilot-instructions.md, AGENTS.md, QWEN.md) and write a combined Markdown file",
+    "Read project review rules from the base branch (.vivekmind/review-rules.md, .github/copilot-instructions.md, AGENTS.md, VIVEKMIND.md) and write a combined Markdown file",
   builder: (yargs) =>
     yargs
       .positional('base_ref', {

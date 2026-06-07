@@ -158,7 +158,7 @@ exits with permission denied.
 4.  Use `--format json` for automation and script integration
 5.  Use `--cwd` to manage context across multiple projects
 
-## QwenCode Reference
+## VivekMindCode Reference
 
 ### CLI Commands
 
@@ -183,7 +183,7 @@ Key settings:
 
 | Setting                      | Description                               |
 | ---------------------------- | ----------------------------------------- |
-| `model.name`                 | Model to use (e.g. `qwen-max`)            |
+| `model.name`                 | Model to use (e.g. `vivekmind-max`)            |
 | `tools.approvalMode`         | `plan` / `default` / `auto_edit` / `yolo` |
 | `permissions.allow/ask/deny` | Tool permission rules                     |
 | `mcpServers.*`               | MCP server configurations                 |

@@ -211,7 +211,7 @@ export async function downloadFromGitHubRelease(installMetadata, destination) {
         // For regular github releases, the repository is put inside of a top level
         // directory. In this case we should see exactly two file in the destination
         // dir, the archive and the directory. If we see that, validate that the
-        // dir has a qwen extension configuration file (or gemini-extension.json
+        // dir has a vivekmind extension configuration file (or gemini-extension.json
         // which will be converted later) and then move all files from the directory
         // up one level into the destination directory.
         const entries = await fs.promises.readdir(destination, {
@@ -220,11 +220,11 @@ export async function downloadFromGitHubRelease(installMetadata, destination) {
         if (entries.length === 2) {
             const lonelyDir = entries.find((entry) => entry.isDirectory());
             if (lonelyDir) {
-                const hasQwenConfig = fs.existsSync(path.join(destination, lonelyDir.name, EXTENSIONS_CONFIG_FILENAME));
+                const hasVivekMindConfig = fs.existsSync(path.join(destination, lonelyDir.name, EXTENSIONS_CONFIG_FILENAME));
                 const hasGeminiConfig = fs.existsSync(path.join(destination, lonelyDir.name, 'gemini-extension.json'));
                 const hasMarketplaceConfig = fs.existsSync(path.join(destination, lonelyDir.name, '.claude-plugin/marketplace.json'));
                 const hasClaudePluginConfig = fs.existsSync(path.join(destination, lonelyDir.name, '.claude-plugin/plugin.json'));
-                if (hasQwenConfig ||
+                if (hasVivekMindConfig ||
                     hasGeminiConfig ||
                     hasMarketplaceConfig ||
                     hasClaudePluginConfig) {

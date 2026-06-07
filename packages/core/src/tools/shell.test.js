@@ -45,7 +45,7 @@ describe('ShellTool', () => {
                 .mockReturnValue(createMockWorkspaceContext('/test/dir')),
             storage: {
                 getUserSkillsDirs: vi.fn().mockReturnValue(['/test/dir/.vivekmind/skills']),
-                getProjectTempDir: vi.fn().mockReturnValue('/tmp/qwen-temp'),
+                getProjectTempDir: vi.fn().mockReturnValue('/tmp/vivekmind-temp'),
                 getProjectDir: vi.fn().mockReturnValue('/test/proj'),
             },
             getTruncateToolOutputThreshold: vi.fn().mockReturnValue(0),
@@ -55,7 +55,7 @@ describe('ShellTool', () => {
             getGitCoAuthor: vi.fn().mockReturnValue({
                 enabled: true,
                 name: 'VivekMind-Coder',
-                email: 'qwen-coder@alibabacloud.com',
+                email: 'vivekmind-clir@alibabacloud.com',
             }),
             getShouldUseNodePtyShell: vi.fn().mockReturnValue(false),
             getBackgroundShellRegistry: vi.fn().mockReturnValue({
@@ -775,7 +775,7 @@ describe('ShellTool', () => {
                     .spyOn(truncationModule, 'truncateToolOutput')
                     .mockResolvedValue({
                     content: 'Tool output was too large and has been truncated.\n[mocked truncated body]',
-                    outputFile: '/tmp/qwen-temp/shell_mocked.output',
+                    outputFile: '/tmp/vivekmind-temp/shell_mocked.output',
                 });
                 try {
                     const invocation = shellTool.build({
@@ -992,7 +992,7 @@ describe('ShellTool', () => {
                 });
                 await promise;
                 // Verify that the command was executed with co-author added
-                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
+                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
             });
             it('should add co-author to git commit with single quotes', async () => {
                 const command = "git commit -m 'Fix bug'";
@@ -1009,7 +1009,7 @@ describe('ShellTool', () => {
                     executionMethod: 'child_process',
                 });
                 await promise;
-                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
+                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
             });
             it('should handle git commit with additional flags', async () => {
                 const command = 'git commit -a -m "Add feature"';
@@ -1026,7 +1026,7 @@ describe('ShellTool', () => {
                     executionMethod: 'child_process',
                 });
                 await promise;
-                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
+                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
             });
             it('should handle git commit with combined short flags like -am', async () => {
                 const command = 'git commit -am "Add feature"';
@@ -1043,7 +1043,7 @@ describe('ShellTool', () => {
                     executionMethod: 'child_process',
                 });
                 await promise;
-                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
+                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
             });
             it('should not modify non-git commands', async () => {
                 const command = 'npm install';
@@ -1094,14 +1094,14 @@ describe('ShellTool', () => {
                     executionMethod: 'child_process',
                 });
                 await promise;
-                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
+                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
             });
             it('should not add co-author when disabled in config', async () => {
                 // Mock config with disabled co-author
                 mockConfig.getGitCoAuthor.mockReturnValue({
                     enabled: false,
                     name: 'VivekMind-Coder',
-                    email: 'qwen-coder@alibabacloud.com',
+                    email: 'vivekmind-clir@alibabacloud.com',
                 });
                 const command = 'git commit -m "Initial commit"';
                 const invocation = shellTool.build({ command, is_background: false });
@@ -1157,7 +1157,7 @@ describe('ShellTool', () => {
                     executionMethod: 'child_process',
                 });
                 await promise;
-                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
+                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
             });
             it('should add co-author to git commit with multi-line message', async () => {
                 const command = `git commit -m "Fix bug
@@ -1177,7 +1177,7 @@ describe('ShellTool', () => {
                     executionMethod: 'child_process',
                 });
                 await promise;
-                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <qwen-coder@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
+                expect(mockShellExecutionService).toHaveBeenCalledWith(expect.stringContaining('Co-authored-by: VivekMind-Coder <vivekmind-clir@alibabacloud.com>'), expect.any(String), expect.any(Function), expect.any(AbortSignal), false, {});
             });
         });
     });

@@ -28,7 +28,7 @@ vi.mock('../utils/forkedAgent.js', () => ({
 describe('runAutoMemoryExtractionByAgent', () => {
     const mockConfig = {
         getSessionId: vi.fn().mockReturnValue('session-1'),
-        getModel: vi.fn().mockReturnValue('qwen3-coder-plus'),
+        getModel: vi.fn().mockReturnValue('vivekmind3-coder-plus'),
         getApprovalMode: vi.fn(),
     };
     beforeEach(() => {
@@ -39,7 +39,7 @@ describe('runAutoMemoryExtractionByAgent', () => {
                 { role: 'user', parts: [{ text: 'I prefer terse responses.' }] },
                 { role: 'model', parts: [{ text: 'Understood.' }] },
             ],
-            model: 'qwen3-coder-plus',
+            model: 'vivekmind3-coder-plus',
             version: 1,
         });
         vi.mocked(scanAutoMemoryTopicDocuments).mockResolvedValue([

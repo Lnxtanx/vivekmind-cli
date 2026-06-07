@@ -42,8 +42,8 @@ describe('manageModels', () => {
   it('fetchManageModelsCatalog maps OpenRouter models into catalog entries', async () => {
     mockFetchOpenRouterModels.mockResolvedValue([
       {
-        id: 'qwen/qwen3-coder:free',
-        name: 'OpenRouter · Qwen3 Coder',
+        id: 'vivekmind/vivekmind3-coder:free',
+        name: 'OpenRouter · VivekMind3 Coder',
         capabilities: { vision: true },
         generationConfig: { contextWindowSize: 1_000_000 },
       },
@@ -53,7 +53,7 @@ describe('manageModels', () => {
 
     expect(catalog.source).toBe('openrouter');
     expect(catalog.entries).toHaveLength(1);
-    expect(catalog.entries[0]?.label).toBe('Qwen3 Coder');
+    expect(catalog.entries[0]?.label).toBe('VivekMind3 Coder');
     expect(catalog.entries[0]?.badges).toEqual(
       expect.arrayContaining(['free', 'vision', 'long-context']),
     );

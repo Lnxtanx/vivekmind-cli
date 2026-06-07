@@ -277,7 +277,7 @@ describe('useExtensionUpdates', () => {
   let userExtensionsDir: string;
 
   beforeEach(() => {
-    tempHomeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'qwen-cli-test-home-'));
+    tempHomeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vivekmind-cli-test-home-'));
     vi.mocked(os.homedir).mockReturnValue(tempHomeDir);
     userExtensionsDir = path.join(tempHomeDir, VIVEKMIND_DIR, 'extensions');
     fs.mkdirSync(userExtensionsDir, { recursive: true });

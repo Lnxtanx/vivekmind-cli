@@ -39,7 +39,7 @@ export class DashScopeOpenAICompatibleProvider extends DefaultOpenAICompatiblePr
 
   override buildHeaders(): Record<string, string | undefined> {
     const version = this.cliConfig.getCliVersion() || 'unknown';
-    const userAgent = `QwenCode/${version} (${process.platform}; ${process.arch})`;
+    const userAgent = `VivekMindCode/${version} (${process.platform}; ${process.arch})`;
     const { authType, customHeaders } = this.contentGeneratorConfig;
     const defaultHeaders = {
       'User-Agent': userAgent,
@@ -277,9 +277,9 @@ export class DashScopeOpenAICompatibleProvider extends DefaultOpenAICompatiblePr
   private static readonly VISION_MODEL_EXACT_MATCHES = new Set(['coder-model']);
 
   private static readonly VISION_MODEL_PREFIX_PATTERNS = [
-    'qwen-vl', // qwen-vl-max, qwen-vl-max-latest, etc.
-    'qwen3-vl-plus', // qwen3-vl-plus variants
-    'qwen3.5-plus', // qwen3.5-plus (has built-in vision capabilities)
+    'vivekmind-vl', // vivekmind-vl-max, vivekmind-vl-max-latest, etc.
+    'vivekmind3-vl-plus', // vivekmind3-vl-plus variants
+    'vivekmind3.5-plus', // vivekmind3.5-plus (has built-in vision capabilities)
   ];
 
   private isVisionModel(model: string | undefined): boolean {

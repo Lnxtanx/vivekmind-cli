@@ -1051,7 +1051,7 @@ describe('AgentTool', () => {
                 .mockReturnValue(true);
             config['getBackgroundTaskRegistry'] = vi.fn().mockReturnValue(mockRegistry);
             config['storage'] = {
-                getProjectDir: () => '/tmp/qwen-test',
+                getProjectDir: () => '/tmp/vivekmind-test',
             };
             mockAgent['setExternalMessageProvider'] = vi.fn();
             vi.mocked(mockSubagentManager.loadSubagent).mockResolvedValue(bgSubagent);
@@ -1113,7 +1113,7 @@ describe('AgentTool', () => {
             };
             const invocation = agentTool.createInvocation(params);
             await invocation.execute();
-            const expectedTranscriptPrefix = path.join('/tmp/qwen-test', 'subagents', 'test-session-id', 'agent-monitor-');
+            const expectedTranscriptPrefix = path.join('/tmp/vivekmind-test', 'subagents', 'test-session-id', 'agent-monitor-');
             await vi.waitFor(() => {
                 expect(mockHookSystem.fireSubagentStopEvent).toHaveBeenCalledWith(expect.stringContaining('monitor-'), 'monitor', expect.stringMatching(new RegExp(`^${escapeRegExp(expectedTranscriptPrefix)}.*\\.jsonl$`)), 'Monitor done', false, PermissionMode.AutoEdit, expect.any(AbortSignal));
             });

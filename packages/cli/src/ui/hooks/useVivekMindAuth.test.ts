@@ -398,10 +398,10 @@ describe('useVivekMindAuth', () => {
 
   it('should handle different auth types correctly', () => {
     // Test with VivekMind OAuth - should set up event listeners when authenticating
-    const { result: qwenResult } = renderHook(() =>
+    const { result: vivekmindResult } = renderHook(() =>
       useVivekMindAuth(AuthType.VIVEKMIND_OAUTH, true),
     );
-    expect(qwenResult.current.vivekmindAuthState.authStatus).toBe('idle');
+    expect(vivekmindResult.current.vivekmindAuthState.authStatus).toBe('idle');
     expect(mockVivekMindOAuth2Events.on).toHaveBeenCalled();
 
     // Test with other auth types - should not set up event listeners

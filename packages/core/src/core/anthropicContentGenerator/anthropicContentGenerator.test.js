@@ -66,7 +66,7 @@ describe('AnthropicContentGenerator', () => {
     afterEach(() => {
         vi.restoreAllMocks();
     });
-    it('passes a QwenCode User-Agent header to the Anthropic SDK', async () => {
+    it('passes a VivekMindCode User-Agent header to the Anthropic SDK', async () => {
         const { AnthropicContentGenerator } = await importGenerator();
         void new AnthropicContentGenerator({
             model: 'claude-test',
@@ -79,7 +79,7 @@ describe('AnthropicContentGenerator', () => {
         }, mockConfig);
         const headers = (anthropicState.constructorOptions?.['defaultHeaders'] ||
             {});
-        expect(headers['User-Agent']).toContain('QwenCode/1.2.3');
+        expect(headers['User-Agent']).toContain('VivekMindCode/1.2.3');
         expect(headers['User-Agent']).toContain(`(${process.platform}; ${process.arch})`);
     });
     it('merges customHeaders into defaultHeaders (does not replace defaults)', async () => {
@@ -101,7 +101,7 @@ describe('AnthropicContentGenerator', () => {
             {});
         // Beta headers moved out of defaultHeaders — see PR #3788 review feedback.
         // Only User-Agent and customHeaders remain at construction time.
-        expect(headers['User-Agent']).toContain('QwenCode/1.2.3');
+        expect(headers['User-Agent']).toContain('VivekMindCode/1.2.3');
         expect(headers['X-Custom']).toBe('1');
         expect(headers['anthropic-beta']).toBeUndefined();
     });
@@ -267,7 +267,7 @@ describe('AnthropicContentGenerator', () => {
             });
             // defaultHeaders carries User-Agent and customHeaders (not beta).
             const defaultHeaders = (anthropicState.constructorOptions?.['defaultHeaders'] || {});
-            expect(defaultHeaders['User-Agent']).toContain('QwenCode/1.2.3');
+            expect(defaultHeaders['User-Agent']).toContain('VivekMindCode/1.2.3');
             expect(defaultHeaders['X-Custom']).toBe('v1');
             expect(defaultHeaders['anthropic-beta']).toBeUndefined();
             // Per-request headers carry only the computed beta flags.
@@ -630,7 +630,7 @@ describe('AnthropicContentGenerator', () => {
             });
         });
     });
-    // https://github.com/QwenLM/qwen-code/issues/3786 — DeepSeek's
+    // https://github.com/VivekMindLM/vivekmind-cli/issues/3786 — DeepSeek's
     // anthropic-compatible API rejects requests in thinking mode when a prior
     // assistant turn carrying `tool_use` omits a thinking block. Plain-text
     // assistant turns without thinking are accepted unchanged.

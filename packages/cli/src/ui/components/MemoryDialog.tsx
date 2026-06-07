@@ -126,7 +126,7 @@ export function MemoryDialog({ onClose }: MemoryDialogProps) {
       path.join(
         os.homedir(),
         VIVEKMIND_DIR,
-        getAllGeminiMdFilenames()[0] ?? 'QWEN.md',
+        getAllGeminiMdFilenames()[0] ?? 'VIVEKMIND.md',
       ),
     [],
   );
@@ -134,7 +134,7 @@ export function MemoryDialog({ onClose }: MemoryDialogProps) {
     () =>
       path.join(
         config.getWorkingDir(),
-        getAllGeminiMdFilenames()[0] ?? 'QWEN.md',
+        getAllGeminiMdFilenames()[0] ?? 'VIVEKMIND.md',
       ),
     [config],
   );
@@ -211,12 +211,12 @@ export function MemoryDialog({ onClose }: MemoryDialogProps) {
         case 'project':
           return resolvePreferredMemoryFile(
             config.getWorkingDir(),
-            getAllGeminiMdFilenames()[0] ?? 'QWEN.md',
+            getAllGeminiMdFilenames()[0] ?? 'VIVEKMIND.md',
           );
         case 'global':
           return resolvePreferredMemoryFile(
             path.join(os.homedir(), VIVEKMIND_DIR),
-            getAllGeminiMdFilenames()[0] ?? 'QWEN.md',
+            getAllGeminiMdFilenames()[0] ?? 'VIVEKMIND.md',
           );
         case 'managed':
           return managedMemoryPath;

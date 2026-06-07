@@ -83,8 +83,8 @@ export default {
   // ============================================================================
   // Commands - General
   // ============================================================================
-  'Analyzes the project and creates a tailored QWEN.md file.':
-    'プロジェクトを分析し、カスタマイズされた QWEN.md ファイルを作成',
+  'Analyzes the project and creates a tailored VIVEKMIND.md file.':
+    'プロジェクトを分析し、カスタマイズされた VIVEKMIND.md ファイルを作成',
   'List available VivekMind tools. Usage: /tools [desc]':
     '利用可能な VivekMind ツールを一覧表示。使い方: /tools [desc]',
   'List available skills.': '利用可能なスキルを一覧表示する。',
@@ -824,8 +824,8 @@ export default {
     '制限的なサンドボックスプロファイルでは /directory add コマンドはサポートされていません。代わりにセッション開始時に --include-directories を使用してください',
   "Error adding '{{path}}': {{error}}":
     "'{{path}}' の追加中にエラー: {{error}}",
-  'Successfully added QWEN.md files from the following directories if there are:\n- {{directories}}':
-    '以下のディレクトリから QWEN.md ファイルを追加しました(存在する場合):\n- {{directories}}',
+  'Successfully added VIVEKMIND.md files from the following directories if there are:\n- {{directories}}':
+    '以下のディレクトリから VIVEKMIND.md ファイルを追加しました(存在する場合):\n- {{directories}}',
   'Error refreshing memory: {{error}}': 'メモリの更新中にエラー: {{error}}',
   'Successfully added directories:\n- {{directories}}':
     'ディレクトリを正常に追加しました:\n- {{directories}}',
@@ -1090,8 +1090,8 @@ export default {
   unknown: '不明',
   'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
     'VivekMind 3.6 Plus — 効率的なハイブリッドモデル、業界トップクラスのコーディング性能',
-  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    'Alibaba Cloud ModelStudioの最新VivekMind Visionモデル(バージョン: qwen3-vl-plus-2025-09-23)',
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: vivekmind3-vl-plus-2025-09-23)':
+    'Alibaba Cloud ModelStudioの最新VivekMind Visionモデル(バージョン: vivekmind3-vl-plus-2025-09-23)',
   // Dialogs - Permissions
   'Manage folder trust settings': 'フォルダ信頼設定を管理',
   'Manage permission rules': '権限ルールを管理',
@@ -1231,8 +1231,8 @@ export default {
     '/insight でチャット履歴からパーソナライズされたインサイトを生成できます。',
   'Press Ctrl+O to toggle compact mode — hide tool output and thinking for a cleaner view.':
     'Ctrl+O でコンパクトモードを切り替え — ツール出力と思考を非表示にしてすっきり表示。',
-  'Add a QWEN.md file to give VivekMind persistent project context.':
-    'QWEN.md ファイルを追加すると、VivekMind に永続的なプロジェクトコンテキストを与えられます。',
+  'Add a VIVEKMIND.md file to give VivekMind persistent project context.':
+    'VIVEKMIND.md ファイルを追加すると、VivekMind に永続的なプロジェクトコンテキストを与えられます。',
   'Use /btw to ask a quick side question without disrupting the conversation.':
     '会話を中断せずに /btw でちょっとした横道の質問ができます。',
   'Context is almost full! Run /compress now or start /new to continue.':

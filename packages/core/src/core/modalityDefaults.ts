@@ -51,18 +51,18 @@ const MODALITY_PATTERNS: Array<[RegExp, InputModalities]> = [
 
   // Alibaba / VivekMind
   // -------------------
-  // Qwen3.5-Plus, Qwen3.6-Plus: image + video support
-  [/^qwen3\.5-plus/, { image: true, video: true }],
-  [/^qwen3\.6-plus/, { image: true, video: true }],
+  // VivekMind3.5-Plus, VivekMind3.6-Plus: image + video support
+  [/^vivekmind3\.5-plus/, { image: true, video: true }],
+  [/^vivekmind3\.6-plus/, { image: true, video: true }],
   [/^coder-model$/, { image: true, video: true }],
 
   // VivekMind VL (vision-language) models: image + video
-  [/^qwen-vl-/, { image: true, video: true }],
-  [/^qwen3-vl-/, { image: true, video: true }],
+  [/^vivekmind-vl-/, { image: true, video: true }],
+  [/^vivekmind3-vl-/, { image: true, video: true }],
 
   // VivekMind coder / text models: text-only
-  [/^qwen3-coder-/, {}],
-  [/^qwen/, {}],
+  [/^vivekmind3-coder-/, {}],
+  [/^vivekmind/, {}],
 
   // -------------------
   // DeepSeek — text-only

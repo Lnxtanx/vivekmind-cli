@@ -769,7 +769,7 @@ describe('MCPOAuthProvider', () => {
             expect(capturedUrl).toContain('resource=https%3A%2F%2Fauth.example.com');
             expect(capturedUrl).toContain('audience=https%3A%2F%2Fapi.example.com');
         });
-        // Regression test for https://github.com/QwenLM/qwen-code/issues/1749
+        // Regression test for https://github.com/VivekMindLM/vivekmind-cli/issues/1749
         // Scenario: user runs `vivekmind mcp add --transport http yuque https://mcp.alibaba-inc.com/yuque/mcp`
         // then `/mcp auth yuque`. Per MCP spec / RFC 8707, the resource param should be the
         // full canonical URI "https://mcp.alibaba-inc.com/yuque/mcp", not just the host.

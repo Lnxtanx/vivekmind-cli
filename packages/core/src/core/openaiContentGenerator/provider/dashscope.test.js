@@ -37,7 +37,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
             baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
             timeout: 60000,
             maxRetries: 2,
-            model: 'qwen-max',
+            model: 'vivekmind-max',
             authType: AuthType.VIVEKMIND_OAUTH,
         };
         // Mock Config
@@ -122,9 +122,9 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         it('should build DashScope-specific headers', () => {
             const headers = provider.buildHeaders();
             expect(headers).toEqual({
-                'User-Agent': `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
+                'User-Agent': `VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`,
                 'X-DashScope-CacheControl': 'enable',
-                'X-DashScope-UserAgent': `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
+                'X-DashScope-UserAgent': `VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`,
                 'X-DashScope-AuthType': AuthType.VIVEKMIND_OAUTH,
             });
         });
@@ -137,8 +137,8 @@ describe('DashScopeOpenAICompatibleProvider', () => {
                 },
             }, mockCliConfig);
             const headers = providerWithCustomHeaders.buildHeaders();
-            expect(headers['User-Agent']).toContain('QwenCode/1.0.0');
-            expect(headers['X-DashScope-UserAgent']).toContain('QwenCode/1.0.0');
+            expect(headers['User-Agent']).toContain('VivekMindCode/1.0.0');
+            expect(headers['X-DashScope-UserAgent']).toContain('VivekMindCode/1.0.0');
             expect(headers['X-DashScope-AuthType']).toBe(AuthType.VIVEKMIND_OAUTH);
             expect(headers['X-Custom']).toBe('1');
             expect(headers['X-DashScope-CacheControl']).toBe('disable');
@@ -146,8 +146,8 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         it('should handle unknown CLI version', () => {
             mockCliConfig.getCliVersion.mockReturnValue(undefined);
             const headers = provider.buildHeaders();
-            expect(headers['User-Agent']).toBe(`QwenCode/unknown (${process.platform}; ${process.arch})`);
-            expect(headers['X-DashScope-UserAgent']).toBe(`QwenCode/unknown (${process.platform}; ${process.arch})`);
+            expect(headers['User-Agent']).toBe(`VivekMindCode/unknown (${process.platform}; ${process.arch})`);
+            expect(headers['X-DashScope-UserAgent']).toBe(`VivekMindCode/unknown (${process.platform}; ${process.arch})`);
         });
     });
     describe('buildClient', () => {
@@ -159,9 +159,9 @@ describe('DashScopeOpenAICompatibleProvider', () => {
                 timeout: 60000,
                 maxRetries: 2,
                 defaultHeaders: {
-                    'User-Agent': `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
+                    'User-Agent': `VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`,
                     'X-DashScope-CacheControl': 'enable',
-                    'X-DashScope-UserAgent': `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
+                    'X-DashScope-UserAgent': `VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`,
                     'X-DashScope-AuthType': AuthType.VIVEKMIND_OAUTH,
                 },
             }));
@@ -206,7 +206,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
     });
     describe('buildRequest', () => {
         const baseRequest = {
-            model: 'qwen-max',
+            model: 'vivekmind-max',
             messages: [
                 { role: 'system', content: 'You are a helpful assistant.' },
                 { role: 'user', content: 'Hello!' },
@@ -386,7 +386,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
                 user: 'test-user',
             };
             const result = provider.buildRequest(complexRequest, 'test-prompt-id');
-            expect(result.model).toBe('qwen-max');
+            expect(result.model).toBe('vivekmind-max');
             expect(result.temperature).toBe(0.8);
             expect(result.max_tokens).toBe(1000);
             expect(result.top_p).toBe(0.9);
@@ -397,7 +397,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should skip cache control when disabled', () => {
             mockCliConfig.getContentGeneratorConfig.mockReturnValue({
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 enableCacheControl: false,
             });
             const result = provider.buildRequest(baseRequest, 'test-prompt-id');
@@ -407,7 +407,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should handle messages with array content for streaming requests', () => {
             const requestWithArrayContent = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 stream: true, // This will trigger cache control on last message
                 messages: [
                     {
@@ -432,7 +432,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should handle empty messages array', () => {
             const emptyRequest = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 messages: [],
             };
             const result = provider.buildRequest(emptyRequest, 'test-prompt-id');
@@ -441,7 +441,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should handle messages without content for streaming requests', () => {
             const requestWithoutContent = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 stream: true, // This will trigger cache control on last message
                 messages: [
                     { role: 'assistant', content: null },
@@ -462,7 +462,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should add cache control to last text item in mixed content for streaming requests', () => {
             const requestWithMixedContent = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 stream: true, // This will trigger cache control on last message
                 messages: [
                     {
@@ -496,7 +496,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should add cache control to last item even if not text for streaming requests', () => {
             const requestWithNonTextLast = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 stream: true, // This will trigger cache control on last message
                 messages: [
                     {
@@ -526,7 +526,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
     describe('cache control edge cases', () => {
         it('should handle request with only system message', () => {
             const systemOnlyRequest = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 messages: [{ role: 'system', content: 'System prompt' }],
             };
             const result = provider.buildRequest(systemOnlyRequest, 'test-prompt-id');
@@ -541,7 +541,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should handle request without system message for streaming requests', () => {
             const noSystemRequest = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 stream: true, // This will trigger cache control on last message
                 messages: [
                     { role: 'user', content: 'First message' },
@@ -564,7 +564,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should handle empty content array for streaming requests', () => {
             const emptyContentRequest = {
-                model: 'qwen-max',
+                model: 'vivekmind-max',
                 stream: true, // This will trigger cache control on last message
                 messages: [
                     {
@@ -583,7 +583,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
     describe('output token limits', () => {
         it('should limit max_tokens when it exceeds model limit', () => {
             const request = {
-                model: 'qwen3-max',
+                model: 'vivekmind3-max',
                 messages: [{ role: 'user', content: 'Hello' }],
                 max_tokens: 100000, // Exceeds the model's output limit
             };
@@ -592,7 +592,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should not modify max_tokens when it is within model limit', () => {
             const request = {
-                model: 'qwen3-max',
+                model: 'vivekmind3-max',
                 messages: [{ role: 'user', content: 'Hello' }],
                 max_tokens: 1000, // Within the model's output limit
             };
@@ -601,18 +601,18 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should set conservative max_tokens default when not present in request', () => {
             const request = {
-                model: 'qwen3-max',
+                model: 'vivekmind3-max',
                 messages: [{ role: 'user', content: 'Hello' }],
                 // No max_tokens parameter
             };
             const result = provider.buildRequest(request, 'test-prompt-id');
             // Should set capped default (min of model limit and CAPPED_DEFAULT_MAX_TOKENS)
-            // qwen3-max has 32K output limit, so min(32K, 8K) = 8K
+            // vivekmind3-max has 32K output limit, so min(32K, 8K) = 8K
             expect(result.max_tokens).toBe(8000);
         });
         it('should set conservative max_tokens when null is provided', () => {
             const request = {
-                model: 'qwen3-max',
+                model: 'vivekmind3-max',
                 messages: [{ role: 'user', content: 'Hello' }],
                 max_tokens: null,
             };
@@ -632,7 +632,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should preserve other request parameters when limiting max_tokens', () => {
             const request = {
-                model: 'qwen3-max',
+                model: 'vivekmind3-max',
                 messages: [{ role: 'user', content: 'Hello' }],
                 max_tokens: 100000, // Will be limited
                 temperature: 0.8,
@@ -677,7 +677,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should handle streaming requests with output token limits', () => {
             const request = {
-                model: 'qwen3-max',
+                model: 'vivekmind3-max',
                 messages: [{ role: 'user', content: 'Hello' }],
                 max_tokens: 100000, // Exceeds the model's output limit
                 stream: true,
@@ -695,7 +695,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
                 },
             }, mockCliConfig);
             const request = {
-                model: 'qwen3-coder-plus',
+                model: 'vivekmind3-coder-plus',
                 messages: [{ role: 'user', content: 'Hello' }],
             };
             const result = providerWithExtraBody.buildRequest(request, 'test-prompt-id');
@@ -712,7 +712,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
                 },
             }, mockCliConfig);
             const request = {
-                model: 'qwen-vl-max',
+                model: 'vivekmind-vl-max',
                 messages: [{ role: 'user', content: 'Hello' }],
             };
             const result = providerWithExtraBody.buildRequest(request, 'test-prompt-id');
@@ -723,7 +723,7 @@ describe('DashScopeOpenAICompatibleProvider', () => {
         });
         it('should not include extra_body when not configured', () => {
             const request = {
-                model: 'qwen3-coder-plus',
+                model: 'vivekmind3-coder-plus',
                 messages: [{ role: 'user', content: 'Hello' }],
             };
             const result = provider.buildRequest(request, 'test-prompt-id');

@@ -53,20 +53,20 @@ describe('flattenModelsBySource', () => {
   it('collapses to plain label when no non-main source exists in the session', () => {
     const entries = flattenModelsBySource({
       'glm-5': makeModel({ [MAIN_SOURCE]: coreWithRequests(3) }),
-      'qwen-max': makeModel({ [MAIN_SOURCE]: coreWithRequests(2) }),
+      'vivekmind-max': makeModel({ [MAIN_SOURCE]: coreWithRequests(2) }),
     });
-    expect(entries.map((e) => e.label)).toEqual(['glm-5', 'qwen-max']);
-    expect(entries.map((e) => e.key)).toEqual(['glm-5', 'qwen-max']);
+    expect(entries.map((e) => e.label)).toEqual(['glm-5', 'vivekmind-max']);
+    expect(entries.map((e) => e.key)).toEqual(['glm-5', 'vivekmind-max']);
   });
 
   it('splits every row when any model has a non-main source (session-wide rule)', () => {
     const entries = flattenModelsBySource({
       'glm-5': makeModel({ [MAIN_SOURCE]: coreWithRequests(2) }),
-      'qwen-plus': makeModel({ researcher: coreWithRequests(1) }),
+      'vivekmind-plus': makeModel({ researcher: coreWithRequests(1) }),
     });
     expect(entries.map((e) => e.label)).toEqual([
       'glm-5 (main)',
-      'qwen-plus (researcher)',
+      'vivekmind-plus (researcher)',
     ]);
   });
 
@@ -105,13 +105,13 @@ describe('flattenModelsBySource', () => {
         [MAIN_SOURCE]: coreWithRequests(1),
         alpha: coreWithRequests(1),
       }),
-      'qwen-plus': makeModel({
+      'vivekmind-plus': makeModel({
         alpha: coreWithRequests(1),
       }),
     });
     const keys = entries.map((e) => e.key);
     expect(new Set(keys).size).toBe(keys.length);
-    expect(keys).toEqual(['glm-5::main', 'glm-5::alpha', 'qwen-plus::alpha']);
+    expect(keys).toEqual(['glm-5::main', 'glm-5::alpha', 'vivekmind-plus::alpha']);
   });
 
   it('falls back to the aggregate when bySource is empty (defensive)', () => {

@@ -802,7 +802,7 @@ describe('AuthDialog Custom API Key Wizard', () => {
         stdin,
         lastFrame,
         'sk-test-key-12345',
-        'qwen/qwen3-coder,gpt-4.1',
+        'vivekmind/vivekmind3-coder,gpt-4.1',
       );
       await pressEnterAndWaitFor(stdin, lastFrame, 'Step 6/6 · Review');
 
@@ -811,7 +811,7 @@ describe('AuthDialog Custom API Key Wizard', () => {
         expect(frame).toContain('Step 6/6 · Review');
         expect(frame).toContain('The following JSON will be saved');
         expect(frame).toContain('VIVEKMIND_CUSTOM_API_KEY_OPENAI');
-        expect(frame).toContain('qwen/qwen3-coder');
+        expect(frame).toContain('vivekmind/vivekmind3-coder');
         expect(frame).toContain('gpt-4.1');
         expect(frame).toContain('Enter to save');
       });

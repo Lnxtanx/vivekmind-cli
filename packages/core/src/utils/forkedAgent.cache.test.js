@@ -23,10 +23,10 @@ describe('CacheSafeParams', () => {
                 systemInstruction: 'You are helpful',
                 tools: [{ functionDeclarations: [] }],
             };
-            saveCacheSafeParams(config, [], 'qwen-max');
+            saveCacheSafeParams(config, [], 'vivekmind-max');
             const params = getCacheSafeParams();
             expect(params).not.toBeNull();
-            expect(params.model).toBe('qwen-max');
+            expect(params.model).toBe('vivekmind-max');
             expect(params.history).toEqual([]);
             expect(params.version).toBeGreaterThan(0);
         });

@@ -799,7 +799,7 @@ const SETTINGS_SCHEMA = {
     requiresRestart: false,
     default: '',
     description:
-      'Model used for generating prompt suggestions and speculative execution. Leave empty to use the main model. A smaller/faster model (e.g., qwen3-coder-flash) reduces latency and cost.',
+      'Model used for generating prompt suggestions and speculative execution. Leave empty to use the main model. A smaller/faster model (e.g., vivekmind3-coder-flash) reduces latency and cost.',
     showInDialog: true,
   },
 
@@ -942,7 +942,7 @@ const SETTINGS_SCHEMA = {
             requiresRestart: false,
             default: false,
             description:
-              'When true, media (images / audio / video / files) returned by MCP tool calls is split into a follow-up user message instead of being embedded in the tool message. Required for strict OpenAI-compatible servers (e.g., LM Studio) that reject non-text content on `role: "tool"` messages with HTTP 400 "Invalid \'messages\' in payload". Default false preserves the prior behavior for permissive providers. See QwenLM/qwen-code#3616.',
+              'When true, media (images / audio / video / files) returned by MCP tool calls is split into a follow-up user message instead of being embedded in the tool message. Required for strict OpenAI-compatible servers (e.g., LM Studio) that reject non-text content on `role: "tool"` messages with HTTP 400 "Invalid \'messages\' in payload". Default false preserves the prior behavior for permissive providers. See VivekMindLM/vivekmind-cli#3616.',
             parentKey: 'generationConfig',
             showInDialog: false,
           },
@@ -992,7 +992,7 @@ const SETTINGS_SCHEMA = {
         >
       | undefined,
     description:
-      'Optional per-model pricing for cost estimation in /stats model. Example: {"qwen3-coder": {"inputPerMillionTokens": 0.30, "outputPerMillionTokens": 1.20}}',
+      'Optional per-model pricing for cost estimation in /stats model. Example: {"vivekmind3-coder": {"inputPerMillionTokens": 0.30, "outputPerMillionTokens": 1.20}}',
     showInDialog: false,
   },
 

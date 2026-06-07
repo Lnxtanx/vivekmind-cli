@@ -41,7 +41,7 @@ Use this index to locate the right document for the user's question. Load only t
 | Settings reference (all config keys)      | `docs/configuration/settings.md`        |
 | Authentication setup                      | `docs/configuration/auth.md`            |
 | Model providers (OpenAI-compatible, etc.) | `docs/configuration/model-providers.md` |
-| .vivekmindignore file                          | `docs/configuration/qwen-ignore.md`     |
+| .vivekmindignore file                          | `docs/configuration/vivekmind-ignore.md`     |
 | Themes                                    | `docs/configuration/themes.md`          |
 | Memory                                    | `docs/configuration/memory.md`          |
 | Trusted folders                           | `docs/configuration/trusted-folders.md` |
@@ -103,7 +103,7 @@ When the user asks about configuration, the primary reference is `docs/configura
 | ------- | ------------------------------------------------------------ | -------------------------------------- |
 | User    | `~/.vivekmind/settings.json`                                      | Personal global config                 |
 | Project | `<project>/.vivekmind/settings.json`                              | Project-specific, overrides user level |
-| System  | macOS: `/Library/Application Support/QwenCode/settings.json` | Admin-level config                     |
+| System  | macOS: `/Library/Application Support/VivekMindCode/settings.json` | Admin-level config                     |
 
 **Priority** (highest to lowest): CLI args > env vars > system settings > project settings > user settings > defaults
 

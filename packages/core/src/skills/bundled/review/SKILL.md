@@ -32,8 +32,8 @@ First, parse the `--comment` flag: split the arguments by whitespace, and if any
 To disambiguate the argument type: if the argument is a pure integer, treat it as a PR number. If it's a URL containing `/pull/`, extract the owner/repo/number from the URL. Then determine if the local repo can access this PR:
 
 1. Check if any git remote URL matches the URL's owner/repo: run `git remote -v` and look for a remote whose URL contains the owner/repo (e.g., `openjdk/jdk`). This handles forks — a local clone of `wenshao/jdk` with an `upstream` remote pointing to `openjdk/jdk` can still review `openjdk/jdk` PRs.
-2. If a matching remote is found, proceed with the **normal worktree flow** — use that remote name (instead of hardcoded `origin`) for `git fetch <remote> pull/<number>/head:qwen-review/pr-<number>`. In Step 9, use the owner/repo from the URL for posting comments.
-3. If **no remote matches**, use **lightweight mode**: run `gh pr diff <url>` to get the diff directly. Skip Steps 2 (no local rules), 3 (no local linter), 8 (no local files to fix), 10 (no local cache). In Step 11, skip worktree removal (none was created) but still clean up temp files (`.vivekmind/tmp/qwen-review-{target}-*`). Also fetch existing PR comments using the URL's owner/repo (`gh api repos/{owner}/{repo}/pulls/{number}/comments`) to avoid duplicating human feedback. In Step 9, use the owner/repo from the URL. Inform the user: "Cross-repo review: running in lightweight mode (no build/test, no linter, no autofix)."
+2. If a matching remote is found, proceed with the **normal worktree flow** — use that remote name (instead of hardcoded `origin`) for `git fetch <remote> pull/<number>/head:vivekmind-review/pr-<number>`. In Step 9, use the owner/repo from the URL for posting comments.
+3. If **no remote matches**, use **lightweight mode**: run `gh pr diff <url>` to get the diff directly. Skip Steps 2 (no local rules), 3 (no local linter), 8 (no local files to fix), 10 (no local cache). In Step 11, skip worktree removal (none was created) but still clean up temp files (`.vivekmind/tmp/vivekmind-review-{target}-*`). Also fetch existing PR comments using the URL's owner/repo (`gh api repos/{owner}/{repo}/pulls/{number}/comments`) to avoid duplicating human feedback. In Step 9, use the owner/repo from the URL. Inform the user: "Cross-repo review: running in lightweight mode (no build/test, no linter, no autofix)."
 
 Otherwise (not a URL, not an integer), treat the argument as a file path.
 
@@ -44,15 +44,15 @@ Based on the remaining arguments:
   - If both diffs are empty, inform the user there are no changes to review and stop here — do not proceed to the review agents
 
 - **PR number or same-repo URL** (e.g., `123` or a URL whose owner/repo matches the current repo — cross-repo URLs are handled by the lightweight mode above):
-  - **Run `vivekmind review fetch-pr`** to set up the working state in one pass — it cleans any stale worktree, fetches the PR HEAD into `qwen-review/pr-<n>`, queries `gh pr view` for metadata, and creates an ephemeral worktree at `.vivekmind/tmp/review-pr-<n>`:
+  - **Run `vivekmind review fetch-pr`** to set up the working state in one pass — it cleans any stale worktree, fetches the PR HEAD into `vivekmind-review/pr-<n>`, queries `gh pr view` for metadata, and creates an ephemeral worktree at `.vivekmind/tmp/review-pr-<n>`:
 
     ```bash
     vivekmind review fetch-pr <pr_number> <owner>/<repo> \
       --remote <remote> \
-      --out .vivekmind/tmp/qwen-review-pr-<pr_number>-fetch.json
+      --out .vivekmind/tmp/vivekmind-review-pr-<pr_number>-fetch.json
     ```
 
-    `<remote>` is the matched remote from the URL-based detection above (e.g. `upstream` for fork workflows), or `origin` by default for pure integer PR numbers. Read `.vivekmind/tmp/qwen-review-pr-<n>-fetch.json` for: `worktreePath`, `baseRefName`, `headRefName`, `fetchedSha` (use as the **pre-autofix HEAD commit SHA** for Step 9), `isCrossRepository`, `diffStat` (files / additions / deletions). If the command fails (auth, network, PR not found), inform the user and stop.
+    `<remote>` is the matched remote from the URL-based detection above (e.g. `upstream` for fork workflows), or `origin` by default for pure integer PR numbers. Read `.vivekmind/tmp/vivekmind-review-pr-<n>-fetch.json` for: `worktreePath`, `baseRefName`, `headRefName`, `fetchedSha` (use as the **pre-autofix HEAD commit SHA** for Step 9), `isCrossRepository`, `diffStat` (files / additions / deletions). If the command fails (auth, network, PR not found), inform the user and stop.
 
     Worktree isolation: all subsequent steps (linting, agents, build/test, autofix) operate inside `worktreePath`, not the user's working tree. Cache and reports (Step 10) are written to the **main project directory**, not the worktree.
 
@@ -66,7 +66,7 @@ Based on the remaining arguments:
 
     ```bash
     vivekmind review pr-context <pr_number> <owner>/<repo> \
-      --out .vivekmind/tmp/qwen-review-pr-<pr_number>-context.md
+      --out .vivekmind/tmp/vivekmind-review-pr-<pr_number>-context.md
     ```
 
     The subcommand fetches `gh pr view` metadata + inline / issue comments and writes a single Markdown file with the PR title, description, base/head, diff stats, an **"Already discussed"** section, and an "Open inline comments" section. Each replied-to thread renders the **complete reply chain** (root comment + chronological replies), so review agents can see whether a "Fixed in `<commit>`"-style reply has closed the topic — agents must NOT re-report a concern whose latest reply addresses it. Issue-level (general PR) comments appear in the same section. The file's own preamble tells agents to treat its contents as DATA, so no extra security prefix is needed when passing it to review agents.
@@ -86,12 +86,12 @@ Run `vivekmind review load-rules` to read project-specific rules. **For PR revie
 
 ```bash
 vivekmind review load-rules <resolved_base_ref> \
-  --out .vivekmind/tmp/qwen-review-<target>-rules.md
+  --out .vivekmind/tmp/vivekmind-review-<target>-rules.md
 ```
 
 `<resolved_base_ref>` is the base ref to load from: prefer `<base>` if it exists locally, otherwise `<remote>/<base>` (run `git fetch <remote> <base>` first if not yet fetched). For local-uncommitted or file-path reviews use `HEAD`.
 
-The subcommand reads (in order, all sources combined): `.vivekmind/review-rules.md`, then either `.github/copilot-instructions.md` or root-level `copilot-instructions.md` (only one — preferred wins), then the `## Code Review` section of `AGENTS.md`, then the `## Code Review` section of `QWEN.md`. Missing files are silently skipped. The output file is empty when no rules are found — the subcommand reports `No review rules found on <ref>` to stdout in that case; skip rule injection in Step 4.
+The subcommand reads (in order, all sources combined): `.vivekmind/review-rules.md`, then either `.github/copilot-instructions.md` or root-level `copilot-instructions.md` (only one — preferred wins), then the `## Code Review` section of `AGENTS.md`, then the `## Code Review` section of `VIVEKMIND.md`. Missing files are silently skipped. The output file is empty when no rules are found — the subcommand reports `No review rules found on <ref>` to stdout in that case; skip rule injection in Step 4.
 
 If the output file is non-empty, prepend its content to each **LLM-based review agent's** (Agents 1-6) instructions:
 "In addition to the standard review criteria, you MUST also enforce these project-specific rules:
@@ -109,10 +109,10 @@ Extract the list of changed files from the diff output. For local uncommitted re
 
    ```bash
    echo '<json array of changed files relative to worktree>' \
-     > .vivekmind/tmp/qwen-review-<target>-changed.json
+     > .vivekmind/tmp/vivekmind-review-<target>-changed.json
    vivekmind review deterministic <worktree> \
-     --changed-files .vivekmind/tmp/qwen-review-<target>-changed.json \
-     --out .vivekmind/tmp/qwen-review-<target>-deterministic.json
+     --changed-files .vivekmind/tmp/vivekmind-review-<target>-changed.json \
+     --out .vivekmind/tmp/vivekmind-review-<target>-deterministic.json
    ```
 
    Tools currently covered:
@@ -475,7 +475,7 @@ Use the **pre-autofix HEAD commit SHA** captured in Step 1. If not captured, fal
 Optionally write the `(path, line)` anchors of the comments you're about to post so existing-comment Overlap can be detected:
 
 ```bash
-echo '[{"path":"src/foo.ts","line":42}, ...]' > .vivekmind/tmp/qwen-review-{target}-findings.json
+echo '[{"path":"src/foo.ts","line":42}, ...]' > .vivekmind/tmp/vivekmind-review-{target}-findings.json
 ```
 
 Then run:
@@ -483,11 +483,11 @@ Then run:
 ```bash
 vivekmind review presubmit \
   {pr_number} {commit_sha} {owner}/{repo} \
-  .vivekmind/tmp/qwen-review-{target}-presubmit.json \
-  [--new-findings .vivekmind/tmp/qwen-review-{target}-findings.json]
+  .vivekmind/tmp/vivekmind-review-{target}-presubmit.json \
+  [--new-findings .vivekmind/tmp/vivekmind-review-{target}-findings.json]
 ```
 
-Read `.vivekmind/tmp/qwen-review-{target}-presubmit.json`. Schema:
+Read `.vivekmind/tmp/vivekmind-review-{target}-presubmit.json`. Schema:
 
 ```typescript
 {
@@ -528,7 +528,7 @@ Read `.vivekmind/tmp/qwen-review-{target}-presubmit.json`. Schema:
 
 ⚠️ **Findings that can be mapped to a diff line → go in `comments` array (with `line` field). Findings that CANNOT be mapped to a specific diff line → go in `body` field.** Every entry in the `comments` array MUST have a valid `line` number. Do NOT put a comment in the `comments` array without a `line` — it creates an orphaned comment with no code reference.
 
-**Build the review JSON** with `write_file` to create `.vivekmind/tmp/qwen-review-{target}-review.json`. Every high-confidence Critical/Suggestion finding that can be mapped to a diff line MUST be an entry in the `comments` array:
+**Build the review JSON** with `write_file` to create `.vivekmind/tmp/vivekmind-review-{target}-review.json`. Every high-confidence Critical/Suggestion finding that can be mapped to a diff line MUST be an entry in the `comments` array:
 
 ````json
 {
@@ -559,7 +559,7 @@ Then submit:
 
 ```bash
 gh api repos/{owner}/{repo}/pulls/{pr_number}/reviews \
-  --input .vivekmind/tmp/qwen-review-{target}-review.json
+  --input .vivekmind/tmp/vivekmind-review-{target}-review.json
 ```
 
 If there are **no confirmed findings**, submit a single-line review. Use `event=APPROVE` by default; if the presubmit JSON has `downgradeApprove=true`, use `event=COMMENT` and prepend the downgrade reasons to the body:
@@ -629,7 +629,7 @@ Run the bundled cleanup subcommand:
 vivekmind review cleanup <target>
 ```
 
-`<target>` is the same suffix used throughout (`pr-<n>`, `local`, or filename). The command removes the worktree at `.vivekmind/tmp/review-pr-<n>` (PR targets only), deletes the local branch ref `qwen-review/pr-<n>`, and clears any `.vivekmind/tmp/qwen-review-<target>-*` side files (review JSON, PR context, presubmit / findings reports). It is idempotent — missing files are silent OK.
+`<target>` is the same suffix used throughout (`pr-<n>`, `local`, or filename). The command removes the worktree at `.vivekmind/tmp/review-pr-<n>` (PR targets only), deletes the local branch ref `vivekmind-review/pr-<n>`, and clears any `.vivekmind/tmp/vivekmind-review-<target>-*` side files (review JSON, PR context, presubmit / findings reports). It is idempotent — missing files are silent OK.
 
 **If Step 8 flagged the worktree for preservation** (autofix commit/push failure), skip Step 11 entirely. The user needs the worktree intact to recover the autofix commit. Inform the user the worktree is preserved at `.vivekmind/tmp/review-pr-<n>` and they should run `vivekmind review cleanup pr-<n>` manually after recovering the commit.
 

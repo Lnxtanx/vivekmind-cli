@@ -95,7 +95,7 @@ describe('OpenRouterOpenAICompatibleProvider', () => {
 
       // Should include User-Agent from parent
       expect(headers['User-Agent']).toBe(
-        `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
+        `VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`,
       );
     });
 
@@ -103,7 +103,7 @@ describe('OpenRouterOpenAICompatibleProvider', () => {
       const headers = provider.buildHeaders();
 
       expect(headers).toEqual({
-        'User-Agent': `QwenCode/1.0.0 (${process.platform}; ${process.arch})`,
+        'User-Agent': `VivekMindCode/1.0.0 (${process.platform}; ${process.arch})`,
         'HTTP-Referer': 'https://github.com/Lnxtanx/vivekmind-cli',
         'X-OpenRouter-Title': 'VivekMind',
       });
@@ -137,7 +137,7 @@ describe('OpenRouterOpenAICompatibleProvider', () => {
       const headers = provider.buildHeaders();
 
       expect(headers['User-Agent']).toBe(
-        `QwenCode/unknown (${process.platform}; ${process.arch})`,
+        `VivekMindCode/unknown (${process.platform}; ${process.arch})`,
       );
       expect(headers['HTTP-Referer']).toBe(
         'https://github.com/Lnxtanx/vivekmind-cli',

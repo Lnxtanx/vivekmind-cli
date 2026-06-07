@@ -79,8 +79,8 @@ export const tipRegistry: ContextualTip[] = [
     priority: 70,
   },
   {
-    id: 'new-user-qwenmd',
-    content: 'Add a QWEN.md file to give VivekMind persistent project context.',
+    id: 'new-user-vivekmindmd',
+    content: 'Add a VIVEKMIND.md file to give VivekMind persistent project context.',
     trigger: 'startup',
     isRelevant: (ctx) => ctx.sessionCount < 10,
     cooldownPrompts: 0,

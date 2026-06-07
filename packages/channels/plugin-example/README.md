@@ -44,13 +44,13 @@ Add a channel entry to `~/.vivekmind/settings.json`:
 ### 4. Start the mock server
 
 ```bash
-npx qwen-channel-plugin-example-server
+npx vivekmind-channel-plugin-example-server
 ```
 
 The server prints the HTTP and WebSocket URLs. You can customize ports with environment variables:
 
 ```bash
-HTTP_PORT=8080 WS_PORT=8081 npx qwen-channel-plugin-example-server
+HTTP_PORT=8080 WS_PORT=8081 npx vivekmind-channel-plugin-example-server
 ```
 
 ### 5. Start the channel

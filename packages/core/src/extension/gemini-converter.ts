@@ -33,7 +33,7 @@ export interface GeminiExtensionConfig {
  * @param extensionDir Path to the Gemini extension directory
  * @returns VivekMind ExtensionConfig
  */
-export function convertGeminiToQwenConfig(
+export function convertGeminiToVivekMindConfig(
   extensionDir: string,
 ): ExtensionConfig {
   const configFilePath = path.join(extensionDir, 'gemini-extension.json');
@@ -71,7 +71,7 @@ export function convertGeminiToQwenConfig(
 export async function convertGeminiExtensionPackage(
   extensionDir: string,
 ): Promise<{ config: ExtensionConfig; convertedDir: string }> {
-  const geminiConfig = convertGeminiToQwenConfig(extensionDir);
+  const geminiConfig = convertGeminiToVivekMindConfig(extensionDir);
 
   // Create temporary directory for converted extension
   const tmpDir = await ExtensionStorage.createTmpDir();
@@ -87,9 +87,9 @@ export async function convertGeminiExtensionPackage(
     }
 
     // Step 3: Create vivekmind-extension.json with converted config
-    const qwenConfigPath = path.join(tmpDir, 'vivekmind-extension.json');
+    const vivekmindConfigPath = path.join(tmpDir, 'vivekmind-extension.json');
     fs.writeFileSync(
-      qwenConfigPath,
+      vivekmindConfigPath,
       JSON.stringify(geminiConfig, null, 2),
       'utf-8',
     );

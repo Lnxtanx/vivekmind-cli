@@ -21,7 +21,7 @@ describe('managed auto-memory prompt helpers', () => {
         expect(prompt).toContain('User prefers terse responses.');
     });
     it('appends managed auto-memory after existing hierarchical memory', () => {
-        const result = appendManagedAutoMemoryToUserMemory('--- Context from: QWEN.md ---\nProject rules', '/tmp/project/.vivekmind/memory', '- [Project Memory](project/release-freeze.md) — Release freeze starts Friday.');
+        const result = appendManagedAutoMemoryToUserMemory('--- Context from: VIVEKMIND.md ---\nProject rules', '/tmp/project/.vivekmind/memory', '- [Project Memory](project/release-freeze.md) — Release freeze starts Friday.');
         expect(result).toContain('Project rules');
         expect(result).toContain('\n\n---\n\n');
         expect(result).toContain('# auto memory');

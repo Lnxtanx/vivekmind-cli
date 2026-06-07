@@ -33,7 +33,7 @@ describe('useCodingPlanUpdates', () => {
   const mockConfig = {
     reloadModelProvidersConfig: vi.fn(),
     refreshAuth: vi.fn(),
-    getModel: vi.fn().mockReturnValue('qwen-max'),
+    getModel: vi.fn().mockReturnValue('vivekmind-max'),
   };
 
   const mockAddItem = vi.fn();
@@ -489,14 +489,14 @@ describe('useCodingPlanUpdates', () => {
       mockSettings.merged.modelProviders = {
         [AuthType.USE_OPENAI]: [
           {
-            id: 'qwen3.5-plus',
+            id: 'vivekmind3.5-plus',
             baseUrl: chinaConfig.baseUrl,
             envKey: CODING_PLAN_ENV_KEY,
           },
         ],
       };
       // Simulate the user's current model being one that exists in the new template
-      mockConfig.getModel.mockReturnValue('qwen3.5-plus');
+      mockConfig.getModel.mockReturnValue('vivekmind3.5-plus');
       mockConfig.refreshAuth.mockResolvedValue(undefined);
 
       const { result } = renderHook(() =>
@@ -534,7 +534,7 @@ describe('useCodingPlanUpdates', () => {
       );
 
       // Reset mock
-      mockConfig.getModel.mockReturnValue('qwen-max');
+      mockConfig.getModel.mockReturnValue('vivekmind-max');
     });
 
     it('should show "model switched" message when current model is not in new template', async () => {
@@ -583,7 +583,7 @@ describe('useCodingPlanUpdates', () => {
       );
 
       // Reset mock
-      mockConfig.getModel.mockReturnValue('qwen-max');
+      mockConfig.getModel.mockReturnValue('vivekmind-max');
     });
 
     it('should handle update errors gracefully', async () => {

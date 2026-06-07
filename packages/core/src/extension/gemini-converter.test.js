@@ -6,7 +6,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { convertGeminiToQwenConfig, isGeminiExtensionConfig, } from './gemini-converter.js';
+import { convertGeminiToVivekMindConfig, isGeminiExtensionConfig, } from './gemini-converter.js';
 // Mock fs module
 vi.mock('node:fs', async (importOriginal) => {
     const actual = await importOriginal();
@@ -16,7 +16,7 @@ vi.mock('node:fs', async (importOriginal) => {
         readFileSync: vi.fn(),
     };
 });
-describe('convertGeminiToQwenConfig', () => {
+describe('convertGeminiToVivekMindConfig', () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
@@ -30,7 +30,7 @@ describe('convertGeminiToQwenConfig', () => {
             version: '1.0.0',
         };
         vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(geminiConfig));
-        const result = convertGeminiToQwenConfig(mockDir);
+        const result = convertGeminiToVivekMindConfig(mockDir);
         expect(result.name).toBe('test-extension');
         expect(result.version).toBe('1.0.0');
         expect(fs.readFileSync).toHaveBeenCalledWith(path.join(mockDir, 'gemini-extension.json'), 'utf-8');
@@ -47,7 +47,7 @@ describe('convertGeminiToQwenConfig', () => {
             ],
         };
         vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(geminiConfig));
-        const result = convertGeminiToQwenConfig(mockDir);
+        const result = convertGeminiToVivekMindConfig(mockDir);
         expect(result.name).toBe('full-extension');
         expect(result.version).toBe('2.0.0');
         expect(result.mcpServers).toEqual({ server1: {} });
@@ -61,7 +61,7 @@ describe('convertGeminiToQwenConfig', () => {
             version: '1.0.0',
         };
         vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(invalidConfig));
-        expect(() => convertGeminiToQwenConfig(mockDir)).toThrow('Gemini extension config must have name and version fields');
+        expect(() => convertGeminiToVivekMindConfig(mockDir)).toThrow('Gemini extension config must have name and version fields');
     });
     it('should throw error for missing version', () => {
         const mockDir = '/mock/extension/dir';
@@ -69,7 +69,7 @@ describe('convertGeminiToQwenConfig', () => {
             name: 'test-extension',
         };
         vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(invalidConfig));
-        expect(() => convertGeminiToQwenConfig(mockDir)).toThrow('Gemini extension config must have name and version fields');
+        expect(() => convertGeminiToVivekMindConfig(mockDir)).toThrow('Gemini extension config must have name and version fields');
     });
 });
 describe('isGeminiExtensionConfig', () => {

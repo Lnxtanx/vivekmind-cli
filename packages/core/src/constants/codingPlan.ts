@@ -54,8 +54,8 @@ export function generateCodingPlanTemplate(
   if (region === CodingPlanRegion.CHINA) {
     return [
       {
-        id: 'qwen3.5-plus',
-        name: '[ModelStudio Coding Plan] qwen3.5-plus',
+        id: 'vivekmind3.5-plus',
+        name: '[ModelStudio Coding Plan] vivekmind3.5-plus',
         baseUrl: 'https://coding.dashscope.aliyuncs.com/v1',
         envKey: CODING_PLAN_ENV_KEY,
         generationConfig: {
@@ -64,8 +64,8 @@ export function generateCodingPlanTemplate(
         },
       },
       {
-        id: 'qwen3.6-plus',
-        name: '[ModelStudio Coding Plan] qwen3.6-plus',
+        id: 'vivekmind3.6-plus',
+        name: '[ModelStudio Coding Plan] vivekmind3.6-plus',
         description: 'Currently available to Pro subscribers only.',
         baseUrl: 'https://coding.dashscope.aliyuncs.com/v1',
         envKey: CODING_PLAN_ENV_KEY,
@@ -105,8 +105,8 @@ export function generateCodingPlanTemplate(
         },
       },
       {
-        id: 'qwen3-coder-plus',
-        name: '[ModelStudio Coding Plan] qwen3-coder-plus',
+        id: 'vivekmind3-coder-plus',
+        name: '[ModelStudio Coding Plan] vivekmind3-coder-plus',
         baseUrl: 'https://coding.dashscope.aliyuncs.com/v1',
         envKey: CODING_PLAN_ENV_KEY,
         generationConfig: {
@@ -114,8 +114,8 @@ export function generateCodingPlanTemplate(
         },
       },
       {
-        id: 'qwen3-coder-next',
-        name: '[ModelStudio Coding Plan] qwen3-coder-next',
+        id: 'vivekmind3-coder-next',
+        name: '[ModelStudio Coding Plan] vivekmind3-coder-next',
         baseUrl: 'https://coding.dashscope.aliyuncs.com/v1',
         envKey: CODING_PLAN_ENV_KEY,
         generationConfig: {
@@ -123,8 +123,8 @@ export function generateCodingPlanTemplate(
         },
       },
       {
-        id: 'qwen3-max-2026-01-23',
-        name: '[ModelStudio Coding Plan] qwen3-max-2026-01-23',
+        id: 'vivekmind3-max-2026-01-23',
+        name: '[ModelStudio Coding Plan] vivekmind3-max-2026-01-23',
         baseUrl: 'https://coding.dashscope.aliyuncs.com/v1',
         envKey: CODING_PLAN_ENV_KEY,
         generationConfig: {
@@ -148,8 +148,8 @@ export function generateCodingPlanTemplate(
   // Global region
   return [
     {
-      id: 'qwen3.5-plus',
-      name: '[ModelStudio Coding Plan for Global/Intl] qwen3.5-plus',
+      id: 'vivekmind3.5-plus',
+      name: '[ModelStudio Coding Plan for Global/Intl] vivekmind3.5-plus',
       baseUrl: 'https://coding-intl.dashscope.aliyuncs.com/v1',
       envKey: CODING_PLAN_ENV_KEY,
       generationConfig: {
@@ -158,8 +158,8 @@ export function generateCodingPlanTemplate(
       },
     },
     {
-      id: 'qwen3.6-plus',
-      name: '[ModelStudio Coding Plan for Global/Intl] qwen3.6-plus',
+      id: 'vivekmind3.6-plus',
+      name: '[ModelStudio Coding Plan for Global/Intl] vivekmind3.6-plus',
       description: 'Currently available to Pro subscribers only.',
       baseUrl: 'https://coding-intl.dashscope.aliyuncs.com/v1',
       envKey: CODING_PLAN_ENV_KEY,
@@ -169,8 +169,8 @@ export function generateCodingPlanTemplate(
       },
     },
     {
-      id: 'qwen3-coder-plus',
-      name: '[ModelStudio Coding Plan for Global/Intl] qwen3-coder-plus',
+      id: 'vivekmind3-coder-plus',
+      name: '[ModelStudio Coding Plan for Global/Intl] vivekmind3-coder-plus',
       baseUrl: 'https://coding-intl.dashscope.aliyuncs.com/v1',
       envKey: CODING_PLAN_ENV_KEY,
       generationConfig: {
@@ -178,8 +178,8 @@ export function generateCodingPlanTemplate(
       },
     },
     {
-      id: 'qwen3-coder-next',
-      name: '[ModelStudio Coding Plan for Global/Intl] qwen3-coder-next',
+      id: 'vivekmind3-coder-next',
+      name: '[ModelStudio Coding Plan for Global/Intl] vivekmind3-coder-next',
       baseUrl: 'https://coding-intl.dashscope.aliyuncs.com/v1',
       envKey: CODING_PLAN_ENV_KEY,
       generationConfig: {
@@ -187,8 +187,8 @@ export function generateCodingPlanTemplate(
       },
     },
     {
-      id: 'qwen3-max-2026-01-23',
-      name: '[ModelStudio Coding Plan for Global/Intl] qwen3-max-2026-01-23',
+      id: 'vivekmind3-max-2026-01-23',
+      name: '[ModelStudio Coding Plan for Global/Intl] vivekmind3-max-2026-01-23',
       baseUrl: 'https://coding-intl.dashscope.aliyuncs.com/v1',
       envKey: CODING_PLAN_ENV_KEY,
       generationConfig: {

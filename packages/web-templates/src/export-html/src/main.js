@@ -7,7 +7,7 @@ import { MetadataSidebar } from './components/MetadataSidebar.js';
 import { parseChatData, isChatViewerMessage } from './components/utils.js';
 const ReactDOM = window.ReactDOM;
 const React = window.React;
-const { ChatViewer, PlatformProvider } = QwenCodeWebUI;
+const { ChatViewer, PlatformProvider } = VivekMindWebUI;
 const logoSvgWithGradient = (() => {
     if (!logoSvg) {
         return logoSvg;

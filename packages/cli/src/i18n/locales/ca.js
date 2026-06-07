@@ -115,8 +115,8 @@ export default {
   // ============================================================================
   // Ordres - General
   // ============================================================================
-  'Analyzes the project and creates a tailored QWEN.md file.':
-    'Analitza el projecte i crea un fitxer QWEN.md personalitzat.',
+  'Analyzes the project and creates a tailored VIVEKMIND.md file.':
+    'Analitza el projecte i crea un fitxer VIVEKMIND.md personalitzat.',
   'List available VivekMind tools. Usage: /tools [desc]':
     'Llistar les eines disponibles de VivekMind. Ús: /tools [desc]',
   'List available skills.': 'Llistar les habilitats disponibles.',
@@ -518,8 +518,8 @@ export default {
   remote: 'remot',
   'This extension will add the following commands: {{commands}}.':
     'Aquesta extensió afegirà les ordres següents: {{commands}}.',
-  'This extension will append info to your QWEN.md context using {{fileName}}':
-    'Aquesta extensió afegirà informació al vostre context QWEN.md usant {{fileName}}',
+  'This extension will append info to your VIVEKMIND.md context using {{fileName}}':
+    'Aquesta extensió afegirà informació al vostre context VIVEKMIND.md usant {{fileName}}',
   'This extension will exclude the following core tools: {{tools}}':
     'Aquesta extensió exclourà les eines principals següents: {{tools}}',
   'This extension will install the following skills:':
@@ -1256,8 +1256,8 @@ export default {
   'The /directory add command is not supported in restrictive sandbox profiles. Please use --include-directories when starting the session instead.':
     "L'ordre /directory add no és compatible en perfils d'entorn aïllat restrictius. En el seu lloc, useu --include-directories en iniciar la sessió.",
   "Error adding '{{path}}': {{error}}": "Error en afegir '{{path}}': {{error}}",
-  'Successfully added QWEN.md files from the following directories if there are:\n- {{directories}}':
-    "S'han afegit correctament els fitxers QWEN.md dels directoris següents si n'hi ha:\n- {{directories}}",
+  'Successfully added VIVEKMIND.md files from the following directories if there are:\n- {{directories}}':
+    "S'han afegit correctament els fitxers VIVEKMIND.md dels directoris següents si n'hi ha:\n- {{directories}}",
   'Error refreshing memory: {{error}}':
     'Error en actualitzar la memòria: {{error}}',
   'Successfully added directories:\n- {{directories}}':
@@ -1467,8 +1467,8 @@ export default {
     "Error en canviar al model '{{modelId}}'.\n\n{{error}}",
   'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
     'VivekMind 3.6 Plus — model híbrid eficient amb un rendiment de codificació líder',
-  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    "L'últim model de visió VivekMind d'Alibaba Cloud ModelStudio (versió: qwen3-vl-plus-2025-09-23)",
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: vivekmind3-vl-plus-2025-09-23)':
+    "L'últim model de visió VivekMind d'Alibaba Cloud ModelStudio (versió: vivekmind3-vl-plus-2025-09-23)",
 
   // ============================================================================
   // Diàlegs - Permisos
@@ -1632,8 +1632,8 @@ export default {
     'Proveu /insight per generar idees personalitzades a partir del vostre historial de xat.',
   'Press Ctrl+O to toggle compact mode — hide tool output and thinking for a cleaner view.':
     'Premeu Ctrl+O per canviar el mode compacte — amagueu la sortida de les eines i el pensament per a una vista més neta.',
-  'Add a QWEN.md file to give VivekMind persistent project context.':
-    'Afegiu un fitxer QWEN.md per donar a VivekMind un context persistent del projecte.',
+  'Add a VIVEKMIND.md file to give VivekMind persistent project context.':
+    'Afegiu un fitxer VIVEKMIND.md per donar a VivekMind un context persistent del projecte.',
   'Use /btw to ask a quick side question without disrupting the conversation.':
     'Useu /btw per fer una pregunta ràpida sense interrompre la conversa.',
   'Context is almost full! Run /compress now or start /new to continue.':

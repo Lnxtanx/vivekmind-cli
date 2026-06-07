@@ -23,7 +23,7 @@ export type ModelGenerationConfig = Pick<ContentGeneratorConfig, 'samplingParams
  * Model configuration for a single model within an authType
  */
 export interface ModelConfig {
-    /** Unique model ID within authType (e.g., "qwen-coder", "gpt-4-turbo") */
+    /** Unique model ID within authType (e.g., "vivekmind-clir", "gpt-4-turbo") */
     id: string;
     /** Display name (defaults to id) */
     name?: string;

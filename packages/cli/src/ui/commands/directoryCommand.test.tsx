@@ -193,7 +193,7 @@ describe('directoryCommand', () => {
       expect(mockContext.ui.addItem).not.toHaveBeenCalledWith(
         expect.objectContaining({
           type: MessageType.INFO,
-          text: 'Successfully added QWEN.md files from the following directories if there are:\n- ',
+          text: 'Successfully added VIVEKMIND.md files from the following directories if there are:\n- ',
         }),
         expect.any(Number),
       );

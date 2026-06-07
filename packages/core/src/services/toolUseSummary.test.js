@@ -156,7 +156,7 @@ describe('generateToolUseSummary', () => {
         vi.clearAllMocks();
     });
     it('returns null when tools array is empty', async () => {
-        const config = makeMockConfig('qwen-fast');
+        const config = makeMockConfig('vivekmind-fast');
         const result = await generateToolUseSummary({
             config,
             tools: [],
@@ -174,7 +174,7 @@ describe('generateToolUseSummary', () => {
         expect(result).toBeNull();
     });
     it('returns null when signal is already aborted', async () => {
-        const config = makeMockConfig('qwen-fast');
+        const config = makeMockConfig('vivekmind-fast');
         const ac = abortController();
         ac.abort();
         const result = await generateToolUseSummary({
@@ -192,7 +192,7 @@ describe('generateToolUseSummary', () => {
                 },
             ],
         });
-        const config = makeMockConfig('qwen-fast', generateContentFn);
+        const config = makeMockConfig('vivekmind-fast', generateContentFn);
         const result = await generateToolUseSummary({
             config,
             tools: [
@@ -204,7 +204,7 @@ describe('generateToolUseSummary', () => {
         expect(generateContentFn).toHaveBeenCalledTimes(1);
         const args = generateContentFn.mock.calls[0];
         const [contents, generationConfig, , model, promptId] = args;
-        expect(model).toBe('qwen-fast');
+        expect(model).toBe('vivekmind-fast');
         expect(promptId).toBe('tool_use_summary_generation');
         expect(generationConfig.systemInstruction).toBe(TOOL_USE_SUMMARY_SYSTEM_PROMPT);
         expect(generationConfig.tools).toEqual([]);
@@ -218,7 +218,7 @@ describe('generateToolUseSummary', () => {
         const generateContentFn = vi.fn().mockResolvedValue({
             candidates: [{ content: { parts: [{ text: 'Fixed auth bug' }] } }],
         });
-        const config = makeMockConfig('qwen-fast', generateContentFn);
+        const config = makeMockConfig('vivekmind-fast', generateContentFn);
         await generateToolUseSummary({
             config,
             tools: [{ name: 'Edit', input: {}, output: '' }],
@@ -234,7 +234,7 @@ describe('generateToolUseSummary', () => {
         const generateContentFn = vi.fn().mockResolvedValue({
             candidates: [{ content: { parts: [{ text: 'Done' }] } }],
         });
-        const config = makeMockConfig('qwen-fast', generateContentFn);
+        const config = makeMockConfig('vivekmind-fast', generateContentFn);
         const longText = 'A'.repeat(500);
         await generateToolUseSummary({
             config,
@@ -252,20 +252,20 @@ describe('generateToolUseSummary', () => {
         const generateContentFn = vi.fn().mockResolvedValue({
             candidates: [{ content: { parts: [{ text: 'Done' }] } }],
         });
-        const config = makeMockConfig('qwen-fast', generateContentFn);
+        const config = makeMockConfig('vivekmind-fast', generateContentFn);
         await generateToolUseSummary({
             config,
             tools: [{ name: 'Edit', input: {}, output: '' }],
             signal: abortController().signal,
-            model: 'qwen-turbo-explicit',
+            model: 'vivekmind-turbo-explicit',
         });
-        expect(generateContentFn.mock.calls[0][3]).toBe('qwen-turbo-explicit');
+        expect(generateContentFn.mock.calls[0][3]).toBe('vivekmind-turbo-explicit');
     });
     it('returns null when model returns empty text', async () => {
         const generateContentFn = vi.fn().mockResolvedValue({
             candidates: [{ content: { parts: [{ text: '' }] } }],
         });
-        const config = makeMockConfig('qwen-fast', generateContentFn);
+        const config = makeMockConfig('vivekmind-fast', generateContentFn);
         const result = await generateToolUseSummary({
             config,
             tools: [{ name: 'Read', input: {}, output: '' }],
@@ -275,7 +275,7 @@ describe('generateToolUseSummary', () => {
     });
     it('returns null when model call throws', async () => {
         const generateContentFn = vi.fn().mockRejectedValue(new Error('API error'));
-        const config = makeMockConfig('qwen-fast', generateContentFn);
+        const config = makeMockConfig('vivekmind-fast', generateContentFn);
         const result = await generateToolUseSummary({
             config,
             tools: [{ name: 'Read', input: {}, output: '' }],
@@ -289,7 +289,7 @@ describe('generateToolUseSummary', () => {
             ac.abort();
             throw new Error('aborted');
         });
-        const config = makeMockConfig('qwen-fast', generateContentFn);
+        const config = makeMockConfig('vivekmind-fast', generateContentFn);
         const result = await generateToolUseSummary({
             config,
             tools: [{ name: 'Read', input: {}, output: '' }],
@@ -301,7 +301,7 @@ describe('generateToolUseSummary', () => {
         const generateContentFn = vi.fn().mockResolvedValue({
             candidates: [{ content: { parts: [{ text: 'Read file' }] } }],
         });
-        const config = makeMockConfig('qwen-fast', generateContentFn);
+        const config = makeMockConfig('vivekmind-fast', generateContentFn);
         const hugeInput = { content: 'x'.repeat(10000) };
         const hugeOutput = 'y'.repeat(10000);
         await generateToolUseSummary({
@@ -321,7 +321,7 @@ describe('generateToolUseSummary', () => {
         const generateContentFn = vi.fn().mockResolvedValue({
             candidates: [{ content: { parts: [{ text: '- "Searched auth/"' }] } }],
         });
-        const config = makeMockConfig('qwen-fast', generateContentFn);
+        const config = makeMockConfig('vivekmind-fast', generateContentFn);
         const result = await generateToolUseSummary({
             config,
             tools: [{ name: 'Grep', input: {}, output: '' }],

@@ -26,7 +26,7 @@ describe('dreamAgentPlanner', () => {
         await ensureAutoMemoryScaffold(projectRoot);
         config = {
             getSessionId: vi.fn().mockReturnValue('session-1'),
-            getModel: vi.fn().mockReturnValue('qwen-test'),
+            getModel: vi.fn().mockReturnValue('vivekmind-test'),
             getApprovalMode: vi.fn(),
         };
     });

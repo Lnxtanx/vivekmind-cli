@@ -101,8 +101,8 @@ export default {
   Proxy: '代理',
   'Memory Usage': '內存使用',
   'IDE Client': 'IDE 客戶端',
-  'Analyzes the project and creates a tailored QWEN.md file.':
-    '分析項目並創建定製的 QWEN.md 文件',
+  'Analyzes the project and creates a tailored VIVEKMIND.md file.':
+    '分析項目並創建定製的 VIVEKMIND.md 文件',
   'List available VivekMind tools. Usage: /tools [desc]':
     '列出可用的 VivekMind 工具。用法：/tools [desc]',
   'List available skills.': '列出可用技能。',
@@ -448,8 +448,8 @@ export default {
   remote: '遠程',
   'This extension will add the following commands: {{commands}}.':
     '此擴展將添加以下命令：{{commands}}。',
-  'This extension will append info to your QWEN.md context using {{fileName}}':
-    '此擴展將使用 {{fileName}} 向您的 QWEN.md 上下文追加信息',
+  'This extension will append info to your VIVEKMIND.md context using {{fileName}}':
+    '此擴展將使用 {{fileName}} 向您的 VIVEKMIND.md 上下文追加信息',
   'This extension will exclude the following core tools: {{tools}}':
     '此擴展將排除以下核心工具：{{tools}}',
   'This extension will install the following skills:': '此擴展將安裝以下技能：',
@@ -1057,8 +1057,8 @@ export default {
   'The /directory add command is not supported in restrictive sandbox profiles. Please use --include-directories when starting the session instead.':
     '/directory add 命令在限制性沙箱配置文件中不受支持。請改爲在啓動會話時使用 --include-directories。',
   "Error adding '{{path}}': {{error}}": "添加 '{{path}}' 時出錯：{{error}}",
-  'Successfully added QWEN.md files from the following directories if there are:\n- {{directories}}':
-    '如果存在，已成功從以下目錄添加 QWEN.md 文件：\n- {{directories}}',
+  'Successfully added VIVEKMIND.md files from the following directories if there are:\n- {{directories}}':
+    '如果存在，已成功從以下目錄添加 VIVEKMIND.md 文件：\n- {{directories}}',
   'Error refreshing memory: {{error}}': '刷新內存時出錯：{{error}}',
   'Successfully added directories:\n- {{directories}}':
     '成功添加目錄：\n- {{directories}}',
@@ -1223,8 +1223,8 @@ export default {
     "無法切換到模型 '{{modelId}}'.\n\n{{error}}",
   'VivekMind 3.6 Plus — efficient hybrid model with leading coding performance':
     'VivekMind 3.6 Plus — 高效混合架構，編程性能業界領先',
-  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: qwen3-vl-plus-2025-09-23)':
-    '來自阿里雲 ModelStudio 的最新 VivekMind Vision 模型（版本：qwen3-vl-plus-2025-09-23）',
+  'The latest VivekMind Vision model from Alibaba Cloud ModelStudio (version: vivekmind3-vl-plus-2025-09-23)':
+    '來自阿里雲 ModelStudio 的最新 VivekMind Vision 模型（版本：vivekmind3-vl-plus-2025-09-23）',
   'Manage folder trust settings': '管理文件夾信任設置',
   'Manage permission rules': '管理權限規則',
   Allow: '允許',
@@ -1363,8 +1363,8 @@ export default {
     '試試 /insight，從聊天記錄中生成個性化洞察。',
   'Press Ctrl+O to toggle compact mode — hide tool output and thinking for a cleaner view.':
     '按 Ctrl+O 切換緊湊模式 ── 隱藏工具輸出和思考過程，界面更簡潔。',
-  'Add a QWEN.md file to give VivekMind persistent project context.':
-    '添加 QWEN.md 文件，爲 VivekMind 提供持久的項目上下文。',
+  'Add a VIVEKMIND.md file to give VivekMind persistent project context.':
+    '添加 VIVEKMIND.md 文件，爲 VivekMind 提供持久的項目上下文。',
   'Use /btw to ask a quick side question without disrupting the conversation.':
     '用 /btw 快速問一個小問題，不會打斷當前對話。',
   'Context is almost full! Run /compress now or start /new to continue.':

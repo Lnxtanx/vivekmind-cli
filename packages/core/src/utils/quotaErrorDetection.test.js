@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { describe, it, expect } from 'vitest';
-import { isQwenQuotaExceededError, isProQuotaExceededError, isGenericQuotaExceededError, isApiError, isStructuredError, } from './quotaErrorDetection.js';
+import { isVivekMindQuotaExceededError, isProQuotaExceededError, isGenericQuotaExceededError, isApiError, isStructuredError, } from './quotaErrorDetection.js';
 describe('quotaErrorDetection', () => {
-    describe('isQwenQuotaExceededError', () => {
+    describe('isVivekMindQuotaExceededError', () => {
         it('should detect the VivekMind insufficient_quota error', () => {
             const error = {
                 status: 429,
                 code: 'insufficient_quota',
                 message: 'Free allocated quota exceeded.',
             };
-            expect(isQwenQuotaExceededError(error)).toBe(true);
+            expect(isVivekMindQuotaExceededError(error)).toBe(true);
         });
         it('should not match when status is not 429', () => {
             const error = {
@@ -21,7 +21,7 @@ describe('quotaErrorDetection', () => {
                 code: 'insufficient_quota',
                 message: 'Free allocated quota exceeded.',
             };
-            expect(isQwenQuotaExceededError(error)).toBe(false);
+            expect(isVivekMindQuotaExceededError(error)).toBe(false);
         });
         it('should not match temporary throttling (concurrency 429)', () => {
             const error = {
@@ -29,7 +29,7 @@ describe('quotaErrorDetection', () => {
                 code: 'rate_limit_exceeded',
                 message: 'Rate limit exceeded',
             };
-            expect(isQwenQuotaExceededError(error)).toBe(false);
+            expect(isVivekMindQuotaExceededError(error)).toBe(false);
         });
         it('should not match paid account quota exceeded', () => {
             const error = {
@@ -37,18 +37,18 @@ describe('quotaErrorDetection', () => {
                 code: 'insufficient_quota',
                 message: 'You exceeded your current quota.',
             };
-            expect(isQwenQuotaExceededError(error)).toBe(false);
+            expect(isVivekMindQuotaExceededError(error)).toBe(false);
         });
         it('should not match plain Error objects', () => {
             const error = new Error('insufficient_quota');
-            expect(isQwenQuotaExceededError(error)).toBe(false);
+            expect(isVivekMindQuotaExceededError(error)).toBe(false);
         });
         it('should not match string errors', () => {
-            expect(isQwenQuotaExceededError('insufficient_quota')).toBe(false);
+            expect(isVivekMindQuotaExceededError('insufficient_quota')).toBe(false);
         });
         it('should not match null or undefined', () => {
-            expect(isQwenQuotaExceededError(null)).toBe(false);
-            expect(isQwenQuotaExceededError(undefined)).toBe(false);
+            expect(isVivekMindQuotaExceededError(null)).toBe(false);
+            expect(isVivekMindQuotaExceededError(undefined)).toBe(false);
         });
     });
     describe('isProQuotaExceededError', () => {

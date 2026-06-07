@@ -78,7 +78,7 @@ function filterMcpConfig(original) {
 }
 function getContextFileNames(config) {
     if (!config.contextFileName || config.contextFileName.length === 0) {
-        return ['QWEN.md'];
+        return ['VIVEKMIND.md'];
     }
     else if (!Array.isArray(config.contextFileName)) {
         return [config.contextFileName];
@@ -118,7 +118,7 @@ async function loadCommandsFromDir(dir) {
 }
 async function convertGeminiOrClaudeExtension(extensionDir, pluginName) {
     let newExtensionDir = extensionDir;
-    let originSource = 'QwenCode';
+    let originSource = 'VivekMindCode';
     const configFilePath = path.join(extensionDir, EXTENSIONS_CONFIG_FILENAME);
     if (fs.existsSync(configFilePath)) {
         newExtensionDir = extensionDir;
@@ -762,7 +762,7 @@ export class ExtensionManager {
                 const installMetadata = {
                     source: extension.path,
                     type: 'local',
-                    originSource: extension.installMetadata?.originSource || 'QwenCode',
+                    originSource: extension.installMetadata?.originSource || 'VivekMindCode',
                 };
                 await this.installExtension(installMetadata, requestConsent, requestSetting);
             }
