@@ -15,12 +15,13 @@
  * All sends are serialized — the next block waits for the previous send to complete.
  */
 export class BlockStreamer {
+    buffer = '';
+    idleTimer = null;
+    sending = Promise.resolve();
+    opts;
+    /** Number of blocks emitted so far. */
+    blockCount = 0;
     constructor(opts) {
-        this.buffer = '';
-        this.idleTimer = null;
-        this.sending = Promise.resolve();
-        /** Number of blocks emitted so far. */
-        this.blockCount = 0;
         this.opts = opts;
     }
     /** Feed a new text chunk from the agent stream. */
@@ -111,3 +112,4 @@ export class BlockStreamer {
         }
     }
 }
+//# sourceMappingURL=BlockStreamer.js.map

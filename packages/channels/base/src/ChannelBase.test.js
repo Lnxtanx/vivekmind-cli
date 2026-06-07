@@ -35,6 +35,10 @@ function createBridge() {
         isConnected: true,
         availableCommands: [],
         setBridge: vi.fn(),
+        resolvePermission: vi.fn().mockReturnValue(true),
+        denyPermission: vi.fn().mockReturnValue(true),
+        setDefaultApprovalMode: vi.fn(),
+        setPermissionHandler: vi.fn(),
     });
     return bridge;
 }

@@ -22,7 +22,6 @@ export type {
   Attachment,
   BlockStreamingChunkConfig,
   BlockStreamingCoalesceConfig,
-  ApprovalPolicy,
   ChannelConfig,
   ChannelPlugin,
   ChannelType,

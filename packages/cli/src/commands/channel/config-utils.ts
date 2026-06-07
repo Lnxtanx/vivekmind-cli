@@ -3,9 +3,9 @@ import * as path from 'node:path';
 import { getPlugin, supportedTypes } from './channel-registry.js';
 
 const VALID_APPROVAL_POLICIES: ApprovalPolicy[] = [
-  'interactive',
-  'auto-approve',
-  'ask-always',
+  'ask',
+  'yolo',
+  'auto_edit',
 ];
 
 function parseApprovalPolicy(value: unknown): ApprovalPolicy | undefined {
@@ -106,10 +106,6 @@ export async function parseChannelConfig(
     groupPolicy:
       (rawConfig['groupPolicy'] as ChannelConfig['groupPolicy']) || 'disabled',
     groups: (rawConfig['groups'] as ChannelConfig['groups']) || {},
-    approvalPolicy:
-      (rawConfig['approvalPolicy'] as ChannelConfig['approvalPolicy']) ||
-      'ask',
-    autoApproveTools: (rawConfig['autoApproveTools'] as string[]) || [],
     alwaysAskTools: (rawConfig['alwaysAskTools'] as string[]) || [],
     approvalTimeoutSec: (rawConfig['approvalTimeoutSec'] as number) || 60,
   };

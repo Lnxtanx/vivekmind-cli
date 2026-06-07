@@ -3,13 +3,23 @@ import { Readable, Writable } from 'node:stream';
 import { EventEmitter } from 'node:events';
 import { ClientSideConnection, ndJsonStream, PROTOCOL_VERSION, } from '@agentclientprotocol/sdk';
 export class AcpBridge extends EventEmitter {
+    child = null;
+    connection = null;
+    options;
+    _availableCommands = [];
+    /** Pending permission requests awaiting channel resolution. */
+    pendingPermissions = new Map();
+    /** Default permission timeout (ms). */
+    permissionTimeout;
+    /** Fallback approval mode when no channel resolves a request. */
+    defaultApprovalMode;
+    /**
+     * Optional permission handler. When set, the bridge calls this handler
+     * to resolve permission requests instead of auto-approving.
+     */
+    permissionHandler;
     constructor(options, permissionTimeout = 60000) {
         super();
-        this.child = null;
-        this.connection = null;
-        this._availableCommands = [];
-        /** Pending permission requests awaiting channel resolution. */
-        this.pendingPermissions = new Map();
         this.options = options;
         this.permissionTimeout = permissionTimeout;
         this.defaultApprovalMode = 'allow'; // default: auto-approve (legacy behavior)
@@ -20,6 +30,13 @@ export class AcpBridge extends EventEmitter {
     }
     get availableCommands() {
         return this._availableCommands;
+    }
+    /**
+     * Set a custom permission handler that will be called for every
+     * requestPermission callback from the ACP agent.
+     */
+    setPermissionHandler(handler) {
+        this.permissionHandler = handler;
     }
     async start() {
         const { cliEntryPath, cwd } = this.options;
@@ -59,6 +76,10 @@ export class AcpBridge extends EventEmitter {
                 return Promise.resolve();
             },
             requestPermission: async (params) => {
+                // If a custom permission handler is registered, delegate to it
+                if (this.permissionHandler) {
+                    return this.permissionHandler(params);
+                }
                 const options = Array.isArray(params.options) ? params.options : [];
                 // Emit event so the channel layer can show an approval UI
                 const permissionId = `${params.sessionId}:${Date.now()}:${Math.random().toString(36).slice(2, 8)}`;
@@ -236,3 +257,4 @@ export class AcpBridge extends EventEmitter {
         return this.connection;
     }
 }
+//# sourceMappingURL=AcpBridge.js.map

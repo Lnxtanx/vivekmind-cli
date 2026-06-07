@@ -71,37 +71,27 @@ describe('AcpBridge', () => {
   });
 
   // ------------------------------------------------------------------ #
-  //  setApprovalPolicy / setAutoApproveTools / setPermissionHandler
+  //  setDefaultApprovalMode / setPermissionHandler
   // ------------------------------------------------------------------ #
-  describe('setApprovalPolicy', () => {
-    it('accepts valid policies', () => {
+  describe('setDefaultApprovalMode', () => {
+    it('accepts valid modes', () => {
       const bridge = createBridge();
-      bridge.setApprovalPolicy('interactive');
-      bridge.setApprovalPolicy('auto-approve');
-      bridge.setApprovalPolicy('ask-always');
+      bridge.setDefaultApprovalMode('allow');
+      bridge.setDefaultApprovalMode('deny');
+      bridge.setDefaultApprovalMode('ask');
       // No error thrown
-    });
-  });
-
-  describe('setAutoApproveTools', () => {
-    it('stores tool patterns', () => {
-      const bridge = createBridge();
-      bridge.setAutoApproveTools(['read_*', 'Bash(ls *)']);
-      // No error — stored internally
-    });
-
-    it('accepts empty array', () => {
-      const bridge = createBridge();
-      bridge.setAutoApproveTools([]);
     });
   });
 
   describe('setPermissionHandler', () => {
     it('stores the handler', () => {
       const bridge = createBridge();
-      const handler = async () => ({
-        optionId: 'proceed_once',
-      });
+      const handler: (
+        params: import('@agentclientprotocol/sdk').RequestPermissionRequest,
+      ) => Promise<import('@agentclientprotocol/sdk').RequestPermissionResponse> =
+        async () => ({
+          outcome: { outcome: 'selected', optionId: 'proceed_once' },
+        });
       bridge.setPermissionHandler(handler);
       // No error — handler stored
     });

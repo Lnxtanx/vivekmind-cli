@@ -48,6 +48,11 @@ export interface PendingPermissionRequest {
   timeout: ReturnType<typeof setTimeout>;
 }
 
+/** A custom permission handler function type. */
+export type PermissionHandler = (
+  params: RequestPermissionRequest,
+) => Promise<RequestPermissionResponse>;
+
 export class AcpBridge extends EventEmitter {
   private child: ChildProcess | null = null;
   private connection: ClientSideConnection | null = null;

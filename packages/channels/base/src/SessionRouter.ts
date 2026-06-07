@@ -100,6 +100,18 @@ export class SessionRouter {
   }
 
   /**
+   * Delete a routing key entry from all maps. Returns the removed session ID.
+   */
+  private deleteByKey(key: string): string | null {
+    const sessionId = this.toSession.get(key);
+    if (!sessionId) return null;
+    this.toSession.delete(key);
+    this.toTarget.delete(sessionId);
+    this.toCwd.delete(sessionId);
+    return sessionId;
+  }
+
+  /**
    * Remove session(s) for the given sender. Returns the removed session IDs.
    */
   removeSession(

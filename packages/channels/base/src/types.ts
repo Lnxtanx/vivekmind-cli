@@ -7,7 +7,6 @@ export type ChannelType = string;
 export type GroupPolicy = 'disabled' | 'allowlist' | 'open';
 export type DispatchMode = 'collect' | 'steer' | 'followup';
 export type ApprovalPolicy = 'ask' | 'yolo' | 'auto_edit';
-
 export interface GroupConfig {
   requireMention?: boolean; // default: true
   dispatchMode?: DispatchMode;
@@ -37,9 +36,9 @@ export interface ChannelConfig {
   sessionScope: SessionScope;
   cwd: string;
   approvalMode?: string;
-  /** How tool permissions are handled: 'interactive' (ask user), 'auto-approve', 'ask-always'. Default: 'interactive'. */
+  /** How tool permissions are handled: 'ask' prompts user, 'yolo' auto-approves, 'auto_edit' auto-approves read-only. Default: 'ask'. */
   approvalPolicy?: ApprovalPolicy;
-  /** Tool names/patterns to auto-approve (used with 'interactive' mode). */
+  /** Tool names/patterns to auto-approve. */
   autoApproveTools?: string[];
   instructions?: string;
   model?: string;
@@ -55,18 +54,6 @@ export interface ChannelConfig {
   blockStreamingChunk?: BlockStreamingChunkConfig;
   /** Idle coalescing for block streaming. */
   blockStreamingCoalesce?: BlockStreamingCoalesceConfig;
-
-  /**
-   * Per-channel approval mode:
-   * - 'ask' prompts user for each tool call that requires permission
-   * - 'yolo' auto-approves all tool calls (no approval UI)
-   * - 'auto_edit' auto-approves read-only/edit/info tools, asks for others
-   * Default: 'ask'
-   */
-  approvalPolicy?: ApprovalPolicy;
-
-  /** Tools that are always auto-approved (bypass the approval UI). Default: read-only tools */
-  autoApproveTools?: string[];
 
   /** Tools that always require approval even in auto_edit mode */
   alwaysAskTools?: string[];
@@ -159,9 +146,6 @@ export interface ToolApprovalResult {
   /** Any user-provided answers (for ask_user_question type). */
   answers?: Record<string, string>;
 }
-
-/** Approval mode for a channel: how tool permissions are handled. */
-export type ApprovalPolicy = 'interactive' | 'auto-approve' | 'ask-always';
 
 /**
  * A channel plugin registers a channel type and provides a factory

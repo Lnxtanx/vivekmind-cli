@@ -2,7 +2,8 @@ import type { ChannelConfig, Envelope } from './types.js';
 import { GroupGate } from './GroupGate.js';
 import { SenderGate } from './SenderGate.js';
 import { SessionRouter } from './SessionRouter.js';
-import type { AcpBridge, ToolCallEvent } from './AcpBridge.js';
+import type { AcpBridge, ToolCallEvent, PendingPermissionRequest } from './AcpBridge.js';
+import type { RequestPermissionRequest, RequestPermissionResponse } from '@agentclientprotocol/sdk';
 export interface ChannelBaseOptions {
     router?: SessionRouter;
     proxy?: string;
@@ -18,7 +19,8 @@ export declare abstract class ChannelBase {
     protected name: string;
     /** Resolved proxy URL, available to subclasses for adapter-specific clients. */
     protected proxy?: string;
-    private instructedSessions;
+    /** Session IDs that have already received channel instructions. */
+    protected instructedSessions: Set<string>;
     private commands;
     /** Per-session promise chain to serialize prompt + send (followup mode). */
     private sessionQueues;
@@ -30,9 +32,25 @@ export declare abstract class ChannelBase {
     abstract connect(): Promise<void>;
     abstract sendMessage(chatId: string, text: string): Promise<void>;
     abstract disconnect(): void;
+    /**
+     * Called when a tool permission request needs user approval.
+     * Override to show platform-specific approval UI (e.g., Telegram inline keyboard).
+     * Default: auto-approve (legacy behavior).
+     */
+    protected onRequestPermission(_chatId: string, request: PendingPermissionRequest): void;
     /** Replace the bridge instance (used after crash recovery restart). */
     setBridge(bridge: AcpBridge): void;
-    onToolCall(_chatId: string, _event: ToolCallEvent): void;
+    /**
+     * Called when a tool call event occurs (Phase 2: notifications).
+     * Override to send status messages to the user.
+     */
+    onToolCall(chatId: string, event: ToolCallEvent): void;
+    /**
+     * Called when the ACP agent requests permission for a tool call.
+     * Subclasses can override to show interactive approval UI (e.g. Telegram inline keyboard).
+     * Default implementation auto-approves — this ensures non-interactive channels are not broken.
+     */
+    protected onToolCallApproval(_chatId: string, _event: ToolCallEvent, _params: RequestPermissionRequest): Promise<RequestPermissionResponse>;
     /**
      * Called when a prompt actually begins processing (inside the session queue).
      * Override to show a platform-specific working indicator (e.g., typing, reaction).

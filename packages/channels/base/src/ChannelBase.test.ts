@@ -59,6 +59,7 @@ function createBridge(): AcpBridge {
     resolvePermission: vi.fn().mockReturnValue(true),
     denyPermission: vi.fn().mockReturnValue(true),
     setDefaultApprovalMode: vi.fn(),
+    setPermissionHandler: vi.fn(),
   });
   return bridge as unknown as AcpBridge;
 }

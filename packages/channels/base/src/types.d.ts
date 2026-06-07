@@ -5,9 +5,12 @@ export type SessionScope = 'user' | 'thread' | 'single';
 export type ChannelType = string;
 export type GroupPolicy = 'disabled' | 'allowlist' | 'open';
 export type DispatchMode = 'collect' | 'steer' | 'followup';
+export type ApprovalPolicy = 'ask' | 'yolo' | 'auto_edit';
 export interface GroupConfig {
     requireMention?: boolean;
     dispatchMode?: DispatchMode;
+    /** If true, only group admins can interact with the bot. Default: false */
+    adminOnly?: boolean;
 }
 export interface BlockStreamingChunkConfig {
     /** Minimum characters before emitting a block. Default: 400. */
@@ -29,6 +32,10 @@ export interface ChannelConfig {
     sessionScope: SessionScope;
     cwd: string;
     approvalMode?: string;
+    /** How tool permissions are handled: 'ask' prompts user, 'yolo' auto-approves, 'auto_edit' auto-approves read-only. Default: 'ask'. */
+    approvalPolicy?: ApprovalPolicy;
+    /** Tool names/patterns to auto-approve. */
+    autoApproveTools?: string[];
     instructions?: string;
     model?: string;
     groupPolicy: GroupPolicy;
@@ -41,6 +48,10 @@ export interface ChannelConfig {
     blockStreamingChunk?: BlockStreamingChunkConfig;
     /** Idle coalescing for block streaming. */
     blockStreamingCoalesce?: BlockStreamingCoalesceConfig;
+    /** Tools that always require approval even in auto_edit mode */
+    alwaysAskTools?: string[];
+    /** Approval timeout in seconds. Default: 60 */
+    approvalTimeoutSec?: number;
 }
 export interface Attachment {
     /** Content category. */
@@ -80,6 +91,54 @@ export interface SessionTarget {
     senderId: string;
     chatId: string;
     threadId?: string;
+}
+/**
+ * Information about a tool permission request, sent from the agent
+ * via ACP protocol to the channel for user approval.
+ */
+export interface ToolApprovalInfo {
+    /** The ACP session ID. */
+    sessionId: string;
+    /** Unique ID for this tool call. */
+    toolCallId: string;
+    /** Tool category: 'edit', 'exec', 'mcp', 'info', 'plan', 'ask_user_question'. */
+    kind: string;
+    /** Human-readable description of the tool action. */
+    title: string;
+    /** Status of the tool call (usually 'pending'). */
+    status: string;
+    /** Raw input arguments for the tool. */
+    rawInput?: Record<string, unknown>;
+    /** Available permission options with labels (from the agent). */
+    options: Array<{
+        optionId: string;
+        name: string;
+        kind: string;
+    }>;
+    /** Structured content for display (diffs, text, etc.). */
+    content?: Array<{
+        type: string;
+        path?: string;
+        oldText?: string;
+        newText?: string;
+        content?: {
+            type: string;
+            text?: string;
+        };
+    }>;
+    /** File locations affected by the tool. */
+    locations?: string[];
+}
+/**
+ * Result of a user's tool approval decision.
+ */
+export interface ToolApprovalResult {
+    /** The chosen option ID (e.g., 'proceed_once', 'cancel'). */
+    optionId: string;
+    /** Whether the request was cancelled (user dismissed). */
+    cancelled?: boolean;
+    /** Any user-provided answers (for ask_user_question type). */
+    answers?: Record<string, string>;
 }
 /**
  * A channel plugin registers a channel type and provides a factory
