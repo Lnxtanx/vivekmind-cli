@@ -28,10 +28,22 @@ import {
 export const COMPRESSION_TOKEN_THRESHOLD = 0.7;
 
 /**
- * The fraction of the latest chat history to keep. A value of 0.3
- * means that only the last 30% of the chat history will be kept after compression.
+ * The fraction of the latest chat history to keep. A value of 0.15
+ * means that only the last 15% of the chat history will be kept after compression.
  */
-export const COMPRESSION_PRESERVE_THRESHOLD = 0.3;
+export const COMPRESSION_PRESERVE_THRESHOLD = 0.15;
+
+/**
+ * When manually triggered (/compress), use an even more aggressive preserve
+ * threshold to maximize context recovery.
+ */
+export const FORCED_COMPRESSION_PRESERVE_THRESHOLD = 0.1;
+
+/**
+ * Maximum output tokens for the compression summary to force concise snapshots.
+ * Without this, models produce verbose summaries that negate the compression.
+ */
+export const COMPRESSION_MAX_OUTPUT_TOKENS = 4096;
 
 /**
  * Minimum fraction of history (by character count) that must be compressible
@@ -174,9 +186,12 @@ export class ChatCompressionService {
       ? curatedHistory.slice(0, -1)
       : curatedHistory;
 
+    const preserveThreshold = force
+      ? FORCED_COMPRESSION_PRESERVE_THRESHOLD
+      : COMPRESSION_PRESERVE_THRESHOLD;
     const splitPoint = findCompressSplitPoint(
       historyForSplit,
-      1 - COMPRESSION_PRESERVE_THRESHOLD,
+      1 - preserveThreshold,
     );
 
     const historyToCompress = historyForSplit.slice(0, splitPoint);
@@ -222,11 +237,80 @@ export class ChatCompressionService {
       };
     }
 
+    // Strip functionCall/functionResponse parts from history before sending
+    // to the compression API. The Bedrock Converse API requires a toolConfig
+    // when conversation history contains toolUse/toolResult blocks, but
+    // compression only needs text content for summarization. Convert tool
+    // parts to text summaries so the model still understands what happened.
+    const sanitizedHistory = historyToCompress
+      .map((content) => {
+        const sanitizedParts = (content.parts ?? [])
+          .map((part) => {
+            if (part.functionCall) {
+              const argsStr = JSON.stringify(part.functionCall.args ?? {});
+              const truncatedArgs =
+                argsStr.length > 500 ? argsStr.slice(0, 500) + '...' : argsStr;
+              return {
+                text: `[Tool call: ${part.functionCall.name}(${truncatedArgs})]`,
+              };
+            }
+            if (part.functionResponse) {
+              const responseStr = JSON.stringify(
+                part.functionResponse.response ?? {},
+              );
+              const truncatedResponse =
+                responseStr.length > 500
+                  ? responseStr.slice(0, 500) + '...'
+                  : responseStr;
+              return {
+                text: `[Tool result for ${part.functionResponse.name}: ${truncatedResponse}]`,
+              };
+            }
+            return part;
+          })
+          .filter(
+            (part) =>
+              'text' in part ||
+              'inlineData' in part ||
+              'fileData' in part,
+          );
+        if (sanitizedParts.length === 0) {
+          return null;
+        }
+        return { ...content, parts: sanitizedParts };
+      })
+      .filter((c) => c !== null) as Content[];
+
+    // After stripping tool parts, consecutive same-role messages may appear
+    // (e.g., model message with only functionCall parts removed, followed by
+    // another model message). Merge them to maintain valid alternating roles.
+    const mergedHistory: Content[] = [];
+    for (const entry of sanitizedHistory) {
+      const last = mergedHistory[mergedHistory.length - 1];
+      if (last && last.role === entry.role) {
+        last.parts = [...(last.parts ?? []), ...(entry.parts ?? [])];
+      } else {
+        mergedHistory.push({ ...entry });
+      }
+    }
+
+    // Ensure sanitized history is not empty after stripping tool parts
+    if (mergedHistory.length === 0) {
+      return {
+        newHistory: null,
+        info: {
+          originalTokenCount,
+          newTokenCount: originalTokenCount,
+          compressionStatus: CompressionStatus.NOOP,
+        },
+      };
+    }
+
     const summaryResponse = await config.getContentGenerator().generateContent(
       {
         model,
         contents: [
-          ...historyToCompress,
+          ...mergedHistory,
           {
             role: 'user',
             parts: [
@@ -238,6 +322,7 @@ export class ChatCompressionService {
         ],
         config: {
           systemInstruction: getCompressionPrompt(),
+          maxOutputTokens: COMPRESSION_MAX_OUTPUT_TOKENS,
         },
       },
       promptId,

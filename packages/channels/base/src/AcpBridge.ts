@@ -13,6 +13,7 @@ import type {
   RequestPermissionRequest,
   RequestPermissionResponse,
 } from '@agentclientprotocol/sdk';
+import type { ApprovalPolicy } from './types.js';
 
 export interface AcpBridgeOptions {
   cliEntryPath: string;
@@ -34,6 +35,10 @@ export interface ToolCallEvent {
   status: string;
   rawInput?: Record<string, unknown>;
 }
+
+export type PermissionHandler = (
+  params: RequestPermissionRequest,
+) => Promise<RequestPermissionResponse>;
 
 /** Pending permission request waiting for channel resolution. */
 export interface PendingPermissionRequest {
@@ -64,14 +69,14 @@ export class AcpBridge extends EventEmitter {
   private permissionTimeout: number;
   /** Fallback approval mode when no channel resolves a request. */
   private defaultApprovalMode: 'allow' | 'deny' | 'ask';
+  public approvalPolicy: ApprovalPolicy = 'interactive';
+  public autoApproveTools: string[] = [];
 
   /**
    * Optional permission handler. When set, the bridge calls this handler
    * to resolve permission requests instead of auto-approving.
    */
-  private permissionHandler?:
-    | ((params: RequestPermissionRequest) => Promise<RequestPermissionResponse>)
-    | undefined;
+  private permissionHandler?: PermissionHandler;
 
   constructor(options: AcpBridgeOptions, permissionTimeout = 60000) {
     super();
@@ -89,17 +94,19 @@ export class AcpBridge extends EventEmitter {
     return this._availableCommands;
   }
 
+  setApprovalPolicy(policy: ApprovalPolicy): void {
+    this.approvalPolicy = policy;
+  }
+
+  setAutoApproveTools(tools: string[]): void {
+    this.autoApproveTools = tools;
+  }
+
   /**
    * Set a custom permission handler that will be called for every
    * requestPermission callback from the ACP agent.
    */
-  setPermissionHandler(
-    handler:
-      | ((
-          params: RequestPermissionRequest,
-        ) => Promise<RequestPermissionResponse>)
-      | undefined,
-  ): void {
+  setPermissionHandler(handler: PermissionHandler | undefined): void {
     this.permissionHandler = handler;
   }
 

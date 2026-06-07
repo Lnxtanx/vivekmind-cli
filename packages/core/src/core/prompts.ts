@@ -386,7 +386,14 @@ When the conversation history grows too large, you will be invoked to distill th
 
 First, you will think through the entire history in a private <scratchpad>. Review the user's overall goal, the agent's actions, tool outputs, file modifications, and any unresolved questions. Identify every piece of information that is essential for future actions.
 
-After your reasoning is complete, generate the final <state_snapshot> XML object. Be incredibly dense with information. Omit any irrelevant conversational filler.
+After your reasoning is complete, generate the final <state_snapshot> XML object. Be extremely concise — aim for the shortest possible snapshot that preserves all actionable information. Omit any irrelevant conversational filler, verbose tool outputs, and redundant details.
+
+CRITICAL CONSTRAINTS:
+- The entire <state_snapshot> MUST be under 1500 words total.
+- For file_system_state, list only files that are actively relevant to current/next tasks.
+- For recent_actions, summarize the last 3-5 significant actions only.
+- For key_knowledge, use terse bullet points (one line each).
+- Do NOT reproduce file contents, code snippets, or full tool outputs — summarize them.
 
 The structure MUST be as follows:
 

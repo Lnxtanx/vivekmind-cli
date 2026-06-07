@@ -99,7 +99,10 @@ export async function parseChannelConfig(
       (rawConfig['sessionScope'] as ChannelConfig['sessionScope']) || 'user',
     cwd: (rawConfig['cwd'] as string) || process.cwd(),
     approvalMode: rawConfig['approvalMode'] as string | undefined,
-    approvalPolicy: parseApprovalPolicy(rawConfig['approvalPolicy']),
+    approvalPolicy:
+      parseApprovalPolicy(rawConfig['approvalPolicy']) ||
+      (rawConfig['approvalPolicy'] as ChannelConfig['approvalPolicy']) ||
+      'ask',
     autoApproveTools: (rawConfig['autoApproveTools'] as string[]) || [],
     instructions: rawConfig['instructions'] as string | undefined,
     model: rawConfig['model'] as string | undefined,

@@ -6,7 +6,14 @@ export type SessionScope = 'user' | 'thread' | 'single';
 export type ChannelType = string;
 export type GroupPolicy = 'disabled' | 'allowlist' | 'open';
 export type DispatchMode = 'collect' | 'steer' | 'followup';
-export type ApprovalPolicy = 'ask' | 'yolo' | 'auto_edit';
+export type ApprovalPolicy =
+  | 'ask'
+  | 'yolo'
+  | 'auto_edit'
+  | 'interactive'
+  | 'auto-approve'
+  | 'ask-always';
+
 export interface GroupConfig {
   requireMention?: boolean; // default: true
   dispatchMode?: DispatchMode;
@@ -36,9 +43,16 @@ export interface ChannelConfig {
   sessionScope: SessionScope;
   cwd: string;
   approvalMode?: string;
-  /** How tool permissions are handled: 'ask' prompts user, 'yolo' auto-approves, 'auto_edit' auto-approves read-only. Default: 'ask'. */
+  /**
+   * Per-channel approval mode:
+   * - 'ask' / 'interactive': prompts user for each tool call that requires permission
+   * - 'yolo' / 'auto-approve': auto-approves all tool calls (no approval UI)
+   * - 'auto_edit': auto-approves read-only/edit/info tools, asks for others
+   * - 'ask-always': always prompt
+   * Default: 'ask'
+   */
   approvalPolicy?: ApprovalPolicy;
-  /** Tool names/patterns to auto-approve. */
+  /** Tools that are auto-approved. */
   autoApproveTools?: string[];
   instructions?: string;
   model?: string;
@@ -155,7 +169,7 @@ export interface ToolApprovalResult {
 export interface ChannelPlugin {
   /** Unique channel type ID (e.g., "telegram", "tmcp-dingtalk"). */
   channelType: string;
-
+ 
   /** Human-readable name for CLI output. */
   displayName: string;
 

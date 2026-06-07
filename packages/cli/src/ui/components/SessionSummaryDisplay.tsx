@@ -17,6 +17,15 @@ interface SessionSummaryDisplayProps {
   width: number;
 }
 
+const ASCII_LOGO = [
+  "██╗   ██╗██╗██╗   ██╗███████╗██╗  ██╗███╗   ███╗██╗███╗   ██╗██████╗ ",
+  "██║   ██║██║██║   ██║██╔════╝██║ ██╔╝████╗ ████║██║████╗  ██║██╔══██╗",
+  "██║   ██║██║██║   ██║█████╗  █████╔╝ ██╔████╔██║██║██╔██╗ ██║██║  ██║",
+  "╚██╗ ██╔╝██║╚██╗ ██╔╝██╔══╝  ██╔═██╗ ██║╚██╔╝██║██║██║╚██╗██║██║  ██║",
+  " ╚████╔╝ ██║ ╚████╔╝ ███████╗██║  ██╗██║ ╚═╝ ██║██║██║ ╚████║██████╔╝",
+  "  ╚═══╝  ╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═════╝ "
+].join('\n');
+
 export const SessionSummaryDisplay: React.FC<SessionSummaryDisplayProps> = ({
   duration,
   width,
@@ -31,6 +40,9 @@ export const SessionSummaryDisplay: React.FC<SessionSummaryDisplayProps> = ({
 
   return (
     <>
+      <Box flexDirection="column" marginBottom={1}>
+        <Text color={theme.text.accent}>{ASCII_LOGO}</Text>
+      </Box>
       <StatsDisplay
         title={t('Agent powering down. Goodbye!')}
         duration={duration}
