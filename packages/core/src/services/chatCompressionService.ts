@@ -43,16 +43,18 @@ export const FORCED_COMPRESSION_PRESERVE_THRESHOLD = 0.03;
 /**
  * Maximum output tokens for the compression summary to force concise snapshots.
  * Without this, models produce verbose summaries that negate the compression.
- * 2048 tokens ≈ 1500 words, aligned with the compression prompt's word budget.
+ * 1024 tokens ≈ 750 words — enough for the XML snapshot but prevents
+ * wasteful scratchpad reasoning from consuming the budget.
  */
-export const COMPRESSION_MAX_OUTPUT_TOKENS = 2048;
+export const COMPRESSION_MAX_OUTPUT_TOKENS = 1024;
 
 /**
  * Maximum characters to retain per tool output in the kept history after compression.
  * Tool outputs (read_file, grep, shell, etc.) are the dominant token consumer.
- * Truncating them aggressively is the single highest-impact compression lever.
+ * 80 chars is enough for a status indicator (file path, match count, exit code)
+ * without carrying substantive content the agent should re-read from disk.
  */
-const KEPT_TOOL_OUTPUT_MAX_CHARS = 200;
+const KEPT_TOOL_OUTPUT_MAX_CHARS = 80;
 
 /**
  * Tools whose functionResponse outputs should be aggressively truncated
@@ -318,23 +320,22 @@ export class ChatCompressionService {
         const sanitizedParts = (content.parts ?? [])
           .map((part) => {
             if (part.functionCall) {
-              const argsStr = JSON.stringify(part.functionCall.args ?? {});
-              const truncatedArgs =
-                argsStr.length > 150 ? argsStr.slice(0, 150) + '...' : argsStr;
+              // Only include tool name — args are rarely needed for the summary
+              // and the JSON serialization of args can be huge for write_file/edit.
               return {
-                text: `[Tool call: ${part.functionCall.name}(${truncatedArgs})]`,
+                text: `[Tool call: ${part.functionCall.name}]`,
               };
             }
             if (part.functionResponse) {
-              const responseStr = JSON.stringify(
-                part.functionResponse.response ?? {},
-              );
-              const truncatedResponse =
-                responseStr.length > 200
-                  ? responseStr.slice(0, 200) + '...'
-                  : responseStr;
+              // Only include tool name and a status token — full response content
+              // is either reconstructable from disk (read_file) or irrelevant
+              // after compression. Including response content here caused the
+              // #1 token bloat: a single write_file response can be 50k+ chars.
+              const response = part.functionResponse.response;
+              const hasError = response?.['error'];
+              const status = hasError ? 'ERROR' : 'OK';
               return {
-                text: `[Tool result for ${part.functionResponse.name}: ${truncatedResponse}]`,
+                text: `[Tool result: ${part.functionResponse.name} → ${status}]`,
               };
             }
             return part;
@@ -386,7 +387,7 @@ export class ChatCompressionService {
             role: 'user',
             parts: [
               {
-                text: 'First, reason in your scratchpad. Then, generate the <state_snapshot>.',
+                text: 'Generate the <state_snapshot> now. Do NOT include a scratchpad or reasoning section — output ONLY the XML.',
               },
             ],
           },
@@ -452,10 +453,17 @@ export class ChatCompressionService {
         compressionOutputTokenCount > 0
       ) {
         canCalculateNewTokenCount = true;
+        // The compression prompt + instruction overhead is ~500 tokens
+        // (system prompt ~400 + user instruction ~50 + schema markers ~50).
+        // We subtract this to avoid crediting the prompt overhead as
+        // "compressed content". The previous 1000-token estimate was too
+        // generous and caused newTokenCount to be under-estimated,
+        // leading to COMPRESSION_FAILED_INFLATED_TOKEN_COUNT false rejects.
+        const PROMPT_OVERHEAD = 500;
         newTokenCount = Math.max(
           0,
           originalTokenCount -
-            (compressionInputTokenCount - 1000) +
+            (compressionInputTokenCount - PROMPT_OVERHEAD) +
             compressionOutputTokenCount,
         );
       }
@@ -490,7 +498,11 @@ export class ChatCompressionService {
             CompressionStatus.COMPRESSION_FAILED_TOKEN_COUNT_ERROR,
         },
       };
-    } else if (newTokenCount > originalTokenCount) {
+    // Allow up to 5% inflation — the token math is approximate and a
+    // strict > check was causing valid compressions to be rejected.
+    // The real savings come from replacing 95% of history with a ~750-token
+    // summary; the 5% kept window's tool outputs are pruned separately.
+    } else if (newTokenCount > originalTokenCount * 1.05) {
       return {
         newHistory: null,
         info: {

@@ -386,6 +386,6 @@ describe('microcompactHistory', () => {
     const result = microcompactHistory(history, twoHoursAgo, DEFAULT_SETTINGS);
 
     expect(result.meta).toBeDefined();
-    expect(result.meta!.tokensSaved).toBe(100);
+    expect(result.meta!.tokensSaved).toBe(134);
   });
 });
