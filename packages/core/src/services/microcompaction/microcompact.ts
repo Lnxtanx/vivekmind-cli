@@ -93,7 +93,11 @@ function estimatePartTokens(part: Part): number {
   if (!part.functionResponse?.response) return 0;
   const output = part.functionResponse.response['output'];
   if (typeof output !== 'string') return 0;
-  return Math.ceil(output.length / 4);
+  // Use 3 chars/token as a more accurate estimate for code-heavy content.
+  // The previous 4 chars/token underestimated code (lots of symbols, short
+  // identifiers) by 30-50%, causing the token-pressure trigger to fire too
+  // late — by which point the context was already bloated.
+  return Math.ceil(output.length / 3);
 }
 
 function isAlreadyCleared(part: Part): boolean {
@@ -154,8 +158,8 @@ export function microcompactHistory(
   // of the context window, which happens during active coding sessions
   // where the idle trigger never fires.
   const tokenTriggerThreshold = contextWindowSize
-    ? contextWindowSize * 0.3 // If tool outputs > 30% of context, prune
-    : 50_000; // Default 50k token threshold
+    ? contextWindowSize * 0.2 // If tool outputs > 20% of context, prune (was 30%)
+    : 30_000; // Default 30k token threshold (was 50k)
   const toolTokens = estimateHistoryToolTokens(history);
   const tokenTriggerFires =
     currentTokenCount !== undefined &&
@@ -167,7 +171,9 @@ export function microcompactHistory(
     settings,
   );
 
-  // Use the more aggressive keepRecent when triggered by token pressure
+  // Use the more aggressive keepRecent when triggered by token pressure.
+  // Keep only 1 tool result under token pressure — a single large file read
+  // can be 10k+ tokens. The agent can re-read any file it needs from disk.
   const isTokenTriggered = tokenTriggerFires && !timeTrigger;
   const triggerType = isTokenTriggered ? 'token' : 'time';
 
@@ -180,7 +186,7 @@ export function microcompactHistory(
   const rawKeepRecent =
     envKeep !== undefined && Number.isFinite(Number(envKeep))
       ? Number(envKeep)
-      : (settings.toolResultsNumToKeep ?? (isTokenTriggered ? 2 : 5));
+      : (settings.toolResultsNumToKeep ?? (isTokenTriggered ? 1 : 3));
   const keepRecent = Number.isFinite(rawKeepRecent)
     ? Math.max(1, rawKeepRecent)
     : 5;

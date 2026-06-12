@@ -412,7 +412,22 @@ export type AllToolCallsCompleteHandler = (
 export type ToolCallsUpdateHandler = (toolCalls: ToolCall[]) => void;
 
 /**
+ * Maximum characters for any single tool output stored in conversation history.
+ * Tool outputs larger than this are truncated with a marker before being
+ * added to the chat history. The agent can always re-read files from disk.
+ *
+ * 20,000 chars ≈ 5,000–7,000 tokens. This is large enough to preserve
+ * meaningful results (grep matches, short file contents, test output) while
+ * preventing any single tool call from consuming more than ~5% of a
+ * typical 128k context window. Without this cap, a single `read_file` of
+ * a 500-line file could consume 10k+ tokens that persist until compression.
+ */
+const MAX_TOOL_OUTPUT_HISTORY_CHARS = 20_000;
+
+/**
  * Formats tool output for a Gemini FunctionResponse.
+ * Enforces a global output size cap to prevent any single tool result
+ * from bloating conversation history and inflating token bills.
  */
 function createFunctionResponsePart(
   callId: string,
@@ -420,10 +435,27 @@ function createFunctionResponsePart(
   output: string,
   mediaParts?: FunctionResponsePart[],
 ): Part {
+  // Enforce global output cap. This is the primary defense against
+  // unbounded tool outputs entering history (FLAW 6). Previously, only
+  // the shell tool applied truncation via truncateToolOutput; all other
+  // tools (read_file, grep, glob, web_fetch, edit, write_file) could
+  // return unlimited output directly into history.
+  let effectiveOutput = output;
+  if (output.length > MAX_TOOL_OUTPUT_HISTORY_CHARS) {
+    effectiveOutput =
+      output.slice(0, MAX_TOOL_OUTPUT_HISTORY_CHARS) +
+      '\n... [output truncated: ' +
+      (output.length - MAX_TOOL_OUTPUT_HISTORY_CHARS).toLocaleString() +
+      ' chars omitted. Re-read from disk if needed.]';
+    debugLogger.debug(
+      `Tool "${toolName}" output truncated: ${output.length} → ${effectiveOutput.length} chars for history`,
+    );
+  }
+
   const functionResponse: FunctionResponse = {
     id: callId,
     name: toolName,
-    response: { output },
+    response: { output: effectiveOutput },
     ...(mediaParts && mediaParts.length > 0 ? { parts: mediaParts } : {}),
   };
 

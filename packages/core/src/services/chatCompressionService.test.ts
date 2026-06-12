@@ -466,7 +466,7 @@ describe('ChatCompressionService', () => {
       model: 'gemini-pro',
       contextWindowSize: 1000,
     } as unknown as ReturnType<typeof mockConfig.getContentGeneratorConfig>);
-    // newTokenCount = 800 - (1600 - 1000) + 50 = 800 - 600 + 50 = 250 <= 800 (success)
+    // newTokenCount = 800 - (1600 - 500) + 50 = 800 - 1100 + 50 = -250 → clamped to 0 <= 800 (success)
     const mockGenerateContent = vi.fn().mockResolvedValue({
       candidates: [
         {
@@ -495,7 +495,7 @@ describe('ChatCompressionService', () => {
     );
 
     expect(result.info.compressionStatus).toBe(CompressionStatus.COMPRESSED);
-    expect(result.info.newTokenCount).toBe(250); // 800 - (1600 - 1000) + 50
+    expect(result.info.newTokenCount).toBe(0); // 800 - (1600 - 500) + 50, clamped to 0
     expect(result.newHistory).not.toBeNull();
     expect(result.newHistory![0].parts![0].text).toBe('Summary');
     expect(mockGenerateContent).toHaveBeenCalled();
@@ -520,7 +520,7 @@ describe('ChatCompressionService', () => {
     vi.mocked(uiTelemetryService.getLastPromptTokenCount).mockReturnValue(100);
     vi.mocked(tokenLimit).mockReturnValue(1000);
 
-    // newTokenCount = 100 - (1100 - 1000) + 50 = 100 - 100 + 50 = 50 <= 100 (success)
+    // newTokenCount = 100 - (1100 - 500) + 50 = 100 - 600 + 50 = -450 → clamped to 0 <= 100 (success)
     const mockGenerateContent = vi.fn().mockResolvedValue({
       candidates: [
         {

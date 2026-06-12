@@ -750,8 +750,8 @@ describe('Gemini Client (client.ts)', () => {
       summaryText = 'This is a summary.',
       // Token counts returned in usageMetadata to simulate what the API would return
       // Default values ensure successful compression:
-      // newTokenCount = originalTokenCount - (compressionInputTokenCount - 1000) + compressionOutputTokenCount
-      // = 1000 - (1600 - 1000) + 50 = 1000 - 600 + 50 = 450 (< 1000, success)
+      // newTokenCount = originalTokenCount - (compressionInputTokenCount - 500) + compressionOutputTokenCount
+      // = 1000 - (1600 - 500) + 50 = 1000 - 1100 + 50 = -50 → clamped to 0 (< 1000, success)
       compressionInputTokenCount = 1600,
       compressionOutputTokenCount = 50,
     } = {}) {
@@ -853,7 +853,7 @@ describe('Gemini Client (client.ts)', () => {
         await client.tryCompressChat('prompt-id-4', false); // Fails
 
         // Call 2 (Forced): Re-setup with token counts that will compress
-        // newTokenCount = 100 - (1100 - 1000) + 50 = 100 - 100 + 50 = 50 <= 100 (compression)
+        // newTokenCount = 100 - (1100 - 500) + 50 = 100 - 600 + 50 = -450 → clamped to 0 <= 100 (compression)
         const shortSummary = 'short';
         const { estimatedNewTokenCount: compressedTokenCount } = setup({
           originalTokenCount: 100,
@@ -872,12 +872,12 @@ describe('Gemini Client (client.ts)', () => {
       });
 
       it('yields the result even if the compression inflated the tokens', async () => {
-        // newTokenCount = 100 - (1010 - 1000) + 200 = 100 - 10 + 200 = 290 > 100 (inflation)
+        // newTokenCount = 100 - (560 - 500) + 200 = 100 - 60 + 200 = 240 > 100*1.05 = 105 (inflation)
         const longSummary = 'long summary '.repeat(100);
         const { client, estimatedNewTokenCount } = setup({
           originalTokenCount: 100,
           summaryText: longSummary,
-          compressionInputTokenCount: 1010,
+          compressionInputTokenCount: 560,
           compressionOutputTokenCount: 200,
         });
         expect(estimatedNewTokenCount).toBeGreaterThan(100); // Ensure setup is correct
@@ -925,12 +925,12 @@ describe('Gemini Client (client.ts)', () => {
       });
 
       it('will not attempt to compress context after a failure', async () => {
-        // newTokenCount = 100 - (1010 - 1000) + 200 = 100 - 10 + 200 = 290 > 100 (inflation)
+        // newTokenCount = 100 - (560 - 500) + 200 = 100 - 60 + 200 = 240 > 100*1.05 = 105 (inflation)
         const longSummary = 'long summary '.repeat(100);
         const { client, estimatedNewTokenCount } = setup({
           originalTokenCount: 100,
           summaryText: longSummary,
-          compressionInputTokenCount: 1010,
+          compressionInputTokenCount: 560,
           compressionOutputTokenCount: 200,
         });
         expect(estimatedNewTokenCount).toBeGreaterThan(100); // Ensure setup is correct
