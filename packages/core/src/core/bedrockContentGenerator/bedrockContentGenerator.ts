@@ -113,6 +113,12 @@ export class BedrockContentGenerator implements ContentGenerator {
           )
         : undefined;
 
+    const hasToolUseOrToolResult = messages.some((msg) =>
+      msg.content?.some(
+        (block) => 'toolUse' in block || 'toolResult' in block,
+      ),
+    );
+
     const inferenceConfig = this.buildInferenceConfig(request);
 
     const command = new ConverseCommand({
@@ -120,8 +126,9 @@ export class BedrockContentGenerator implements ContentGenerator {
       messages,
       system,
       toolConfig:
-        toolConfig && toolConfig.tools && toolConfig.tools.length > 0
-          ? toolConfig
+        (toolConfig && toolConfig.tools && toolConfig.tools.length > 0) ||
+        hasToolUseOrToolResult
+          ? toolConfig ?? { tools: [] }
           : undefined,
       inferenceConfig,
     });
