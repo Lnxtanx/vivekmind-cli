@@ -141,6 +141,43 @@ describe('tokenLimit', () => {
     });
   });
 
+  describe('Alibaba Qwen', () => {
+    it('should return 32K for Qwen3 Codex and Qwen3 models', () => {
+      expect(tokenLimit('qwen3-coder')).toBe(32768);
+      expect(tokenLimit('qwen3-coder-7b')).toBe(32768);
+      expect(tokenLimit('qwen3-turbo')).toBe(32768);
+      expect(tokenLimit('qwen3-max')).toBe(32768);
+    });
+
+    it('should return 128K for Qwen2.5 models', () => {
+      expect(tokenLimit('qwen2.5-coder')).toBe(131072);
+      expect(tokenLimit('qwen2.5-max')).toBe(131072);
+      expect(tokenLimit('qwen2.5-72b')).toBe(131072);
+    });
+
+    it('should return 128K for Qwen2 models', () => {
+      expect(tokenLimit('qwen2')).toBe(131072);
+      expect(tokenLimit('qwen2-72b')).toBe(131072);
+      expect(tokenLimit('qwen2-57b')).toBe(131072);
+    });
+
+    it('should return 128K for Qwen1.5 models', () => {
+      expect(tokenLimit('qwen1.5-coder')).toBe(131072);
+      expect(tokenLimit('qwen1.5-72b')).toBe(131072);
+    });
+
+    it('should return 32K for Qwen fallback (older versions)', () => {
+      expect(tokenLimit('qwen-turbo')).toBe(32768);
+      expect(tokenLimit('qwen-plus')).toBe(32768);
+      expect(tokenLimit('qwen-max')).toBe(32768);
+    });
+
+    it('should handle provider-qualified Qwen model names', () => {
+      expect(tokenLimit('qwen/qwen-coder')).toBe(32768);
+      expect(tokenLimit('us.ali.qwen3-coder')).toBe(32768);
+    });
+  });
+
   describe('Alibaba VivekMind', () => {
     it('should return 1M for commercial VivekMind3 models', () => {
       expect(tokenLimit('vivekmind3-coder-plus')).toBe(1000000);
@@ -190,10 +227,19 @@ describe('tokenLimit', () => {
       expect(tokenLimit('glm-4.7')).toBe(202752);
     });
 
-    it('should return 200K for legacy GLM (fallback)', () => {
-      expect(tokenLimit('glm-4.5')).toBe(202752);
-      expect(tokenLimit('glm-4.5v')).toBe(202752);
-      expect(tokenLimit('glm-4.5-air')).toBe(202752);
+    it('should return 128K for GLM-4', () => {
+      expect(tokenLimit('glm-4')).toBe(128000);
+      expect(tokenLimit('glm-4.5')).toBe(128000);
+      expect(tokenLimit('glm-4.5v')).toBe(128000);
+      expect(tokenLimit('glm-4.5-air')).toBe(128000);
+    });
+
+    it('should return 32K for GLM-3 (fallback)', () => {
+      expect(tokenLimit('glm-3-turbo')).toBe(32768);
+    });
+
+    it('should return 128K for legacy GLM (fallback)', () => {
+      expect(tokenLimit('glm-2')).toBe(128000);
     });
   });
 
@@ -312,6 +358,9 @@ describe('tokenLimit with output type', () => {
     it('should return correct output limits for GLM', () => {
       expect(tokenLimit('glm-5', 'output')).toBe(16384);
       expect(tokenLimit('glm-4.7', 'output')).toBe(16384);
+      expect(tokenLimit('glm-4', 'output')).toBe(8192);
+      expect(tokenLimit('glm-4.5', 'output')).toBe(8192);
+      expect(tokenLimit('glm-3', 'output')).toBe(4096);
     });
 
     it('should return correct output limits for MiniMax', () => {

@@ -1,0 +1,1 @@
+2026-06-07T10:53:44.832Z [WARN] [WORKSPACE] Skipping unreadable directory: C:\vm-cli\qwen-code\workspace\my-project (Directory does not exist: C:\vm-cli\qwen-code\workspace\my-project)

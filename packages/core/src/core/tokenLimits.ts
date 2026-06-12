@@ -56,7 +56,8 @@ export function normalize(model: string): string {
   }
   
   // Strip Bedrock region and provider prefixes (e.g., us.anthropic.claude, meta.llama, zai.glm, deepseek.v3)
-  s = s.replace(/^(?:us\.|eu\.|ap\.)?(?:anthropic|meta|mistral|cohere|amazon|deepseek|vivekmind|zai|ai21|twelvelabs|writer|google)\./, '');
+  // Also covers Alibaba/Qwen models (e.g., qwen/qwen-coder, us.ali.qwen)
+  s = s.replace(/^(?:us\.|eu\.|ap\.)?(?:anthropic|meta|mistral|cohere|amazon|deepseek|vivekmind|zai|ai21|twelvelabs|writer|google|qwen)\./, '');
 
   // collapse whitespace to single hyphen
   s = s.replace(/\s+/g, '-');
@@ -124,6 +125,23 @@ const PATTERNS: Array<[RegExp, TokenCount]> = [
   [/^nova-/, LIMITS['1m']], // Amazon Nova: 1M
 
   // -------------------
+  // Alibaba / Qwen
+  // -------------------
+  // Qwen Codex (Qwen3) models: 32K context
+  [/^qwen3-coder/, LIMITS['32k']],
+  [/^qwen3\./, LIMITS['32k']],
+  // Qwen2.5 models: 128K
+  [/^qwen2\.5/, LIMITS['128k']],
+  // Qwen2 models: 128K
+  [/^qwen2$/, LIMITS['128k']],
+  [/^qwen2-/, LIMITS['128k']],
+  // Qwen1.5 models: 32K-128K (fallback to 128K for newer variants)
+  [/^qwen1\.5/, LIMITS['128k']],
+  // Qwen fallback: 32K for older versions
+  [/^qwen$/, LIMITS['32k']],
+  [/^qwen-/, LIMITS['32k']],
+
+  // -------------------
   // Alibaba / VivekMind
   // -------------------
   // Commercial API models (1,000,000 context)
@@ -150,7 +168,9 @@ const PATTERNS: Array<[RegExp, TokenCount]> = [
   // Zhipu GLM
   // -------------------
   [/^glm-5/, 202_752 as TokenCount], // GLM-5: exact vendor limit
-  [/^glm-/, 202_752 as TokenCount], // GLM fallback: 128K
+  [/^glm-4/, 128_000 as TokenCount], // GLM-4: 128K
+  [/^glm-3/, 32_768 as TokenCount], // GLM-3: 32K
+  [/^glm-/, 128_000 as TokenCount], // GLM fallback: 128K
 
   // -------------------
   // MiniMax
@@ -233,6 +253,16 @@ const OUTPUT_PATTERNS: Array<[RegExp, TokenCount]> = [
   [/^claude-opus-4-6/, LIMITS['128k']], // Opus 4.6: 128K
   [/^claude-/, LIMITS['64k']], // Claude fallback: 64K
 
+  // Alibaba / Qwen
+  [/^qwen3-coder/, LIMITS['8k']],
+  [/^qwen3\./, LIMITS['8k']],
+  [/^qwen2\.5/, LIMITS['8k']],
+  [/^qwen2$/, LIMITS['8k']],
+  [/^qwen2-/, LIMITS['8k']],
+  [/^qwen1\.5/, LIMITS['8k']],
+  [/^qwen$/, LIMITS['4k']],
+  [/^qwen-/, LIMITS['4k']],
+
   // Alibaba / VivekMind
   [/^vivekmind3-coder/, LIMITS['64k']],
   [/^vivekmind3\.\d/, LIMITS['64k']],
@@ -249,6 +279,9 @@ const OUTPUT_PATTERNS: Array<[RegExp, TokenCount]> = [
   // Zhipu GLM
   [/^glm-5/, LIMITS['16k']],
   [/^glm-4\.7/, LIMITS['16k']],
+  [/^glm-4/, LIMITS['8k']],      // GLM-4: 8K
+  [/^glm-3/, LIMITS['4k']],      // GLM-3: 4K
+  [/^glm-/, LIMITS['8k']],       // GLM fallback: 8K
 
   // MiniMax
   [/^minimax-m2\.5/i, LIMITS['64k']],
