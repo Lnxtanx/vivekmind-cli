@@ -47,7 +47,7 @@ describe('<CompressionMessage />', () => {
 
       expect(output).toContain('✦');
       expect(output).toContain(
-        'Chat history compressed from 100 to 50 tokens.',
+        'Chat history compressed: 100 → 50 tokens (50% saved)',
       );
     });
 
@@ -69,7 +69,7 @@ describe('<CompressionMessage />', () => {
 
         expect(output).toContain('✦');
         expect(output).toContain(
-          `compressed from ${original} to ${newTokens} tokens`,
+          `compressed: ${original} → ${newTokens} tokens`,
         );
         expect(output).not.toContain('Skipping compression');
         expect(output).not.toContain('did not reduce size');
@@ -115,24 +115,12 @@ describe('<CompressionMessage />', () => {
   describe('message content validation', () => {
     it('displays correct compression statistics', () => {
       const testCases = [
-        {
-          original: 200,
-          new: 80,
-          expected: 'compressed from 200 to 80 tokens',
-        },
-        {
-          original: 500,
-          new: 150,
-          expected: 'compressed from 500 to 150 tokens',
-        },
-        {
-          original: 1500,
-          new: 400,
-          expected: 'compressed from 1500 to 400 tokens',
-        },
+        { original: 200, new: 80 },
+        { original: 500, new: 150 },
+        { original: 1500, new: 400 },
       ];
 
-      testCases.forEach(({ original, new: newTokens, expected }) => {
+      testCases.forEach(({ original, new: newTokens }) => {
         const props = createCompressionProps({
           isPending: false,
           originalTokenCount: original,
@@ -142,7 +130,8 @@ describe('<CompressionMessage />', () => {
         const { lastFrame } = render(<CompressionMessage {...props} />);
         const output = lastFrame();
 
-        expect(output).toContain(expected);
+        const reduction = Math.round(((original - newTokens) / original) * 100);
+        expect(output).toContain(`${original} → ${newTokens} tokens (${reduction}% saved)`);
       });
     });
 

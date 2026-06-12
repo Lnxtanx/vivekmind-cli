@@ -35,7 +35,21 @@ export function CompressionMessage({
     }
 
     switch (compressionStatus) {
-      case CompressionStatus.COMPRESSED:
+      case CompressionStatus.COMPRESSED: {
+        const reduction =
+          originalTokens > 0
+            ? Math.round(((originalTokens - newTokens) / originalTokens) * 100)
+            : 0;
+        if (reduction > 0) {
+          return t(
+            'Chat history compressed: {{originalTokens}} → {{newTokens}} tokens ({{reduction}}% saved)',
+            {
+              originalTokens: String(originalTokens),
+              newTokens: String(newTokens),
+              reduction: String(reduction),
+            },
+          );
+        }
         return t(
           'Chat history compressed from {{originalTokens}} to {{newTokens}} tokens.',
           {
@@ -43,6 +57,7 @@ export function CompressionMessage({
             newTokens: String(newTokens),
           },
         );
+      }
       case CompressionStatus.COMPRESSION_FAILED_INFLATED_TOKEN_COUNT:
         // For smaller histories (< 50k tokens), compression overhead likely exceeds benefits
         if (originalTokens < 50000) {
@@ -70,9 +85,11 @@ export function CompressionMessage({
     <Box flexDirection="row">
       <Box marginRight={1}>
         {isPending ? (
-          <Spinner type="dots" />
+          <Text color={theme.text.accent}>
+            <Spinner type="dots" />
+          </Text>
         ) : (
-          <Text color={theme.text.accent}>✦</Text>
+          <Text color={theme.text.accent}>{'✦'}</Text>
         )}
       </Box>
       <Box>

@@ -934,9 +934,11 @@ describe('GeminiChat', async () => {
         'prompt-id-1',
       );
 
-      // Verify that token counting is called when usageMetadata is present
+      // Verify that token counting is called with promptTokenCount (input tokens)
+      // for context usage display. Previously used totalTokenCount which
+      // inflated the percentage when providers include output tokens in total.
       expect(uiTelemetryService.setLastPromptTokenCount).toHaveBeenCalledWith(
-        57,
+        42,
       );
       expect(uiTelemetryService.setLastPromptTokenCount).toHaveBeenCalledTimes(
         1,

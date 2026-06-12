@@ -671,9 +671,12 @@ export class GeminiChat {
             // Collect token usage for consolidated recording
             if (chunk.usageMetadata) {
                 usageMetadata = chunk.usageMetadata;
-                // Use || instead of ?? so that totalTokenCount=0 falls back to promptTokenCount.
-                // Some providers omit total_tokens or return 0 in streaming usage chunks.
-                const lastPromptTokenCount = usageMetadata.totalTokenCount || usageMetadata.promptTokenCount;
+                // Always prefer promptTokenCount (input tokens) for context usage display.
+                // Some providers (e.g. AWS Bedrock via ConverseStream) set totalTokenCount
+                // to inputTokens + outputTokens, which would inflate the context percentage.
+                // Fall back to totalTokenCount only when promptTokenCount is absent/zero
+                // (some Gemini streaming chunks only provide totalTokenCount).
+                const lastPromptTokenCount = usageMetadata.promptTokenCount || usageMetadata.totalTokenCount;
                 if (lastPromptTokenCount && this.telemetryService) {
                     this.telemetryService.setLastPromptTokenCount(lastPromptTokenCount);
                 }

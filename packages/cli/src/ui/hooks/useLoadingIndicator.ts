@@ -32,23 +32,29 @@ export const useLoadingIndicator = (
   const prevStreamingStateRef = useRef<StreamingState | null>(null);
 
   useEffect(() => {
+    const prev = prevStreamingStateRef.current;
+
+    // Multi-turn: WaitingForConfirmation → Responding continues the same
+    // logical task — only reset timer, not the token baseline. This prevents
+    // the per-task delta display from flashing to 0 between tool rounds.
     if (
-      prevStreamingStateRef.current === StreamingState.WaitingForConfirmation &&
+      prev === StreamingState.WaitingForConfirmation &&
       streamingState === StreamingState.Responding
     ) {
       setTimerResetKey((prevKey) => prevKey + 1);
       setRetainedElapsedTime(0);
-      setTaskStartTokens(currentCandidatesTokens ?? 0);
+      // Intentionally NOT resetting taskStartTokens here so the
+      // "↓ N tokens" counter stays continuous across tool rounds.
     } else if (
       streamingState === StreamingState.Idle &&
-      prevStreamingStateRef.current === StreamingState.Responding
+      prev === StreamingState.Responding
     ) {
       setTimerResetKey((prevKey) => prevKey + 1);
       setRetainedElapsedTime(0);
       setTaskStartTokens(0);
     } else if (
       streamingState === StreamingState.Responding &&
-      prevStreamingStateRef.current !== StreamingState.Responding
+      prev !== StreamingState.Responding
     ) {
       setTaskStartTokens(currentCandidatesTokens ?? 0);
     } else if (streamingState === StreamingState.WaitingForConfirmation) {
