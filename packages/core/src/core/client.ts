@@ -721,7 +721,8 @@ export class GeminiClient {
         this.config.getChatRecordingService()?.recordUserMessage(request);
       }
 
-      // Idle cleanup: clear old tool results when idle > threshold.
+      // Idle + token-pressure cleanup: clear old tool results when idle > threshold
+      // or when tool outputs alone consume too much context.
       // Runs on user and cron messages (not tool result submissions or
       // retries/hooks) so that model latency during a tool-call loop
       // doesn't count as user idle time.
@@ -729,6 +730,8 @@ export class GeminiClient {
         this.getChat().getHistory(),
         this.lastApiCompletionTimestamp,
         this.config.getClearContextOnIdle(),
+        uiTelemetryService.getLastPromptTokenCount(),
+        this.config.getContentGeneratorConfig()?.contextWindowSize,
       );
       if (mcResult.meta) {
         this.getChat().setHistory(mcResult.history);

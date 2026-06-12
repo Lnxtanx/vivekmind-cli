@@ -19,6 +19,8 @@ const COMPACTABLE_TOOLS = new Set<string>([
   ToolNames.WEB_FETCH,
   ToolNames.EDIT,
   ToolNames.WRITE_FILE,
+  ToolNames.LS,
+  ToolNames.LSP,
 ]);
 
 // --- Trigger evaluation ---
@@ -109,6 +111,7 @@ export interface MicrocompactMeta {
   toolsKept: number;
   keepRecent: number;
   tokensSaved: number;
+  trigger: 'time' | 'token';
 }
 
 /**
@@ -118,25 +121,66 @@ export interface MicrocompactMeta {
  * Returns the (potentially modified) history and optional metadata
  * about what was cleared (for logging by the caller).
  */
+/**
+ * Estimate total tokens in a history by walking functionResponse outputs.
+ * Uses chars/4 as a rough proxy. Only counts compactable tool outputs
+ * since those are the ones we'd clear.
+ */
+function estimateHistoryToolTokens(history: Content[]): number {
+  let total = 0;
+  for (const content of history) {
+    if (content.role !== 'user' || !content.parts) continue;
+    for (const part of content.parts) {
+      if (
+        part.functionResponse?.name &&
+        COMPACTABLE_TOOLS.has(part.functionResponse.name)
+      ) {
+        total += estimatePartTokens(part);
+      }
+    }
+  }
+  return total;
+}
+
 export function microcompactHistory(
   history: Content[],
   lastApiCompletionTimestamp: number | null,
   settings: ClearContextOnIdleSettings,
+  currentTokenCount?: number,
+  contextWindowSize?: number,
 ): { history: Content[]; meta?: MicrocompactMeta } {
-  const trigger = evaluateTimeBasedTrigger(
+  // Evaluate both triggers: time-based (idle) and token-based (pressure).
+  // Token-based trigger fires when tool outputs alone exceed a fraction
+  // of the context window, which happens during active coding sessions
+  // where the idle trigger never fires.
+  const tokenTriggerThreshold = contextWindowSize
+    ? contextWindowSize * 0.3 // If tool outputs > 30% of context, prune
+    : 50_000; // Default 50k token threshold
+  const toolTokens = estimateHistoryToolTokens(history);
+  const tokenTriggerFires =
+    currentTokenCount !== undefined &&
+    contextWindowSize !== undefined &&
+    toolTokens > tokenTriggerThreshold;
+
+  const timeTrigger = evaluateTimeBasedTrigger(
     lastApiCompletionTimestamp,
     settings,
   );
-  if (!trigger) {
+
+  // Use the more aggressive keepRecent when triggered by token pressure
+  const isTokenTriggered = tokenTriggerFires && !timeTrigger;
+  const triggerType = isTokenTriggered ? 'token' : 'time';
+
+  if (!timeTrigger && !isTokenTriggered) {
     return { history };
   }
-  const { gapMs } = trigger;
+  const gapMs = timeTrigger?.gapMs ?? 0;
 
   const envKeep = process.env['VIVEKMIND_MC_KEEP_RECENT'];
   const rawKeepRecent =
     envKeep !== undefined && Number.isFinite(Number(envKeep))
       ? Number(envKeep)
-      : (settings.toolResultsNumToKeep ?? 5);
+      : (settings.toolResultsNumToKeep ?? (isTokenTriggered ? 2 : 5));
   const keepRecent = Number.isFinite(rawKeepRecent)
     ? Math.max(1, rawKeepRecent)
     : 5;
@@ -212,6 +256,7 @@ export function microcompactHistory(
       toolsKept: allRefs.length - clearRefs.length,
       keepRecent,
       tokensSaved,
+      trigger: triggerType,
     },
   };
 }

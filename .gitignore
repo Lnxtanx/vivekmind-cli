@@ -90,3 +90,9 @@ storybook-static
 # Dev symlink: qc-helper bundled skill docs (created by scripts/dev.js)
 packages/core/src/skills/bundled/qc-helper/docs
 tmp/
+
+# Runtime/debug symlinks (broken in sandbox, not needed in repo)
+custom/runtime/
+first/runtime/
+from-env/debug/
+workspace/

@@ -386,60 +386,46 @@ When the conversation history grows too large, you will be invoked to distill th
 
 First, you will think through the entire history in a private <scratchpad>. Review the user's overall goal, the agent's actions, tool outputs, file modifications, and any unresolved questions. Identify every piece of information that is essential for future actions.
 
-After your reasoning is complete, generate the final <state_snapshot> XML object. Be extremely concise — aim for the shortest possible snapshot that preserves all actionable information. Omit any irrelevant conversational filler, verbose tool outputs, and redundant details.
+After your reasoning is complete, generate the final <state_snapshot> XML object. Be extremely concise — aim for the shortest possible snapshot that preserves all actionable information. Omit any irrelevant conversational filler, verbose tool outputs, and redundant details. File contents can be re-read from disk — do NOT include them.
 
 CRITICAL CONSTRAINTS:
-- The entire <state_snapshot> MUST be under 1500 words total.
-- For file_system_state, list only files that are actively relevant to current/next tasks.
-- For recent_actions, summarize the last 3-5 significant actions only.
-- For key_knowledge, use terse bullet points (one line each).
-- Do NOT reproduce file contents, code snippets, or full tool outputs — summarize them.
+- The entire <state_snapshot> MUST be under 800 words total.
+- Every section must be terse. One line per bullet. No paragraphs.
+- Do NOT reproduce file contents, code snippets, or full tool outputs.
+- Do NOT include exploration history, failed attempts, or debugging transcripts unless the bug is still unresolved.
+- File contents are reconstructable from the filesystem. Only note the existence and status of files.
 
 The structure MUST be as follows:
 
 <state_snapshot>
     <overall_goal>
-        <!-- A single, concise sentence describing the user's high-level objective. -->
-        <!-- Example: "Refactor the authentication service to use a new JWT library." -->
+        <!-- One sentence. The user's high-level objective. -->
     </overall_goal>
 
     <key_knowledge>
-        <!-- Crucial facts, conventions, and constraints the agent must remember based on the conversation history and interaction with the user. Use bullet points. -->
-        <!-- Example:
-         - Build Command: \`npm run build\`
-         - Testing: Tests are run with \`npm test\`. Test files must end in \`.test.ts\`.
-         - API Endpoint: The primary API endpoint is \`https://api.example.com/v2\`.
-         
-        -->
+        <!-- Terse bullet points. Only facts needed for FUTURE actions. -->
+        <!-- Include: build/test commands, architecture decisions, user preferences, constraints. -->
     </key_knowledge>
 
+    <user_preferences>
+        <!-- Any explicit user directives, style preferences, or constraints stated during the conversation. Omit if none. -->
+    </user_preferences>
+
     <file_system_state>
-        <!-- List files that have been created, read, modified, or deleted. Note their status and critical learnings. -->
-        <!-- Example:
-         - CWD: \`/home/user/project/src\`
-         - READ: \`package.json\` - Confirmed 'axios' is a dependency.
-         - MODIFIED: \`services/auth.ts\` - Replaced 'jsonwebtoken' with 'jose'.
-         - CREATED: \`tests/new-feature.test.ts\` - Initial test structure for the new feature.
-        -->
+        <!-- Only files actively relevant to current/next tasks. One line each. -->
+        <!-- Format: STATUS: path - one-line note -->
     </file_system_state>
 
+    <unresolved_bugs>
+        <!-- Bugs or errors that are still open. Omit if none. -->
+    </unresolved_bugs>
+
     <recent_actions>
-        <!-- A summary of the last few significant agent actions and their outcomes. Focus on facts. -->
-        <!-- Example:
-         - Ran \`grep 'old_function'\` which returned 3 results in 2 files.
-         - Ran \`npm run test\`, which failed due to a snapshot mismatch in \`UserProfile.test.ts\`.
-         - Ran \`ls -F static/\` and discovered image assets are stored as \`.webp\`.
-        -->
+        <!-- Last 3-5 significant actions and outcomes. Facts only. -->
     </recent_actions>
 
     <current_plan>
-        <!-- The agent's step-by-step plan. Mark completed steps. -->
-        <!-- Example:
-         1. [DONE] Identify all files using the deprecated 'UserAPI'.
-         2. [IN PROGRESS] Refactor \`src/components/UserProfile.tsx\` to use the new 'ProfileAPI'.
-         3. [TODO] Refactor the remaining files.
-         4. [TODO] Update tests to reflect the API change.
-        -->
+        <!-- Step-by-step plan with [DONE]/[IN PROGRESS]/[TODO] markers. -->
     </current_plan>
 </state_snapshot>
 `.trim();
