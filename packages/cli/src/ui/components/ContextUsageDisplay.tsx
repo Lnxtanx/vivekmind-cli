@@ -9,6 +9,19 @@ import { theme } from '../semantic-colors.js';
 import { t } from '../../i18n/index.js';
 
 /**
+ * Format a token count compactly (e.g. 1234 -> "1.2k", 123456 -> "123.5k").
+ */
+function formatTokenCount(tokens: number): string {
+  if (tokens >= 1_000_000) {
+    return `${(tokens / 1_000_000).toFixed(1)}M`;
+  }
+  if (tokens >= 1_000) {
+    return `${(tokens / 1_000).toFixed(1)}k`;
+  }
+  return `${tokens}`;
+}
+
+/**
  * Format percentage for display, showing ">100" when exceeding limit.
  */
 function formatPercentageUsed(percentage: number): string {
@@ -34,25 +47,44 @@ export const ContextUsageDisplay = ({
   const percentage = promptTokenCount / contextWindowSize;
   const percentageUsed = formatPercentageUsed(percentage);
   const isOverLimit = percentage > 1;
+  const tokenStr = formatTokenCount(promptTokenCount);
 
-  const label = terminalWidth < 100 ? t('% used') : t('% context used');
-
-  // Show warning when over limit
-  if (isOverLimit) {
+  // Narrow terminals: just percentage + label
+  if (terminalWidth < 80) {
+    const label = t('% used');
     return (
-      <>
-        <Text color={theme.status.error}>
-          {percentageUsed}
-          {label}
-        </Text>
-      </>
+      <Text color={isOverLimit ? theme.status.error : theme.text.secondary}>
+        {percentageUsed}
+        {label}
+      </Text>
     );
   }
 
+  // Medium terminals: percentage + label + token count
+  if (terminalWidth < 120) {
+    const label = t('% ctx');
+    return (
+      <Text color={isOverLimit ? theme.status.error : theme.text.secondary}>
+        {percentageUsed}
+        {label}
+        <Text dimColor>
+          {' '}
+          ({tokenStr})
+        </Text>
+      </Text>
+    );
+  }
+
+  // Full terminals: percentage + full label + token count
+  const label = t('% context used');
   return (
-    <Text color={theme.text.secondary}>
+    <Text color={isOverLimit ? theme.status.error : theme.text.secondary}>
       {percentageUsed}
       {label}
+      <Text dimColor>
+        {' '}
+        ({tokenStr}/{formatTokenCount(contextWindowSize)} tok)
+      </Text>
     </Text>
   );
 };
