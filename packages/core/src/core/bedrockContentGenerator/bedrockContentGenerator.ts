@@ -36,6 +36,19 @@ import {
   hasExplicitOutputLimit,
 } from '../tokenLimits.js';
 
+const DUMMY_TOOL = {
+  toolSpec: {
+    name: 'dummy_tool_prevent_validation_error',
+    description: 'A placeholder tool to satisfy AWS Bedrock requirements when conversation history contains tool blocks.',
+    inputSchema: {
+      json: {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
+};
+
 const debugLogger = createDebugLogger('BEDROCK');
 
 /**
@@ -126,10 +139,11 @@ export class BedrockContentGenerator implements ContentGenerator {
       messages,
       system,
       toolConfig:
-        (toolConfig && toolConfig.tools && toolConfig.tools.length > 0) ||
-        hasToolUseOrToolResult
-          ? toolConfig ?? { tools: [] }
-          : undefined,
+        toolConfig && toolConfig.tools && toolConfig.tools.length > 0
+          ? toolConfig
+          : hasToolUseOrToolResult
+            ? { tools: [DUMMY_TOOL] }
+            : undefined,
       inferenceConfig,
     });
 
@@ -172,6 +186,12 @@ export class BedrockContentGenerator implements ContentGenerator {
           )
         : undefined;
 
+    const hasToolUseOrToolResult = messages.some((msg) =>
+      msg.content?.some(
+        (block) => 'toolUse' in block || 'toolResult' in block,
+      ),
+    );
+
     const inferenceConfig = this.buildInferenceConfig(request);
 
     const command = new ConverseStreamCommand({
@@ -181,7 +201,9 @@ export class BedrockContentGenerator implements ContentGenerator {
       toolConfig:
         toolConfig && toolConfig.tools && toolConfig.tools.length > 0
           ? toolConfig
-          : undefined,
+          : hasToolUseOrToolResult
+            ? { tools: [DUMMY_TOOL] }
+            : undefined,
       inferenceConfig,
     });
 

@@ -10,6 +10,18 @@ import { RequestTokenEstimator } from '../../utils/request-tokenizer/index.js';
 import { safeJsonParse } from '../../utils/safeJsonParse.js';
 import { createDebugLogger } from '../../utils/debugLogger.js';
 import { tokenLimit, CAPPED_DEFAULT_MAX_TOKENS, hasExplicitOutputLimit, } from '../tokenLimits.js';
+const DUMMY_TOOL = {
+    toolSpec: {
+        name: 'dummy_tool_prevent_validation_error',
+        description: 'A placeholder tool to satisfy AWS Bedrock requirements when conversation history contains tool blocks.',
+        inputSchema: {
+            json: {
+                type: 'object',
+                properties: {},
+            },
+        },
+    },
+};
 const debugLogger = createDebugLogger('BEDROCK');
 /**
  * ContentGenerator implementation for AWS Bedrock using the Converse API.
@@ -55,6 +67,9 @@ export class BedrockContentGenerator {
         const toolConfig = request.config?.tools
             ? await this.converter.convertGeminiToolsToConverse(request.config.tools)
             : undefined;
+        const hasToolUseOrToolResult = messages.some((msg) =>
+            msg.content?.some((block) => 'toolUse' in block || 'toolResult' in block)
+        );
         const inferenceConfig = this.buildInferenceConfig(request);
         const command = new ConverseCommand({
             modelId,
@@ -62,7 +77,9 @@ export class BedrockContentGenerator {
             system,
             toolConfig: toolConfig && toolConfig.tools && toolConfig.tools.length > 0
                 ? toolConfig
-                : undefined,
+                : hasToolUseOrToolResult
+                    ? { tools: [DUMMY_TOOL] }
+                    : undefined,
             inferenceConfig,
         });
         debugLogger.info(`Converse request: model=${modelId}, messages=${messages.length}`);
@@ -84,6 +101,9 @@ export class BedrockContentGenerator {
         const toolConfig = request.config?.tools
             ? await this.converter.convertGeminiToolsToConverse(request.config.tools)
             : undefined;
+        const hasToolUseOrToolResult = messages.some((msg) =>
+            msg.content?.some((block) => 'toolUse' in block || 'toolResult' in block)
+        );
         const inferenceConfig = this.buildInferenceConfig(request);
         const command = new ConverseStreamCommand({
             modelId,
@@ -91,7 +111,9 @@ export class BedrockContentGenerator {
             system,
             toolConfig: toolConfig && toolConfig.tools && toolConfig.tools.length > 0
                 ? toolConfig
-                : undefined,
+                : hasToolUseOrToolResult
+                    ? { tools: [DUMMY_TOOL] }
+                    : undefined,
             inferenceConfig,
         });
         debugLogger.info(`ConverseStream request: model=${modelId}, messages=${messages.length}`);
